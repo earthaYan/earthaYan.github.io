@@ -1,5 +1,12 @@
 {
   "name": "hexo-site",
+  "yuqueConfig":{
+    "baseUrl":"https://www.yuque.com/api/v2",
+    "login":"yueyueyan",
+    "repo":"blog",
+    "mdNameFormat":"title",
+    "postPath":"source/_posts/yuque"
+  },
   "version": "0.0.0",
   "private": true,
   "scripts": {

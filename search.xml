@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>04-核心模块指令[常用]</title>
+      <link href="/2019/12/10/yuque/04-%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97%E6%8C%87%E4%BB%A4%5B%E5%B8%B8%E7%94%A8%5D/"/>
+      <url>/2019/12/10/yuque/04-%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97%E6%8C%87%E4%BB%A4%5B%E5%B8%B8%E7%94%A8%5D/</url>
+      
+        <content type="html"><![CDATA[<ul><li>daemon:on/off<ul><li>启用或禁用守护进程模式</li><li>禁用则该程序就不能在后台启动，当他在shell下运行时，将留在前端运行     </li></ul></li><li>error_log    /file/path  level<ul><li>默认值：logs/error.log error</li><li>使用环境：main http server location</li><li>级别：debug info notice warn error crit（详细程度由高到低）</li></ul></li><li>log_not_found:on/off<ul><li>使用环境：main http server location   </li><li>开启或禁用记录404错误</li></ul></li><li>master_process:on/off<ul><li>默认值on</li><li>开启则nginx将开启多个进程：一个master主进程和worker进程</li><li>禁用则Nginx则会以独一无二的进程来运行，</li><li>仅被用于测试,客户端无法连接到master进程的服务器</li></ul></li><li>pid logs/nginx.pid<ul><li>用于存放Nginx守护进程的pid文件路径</li><li>默认值为编译时定义</li></ul></li><li>ssl_engine<ul><li>语法：ssl_engine enginename(系统的有效硬件SSL加速器)                      </li></ul></li><li>thread_stack_size<ul><li>语法：thread_stack_size 1m;</li><li>默认值None</li><li>定义线程堆栈的大小</li></ul></li><li>timer_resolution<ul><li>语法：timer_resolution 10s;</li><li>控制系统调用gettimeofday()时间间隔</li></ul></li><li>user<ul><li>定义用户及其相应的个组</li><li>Nginx的worker进程将使用这些设置来运行</li><li>user username;</li></ul></li><li>worker_threads<ul><li>语法：worker_threads 9；</li><li>为每一个worker进程定义一定数量的线程</li></ul></li><li>worker_cpu_affinity<ul><li>与worker_process协同工作</li></ul></li><li>worker_processes<ul><li>语法：worker_processes 4；</li><li>定义worker进程的数量</li><li>nginx可以将请求的处理分配到多个worker进程</li></ul></li><li>worker_rlimit_core<ul><li>定义每个进程的内核文件大小</li><li>worker_rlimit_core  100m;</li></ul></li><li>worker_rlimit_nofile<ul><li>定义一个worker可以同时处理的文件数量</li><li>worker_rlimit_nofile 10000；</li></ul></li><li>working_directory /usr/local/nginx<ul><li>默认值在配置编译时通过prefix开关选项指定</li></ul></li><li><strong>Events模块</strong><ul><li>accept_mutex <ul><li>on/off,默认on</li><li>启用/禁用使用一个接受互斥（现象）锁来打开套接字监听</li></ul></li><li>accept_mutex_dalay<ul><li>500ms</li><li>定义一个worker进程在尝试再次获取资源之前应该等待多长时间</li><li>·accept_mutex 有效on时才会使用使用这个命令</li></ul></li><li>worker_connections<ul><li>定义一个worker进程能够同时连接的数量</li></ul></li></ul></li><li><strong>Configure模块</strong><ul><li>include指令</li></ul></li><li><br /></li></ul>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> nginx </tag>
+            
+            <tag> 后端 </tag>
+            
+            <tag> 服务器 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>测试本地</title>
+      <link href="/2019/12/10/%E6%B5%8B%E8%AF%95%E6%9C%AC%E5%9C%B0/"/>
+      <url>/2019/12/10/%E6%B5%8B%E8%AF%95%E6%9C%AC%E5%9C%B0/</url>
+      
+        <content type="html"><![CDATA[<p>测试本地发布和语雀发布</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 测试 </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>测试同步</title>
+      <link href="/2019/12/10/yuque/%E6%B5%8B%E8%AF%95%E5%90%8C%E6%AD%A5/"/>
+      <url>/2019/12/10/yuque/%E6%B5%8B%E8%AF%95%E5%90%8C%E6%AD%A5/</url>
+      
+        <content type="html"><![CDATA[<p>语雀4ww</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 测试 </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+  
+  
+</search>

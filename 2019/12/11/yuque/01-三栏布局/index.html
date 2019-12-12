@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>01-三栏布局 | Hexo</title>
-  <meta name="keywords" content=" css , 页面布局 ">
+  <meta name="keywords" content=" 页面布局 , css ">
   <meta name="description" content="01-三栏布局 | Hexo">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="个人简介毕业于苏州大学应用技术学院软件工程专业,目前于上海从事前端开发工作 技术栈 基本技术:HTML &#x2F; CSS &#x2F; JavaScript(ES) CSS框架和库: Bootstrap   VantUI  elementUI   JavaScript框架和库: jQuery Vue全家桶 nuxtjs   http库:axios 辅助工具与技术:Sass webpack  联系方式 QQ:278">
@@ -127,7 +127,7 @@
     <div><a class="about  hasFriend  site_url"  href="/about">关于</a><a style="width: 50%"  class="friends">友链</a></div>
 </div>
 <input type="hidden" id="yelog_site_posts_number" value="2">
-<input type="hidden" id="yelog_site_word_count" value="669">
+<input type="hidden" id="yelog_site_word_count" value="1.1k">
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
     <span id="busuanzi_value_site_pv"></span>
@@ -161,11 +161,11 @@
     <div class="tags-list">
     
     <li class="article-tag-list-item">
-        <a class="color4">css</a>
+        <a class="color5">页面布局</a>
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color5">页面布局</a>
+        <a class="color4">css</a>
     </li>
     
     <div class="clearfix"></div>
@@ -188,7 +188,7 @@
         
         <a  class="前端 "
            href="/2019/12/11/yuque/01-%E4%B8%89%E6%A0%8F%E5%B8%83%E5%B1%80/"
-           data-tag="css,页面布局"
+           data-tag="页面布局,css"
            data-author="" >
             <span class="post-title" title="01-三栏布局">01-三栏布局</span>
             <span class="post-date" title="2019-12-11 09:37:43">2019/12/11</span>
@@ -223,21 +223,21 @@
         
         <span class="tag">
             
-            <a class="color4">css</a>
-            
             <a class="color5">页面布局</a>
+            
+            <a class="color4">css</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-12-11 11:42:11'>2019-12-11 09:37</time>
+        创建时间:<time class="date" title='更新时间: 2019-12-12 10:18:20'>2019-12-11 09:37</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:658</span>
+        <span>字数:1.1k</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -256,7 +256,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题描述"><span class="toc-text">问题描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决方案or思路"><span class="toc-text">解决方案or思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#具体代码"><span class="toc-text">具体代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#各个方法的优缺点"><span class="toc-text">各个方法的优缺点</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题描述"><span class="toc-text">问题描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决方案or思路"><span class="toc-text">解决方案or思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#具体代码"><span class="toc-text">具体代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#各个方法的优缺点"><span class="toc-text">各个方法的优缺点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#拓展问题"><span class="toc-text">拓展问题</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -282,7 +282,7 @@
 <li>表格布局tab-cell的使用</li>
 </ol>
 <p><a name="UXJHb"></a></p>
-<h3 id="具体代码"><a href="#具体代码" class="headerlink" title="具体代码"></a>具体代码</h3><p><font color=Red>浮动定位</font></p>
+<h3 id="具体代码"><a href="#具体代码" class="headerlink" title="具体代码"></a>具体代码</h3><p><font color=Red> 浮动定位</font></p>
 <pre><code class="html">    &lt;div class=&quot;container1&quot;&gt;
         &lt;div class=&quot;left&quot;&gt;左边200&lt;/div&gt;
         &lt;div class=&quot;right&quot;&gt;右边200&lt;/div&gt;
@@ -306,7 +306,7 @@
         background: green;
     }
 }</code></pre>
-<p><font color=Red>绝对定位</font></p>
+<p><font color=Red> 绝对定位</font></p>
 <pre><code class="html">    &lt;div class=&quot;container2&quot;&gt;
         &lt;div class=&quot;left&quot;&gt;左边200绝对定位&lt;/div&gt;
         &lt;div class=&quot;center&quot;&gt;中间自适应-绝对定位&lt;/div&gt;
@@ -334,7 +334,7 @@
         right: 200px;
     }
 }</code></pre>
-<p><font color=Red>flex布局</font></p>
+<p><font color=Red> flex布局</font></p>
 <pre><code class="html">    &lt;div class=&quot;container3&quot;&gt;
         &lt;div class=&quot;left&quot;&gt;左边200flex&lt;/div&gt;
         &lt;div class=&quot;center&quot;&gt;中间自适应-flex&lt;/div&gt;
@@ -359,7 +359,7 @@
         flex:1;
     }
 }</code></pre>
-<p><font color=Red>网格布局</font></p>
+<p><font color=Red> 网格布局</font></p>
 <pre><code class="html">    &lt;div class=&quot;container5&quot;&gt;
             &lt;div class=&quot;left&quot;&gt;左边200grid&lt;/div&gt;
             &lt;div class=&quot;center&quot;&gt;中间自适应-grid&lt;/div&gt;
@@ -386,7 +386,7 @@
         background: cyan;
     }
 }</code></pre>
-<p><font color=Red>表格布局</font></p>
+<p><font color=Red> 表格布局</font></p>
 <pre><code class="html">    &lt;div class=&quot;container4&quot;&gt;
             &lt;div class=&quot;left&quot;&gt;左边200table&lt;/div&gt;
             &lt;div class=&quot;center&quot;&gt;中间自适应-table&lt;/div&gt;
@@ -450,9 +450,186 @@
 <td>网格布局（新）</td>
 <td>css开始支持，同任务代码更简单</td>
 <td></td>
-<td>否</td>
+<td>兼容性差</td>
 </tr>
 </tbody></table>
+<p><a name="SseGE"></a></p>
+<h3 id="拓展问题"><a href="#拓展问题" class="headerlink" title="拓展问题"></a>拓展问题</h3><p><font color=Red>?</font>垂直三栏布局，两边定高，中间自适应（网格 flex  绝对定位目前可实现）</p>
+<pre><code class="html">    &lt;div class=&quot;container&quot;&gt;
+        &lt;div class=&quot;top&quot;&gt;上200&lt;/div&gt;
+        &lt;div class=&quot;middle&quot;&gt;中间自适应&lt;/div&gt;
+        &lt;div class=&quot;bottom&quot;&gt;下200&lt;/div&gt;
+    &lt;/div&gt;</code></pre>
+<p><b>flexbox布局：当高度不足400的时候，定高会同时缩小</b></p>
+<pre><code class="less">.container{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    div{
+        width: 100px;
+          min-height:100px;
+    }
+    .top{
+        background: red;
+        height: 200px;
+    }
+    .middle{
+        background: orange;
+        flex: 1;
+    }
+    .bottom{
+        background: green;
+        height: 200px;
+    }
+}</code></pre>
+<p><b>绝对定位</b></p>
+<pre><code class="less">.container{
+    height: 100%;
+    div{
+        width: 100px;
+          position:absolute;
+    }
+    .top{
+        background: red;
+        height: 200px;
+          top:0;
+    }
+    .middle{
+        background: orange;
+        top:200px;
+          bottom:200px;
+    }
+    .bottom{
+        background: green;
+        height: 200px;
+          bottom:0
+    }
+}</code></pre>
+<p><b>表格布局(在元素外部包裹一层显示为tab-row,真实元素显示tab-cell)</b></p>
+<pre><code class="less">.container{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    div{
+        width: 100px;
+    }
+    .top{
+        background: red;
+        height: 200px;
+    }
+    .middle{
+        background: orange;
+        flex: 1;
+    }
+    .bottom{
+        background: green;
+        height: 200px;
+    }
+}</code></pre>
+<p><b>网格布局</b></p>
+<pre><code class="less">.container4{
+    height: 100%;
+    display: grid;
+    grid-template-rows: 200px auto 200px;
+    grid-template-columns: auto;
+    div{
+        width: 100px;
+    }
+    .top{
+        background: red;
+    }
+    .middle{
+        background: orange;
+    }
+    .bottom{
+        background: green;
+    }
+}</code></pre>
+<p><font color=Red>?</font>两栏布局</p>
+<pre><code class="html">    &lt;div class=&quot;container&quot;&gt;
+        &lt;div class=&quot;left&quot;&gt;左邊300&lt;/div&gt;
+        &lt;div class=&quot;right&quot;&gt;右邊自適應&lt;/div&gt;
+    &lt;/div&gt;</code></pre>
+<p><b>浮动</b></p>
+<pre><code class="less">.container{
+    div{
+        height: 200px;
+    }
+    .left{
+        float: left;
+        width: 300px;
+        background: red;
+    }
+    .right{
+        background: green;
+    }
+}</code></pre>
+<p><b>flex布局</b></p>
+<pre><code class="less">.container{
+    display: flex;
+    div{
+        height: 200px;
+    }
+    .left{
+        width: 300px;
+        background: red;
+    }
+    .right{
+        background: green;
+        flex:1;
+    }
+}</code></pre>
+<p><b>网格布局</b></p>
+<pre><code class="less">.container{
+    display: grid;
+    grid-template-columns: 100px auto;
+    grid-template-rows: 200px;
+    div{
+        // height: 200px;
+    }
+    .left{
+        background: red;
+    }
+    .right{
+        background: green;
+    }
+}</code></pre>
+<p><b>绝对定位</b></p>
+<pre><code class="less">.container{
+    width: 100%;
+    position: relative;
+    div{
+        height: 200px;
+        position: absolute;
+    }
+    .left{
+        background: red;
+        left: 0;
+        width: 200px;
+    }
+    .right{
+        background: green;
+        left: 200px;
+        width: 100%;//或者设置right为0
+    }
+}</code></pre>
+<p><b>表格布局</b></p>
+<pre><code class="less">.container{
+    width: 100%;//必须设置
+    display: table;
+    div{
+        height: 100px;  
+    }
+    .left{
+        background: red;
+        width: 200px;
+        display: table-cell;
+    }
+    .right{
+        background: green;
+        display: table-cell;
+    }
+}</code></pre>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达 </span>
@@ -463,10 +640,10 @@
 
 <div class="article_copyright">
     <p><span class="copy-title">文章标题:</span>01-三栏布局</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">658</span></p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">1.1k</span></p>
     <p><span class="copy-title">本文作者:</span><a  title="月月颜">月月颜</a></p>
     <p><span class="copy-title">发布时间:</span>2019-12-11, 09:37:43</p>
-    <p><span class="copy-title">最后更新:</span>2019-12-11, 11:42:11</p>
+    <p><span class="copy-title">最后更新:</span>2019-12-12, 10:18:20</p>
     <!-- <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/12/11/yuque/01-%E4%B8%89%E6%A0%8F%E5%B8%83%E5%B1%80/" title="01-三栏布局">http://blog.yanyue.xyz/2019/12/11/yuque/01-%E4%B8%89%E6%A0%8F%E5%B8%83%E5%B1%80/</a> -->
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
@@ -511,7 +688,7 @@
     /*作者、标签的自动补全*/
     $(function () {
         $('.search').AutoComplete({
-            'data': ['#css','#页面布局',],
+            'data': ['#页面布局','#css',],
             'itemHeight': 20,
             'width': 418
         }).AutoComplete('show');

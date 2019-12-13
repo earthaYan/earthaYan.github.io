@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>测试本地 | Hexo</title>
-  <meta name="keywords" content="">
-  <meta name="description" content="测试本地 | Hexo">
+  <title>02-盒模型 | Hexo</title>
+  <meta name="keywords" content=" css ">
+  <meta name="description" content="02-盒模型 | Hexo">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="个人简介毕业于苏州大学应用技术学院软件工程专业,目前于上海从事前端开发工作 技术栈 基本技术:HTML &#x2F; CSS &#x2F; JavaScript(ES) CSS框架和库: Bootstrap   VantUI  elementUI   JavaScript框架和库: jQuery Vue全家桶 nuxtjs   http库:axios 辅助工具与技术:Sass webpack  联系方式 QQ:278">
 <meta property="og:type" content="website">
@@ -214,9 +214,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-测试本地" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-yuque/02-盒模型" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">测试本地</h1>
+        <h1 class="article-title">02-盒模型</h1>
     
     <div class="article-meta">
         
@@ -224,20 +224,26 @@
         
         <span class="book">
             
-                <a  data-rel="测试">测试</a>
+                <a  data-rel="前端">前端</a>
             
         </span>
         
         
+        <span class="tag">
+            
+            <a class="color4">css</a>
+            
+        </span>
+        
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-12-10 16:25:37'>2019-12-10 16:25</time>
+        创建时间:<time class="date" title='更新时间: 2019-12-13 15:06:23'>2019-12-12 10:20</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:11</span>
+        <span>字数:559</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -256,7 +262,7 @@
     
     <div class="toc-ref">
     
-        
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题描述："><span class="toc-text">问题描述：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决方案or思路："><span class="toc-text">解决方案or思路：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#基本概念：（margin-padding-border-content）"><span class="toc-text">基本概念：（margin padding border content）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#区别："><span class="toc-text">区别：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#css如何设置："><span class="toc-text">css如何设置：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#js如何设置和获取盒模型对应的宽和高："><span class="toc-text">js如何设置和获取盒模型对应的宽和高：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实例（根据盒模型解释边距重叠）："><span class="toc-text">实例（根据盒模型解释边距重叠）：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BFC块："><span class="toc-text">BFC块：</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -272,7 +278,45 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>测试本地发布和语雀发布</p>
+        <p><a name="fxOYZ"></a></p>
+<h3 id="问题描述："><a href="#问题描述：" class="headerlink" title="问题描述："></a>问题描述：</h3><p>谈谈你对盒模型的认识</p>
+<p><a name="VaMEl"></a></p>
+<h3 id="解决方案or思路："><a href="#解决方案or思路：" class="headerlink" title="解决方案or思路："></a>解决方案or思路：</h3><ol>
+<li>基本概念：标准模型+IE模型</li>
+<li>标准模型和IE模型之间的区别（计算高度和宽度的不同，如何计算）</li>
+<li>CSS是如何设置这两个模型的（写法）</li>
+<li>js如何设置和获取盒模型对应的宽和高</li>
+<li>实例题：根据盒模型解释边距重叠</li>
+<li>BFC(边距重叠解决方法)或<a href="https://segmentfault.com/a/1190000009545742" target="_blank" rel="noopener">IFC</a></li>
+</ol>
+<p><a name="ws88L"></a></p>
+<h3 id="基本概念：（margin-padding-border-content）"><a href="#基本概念：（margin-padding-border-content）" class="headerlink" title="基本概念：（margin padding border content）"></a>基本概念：（margin padding border content）</h3><p><img src="https://cdn.nlark.com/yuque/0/2019/jpeg/115484/1576120743790-e40c378b-403f-440d-8e38-7ae27d128469.jpeg#align=left&display=inline&height=338&originHeight=338&originWidth=500&size=0&status=done&style=none&width=500" alt=""><br /><br><img src="https://cdn.nlark.com/yuque/0/2019/jpeg/115484/1576120764639-e0dbaeaa-e9bf-4fca-b187-70ec768703ad.jpeg#align=left&display=inline&height=334&originHeight=334&originWidth=500&size=0&status=done&style=none&width=500" alt=""></p>
+<p><a name="5W6j0"></a></p>
+<h3 id="区别："><a href="#区别：" class="headerlink" title="区别："></a>区别：</h3><p>标准模型的设置的宽高指的是content盒子的宽高，不包括padding和border，而怪异盒子模型即IE模型包含padding和border</p>
+<p><a name="EjXHz"></a></p>
+<h3 id="css如何设置："><a href="#css如何设置：" class="headerlink" title="css如何设置："></a>css如何设置：</h3><pre><code class="css">box-sizing:border-box //指的是怪异盒子模型，浏览器默认
+box-sizing:content-box//指的是标准盒子模型，只包含内容宽度或高度</code></pre>
+<p><a name="xDJk6"></a></p>
+<h3 id="js如何设置和获取盒模型对应的宽和高："><a href="#js如何设置和获取盒模型对应的宽和高：" class="headerlink" title="js如何设置和获取盒模型对应的宽和高："></a>js如何设置和获取盒模型对应的宽和高：</h3><ol>
+<li><code>domElement.style.width/height</code>:只能取出内联样式的宽和高</li>
+<li><code>domElement.currentStyle.width/height</code>:即时运行的渲染以后的元素的宽和高，只有IE支持</li>
+<li><code>window.getComputedStyle(domElement).width/height</code>:更准确，兼容性更好</li>
+<li><code>domElement.getBoundingClientRect().width/height</code>:计算元素的绝对位置，除了 width 和 height 外的属性标准为视窗左顶点</li>
+<li><code>domElement.clientWith</code></li>
+</ol>
+<p><a name="62eGJ"></a></p>
+<h3 id="实例（根据盒模型解释边距重叠）："><a href="#实例（根据盒模型解释边距重叠）：" class="headerlink" title="实例（根据盒模型解释边距重叠）："></a>实例（根据盒模型解释边距重叠）：</h3><ol>
+<li>父子边距重叠：在父元素中开启BFC，尽量使用overflow：hidden；</li>
+<li>兄弟边距重叠：在重叠的元素上包裹一层元素，在这个元素上构建BFC</li>
+</ol>
+<p><a name="NT4u1"></a></p>
+<h3 id="BFC块："><a href="#BFC块：" class="headerlink" title="BFC块："></a>BFC块：</h3><ol>
+<li><strong>基础概念</strong>：块格式化上下文</li>
+<li><strong>原理(渲染规则)</strong>：<br>a. BFC元素的垂直方向的边距会发生重叠<br>b. BFC的区域不会与浮动元素重叠<br>c. 计算BFC高度的时候，浮动元素也会参与计算<br>d. BFC在页面上是一个独立的容器，外面的元素不会影响里面的元素</li>
+<li><strong>方法：</strong><br>a. float值不为none<br>b. position值不为static或者relative<br>c. display属性与table相关的或者inline-block，flex<br>d. overflow不为visible</li>
+<li><strong>使用场景：</strong><br>a. 清除浮动<br>b. 解决兄弟元素垂直方向的边距重叠<br>c. 高度塌陷，即父子元素上/下外边距重叠</li>
+<li><strong>清除浮动的原理：</strong>BFC子元素即使是float也会参与高度计算</li>
+</ol>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达 </span>
@@ -282,12 +326,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>测试本地</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">11</span></p>
+    <p><span class="copy-title">文章标题:</span>02-盒模型</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">559</span></p>
     <p><span class="copy-title">本文作者:</span><a  title="月月颜">月月颜</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-12-10, 16:25:08</p>
-    <p><span class="copy-title">最后更新:</span>2019-12-10, 16:25:37</p>
-    <!-- <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/12/10/%E6%B5%8B%E8%AF%95%E6%9C%AC%E5%9C%B0/" title="测试本地">http://blog.yanyue.xyz/2019/12/10/%E6%B5%8B%E8%AF%95%E6%9C%AC%E5%9C%B0/</a> -->
+    <p><span class="copy-title">发布时间:</span>2019-12-12, 10:20:54</p>
+    <p><span class="copy-title">最后更新:</span>2019-12-13, 15:06:23</p>
+    <!-- <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/12/12/yuque/02-%E7%9B%92%E6%A8%A1%E5%9E%8B/" title="02-盒模型">http://blog.yanyue.xyz/2019/12/12/yuque/02-%E7%9B%92%E6%A8%A1%E5%9E%8B/</a> -->
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>

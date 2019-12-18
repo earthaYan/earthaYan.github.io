@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>about | Hexo</title>
-  <meta name="keywords" content="">
-  <meta name="description" content="about | Hexo">
+  <title>04-类型转换 | Hexo</title>
+  <meta name="keywords" content=" js ">
+  <meta name="description" content="04-类型转换 | Hexo">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="个人简介毕业于苏州大学应用技术学院软件工程专业,目前于上海从事前端开发工作 技术栈 基本技术:HTML &#x2F; CSS &#x2F; JavaScript(ES) CSS框架和库: Bootstrap   VantUI  elementUI   JavaScript框架和库: jQuery Vue全家桶 nuxtjs   http库:axios 辅助工具与技术:Sass webpack  联系方式 QQ:278">
 <meta property="og:type" content="website">
@@ -234,24 +234,36 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="page-" class="article article-type-page" itemscope itemprop="blogPost">
+        <article id="post-yuque/04-类型转换" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">about</h1>
+        <h1 class="article-title">04-类型转换</h1>
     
     <div class="article-meta">
         
         
         
+        <span class="book">
+            
+                <a  data-rel="前端">前端</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            
+            <a class="color3">js</a>
+            
+        </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-12-10 15:09:18'>2019-12-10 14:29</time>
+        创建时间:<time class="date" title='更新时间: 2019-12-18 17:46:38'>2019-12-18 15:02</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:100</span>
+        <span>字数:721</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -270,7 +282,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#个人简介"><span class="toc-text">个人简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#技术栈"><span class="toc-text">技术栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#联系方式"><span class="toc-text">联系方式</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#要点："><span class="toc-text">要点：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#基础数据类型："><span class="toc-text">基础数据类型：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-原始类型："><span class="toc-text">1. 原始类型：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-对象：Object"><span class="toc-text">2. 对象：Object</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Symbol"><span class="toc-text">Symbol:</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#基本特点："><span class="toc-text">基本特点：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Symbol-prototype-description："><span class="toc-text">Symbol.prototype.description：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#作为属性名的symbol："><span class="toc-text">作为属性名的symbol：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#属性名的遍历："><span class="toc-text">属性名的遍历：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Symbol-for-和Symbol"><span class="toc-text">Symbol.for()和Symbol():</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#显式类型转换："><span class="toc-text">显式类型转换：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#隐式类型转换：（触发时机）"><span class="toc-text">隐式类型转换：（触发时机）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常见题目："><span class="toc-text">常见题目：</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -286,29 +298,118 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="个人简介"><a href="#个人简介" class="headerlink" title="个人简介"></a>个人简介</h3><p>毕业于<a href="http://tec.suda.edu.cn/" target="_blank" rel="noopener">苏州大学应用技术学院</a>软件工程专业,目前于上海从事前端开发工作</p>
-<h3 id="技术栈"><a href="#技术栈" class="headerlink" title="技术栈"></a>技术栈</h3><ul>
-<li>基本技术:HTML / CSS / JavaScript(ES)</li>
-<li>CSS框架和库:<ul>
-<li>Bootstrap  </li>
-<li>VantUI </li>
-<li>elementUI</li>
+        <p><a name="5izdt"></a></p>
+<h3 id="要点："><a href="#要点：" class="headerlink" title="要点："></a>要点：</h3><ol>
+<li>数据转换</li>
+<li>隐式类型转换</li>
+<li>显式类型转换<br><a name="lEZmq"></a></li>
+</ol>
+<h3 id="基础数据类型："><a href="#基础数据类型：" class="headerlink" title="基础数据类型："></a>基础数据类型：</h3><p><a name="QbXSs"></a></p>
+<h4 id="1-原始类型："><a href="#1-原始类型：" class="headerlink" title="1. 原始类型："></a>1. 原始类型：</h4><ol>
+<li>Boolean</li>
+<li>Null</li>
+<li>Undefined</li>
+<li>Number</li>
+<li>String</li>
+<li>Symbol（ES6）</li>
+<li>Bigint(新标准)<br><a name="yvrqi"></a></li>
+</ol>
+<h4 id="2-对象：Object"><a href="#2-对象：Object" class="headerlink" title="2. 对象：Object"></a>2. 对象：Object</h4><p><a name="ZeA7h"></a></p>
+<h3 id="Symbol"><a href="#Symbol" class="headerlink" title="Symbol:"></a>Symbol:</h3><p><a name="RFkto"></a></p>
+<h4 id="基本特点："><a href="#基本特点：" class="headerlink" title="基本特点："></a>基本特点：</h4><ul>
+<li>独一无二的值，通过Symbol函数生成</li>
+<li>对象的属性名现在可以有string和symbol两种类型，</li>
+<li>属性名属于 Symbol 类型，就是独一无二的，可以保证不会与其他属性名产生冲突</li>
+<li>Symbol()函数前面不能用<code>new</code>，因为symbol是原始类型而不是对象，也不能添加属性</li>
+<li>可以接受一个字符串或者对象做参数，对象为参数时候，会调用该对象的<code>toString</code>方法，将其转为字符串，然后才生成一个 Symbol 值。</li>
+<li>参数是对Symbol值的描述，相同参数symbol函数的返回值不相等</li>
+<li>Symbol值不能与其他的数据类型运算，但是可以转换为字符串和布尔值<br><a name="TeS4o"></a></li>
+</ul>
+<h4 id="Symbol-prototype-description："><a href="#Symbol-prototype-description：" class="headerlink" title="Symbol.prototype.description："></a>Symbol.prototype.description：</h4><ol>
+<li>创建Symbol的时候可以添加一个描述，读取之前要先转换为字符串</li>
+</ol>
+<pre><code class="javascript">var s=Symbol(&#39;foo&#39;)//s的描述就是字符串foo
+String(s)
+s.toString()//&quot;Symbol(foo)&quot;
+
+s.description// &quot;foo&quot; ES2019写法更方便
+</code></pre>
+<p><a name="W3jro"></a></p>
+<h4 id="作为属性名的symbol："><a href="#作为属性名的symbol：" class="headerlink" title="作为属性名的symbol："></a>作为属性名的symbol：</h4><p><em><strong>Symbol 值作为对象属性名时，不能用点运算符。</strong></em></p>
+<pre><code class="javascript">let mySymbol = Symbol();
+
+// 第一种写法
+let a = {};
+a[mySymbol] = &#39;Hello!&#39;;//正确写法
+//以下三行为错误写法
+const mySymbol = Symbol();
+const a = {};
+a.mySymbol = &#39;Hello!&#39;;
+a[&#39;mySymbol&#39;]//hello
+a[mySymbol]//undefined
+// 第二种写法
+let a = {
+  [mySymbol]: &#39;Hello!&#39;
+};
+
+// 第三种写法
+let a = {};
+Object.defineProperty(a, mySymbol, { value: &#39;Hello!&#39; });
+
+// 以上写法都得到同样结果
+a[mySymbol] // &quot;Hello!&quot;</code></pre>
+<pre><code class="javascript">let s = Symbol();
+
+let obj = {
+  [s]: function (arg) { ... }
+};
+
+obj[s](123);
+//简略写法(增强的对象写法)
+let obj = {
+  [s](arg) { ... }
+};
+//</code></pre>
+<p><a name="KCKnb"></a></p>
+<h4 id="属性名的遍历："><a href="#属性名的遍历：" class="headerlink" title="属性名的遍历："></a>属性名的遍历：</h4><p><code>Object.getOwnPropertySymbols()</code>可以获取到指定对象的所有Symbol属性名，是当前对象的所有用作属性名的 Symbol 值组成的数组，不支持<code>for...in</code>、<code>for...of、``Object.keys()</code>、<code>Object.getOwnPropertyNames()</code>、<code>JSON.stringify()，Reflect.ownKeys()</code>可以同时返回普通对象名和Symbol属性名</p>
+<p><a name="FSguL"></a></p>
+<h4 id="Symbol-for-和Symbol"><a href="#Symbol-for-和Symbol" class="headerlink" title="Symbol.for()和Symbol():"></a>Symbol.for()和Symbol():</h4><ol>
+<li>两者都可以生成Symbol值</li>
+<li>前者会注册在全局环境中等待搜索，后者不会</li>
+<li>Symbol.keyFor()方法返回一个已登记的 Symbol 类型值的key</li>
+</ol>
+<p><a name="aVCp0"></a></p>
+<h3 id="显式类型转换："><a href="#显式类型转换：" class="headerlink" title="显式类型转换："></a>显式类型转换：</h3><ul>
+<li>Number()函数<ul>
+<li>数字-&gt;数字</li>
+<li>字符串-&gt;0（空字符串） ，NaN(不可以转换为数字）,数字（可以转换为数字）</li>
+<li>布尔值-&gt;true 1 ,false 0</li>
+<li>undefined-&gt;NaN</li>
+<li>null-&gt;0</li>
+<li>对象-&gt;先ValueOf(),再toString（）方法，最后Number()</li>
 </ul>
 </li>
-<li>JavaScript框架和库:<ul>
-<li>jQuery</li>
-<li>Vue全家桶</li>
-<li>nuxtjs</li>
+<li>String()函数<ul>
+<li>数值-&gt;对应的数字字符串</li>
+<li>布尔值-&gt;true “true”,false “false”</li>
+<li>undefined-&gt;”undefined”</li>
+<li>null-&gt;”null”</li>
+<li>对象-&gt;先调用toString(),再ValueOf()方法，最后String()</li>
 </ul>
 </li>
-<li>http库:axios</li>
-<li>辅助工具与技术:Sass webpack</li>
+<li>Boolean()函数<ul>
+<li>undefined,null,NaN,+0,-0，‘’返回false<br><a name="Bq5lH"></a></li>
 </ul>
-<h3 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h3><ul>
-<li>QQ:2782376547</li>
-<li>Email:<a href="mailto:yueyueyan1215@gmail.com">yueyueyan1215@gmail.com</a></li>
+</li>
 </ul>
-<p><font size=1 color=Red>如需获取简历请邮件联系哦</font></p>
+<p><a name="nn5ra"></a></p>
+<h3 id="隐式类型转换：（触发时机）"><a href="#隐式类型转换：（触发时机）" class="headerlink" title="隐式类型转换：（触发时机）"></a>隐式类型转换：（触发时机）</h3><ul>
+<li>四则运算</li>
+<li>判断语句</li>
+<li>Native调用：console alert等</li>
+</ul>
+<p><a name="5hMQB"></a></p>
+<h3 id="常见题目："><a href="#常见题目：" class="headerlink" title="常见题目："></a>常见题目：</h3><p><a href="https://juejin.im/post/5df98b825188251277365bc1#heading-3" target="_blank" rel="noopener">前端基础面试题</a></p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达 </span>
@@ -316,6 +417,18 @@
 </article>
 
 
+
+<div class="article_copyright">
+    <p><span class="copy-title">文章标题:</span>04-类型转换</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">721</span></p>
+    <p><span class="copy-title">本文作者:</span><a  title="月月颜">月月颜</a></p>
+    <p><span class="copy-title">发布时间:</span>2019-12-18, 15:02:09</p>
+    <p><span class="copy-title">最后更新:</span>2019-12-18, 17:46:38</p>
+    <!-- <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/12/18/yuque/04-%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2/" title="04-类型转换">http://blog.yanyue.xyz/2019/12/18/yuque/04-%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2/</a> -->
+    <p>
+        <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+    </p>
+</div>
 
 
 

@@ -98,7 +98,7 @@
 
 
 <ul>
-    <li><div class="all active">全部文章<small>(3)</small></div></li>
+    <li><div class="all active">全部文章<small>(5)</small></div></li>
     
         
             
@@ -110,7 +110,7 @@
     
         
             
-            <li><div data-rel="前端">前端<small>(2)</small></div>
+            <li><div data-rel="前端">前端<small>(4)</small></div>
                 
             </li>
             
@@ -126,8 +126,8 @@
     </div>
     <div><a class="about  hasFriend  site_url"  href="/about">关于</a><a style="width: 50%"  class="friends">友链</a></div>
 </div>
-<input type="hidden" id="yelog_site_posts_number" value="3">
-<input type="hidden" id="yelog_site_word_count" value="1.6k">
+<input type="hidden" id="yelog_site_posts_number" value="5">
+<input type="hidden" id="yelog_site_word_count" value="3.1k">
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
     <span id="busuanzi_value_site_pv"></span>
@@ -165,6 +165,10 @@
     </li>
     
     <li class="article-tag-list-item">
+        <a class="color3">js</a>
+    </li>
+    
+    <li class="article-tag-list-item">
         <a class="color5">页面布局</a>
     </li>
     
@@ -192,6 +196,22 @@
            data-author="" >
             <span class="post-title" title="02-盒模型">02-盒模型</span>
             <span class="post-date" title="2019-12-12 10:20:54">2019/12/12</span>
+        </a>
+        
+        <a  class="前端 "
+           href="/2019/12/13/yuque/03-DOM%E4%BA%8B%E4%BB%B6/"
+           data-tag="js"
+           data-author="" >
+            <span class="post-title" title="03-DOM事件">03-DOM事件</span>
+            <span class="post-date" title="2019-12-13 15:21:44">2019/12/13</span>
+        </a>
+        
+        <a  class="前端 "
+           href="/2019/12/18/yuque/04-%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2/"
+           data-tag="js"
+           data-author="" >
+            <span class="post-title" title="04-类型转换">04-类型转换</span>
+            <span class="post-date" title="2019-12-18 15:02:09">2019/12/18</span>
         </a>
         
         <a  class="前端 "
@@ -375,7 +395,7 @@ box-sizing:content-box//指的是标准盒子模型，只包含内容宽度或�
     /*作者、标签的自动补全*/
     $(function () {
         $('.search').AutoComplete({
-            'data': ['#css','#页面布局',],
+            'data': ['#css','#js','#页面布局',],
             'itemHeight': 20,
             'width': 418
         }).AutoComplete('show');

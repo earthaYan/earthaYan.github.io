@@ -4,6 +4,56 @@
   
     
     <entry>
+      <title>04-类型转换</title>
+      <link href="/2019/12/18/yuque/04-%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2/"/>
+      <url>/2019/12/18/yuque/04-%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2/</url>
+      
+        <content type="html"><![CDATA[<p><a name="5izdt"></a></p><h3 id="要点："><a href="#要点：" class="headerlink" title="要点："></a>要点：</h3><ol><li>数据转换</li><li>隐式类型转换</li><li>显式类型转换<br><a name="lEZmq"></a></li></ol><h3 id="基础数据类型："><a href="#基础数据类型：" class="headerlink" title="基础数据类型："></a>基础数据类型：</h3><p><a name="QbXSs"></a></p><h4 id="1-原始类型："><a href="#1-原始类型：" class="headerlink" title="1. 原始类型："></a>1. 原始类型：</h4><ol><li>Boolean</li><li>Null</li><li>Undefined</li><li>Number</li><li>String</li><li>Symbol（ES6）</li><li>Bigint(新标准)<br><a name="yvrqi"></a></li></ol><h4 id="2-对象：Object"><a href="#2-对象：Object" class="headerlink" title="2. 对象：Object"></a>2. 对象：Object</h4><p><a name="ZeA7h"></a></p><h3 id="Symbol"><a href="#Symbol" class="headerlink" title="Symbol:"></a>Symbol:</h3><p><a name="RFkto"></a></p><h4 id="基本特点："><a href="#基本特点：" class="headerlink" title="基本特点："></a>基本特点：</h4><ul><li>独一无二的值，通过Symbol函数生成</li><li>对象的属性名现在可以有string和symbol两种类型，</li><li>属性名属于 Symbol 类型，就是独一无二的，可以保证不会与其他属性名产生冲突</li><li>Symbol()函数前面不能用<code>new</code>，因为symbol是原始类型而不是对象，也不能添加属性</li><li>可以接受一个字符串或者对象做参数，对象为参数时候，会调用该对象的<code>toString</code>方法，将其转为字符串，然后才生成一个 Symbol 值。</li><li>参数是对Symbol值的描述，相同参数symbol函数的返回值不相等</li><li>Symbol值不能与其他的数据类型运算，但是可以转换为字符串和布尔值<br><a name="TeS4o"></a></li></ul><h4 id="Symbol-prototype-description："><a href="#Symbol-prototype-description：" class="headerlink" title="Symbol.prototype.description："></a>Symbol.prototype.description：</h4><ol><li>创建Symbol的时候可以添加一个描述，读取之前要先转换为字符串</li></ol><pre><code class="javascript">var s=Symbol(&#39;foo&#39;)//s的描述就是字符串fooString(s)s.toString()//&quot;Symbol(foo)&quot;s.description// &quot;foo&quot; ES2019写法更方便</code></pre><p><a name="W3jro"></a></p><h4 id="作为属性名的symbol："><a href="#作为属性名的symbol：" class="headerlink" title="作为属性名的symbol："></a>作为属性名的symbol：</h4><p><em><strong>Symbol 值作为对象属性名时，不能用点运算符。</strong></em></p><pre><code class="javascript">let mySymbol = Symbol();// 第一种写法let a = {};a[mySymbol] = &#39;Hello!&#39;;//正确写法//以下三行为错误写法const mySymbol = Symbol();const a = {};a.mySymbol = &#39;Hello!&#39;;a[&#39;mySymbol&#39;]//helloa[mySymbol]//undefined// 第二种写法let a = {  [mySymbol]: &#39;Hello!&#39;};// 第三种写法let a = {};Object.defineProperty(a, mySymbol, { value: &#39;Hello!&#39; });// 以上写法都得到同样结果a[mySymbol] // &quot;Hello!&quot;</code></pre><pre><code class="javascript">let s = Symbol();let obj = {  [s]: function (arg) { ... }};obj[s](123);//简略写法(增强的对象写法)let obj = {  [s](arg) { ... }};//</code></pre><p><a name="KCKnb"></a></p><h4 id="属性名的遍历："><a href="#属性名的遍历：" class="headerlink" title="属性名的遍历："></a>属性名的遍历：</h4><p><code>Object.getOwnPropertySymbols()</code>可以获取到指定对象的所有Symbol属性名，是当前对象的所有用作属性名的 Symbol 值组成的数组，不支持<code>for...in</code>、<code>for...of、``Object.keys()</code>、<code>Object.getOwnPropertyNames()</code>、<code>JSON.stringify()，Reflect.ownKeys()</code>可以同时返回普通对象名和Symbol属性名</p><p><a name="FSguL"></a></p><h4 id="Symbol-for-和Symbol"><a href="#Symbol-for-和Symbol" class="headerlink" title="Symbol.for()和Symbol():"></a>Symbol.for()和Symbol():</h4><ol><li>两者都可以生成Symbol值</li><li>前者会注册在全局环境中等待搜索，后者不会</li><li>Symbol.keyFor()方法返回一个已登记的 Symbol 类型值的key</li></ol><p><a name="aVCp0"></a></p><h3 id="显式类型转换："><a href="#显式类型转换：" class="headerlink" title="显式类型转换："></a>显式类型转换：</h3><ul><li>Number()函数<ul><li>数字-&gt;数字</li><li>字符串-&gt;0（空字符串） ，NaN(不可以转换为数字）,数字（可以转换为数字）</li><li>布尔值-&gt;true 1 ,false 0</li><li>undefined-&gt;NaN</li><li>null-&gt;0</li><li>对象-&gt;先ValueOf(),再toString（）方法，最后Number()</li></ul></li><li>String()函数<ul><li>数值-&gt;对应的数字字符串</li><li>布尔值-&gt;true “true”,false “false”</li><li>undefined-&gt;”undefined”</li><li>null-&gt;”null”</li><li>对象-&gt;先调用toString(),再ValueOf()方法，最后String()</li></ul></li><li>Boolean()函数<ul><li>undefined,null,NaN,+0,-0，‘’返回false<br><a name="Bq5lH"></a></li></ul></li></ul><p><a name="nn5ra"></a></p><h3 id="隐式类型转换：（触发时机）"><a href="#隐式类型转换：（触发时机）" class="headerlink" title="隐式类型转换：（触发时机）"></a>隐式类型转换：（触发时机）</h3><ul><li>四则运算</li><li>判断语句</li><li>Native调用：console alert等</li></ul><p><a name="5hMQB"></a></p><h3 id="常见题目："><a href="#常见题目：" class="headerlink" title="常见题目："></a>常见题目：</h3><p><a href="https://juejin.im/post/5df98b825188251277365bc1#heading-3" target="_blank" rel="noopener">前端基础面试题</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 前端 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> js </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>03-DOM事件</title>
+      <link href="/2019/12/13/yuque/03-DOM%E4%BA%8B%E4%BB%B6/"/>
+      <url>/2019/12/13/yuque/03-DOM%E4%BA%8B%E4%BB%B6/</url>
+      
+        <content type="html"><![CDATA[<p><a name="hEMkj"></a></p><h3 id="问题描述："><a href="#问题描述：" class="headerlink" title="问题描述："></a>问题描述：</h3><p>谈谈你对DOM事件的理解</p><p><a name="4FrGJ"></a></p><h3 id="解决方案or思路："><a href="#解决方案or思路：" class="headerlink" title="解决方案or思路："></a>解决方案or思路：</h3><ol><li>基本概念：DOM事件的级别</li><li>DOM事件模型：捕获和冒泡</li><li>DOM事件流</li><li>DOM事件捕获的具体流程</li><li>Event对象的常见应用</li><li>自定义事件</li></ol><p><a name="eJDvo"></a></p><h3 id="DOM事件级别："><a href="#DOM事件级别：" class="headerlink" title="DOM事件级别："></a>DOM事件级别：</h3><ol><li>DOM0级：<code>element.onclick=function(){}</code></li><li>DOM1级：没有设计跟事件相关的东西，所以只有0,2,3三个事件级别</li><li>DOM2级：<code>element.addEventListener(&#39;click&#39;,function(){},true/false)</code>,第三个参数指定了冒泡or捕获</li><li>DOM3级：<code>element.addEventListener（&#39;keyup&#39;,function(){},true/false）</code>，形式同DOM2,区别是增加了很多事件类型</li></ol><p><a name="MXUeN"></a></p><h3 id="DOM事件模型："><a href="#DOM事件模型：" class="headerlink" title="DOM事件模型："></a>DOM事件模型：</h3><ol><li>捕获：由上至下到目标元素</li><li>冒泡：由当前（目标）元素往上</li><li>如果addEventListener的最后一个参数是true则表明事件在捕获阶段触发。默认false</li></ol><p><a name="HZ4TP"></a></p><h3 id="DOM事件流："><a href="#DOM事件流：" class="headerlink" title="DOM事件流："></a>DOM事件流：</h3><p>捕获阶段-》目标阶段-》冒泡阶段</p><p><a name="ywPTs"></a></p><h3 id="DOM事件捕获的具体流程："><a href="#DOM事件捕获的具体流程：" class="headerlink" title="DOM事件捕获的具体流程："></a>DOM事件捕获的具体流程：</h3><ol><li>第一个接收到事件对象的是window,然后传给document,第三个是html标签</li><li>body接收，然后按照html结构一层一层向下传到目标元素</li></ol><p><a name="4q7WF"></a></p><h3 id="DOM事件冒泡的具体流程："><a href="#DOM事件冒泡的具体流程：" class="headerlink" title="DOM事件冒泡的具体流程："></a>DOM事件冒泡的具体流程：</h3><p>和事件捕获流程相反</p><p><a name="3ZT0w"></a></p><h3 id="如何获取body元素和html元素："><a href="#如何获取body元素和html元素：" class="headerlink" title="如何获取body元素和html元素："></a>如何获取body元素和html元素：</h3><ol><li>document.body：获取body标签</li><li>document.documentElement：获取html标签</li></ol><p><a name="9iLWm"></a></p><h3 id="Event-对象的常见应用："><a href="#Event-对象的常见应用：" class="headerlink" title="Event 对象的常见应用："></a>Event 对象的常见应用：</h3><ul><li>Event.preventDefault():阻止默认事件，如阻止链接跳转</li><li>Event.stopPropagation():阻止冒泡，<ul><li>如果父元素和子元素都注册了点击事件，执行不同的功能，该事件可以让点击子元素的同时不会冒泡执行父元素的点击事件</li></ul></li><li>Event.stopImmiadatePropagation():事件响应优先级<ul><li>一个按钮绑定了两个click事件，正常情况下两个函数都会被执行，加上这个方法就会按照优先级的方式先执行a，而不同时执行b事件，</li></ul></li><li>Event.target:当前被点击的元素</li><li>Event.currentTarget:当前绑定的事件对象，父级元素绑定实践，currentTarget指的就是该父元素<ul><li>事件委托</li><li>一个for循环给一个DOM元素注册了N多事件如何优化？</li><li>用事件代理，在父元素上绑定一次事件</li></ul></li></ul><p><a name="H4x98"></a></p><h3 id="Event自定义事件："><a href="#Event自定义事件：" class="headerlink" title="Event自定义事件："></a>Event自定义事件：</h3><p>Event和CustomEvent都是事件，用法一样，但是后者可以跟Object来做指定参数,一般与其他事件一起使用</p><pre><code class="javascript">var ev=new Event(&#39;custom&#39;)domElement.addEventListener(&#39;custom&#39;,function(){  console.log(&#39;cis)}) ev.dispatchEvent(domElement)//触发</code></pre><p>//第二个参数为对象,event.detail可用来传参数，第一个参数为自定义事件的名称<br /><em>event</em> = new CustomEvent(<em>typeArg</em>, <em>customEventInit</em>);detail用来传参数<br /><em>event</em> = new Event(typeArg[, eventInit]);</p><p><a name="x156w"></a></p><h3 id="示例代码："><a href="#示例代码：" class="headerlink" title="示例代码："></a>示例代码：</h3><pre><code class="javascript">  var event=new Event(&#39;test&#39;)  event.name=&quot;lili33&quot;  ev.addEventListener(&#39;test&#39;,function(ev){      console.log(&quot;自定义事件&quot;,ev)  },true)  ev.onclick=function(){      ev.dispatchEvent(event)  }</code></pre><pre><code class="javascript">  // customeEvent  var event=new CustomEvent(&#39;test&#39;,{detail:{hazcheeseburger: true}})  event.detail.name=&quot;lili33&quot;  ev.addEventListener(&#39;test&#39;,function(ev){      console.log(&quot;自定义事件&quot;,ev)  },true)  ev.onclick=function(){      ev.dispatchEvent(event)  }</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 前端 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> js </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>02-盒模型</title>
       <link href="/2019/12/12/yuque/02-%E7%9B%92%E6%A8%A1%E5%9E%8B/"/>
       <url>/2019/12/12/yuque/02-%E7%9B%92%E6%A8%A1%E5%9E%8B/</url>

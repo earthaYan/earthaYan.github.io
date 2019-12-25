@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>05-http协议 | Hexo</title>
-  <meta name="keywords" content=" http ">
-  <meta name="description" content="05-http协议 | Hexo">
+  <title>08-通信类 | Hexo</title>
+  <meta name="keywords" content=" js , 跨域 , 通信 ">
+  <meta name="description" content="08-通信类 | Hexo">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="个人简介毕业于苏州大学应用技术学院软件工程专业,目前于上海从事前端开发工作 技术栈 基本技术:HTML &#x2F; CSS &#x2F; JavaScript(ES) CSS框架和库: Bootstrap   VantUI  elementUI   JavaScript框架和库: jQuery Vue全家桶 nuxtjs   http库:axios 辅助工具与技术:Sass webpack  联系方式 QQ:278">
 <meta property="og:type" content="website">
@@ -294,9 +294,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-yuque/05-http协议" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-yuque/08-通信类" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">05-http协议</h1>
+        <h1 class="article-title">08-通信类</h1>
     
     <div class="article-meta">
         
@@ -311,19 +311,23 @@
         
         <span class="tag">
             
-            <a class="color5">http</a>
+            <a class="color3">js</a>
+            
+            <a class="color3">跨域</a>
+            
+            <a class="color3">通信</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-12-19 17:27:48'>2019-12-18 17:50</time>
+        创建时间:<time class="date" title='更新时间: 2019-12-25 17:09:15'>2019-12-25 09:35</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:1k</span>
+        <span>字数:913</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -342,7 +346,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#主要特点："><span class="toc-text">主要特点：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#报文的组成部分"><span class="toc-text">报文的组成部分:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP方法："><span class="toc-text">HTTP方法：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#post-get区别："><span class="toc-text">post&#x2F;get区别：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#http状态码："><span class="toc-text">http状态码：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是持久连接keep-alive："><span class="toc-text">什么是持久连接keep-alive：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是管线化："><span class="toc-text">什么是管线化：</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#常见问题："><span class="toc-text">常见问题：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#同源策略："><span class="toc-text">同源策略：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#定义："><span class="toc-text">定义：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#具体表现："><span class="toc-text">具体表现：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#null"><span class="toc-text"></span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#前后端如何通信："><span class="toc-text">前后端如何通信：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何创建一个ajax"><span class="toc-text">如何创建一个ajax:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#跨域通信的几种方式："><span class="toc-text">跨域通信的几种方式：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#jsonp"><span class="toc-text">jsonp</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#hash"><span class="toc-text">hash</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#postmessage"><span class="toc-text">postmessage</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#websocket"><span class="toc-text">websocket</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#cors"><span class="toc-text">cors</span></a></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -358,195 +362,163 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a name="ruae5"></a></p>
-<h3 id="主要特点："><a href="#主要特点：" class="headerlink" title="主要特点："></a>主要特点：</h3><ul>
-<li>简单快速：每个资源uri是固定的，访问简单</li>
-<li>灵活：每个http协议头部都有一个数据类型(content-type)，通过一个Http协议(不需要配合其他协议)就可以完成不同类型数据的传输</li>
-<li><u>无连接</u>：连接一次就会断掉</li>
-<li><u>无状态</u>：客户端和服务端是两种状态，服务端不会区分两次连接者的身份</li>
-</ul>
-<p><a name="Pcf8t"></a></p>
-<h3 id="报文的组成部分"><a href="#报文的组成部分" class="headerlink" title="报文的组成部分:"></a>报文的组成部分:</h3><ol>
-<li>请求报文:<br> a.  请求行（http方法,页面地址，http协议以及版本）<br> b.  请求头（key,value告诉服务器要什么。host以下）<br> c.  空行(告诉服务端下一个不再是请求头)<br> d.  请求体</li>
-<li>响应报文<br> a.  状态行<br> b.  响应头<br> c.  空行<br> d.  响应体</li>
+        <p><a name="vZDjI"></a></p>
+<h3 id="常见问题："><a href="#常见问题：" class="headerlink" title="常见问题："></a>常见问题：</h3><ol>
+<li>什么是同源策略及限制</li>
+<li>前后端如何通信</li>
+<li>如何创建ajax</li>
+<li>跨域通信的几种方式</li>
 </ol>
-<p><a name="6ZQcH"></a></p>
-<h3 id="HTTP方法："><a href="#HTTP方法：" class="headerlink" title="HTTP方法："></a>HTTP方法：</h3><table>
-<thead>
-<tr>
-<th>GET</th>
-<th>获取资源</th>
-<th></th>
-</tr>
-</thead>
-<tbody><tr>
-<td>POST</td>
-<td>传输资源</td>
-<td></td>
-</tr>
-<tr>
-<td>PUT</td>
-<td>更新资源</td>
-<td>很少用</td>
-</tr>
-<tr>
-<td>DELETE</td>
-<td>删除资源</td>
-<td>一般不用</td>
-</tr>
-<tr>
-<td>HEAD</td>
-<td>获得报文头部</td>
-<td></td>
-</tr>
-</tbody></table>
-<p><a name="BSGHY"></a></p>
-<h3 id="post-get区别："><a href="#post-get区别：" class="headerlink" title="post/get区别："></a>post/get区别：</h3><table>
-<thead>
-<tr>
-<th></th>
-<th>get</th>
-<th>post</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><font color=Red>浏览器回退</font></td>
-<td>在浏览器回退时无害的</td>
-<td>在浏览器回退时会再次提交请求，重复提交</td>
-</tr>
-<tr>
-<td>url收藏</td>
-<td>产生的URL地址被收藏</td>
-<td>不能收藏</td>
-</tr>
-<tr>
-<td><font color=Red>缓存</font></td>
-<td>请求会被浏览器主动缓存</td>
-<td>需要手动设置才能被缓存</td>
-</tr>
-<tr>
-<td>编码</td>
-<td>只能进行URL编码</td>
-<td>支持多种编码方式</td>
-</tr>
-<tr>
-<td><font color=Red>参数保存</font></td>
-<td>请求参数会被完整的保存在浏览器历史记录里</td>
-<td>参数不会被保留</td>
-</tr>
-<tr>
-<td><font color=Red>参数限制</font></td>
-<td>URL中传的参数有长度限制2kb(http协议对长度没限制，浏览器或服务器有)</td>
-<td>没有限制</td>
-</tr>
-<tr>
-<td>参数类型</td>
-<td>参数数据类型只能是ascii字符</td>
-<td>没有限制</td>
-</tr>
-<tr>
-<td><font color=Red>安全性</font></td>
-<td>参数直接暴露在URL上，不能传递敏感信息</td>
-<td>不暴露参数在url</td>
-</tr>
-<tr>
-<td>参数传递方法</td>
-<td>参数通过URL传递</td>
-<td>参数放在request body中</td>
-</tr>
-</tbody></table>
-<p><a name="s9fi6"></a></p>
-<h3 id="http状态码："><a href="#http状态码：" class="headerlink" title="http状态码："></a>http状态码：</h3><table>
-<thead>
-<tr>
-<th>1xx</th>
-<th>指示信息</th>
-<th>表示请求已接收，继续处理</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>2xx</td>
-<td></td>
-<td>表示请求已被成功接收</td>
-</tr>
-<tr>
-<td>3xx</td>
-<td>重定向</td>
-<td>要完成请求必须更进一步操作</td>
-</tr>
-<tr>
-<td>4xx</td>
-<td>客户端错误</td>
-<td>请求有语法错误或者无法实现</td>
-</tr>
-<tr>
-<td>5xx</td>
-<td>服务器错误</td>
-<td>服务器未能实现合法的请求</td>
-</tr>
-</tbody></table>
-<hr>
-<table>
-<thead>
-<tr>
-<th>200  OK</th>
-<th>客户端请求成功</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>206  Partial Content</td>
-<td>客户端发送了一个带Range头的请求，服务端完成了它,一般是video视频播放,文件很大时候返回206</td>
-</tr>
-<tr>
-<td>301 Moved permanently</td>
-<td>所请求的页面已经转移至新的url</td>
-</tr>
-<tr>
-<td>302 Found</td>
-<td>所请求的页面已经临时转移至新的url</td>
-</tr>
-<tr>
-<td>304 not modified</td>
-<td>客户端有缓冲的文档并发出了一个条件性请求，服务器告诉客户端原来缓冲的文档还可以用</td>
-</tr>
-<tr>
-<td>400 Bad Request</td>
-<td>客户端请求有语法错误，不能被服务器理解</td>
-</tr>
-<tr>
-<td>401 unauthorized</td>
-<td>请求未经授权，必须和WWW-Authenticate报头域一起使用</td>
-</tr>
-<tr>
-<td>403 Forbidden</td>
-<td>对被请求页面的访问被禁止</td>
-</tr>
-<tr>
-<td>404 NOT Found</td>
-<td>请求的资源不存在</td>
-</tr>
-<tr>
-<td>500 Internal Server Error</td>
-<td>服务器发生不可预期的错误，原来缓冲的文档还可以继续使用</td>
-</tr>
-<tr>
-<td>503 Server  Unavailable</td>
-<td>请求未完成，服务器临时过载或宕机，一段时间后可能恢复正常</td>
-</tr>
-</tbody></table>
-<p><a name="KrYAH"></a></p>
-<h3 id="什么是持久连接keep-alive："><a href="#什么是持久连接keep-alive：" class="headerlink" title="什么是持久连接keep-alive："></a>什么是持久连接keep-alive：</h3><ol>
-<li>Http协议采用”请求——应答”模式</li>
-<li>持久连接只有Http1.1支持，1.0不支持</li>
-<li>使用普通模式：每个请求/应答，客户端和服务器都要新建一个连接，完成之后立即断开连接</li>
-<li>使用Keep-alive模式：keep-alive功能使客户端到服务器端的连接持续有效，当出现对服务器的后继请求时，keep-alive功能避免了建立或重新建立连接<br><a name="irjut"></a></li>
+<p><a name="4EoLv"></a></p>
+<h3 id="同源策略："><a href="#同源策略：" class="headerlink" title="同源策略："></a>同源策略：</h3><p><a name="7BzVM"></a></p>
+<h4 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h4><ol>
+<li>源包括协议，域名，端口，只要有一个不一样就是不同的源</li>
+<li>不是一个源的文档无权去操作另外一个源的文档<br><a name="XbRZp"></a></li>
 </ol>
-<h3 id="什么是管线化："><a href="#什么是管线化：" class="headerlink" title="什么是管线化："></a>什么是管线化：</h3><ol>
-<li>keep-alive情况下，把多个请求打包（原理）一次发送，服务器再把对应的响应打包返回</li>
-<li>只有get/head请求可以进行管线化，post有限制</li>
-<li>初次创建连接，不应启动管线机制，因为服务器不一定支持http1.1版本的协议</li>
-<li>管线化不会影响响应的顺序</li>
-<li>现代浏览器默认并未开启管线化支持</li>
+<h4 id="具体表现："><a href="#具体表现：" class="headerlink" title="具体表现："></a>具体表现：</h4><ol>
+<li>cookie,storage,indexDB无法读取</li>
+<li>DOM无法获得</li>
+<li>AJAX请求无法发送<br><a name="POGtH"></a></li>
+</ol>
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4><p><a name="cl5c6"></a></p>
+<h3 id="前后端如何通信："><a href="#前后端如何通信：" class="headerlink" title="前后端如何通信："></a>前后端如何通信：</h3><ol>
+<li>AJAX:同源通信</li>
+<li>websocket:不受同源策略的限制</li>
+<li>CORS:支持跨域通信和同源通信</li>
+</ol>
+<p><a name="XmxQM"></a></p>
+<h3 id="如何创建一个ajax"><a href="#如何创建一个ajax" class="headerlink" title="如何创建一个ajax:"></a>如何创建一个ajax:</h3><ol>
+<li>xmlhttprequest对象的工作流程</li>
+<li>兼容性处理</li>
+<li>事件的触发条件</li>
+<li>事件的触发顺序</li>
+</ol>
+<p><a name="oQb6T"></a></p>
+<h3 id="跨域通信的几种方式："><a href="#跨域通信的几种方式：" class="headerlink" title="跨域通信的几种方式："></a>跨域通信的几种方式：</h3><p><a name="MXoFb"></a></p>
+<h4 id="jsonp"><a href="#jsonp" class="headerlink" title="jsonp"></a>jsonp</h4><ol>
+<li><p>原理：script标签的异步加载</p>
+</li>
+<li><p>如何实现：</p>
+<ol>
+<li>客户端向服务端发起请求，并告诉服务器端callback的名称<code>&lt;script src=&quot;http://www.baidu.com?data=name&amp;callback=jsonpMethod&quot;&gt;&lt;/script&gt;</code></li>
+<li>后端返回一个jsonp函数<pre><code class="javascript">jsonpMethod({
+data:{
+}
+})</code></pre>
+</li>
+</ol>
+</li>
+<li><p>实现代码：</p>
+</li>
+</ol>
+<pre><code class="javascript">var util={}
+util.getName=function(prefix){
+    return prefix+Math.random().toString(36)
+    .replace(/[^a-z]+/g,&#39;&#39;).substr(0,5)
+}
+util.createScript=function(url,charset){
+    var script=document.createElement(&#39;script&#39;)
+    script.setAttribute(&#39;type&#39;,&#39;text/javascript&#39;)
+    charset&amp;&amp;script.setAttribute(&#39;charset&#39;,charset)
+    script.setAttribute(&#39;src&#39;,url)
+    script.sync=true
+    return script
+}
+util.jsonp=function(url, onsuccess, onerror, charset){
+    // 告诉后端回调的名称
+    var callbackName=util.getName(&#39;tt_player&#39;)
+    // 在window注册一个全局callback
+    window[callbackName]=function(){
+      if (onsuccess &amp;&amp; util.isFunction(onsuccess)) {
+        onsuccess(arguments[0]);
+      }
+    }
+    // 动态创建一个script标签
+    var script=util.createScript(url+&#39;&amp;callback=&#39;+callbackName,charset)
+    // 判断标签是否加载成功
+    script.onload=script.onreadystatechange=function(){
+        if(!script.readyState||/loaded|complete/.test(script.readyState)){
+            script.onload=script.onreadystatechange=null
+            // 移除该script的DOM对象
+            if(script.parentNode){
+                script.parentNode.removeChild(script)
+            }
+            // 删除函数或变量
+            window[callbackName]=null
+        }
+    }
+    script.onerror=function(){
+        if(this.onerror&amp;&amp;util.isFunction(onerror)){
+            this.onerror()
+        }
+    }
+    document.getElementsByTagName(&quot;head&quot;)[0].appendChild(script)
+}</code></pre>
+<p><a name="j82Hc"></a></p>
+<h4 id="hash"><a href="#hash" class="headerlink" title="hash"></a>hash</h4><ol>
+<li>场景：当前页面A通过iframe嵌入了跨域的页面B</li>
+<li>代码：<pre><code class="javascript">//A页面
+var B=document.getElementsByTagName(&#39;iframe&#39;)
+B.src=B.src+&#39;#&#39;+&#39;data&#39;
+//b页面添加以下代码
+window.onhashchange=function(){
+ var data=window.location.hash
+}</code></pre>
+</li>
+</ol>
+<p><a name="ZbCf1"></a></p>
+<h4 id="postmessage"><a href="#postmessage" class="headerlink" title="postmessage"></a>postmessage</h4><ol>
+<li>场景：窗口A向跨域的窗口B发送消息</li>
+<li>代码(使用http-server在本地开启两个服务)</li>
+</ol>
+<p>parent.html</p>
+<pre><code class="html">    &lt;h1&gt;父窗口&lt;/h1&gt;
+    &lt;iframe src=&quot;http://localhost:9001/child.html&quot; 
+        width=&quot;500&quot; height=&quot;100&quot; frameborder=&quot;0&quot;&gt;&lt;/iframe&gt;
+    &lt;button name=&quot;button&quot; id=&quot;send&quot;&gt;发信息给子窗口&lt;/button&gt;
+    &lt;script src=&quot;./parent.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>parent.js</p>
+<pre><code class="javascript">window.addEventListener(&#39;message&#39;,function(data){
+    this.console.log(&quot;我是父窗口，收到了子窗口发过来的消息&quot;,&quot;vs&quot;,data)
+},false)
+var btn=document.getElementById(&quot;send&quot;)
+btn.addEventListener(&#39;click&#39;,function(e){
+    let child=document.querySelector(&quot;iframe&quot;).contentWindow
+    child.postMessage(&#39;这是父窗口发给你的信息&#39;,&#39;http://localhost:9001&#39;)
+})</code></pre>
+<p>child.html</p>
+<pre><code class="html">    &lt;h1&gt;我是子页面&lt;/h1&gt;
+    &lt;script src=&quot;./child.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;</code></pre>
+<p>child.js</p>
+<pre><code class="javascript">window.addEventListener(&#39;message&#39;,function(data){
+    console.log(data)
+    window.parent.postMessage(&#39;子窗口给父窗口回复&#39;,&#39;http://localhost:9002&#39;)
+},false)</code></pre>
+<p><a name="csCZX"></a></p>
+<h4 id="websocket"><a href="#websocket" class="headerlink" title="websocket"></a>websocket</h4><pre><code class="javascript">var ws=new WebSocket(&#39;wss://echo.websocket.org&#39;)//ws是非加密，wss是加密
+ws.onopen=function(ev){
+  console.log(&quot;connection 开始&quot;)
+  ws.send(&#39;hello WebSockets!!!&#39;)
+}
+ws.onmessage=function(ev){
+  console.log(&quot;收到消息&quot;+ev.data)
+}
+ws.onclose=function(ev){
+  console.log(&quot;connection 关闭&quot;)
+}</code></pre>
+<p><a name="n8whD"></a></p>
+<h4 id="cors"><a href="#cors" class="headerlink" title="cors"></a><a href="http://www.ruanyifeng.com/blog/2016/04/cors.html" target="_blank" rel="noopener">cors</a></h4><pre><code class="javascript">fetch(url,{
+  method:&#39;get&#39;
+}).then(function(res){
+  //对响应res进行处理
+}).catch(function(err){
+  //对错误进行处理
+})</code></pre>
+<ol>
+<li>需要服务器和浏览器同时支持</li>
+<li>仅支持IE10以上浏览器</li>
+<li>浏览器一旦发现ajax跨域请求资源，就会自动添加一些附加的头信息</li>
+<li>实现CORS通信的关键是服务器，服务器实现了CORS接口，就可跨源通信</li>
 </ol>
 
       
@@ -557,12 +529,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>05-http协议</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">1k</span></p>
+    <p><span class="copy-title">文章标题:</span>08-通信类</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">913</span></p>
     <p><span class="copy-title">本文作者:</span><a  title="月月颜">月月颜</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-12-18, 17:50:06</p>
-    <p><span class="copy-title">最后更新:</span>2019-12-19, 17:27:48</p>
-    <!-- <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/12/18/yuque/05-http%E5%8D%8F%E8%AE%AE/" title="05-http协议">http://blog.yanyue.xyz/2019/12/18/yuque/05-http%E5%8D%8F%E8%AE%AE/</a> -->
+    <p><span class="copy-title">发布时间:</span>2019-12-25, 09:35:56</p>
+    <p><span class="copy-title">最后更新:</span>2019-12-25, 17:09:15</p>
+    <!-- <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/12/25/yuque/08-%E9%80%9A%E4%BF%A1%E7%B1%BB/" title="08-通信类">http://blog.yanyue.xyz/2019/12/25/yuque/08-%E9%80%9A%E4%BF%A1%E7%B1%BB/</a> -->
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>

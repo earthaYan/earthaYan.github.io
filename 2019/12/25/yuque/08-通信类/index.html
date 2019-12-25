@@ -135,7 +135,7 @@
     <div><a class="about  hasFriend  site_url"  href="/about">关于</a><a style="width: 50%"  class="friends">友链</a></div>
 </div>
 <input type="hidden" id="yelog_site_posts_number" value="9">
-<input type="hidden" id="yelog_site_word_count" value="6k">
+<input type="hidden" id="yelog_site_word_count" value="6.1k">
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
     <span id="busuanzi_value_site_pv"></span>
@@ -322,12 +322,12 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-12-25 17:11:23'>2019-12-25 09:35</time>
+        创建时间:<time class="date" title='更新时间: 2019-12-25 17:21:47'>2019-12-25 09:35</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:913</span>
+        <span>字数:1.1k</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -391,7 +391,52 @@
 <li>xmlhttprequest对象的工作流程</li>
 <li>兼容性处理</li>
 <li>事件的触发条件</li>
-<li>事件的触发顺序</li>
+<li>事件的触发顺序<pre><code class="javascript">util.json=function(option){
+ var opt={
+     url:&#39;&#39;,
+     type:&#39;get&#39;,
+     data:{},
+     success:function(){},
+     error:function(){}
+ }
+ util.extend(opt,options)
+ if(opt.url){
+   // 创建一个xhr对象
+     var xhr=XMLHttpRequest?new XMLHttpRequest():
+         new ActiveXObject(&#39;Microsoft.XMLHTTP&#39;)
+     var data=opt.data,
+         url=opt.url,
+         type=opt.type.toUpperCase(),
+         dataArr=[]
+     for(var k in data){
+         dataArr.push(k+&#39;=&#39;+data[k])
+     }
+     if(type==&#39;GET&#39;){
+         url=url+&#39;?&#39;+dataArr.join(&#39;&amp;&#39;)
+         xhr.open(type,url.replace(/\?$/g, &#39;&#39;),true)
+         xhr.send()
+     }
+     if(type==&#39;POST&#39;){
+         xhr.open(type,url,true)
+         XMLHttpRequest.setRequestHeader(&#39;content-type&#39;,&#39;application/x-www-form-urlencoded&#39;)
+         xhr.send(dataArr.join(&#39;&amp;&#39;))
+     }
+     xhr.onload=function(){
+         if(xhr.status==200||xhr.status==304){
+             var res
+             if(typeof res ===&#39;string&#39;){
+                 res=JSON.parse(res)
+                 opt.success.call(xhr,res)
+             }
+         } else {
+             if (opt.error &amp;&amp; opt.error instanceof Function) {
+                 opt.error.call(xhr, res);
+             }
+         }
+     }
+ }
+}</code></pre>
+</li>
 </ol>
 <p><a name="oQb6T"></a></p>
 <h3 id="跨域通信的几种方式："><a href="#跨域通信的几种方式：" class="headerlink" title="跨域通信的几种方式："></a>跨域通信的几种方式：</h3><p><a name="MXoFb"></a></p>
@@ -527,10 +572,10 @@ ws.onclose=function(ev){
 
 <div class="article_copyright">
     <p><span class="copy-title">文章标题:</span>08-通信类</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">913</span></p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">1.1k</span></p>
     <p><span class="copy-title">本文作者:</span><a  title="月月颜">月月颜</a></p>
     <p><span class="copy-title">发布时间:</span>2019-12-25, 09:35:56</p>
-    <p><span class="copy-title">最后更新:</span>2019-12-25, 17:11:23</p>
+    <p><span class="copy-title">最后更新:</span>2019-12-25, 17:21:47</p>
     <!-- <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/12/25/yuque/08-%E9%80%9A%E4%BF%A1%E7%B1%BB/" title="08-通信类">http://blog.yanyue.xyz/2019/12/25/yuque/08-%E9%80%9A%E4%BF%A1%E7%B1%BB/</a> -->
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。

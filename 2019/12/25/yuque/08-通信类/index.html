@@ -322,7 +322,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-12-25 17:09:15'>2019-12-25 09:35</time>
+        创建时间:<time class="date" title='更新时间: 2019-12-25 17:11:23'>2019-12-25 09:35</time>
         
     </div>
     <div class="article-meta">
@@ -396,10 +396,8 @@
 <p><a name="oQb6T"></a></p>
 <h3 id="跨域通信的几种方式："><a href="#跨域通信的几种方式：" class="headerlink" title="跨域通信的几种方式："></a>跨域通信的几种方式：</h3><p><a name="MXoFb"></a></p>
 <h4 id="jsonp"><a href="#jsonp" class="headerlink" title="jsonp"></a>jsonp</h4><ol>
-<li><p>原理：script标签的异步加载</p>
-</li>
-<li><p>如何实现：</p>
-<ol>
+<li>原理：script标签的异步加载</li>
+<li>如何实现：<ol>
 <li>客户端向服务端发起请求，并告诉服务器端callback的名称<code>&lt;script src=&quot;http://www.baidu.com?data=name&amp;callback=jsonpMethod&quot;&gt;&lt;/script&gt;</code></li>
 <li>后端返回一个jsonp函数<pre><code class="javascript">jsonpMethod({
 data:{
@@ -408,9 +406,8 @@ data:{
 </li>
 </ol>
 </li>
-<li><p>实现代码：</p>
-</li>
 </ol>
+<p>实现代码：</p>
 <pre><code class="javascript">var util={}
 util.getName=function(prefix){
     return prefix+Math.random().toString(36)
@@ -533,7 +530,7 @@ ws.onclose=function(ev){
     <p><span class="copy-title">文章字数:</span><span class="post-count">913</span></p>
     <p><span class="copy-title">本文作者:</span><a  title="月月颜">月月颜</a></p>
     <p><span class="copy-title">发布时间:</span>2019-12-25, 09:35:56</p>
-    <p><span class="copy-title">最后更新:</span>2019-12-25, 17:09:15</p>
+    <p><span class="copy-title">最后更新:</span>2019-12-25, 17:11:23</p>
     <!-- <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/12/25/yuque/08-%E9%80%9A%E4%BF%A1%E7%B1%BB/" title="08-通信类">http://blog.yanyue.xyz/2019/12/25/yuque/08-%E9%80%9A%E4%BF%A1%E7%B1%BB/</a> -->
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。

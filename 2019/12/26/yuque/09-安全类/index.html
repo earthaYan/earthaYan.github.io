@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>03-DOM事件 | Hexo</title>
-  <meta name="keywords" content=" js ">
-  <meta name="description" content="03-DOM事件 | Hexo">
+  <title>09-安全类 | Hexo</title>
+  <meta name="keywords" content=" 安全 , 攻击/防御 ">
+  <meta name="description" content="09-安全类 | Hexo">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="个人简介毕业于苏州大学应用技术学院软件工程专业,目前于上海从事前端开发工作 技术栈 基本技术:HTML &#x2F; CSS &#x2F; JavaScript(ES) CSS框架和库: Bootstrap   VantUI  elementUI   JavaScript框架和库: jQuery Vue全家桶 nuxtjs   http库:axios 辅助工具与技术:Sass webpack  联系方式 QQ:278">
 <meta property="og:type" content="website">
@@ -318,9 +318,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-yuque/03-DOM事件" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-yuque/09-安全类" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">03-DOM事件</h1>
+        <h1 class="article-title">09-安全类</h1>
     
     <div class="article-meta">
         
@@ -328,26 +328,28 @@
         
         <span class="book">
             
-                <a  data-rel="前端">前端</a>
+                <a  data-rel="安全">安全</a>
             
         </span>
         
         
         <span class="tag">
             
-            <a class="color3">js</a>
+            <a class="color3">安全</a>
+            
+            <a class="color1">攻击/防御</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-12-16 14:45:06'>2019-12-13 15:21</time>
+        创建时间:<time class="date" title='更新时间: 2019-12-26 15:31:05'>2019-12-26 09:32</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:735</span>
+        <span>字数:234</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -366,7 +368,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题描述："><span class="toc-text">问题描述：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决方案or思路："><span class="toc-text">解决方案or思路：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DOM事件级别："><span class="toc-text">DOM事件级别：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DOM事件模型："><span class="toc-text">DOM事件模型：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DOM事件流："><span class="toc-text">DOM事件流：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DOM事件捕获的具体流程："><span class="toc-text">DOM事件捕获的具体流程：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DOM事件冒泡的具体流程："><span class="toc-text">DOM事件冒泡的具体流程：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何获取body元素和html元素："><span class="toc-text">如何获取body元素和html元素：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Event-对象的常见应用："><span class="toc-text">Event 对象的常见应用：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Event自定义事件："><span class="toc-text">Event自定义事件：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#示例代码："><span class="toc-text">示例代码：</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#CSRF"><span class="toc-text">CSRF:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#XSS攻击："><span class="toc-text">XSS攻击：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#区别："><span class="toc-text">区别：</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -382,89 +384,36 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a name="hEMkj"></a></p>
-<h3 id="问题描述："><a href="#问题描述：" class="headerlink" title="问题描述："></a>问题描述：</h3><p>谈谈你对DOM事件的理解</p>
-<p><a name="4FrGJ"></a></p>
-<h3 id="解决方案or思路："><a href="#解决方案or思路：" class="headerlink" title="解决方案or思路："></a>解决方案or思路：</h3><ol>
-<li>基本概念：DOM事件的级别</li>
-<li>DOM事件模型：捕获和冒泡</li>
-<li>DOM事件流</li>
-<li>DOM事件捕获的具体流程</li>
-<li>Event对象的常见应用</li>
-<li>自定义事件</li>
-</ol>
-<p><a name="eJDvo"></a></p>
-<h3 id="DOM事件级别："><a href="#DOM事件级别：" class="headerlink" title="DOM事件级别："></a>DOM事件级别：</h3><ol>
-<li>DOM0级：<code>element.onclick=function(){}</code></li>
-<li>DOM1级：没有设计跟事件相关的东西，所以只有0,2,3三个事件级别</li>
-<li>DOM2级：<code>element.addEventListener(&#39;click&#39;,function(){},true/false)</code>,第三个参数指定了冒泡or捕获</li>
-<li>DOM3级：<code>element.addEventListener（&#39;keyup&#39;,function(){},true/false）</code>，形式同DOM2,区别是增加了很多事件类型</li>
-</ol>
-<p><a name="MXUeN"></a></p>
-<h3 id="DOM事件模型："><a href="#DOM事件模型：" class="headerlink" title="DOM事件模型："></a>DOM事件模型：</h3><ol>
-<li>捕获：由上至下到目标元素</li>
-<li>冒泡：由当前（目标）元素往上</li>
-<li>如果addEventListener的最后一个参数是true则表明事件在捕获阶段触发。默认false</li>
-</ol>
-<p><a name="HZ4TP"></a></p>
-<h3 id="DOM事件流："><a href="#DOM事件流：" class="headerlink" title="DOM事件流："></a>DOM事件流：</h3><p>捕获阶段-》目标阶段-》冒泡阶段</p>
-<p><a name="ywPTs"></a></p>
-<h3 id="DOM事件捕获的具体流程："><a href="#DOM事件捕获的具体流程：" class="headerlink" title="DOM事件捕获的具体流程："></a>DOM事件捕获的具体流程：</h3><ol>
-<li>第一个接收到事件对象的是window,然后传给document,第三个是html标签</li>
-<li>body接收，然后按照html结构一层一层向下传到目标元素</li>
-</ol>
-<p><a name="4q7WF"></a></p>
-<h3 id="DOM事件冒泡的具体流程："><a href="#DOM事件冒泡的具体流程：" class="headerlink" title="DOM事件冒泡的具体流程："></a>DOM事件冒泡的具体流程：</h3><p>和事件捕获流程相反</p>
-<p><a name="3ZT0w"></a></p>
-<h3 id="如何获取body元素和html元素："><a href="#如何获取body元素和html元素：" class="headerlink" title="如何获取body元素和html元素："></a>如何获取body元素和html元素：</h3><ol>
-<li>document.body：获取body标签</li>
-<li>document.documentElement：获取html标签</li>
-</ol>
-<p><a name="9iLWm"></a></p>
-<h3 id="Event-对象的常见应用："><a href="#Event-对象的常见应用：" class="headerlink" title="Event 对象的常见应用："></a>Event 对象的常见应用：</h3><ul>
-<li>Event.preventDefault():阻止默认事件，如阻止链接跳转</li>
-<li>Event.stopPropagation():阻止冒泡，<ul>
-<li>如果父元素和子元素都注册了点击事件，执行不同的功能，该事件可以让点击子元素的同时不会冒泡执行父元素的点击事件</li>
+        <ul>
+<li>CSRF</li>
+<li>XSS</li>
+</ul>
+<p><a name="LE8AU"></a></p>
+<h3 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF:"></a>CSRF:</h3><ol>
+<li>基本概念：跨站请求伪造</li>
+<li>攻击原理：<ul>
+<li>网站中某个API接口存在漏洞</li>
+<li>用户在注册网站1登陆过</li>
 </ul>
 </li>
-<li>Event.stopImmiadatePropagation():事件响应优先级<ul>
-<li>一个按钮绑定了两个click事件，正常情况下两个函数都会被执行，加上这个方法就会按照优先级的方式先执行a，而不同时执行b事件，</li>
+</ol>
+<p><img src="https://cdn.nlark.com/yuque/__mermaid_v3/57c37f3e68711c07ce33379b688fe5f0.svg#lake_card_v2=eyJjb2RlIjoiZ3JhcGggTFJcbkFb55So5oi3XVx0LS1cdDHnmbvlvZVcdC0tPlx0QlvnvZHnq5kxXVxuQlx0LS1cdDLkuIvlj5Fjb29raWVcdC0tPlx0QVxuQVx0LS1cdDPorr_pl65cdC0tPlx0Q1vnvZHnq5kyXVxuQ1x0LS1cdDTlvJXor7Hngrnlh7vot7PovazliLDnvZHnq5kx55qE5p-Q5Liq5o6l5Y-jXHQtLT5cdEFcbkFcdC0tXHQ1LS0-QiIsInR5cGUiOiJtZXJtYWlkIiwiaWQiOiJMaXBKdyIsInVybCI6Imh0dHBzOi8vY2RuLm5sYXJrLmNvbS95dXF1ZS9fX21lcm1haWRfdjMvNTdjMzdmM2U2ODcxMWMwN2NlMzMzNzliNjg4ZmU1ZjAuc3ZnIiwiY2FyZCI6ImRpYWdyYW0ifQ==" alt=""></p>
+<ol start="3">
+<li>防御措施：<ul>
+<li>Token验证：浏览器自动上传cookie，但是没有上传token,服务器通过判断是否请求携带token可以避免攻击</li>
+<li>Referer验证：服务器判断页面来源是否为注册网站下的站点页面，如果是则继续执行</li>
+<li>隐藏令牌：类似token，隐藏在http头</li>
 </ul>
 </li>
-<li>Event.target:当前被点击的元素</li>
-<li>Event.currentTarget:当前绑定的事件对象，父级元素绑定实践，currentTarget指的就是该父元素<ul>
-<li>事件委托</li>
-<li>一个for循环给一个DOM元素注册了N多事件如何优化？</li>
-<li>用事件代理，在父元素上绑定一次事件</li>
-</ul>
-</li>
-</ul>
-<p><a name="H4x98"></a></p>
-<h3 id="Event自定义事件："><a href="#Event自定义事件：" class="headerlink" title="Event自定义事件："></a>Event自定义事件：</h3><p>Event和CustomEvent都是事件，用法一样，但是后者可以跟Object来做指定参数,一般与其他事件一起使用</p>
-<pre><code class="javascript">var ev=new Event(&#39;custom&#39;)
-domElement.addEventListener(&#39;custom&#39;,function(){
-  console.log(&#39;cis)
-})
- ev.dispatchEvent(domElement)//触发</code></pre>
-<p>//第二个参数为对象,event.detail可用来传参数，第一个参数为自定义事件的名称<br /><em>event</em> = new CustomEvent(<em>typeArg</em>, <em>customEventInit</em>);detail用来传参数<br /><em>event</em> = new Event(typeArg[, eventInit]);</p>
-<p><a name="x156w"></a></p>
-<h3 id="示例代码："><a href="#示例代码：" class="headerlink" title="示例代码："></a>示例代码：</h3><pre><code class="javascript">  var event=new Event(&#39;test&#39;)
-  event.name=&quot;lili33&quot;
-  ev.addEventListener(&#39;test&#39;,function(ev){
-      console.log(&quot;自定义事件&quot;,ev)
-  },true)
-  ev.onclick=function(){
-      ev.dispatchEvent(event)
-  }</code></pre>
-<pre><code class="javascript">  // customeEvent
-  var event=new CustomEvent(&#39;test&#39;,{detail:{hazcheeseburger: true}})
-  event.detail.name=&quot;lili33&quot;
-  ev.addEventListener(&#39;test&#39;,function(ev){
-      console.log(&quot;自定义事件&quot;,ev)
-  },true)
-  ev.onclick=function(){
-      ev.dispatchEvent(event)
-  }</code></pre>
+</ol>
+<p><a name="s6Of4"></a></p>
+<h3 id="XSS攻击："><a href="#XSS攻击：" class="headerlink" title="XSS攻击："></a>XSS攻击：</h3><ol>
+<li>基本概念：跨域脚本攻击</li>
+<li>攻击原理：向页面注入脚本，评论提交区（合法渠道）写入script标签代码</li>
+<li>防御措施：让插入的脚本无法执行,例如替换掉原始http请求，去除敏感字符</li>
+</ol>
+<p><a name="urvLh"></a></p>
+<h3 id="区别："><a href="#区别：" class="headerlink" title="区别："></a>区别：</h3><p>xss是通过合法渠道注入脚本，CSRF依赖于用户登陆过该网站，利用已有的api漏洞去攻击</p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达 </span>
@@ -474,12 +423,12 @@ domElement.addEventListener(&#39;custom&#39;,function(){
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>03-DOM事件</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">735</span></p>
+    <p><span class="copy-title">文章标题:</span>09-安全类</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">234</span></p>
     <p><span class="copy-title">本文作者:</span><a  title="月月颜">月月颜</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-12-13, 15:21:44</p>
-    <p><span class="copy-title">最后更新:</span>2019-12-16, 14:45:06</p>
-    <!-- <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/12/13/yuque/03-DOM%E4%BA%8B%E4%BB%B6/" title="03-DOM事件">http://blog.yanyue.xyz/2019/12/13/yuque/03-DOM%E4%BA%8B%E4%BB%B6/</a> -->
+    <p><span class="copy-title">发布时间:</span>2019-12-26, 09:32:37</p>
+    <p><span class="copy-title">最后更新:</span>2019-12-26, 15:31:05</p>
+    <!-- <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/12/26/yuque/09-%E5%AE%89%E5%85%A8%E7%B1%BB/" title="09-安全类">http://blog.yanyue.xyz/2019/12/26/yuque/09-%E5%AE%89%E5%85%A8%E7%B1%BB/</a> -->
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>

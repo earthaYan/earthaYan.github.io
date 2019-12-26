@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>09-安全类</title>
+      <link href="/2019/12/26/yuque/09-%E5%AE%89%E5%85%A8%E7%B1%BB/"/>
+      <url>/2019/12/26/yuque/09-%E5%AE%89%E5%85%A8%E7%B1%BB/</url>
+      
+        <content type="html"><![CDATA[<ul><li>CSRF</li><li>XSS</li></ul><p><a name="LE8AU"></a></p><h3 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF:"></a>CSRF:</h3><ol><li>基本概念：跨站请求伪造</li><li>攻击原理：<ul><li>网站中某个API接口存在漏洞</li><li>用户在注册网站1登陆过</li></ul></li></ol><p><img src="https://cdn.nlark.com/yuque/__mermaid_v3/57c37f3e68711c07ce33379b688fe5f0.svg#lake_card_v2=eyJjb2RlIjoiZ3JhcGggTFJcbkFb55So5oi3XVx0LS1cdDHnmbvlvZVcdC0tPlx0QlvnvZHnq5kxXVxuQlx0LS1cdDLkuIvlj5Fjb29raWVcdC0tPlx0QVxuQVx0LS1cdDPorr_pl65cdC0tPlx0Q1vnvZHnq5kyXVxuQ1x0LS1cdDTlvJXor7Hngrnlh7vot7PovazliLDnvZHnq5kx55qE5p-Q5Liq5o6l5Y-jXHQtLT5cdEFcbkFcdC0tXHQ1LS0-QiIsInR5cGUiOiJtZXJtYWlkIiwiaWQiOiJMaXBKdyIsInVybCI6Imh0dHBzOi8vY2RuLm5sYXJrLmNvbS95dXF1ZS9fX21lcm1haWRfdjMvNTdjMzdmM2U2ODcxMWMwN2NlMzMzNzliNjg4ZmU1ZjAuc3ZnIiwiY2FyZCI6ImRpYWdyYW0ifQ==" alt=""></p><ol start="3"><li>防御措施：<ul><li>Token验证：浏览器自动上传cookie，但是没有上传token,服务器通过判断是否请求携带token可以避免攻击</li><li>Referer验证：服务器判断页面来源是否为注册网站下的站点页面，如果是则继续执行</li><li>隐藏令牌：类似token，隐藏在http头</li></ul></li></ol><p><a name="s6Of4"></a></p><h3 id="XSS攻击："><a href="#XSS攻击：" class="headerlink" title="XSS攻击："></a>XSS攻击：</h3><ol><li>基本概念：跨域脚本攻击</li><li>攻击原理：向页面注入脚本，评论提交区（合法渠道）写入script标签代码</li><li>防御措施：让插入的脚本无法执行,例如替换掉原始http请求，去除敏感字符</li></ol><p><a name="urvLh"></a></p><h3 id="区别："><a href="#区别：" class="headerlink" title="区别："></a>区别：</h3><p>xss是通过合法渠道注入脚本，CSRF依赖于用户登陆过该网站，利用已有的api漏洞去攻击</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 安全 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 安全 </tag>
+            
+            <tag> 攻击/防御 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>08-通信类</title>
       <link href="/2019/12/25/yuque/08-%E9%80%9A%E4%BF%A1%E7%B1%BB/"/>
       <url>/2019/12/25/yuque/08-%E9%80%9A%E4%BF%A1%E7%B1%BB/</url>

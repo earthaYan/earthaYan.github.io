@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>07-面向对象 | Hexo</title>
-  <meta name="keywords" content=" js , 面向对象 ">
-  <meta name="description" content="07-面向对象 | Hexo">
+  <title>11-渲染机制 | Hexo</title>
+  <meta name="keywords" content=" js ">
+  <meta name="description" content="11-渲染机制 | Hexo">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="个人简介毕业于苏州大学应用技术学院软件工程专业,目前于上海从事前端开发工作 技术栈 基本技术:HTML &#x2F; CSS &#x2F; JavaScript(ES) CSS框架和库: Bootstrap   VantUI  elementUI   JavaScript框架和库: jQuery Vue全家桶 nuxtjs   http库:axios 辅助工具与技术:Sass webpack  联系方式 QQ:278">
 <meta property="og:type" content="website">
@@ -346,9 +346,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-yuque/07-面向对象" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-yuque/11-渲染机制" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">07-面向对象</h1>
+        <h1 class="article-title">11-渲染机制</h1>
     
     <div class="article-meta">
         
@@ -365,19 +365,17 @@
             
             <a class="color3">js</a>
             
-            <a class="color5">面向对象</a>
-            
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-12-25 17:07:02'>2019-12-23 10:11</time>
+        创建时间:<time class="date" title='更新时间: 2019-12-31 13:49:19'>2019-12-31 09:49</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:449</span>
+        <span>字数:596</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -396,7 +394,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#考察方式："><span class="toc-text">考察方式：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#类的声明："><span class="toc-text">类的声明：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#类的实例化："><span class="toc-text">类的实例化：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#类的继承："><span class="toc-text">类的继承：</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#知识点分类："><span class="toc-text">知识点分类：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#渲染机制类："><span class="toc-text">渲染机制类：</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -412,101 +410,84 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a name="kd3rm"></a></p>
-<h3 id="考察方式："><a href="#考察方式：" class="headerlink" title="考察方式："></a>考察方式：</h3><p><img src="https://cdn.nlark.com/yuque/__mermaid_v3/61b3797c3c8b25eeb139ec0819231a6d.svg#lake_card_v2=eyJjb2RlIjoiZ3JhcGggTFJcbiAgICBBW-mdouWQkeWvueixoV0gIC0tPiBCW-exu-S4juWunuS-i11cbiAgICBBIC0tPiBDW-exu-S4jue7p-aJv11cbiAgICBCIC0tPiBEW-exu-eahOWjsOaYjl1cbiAgICBCIC0tPiBFW-eUn-aIkOWunuS-i11cbiAgICBDIC0tPiBGW-WmguS9leWunueOsOe7p-aJv11cblx0XHRDIC0tPiBHW-e7p-aJv-eahOWHoOenjeaWueW8j11cbiIsInR5cGUiOiJtZXJtYWlkIiwiaWQiOiJtcnlYWCIsInVybCI6Imh0dHBzOi8vY2RuLm5sYXJrLmNvbS95dXF1ZS9fX21lcm1haWRfdjMvNjFiMzc5N2MzYzhiMjVlZWIxMzllYzA4MTkyMzFhNmQuc3ZnIiwiY2FyZCI6ImRpYWdyYW0ifQ==" alt=""></p>
-<p><a name="SNhNj"></a></p>
-<h3 id="类的声明："><a href="#类的声明：" class="headerlink" title="类的声明："></a>类的声明：</h3><ol>
-<li>通过构造函数声明</li>
-<li>ES6 class关键字声明<pre><code class="javascript">//构造函数声明-this
-function Animal(){
-this.name=&#39;name&#39;
-}
-//class关键字声明
-class Animal2{
-constructor(){
- this.name=&quot;name1&quot;
-}
-}</code></pre>
+        <p><a name="gYMaj"></a></p>
+<h3 id="知识点分类："><a href="#知识点分类：" class="headerlink" title="知识点分类："></a>知识点分类：</h3><ol>
+<li>渲染机制（浏览器渲染页面）</li>
+<li>运行机制（js引擎及js与浏览器的交互）</li>
+<li>页面性能（页面运行流畅）</li>
+<li>错误监控（线上收集，代码监控）</li>
+</ol>
+<p><a name="CzEkD"></a></p>
+<h3 id="渲染机制类："><a href="#渲染机制类：" class="headerlink" title="渲染机制类："></a>渲染机制类：</h3><ol>
+<li>什么是DOCTYPE及其作用<ul>
+<li>DTD文档类型定义，是一系列语法规则，用来描述html,xml的文档类型，</li>
+<li>浏览器使用DTD来判断文档类型，决定使用何种引擎协议来解析，切换浏览器模式</li>
+<li>doctype用来告诉浏览器文档类型和DTD规范的</li>
+<li>常见doctype有<ul>
+<li>html5:<code>&lt;!DOCTYPE html&gt;</code></li>
+<li>html4.0严格模式：<code>&lt;!DOCTYPE HTML PUBLIC &quot;.../strict.dtd&quot;&gt;</code>，不包括展示性的和弃用的元素</li>
+<li>html4.0宽松模式：<code>&lt;!DOCTYPE HTML PUBLIC &quot;.../loose.dtd&quot;&gt;</code>，包括展示性的和弃用的元素</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>浏览器如何渲染（过程）</li>
+</ol>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/115484/1577762524836-68b0a19e-5cec-420c-89d5-51651482e088.png#align=left&display=inline&height=311&name=image.png&originHeight=311&originWidth=734&size=75915&status=done&style=none&width=734" alt="image.png"></p>
+<ol start="3">
+<li>重排reflow<ul>
+<li>定义：dom每个元素都有自己的盒子，这些都需要浏览器根据各种样式计算并根据计算结果将元素放到对应的位置，这个过程称之为Reflow</li>
+<li>触发：增删改DOM 节点，移动DOM位置（动画），修改CSS样式，修改网页的默认字体</li>
+<li>避免：本质上是减少reflow操作，主要思想就是合并多个reflow，最后再反馈到render tree<ul>
+<li>直接修改ClassName</li>
+<li>让频繁reflow的元素“离线”<ul>
+<li>使用DocumentFragment进行缓存操作,引发一次回流和重绘；</li>
+<li>使用display:none，只引发两次回流和重绘，使节点从render tree中失效，等经过多个会触发reflow操作后再“上线”</li>
+<li>使用cloneNode(true or false) 和 replaceChild 技术，引发一次回流和重绘</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 </li>
 </ol>
-<p><a name="4lYkM"></a></p>
-<h3 id="类的实例化："><a href="#类的实例化：" class="headerlink" title="类的实例化："></a>类的实例化：</h3><ol>
-<li>用new关键字实例化<pre><code class="javascript">new 类名（参数）</code></pre>
-</li>
-</ol>
-<p><a name="mTLHM"></a></p>
-<h3 id="类的继承："><a href="#类的继承：" class="headerlink" title="类的继承："></a>类的继承：</h3><p>避免直接操作<strong>proto_</strong></p>
-<ol>
-<li>借助构造函数实现继承:子类不能继承父类的原型对象上的方法</li>
-<li>借助原型链实现继承：因为引用了同一个对象，导致继承自同一父类的两个子类之间 不能相互隔离</li>
-<li>组合方式实现继承：父类的构造函数会执行两遍</li>
-<li>组合方式优化1：不能判断是由子类实例化还是父类实例化</li>
-<li>组合方式优化2：</li>
-<li>es6关键字实现继承：</li>
-</ol>
-<pre><code class="javascript">// 借助构造函数实现继承
-function Parent1(){
-  this.name=&quot;parent&quot;
-}
-Parent1.prototype.say=function(){console.log(hello)}
-function Child1(){
-  //apply也可以，改变函数运行上下文
-  Parent1.call(this)
-  this.type=&quot;child1&quot;
-}
-console.log(new Child1().say())//报错
-//借助原型链实现继承
-function Parent2(){
-  this.name=&quot;andy&quot;
-}
-function Child2() {
-  this.type=&quot;整数&quot;
-}
-Child2.prototype=new Parent1()
-//组合方式实现继承
-function Parent3() {
-  this.name=&quot;bob&quot;
-  this.play=[1,2,3]
-}
-function Child3() {
-  Parent3.call(this)
-  this.type=&quot;浮点数&quot;
-}
-Child3.prototype=new Parent3()
-var s1=new Child3()
-var s2=new Child3()
-//组合继承的优化1
-function Parent4() {
-  this.name=&quot;bob&quot;
-  this.play=[1,2,3]
-}
-function Child4() {
-  Parent3.call(this)
-  this.type=&quot;浮点数&quot;
-}
-Child4.prototype=Parent4.prototype
-//组合继承的优化
-function Parent5() {
-  this.name=&quot;bob&quot;
-  this.play=[1,2,3]
-}
-function Child5() {
-  Parent5.call(this)
-  this.type=&quot;浮点数&quot;
-}
-Child5.prototype=Object.create(Parent5.prototype)
-Child5.prototype.constructor=Child5</code></pre>
-<pre><code class="javascript">//ES6实现
-class ColorPoint extends Point {
-  constructor(x, y, color) {
-    super(x, y); // 调用父类的constructor(x, y)
-    this.color = color;
+<pre><code class="javascript">document.addEventListener(&#39;DOMContentLoaded&#39;, function () {
+  var date = new Date(),
+      fragment = document.createDocumentFragment();
+  for (var i = 0; i &lt; 7000; i++) {
+    var tmpNode = document.createElement(&quot;div&quot;);
+    tmpNode.innerHTML = &quot;test&quot; + i;
+    fragment.appendChild(tmpNode);
   }
-
-  toString() {
-    return this.color + &#39; &#39; + super.toString(); // 调用父类的toString()
-  }
+  document.body.appendChild(fragment);
+  console.log(&quot;speed time&quot;, new Date() - date);
+});</code></pre>
+<ul>
+<li>减少会flush缓存队列属性的访问次数，如果一定要访问，使用缓存</li>
+</ul>
+<pre><code class="javascript">// 不好的写法
+for(let i = 0; i &lt; 20; i++ ) { 
+    el.style.left = el.offsetLeft + 5 + &quot;px&quot;; 
+    el.style.top = el.offsetTop + 5 + &quot;px&quot;; 
+}
+// 比较好的写法
+var left = el.offsetLeft, 
+top = el.offsetTop, 
+s = el.style; 
+for (let i = 0; i &lt; 20; i++ ) { 
+    left += 5;
+    top += 5; 
+    s.left = left + &quot;px&quot;; 
+    s.top = top + &quot;px&quot;; 
 }</code></pre>
+<ol start="4">
+<li>重绘repaint<ul>
+<li>定义：页面呈现的内容绘制在屏幕上</li>
+<li>触发：DOM改动，CSS改动</li>
+</ul>
+</li>
+<li>布局layout</li>
+</ol>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达 </span>
@@ -516,12 +497,12 @@ class ColorPoint extends Point {
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>07-面向对象</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">449</span></p>
+    <p><span class="copy-title">文章标题:</span>11-渲染机制</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">596</span></p>
     <p><span class="copy-title">本文作者:</span><a  title="月月颜">月月颜</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-12-23, 10:11:51</p>
-    <p><span class="copy-title">最后更新:</span>2019-12-25, 17:07:02</p>
-    <!-- <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/12/23/yuque/07-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" title="07-面向对象">http://blog.yanyue.xyz/2019/12/23/yuque/07-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/</a> -->
+    <p><span class="copy-title">发布时间:</span>2019-12-31, 09:49:39</p>
+    <p><span class="copy-title">最后更新:</span>2019-12-31, 13:49:19</p>
+    <!-- <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/12/31/yuque/11-%E6%B8%B2%E6%9F%93%E6%9C%BA%E5%88%B6/" title="11-渲染机制">http://blog.yanyue.xyz/2019/12/31/yuque/11-%E6%B8%B2%E6%9F%93%E6%9C%BA%E5%88%B6/</a> -->
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>

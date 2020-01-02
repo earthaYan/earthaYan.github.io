@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>12-js运行机制</title>
+      <link href="/2020/01/02/yuque/12-js%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6/"/>
+      <url>/2020/01/02/yuque/12-js%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6/</url>
+      
+        <content type="html"><![CDATA[<ol><li>js是单线程，在同一时间只能做一件事情。</li><li>任务队列:同步队列和异步队列两种</li><li>同步任务（依次执行）和异步任务（先挂起，同步任务完毕处理异步任务）</li><li>异步任务的放入时间和执行时间</li><li>事件循环event loop<ol><li>执行栈执行的是同步任务</li><li>何时去异步队列中取任务</li><li>何时向异步队列中放任务</li></ol></li><li>异步任务触发<ul><li>setTimeout和setInterval</li><li>DOM事件：用addeventlistener注册一个事件，浏览器会有一个单独的模块去接收，事件触发的时候，浏览器的模块就开始把注册的函数体放到异步队列中</li><li>ES6中的promise</li></ul></li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> 前端 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> js </tag>
+            
+            <tag> 运行 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>11-渲染机制</title>
       <link href="/2019/12/31/yuque/11-%E6%B8%B2%E6%9F%93%E6%9C%BA%E5%88%B6/"/>
       <url>/2019/12/31/yuque/11-%E6%B8%B2%E6%9F%93%E6%9C%BA%E5%88%B6/</url>
@@ -280,9 +307,9 @@
       
         <tags>
             
-            <tag> css </tag>
-            
             <tag> 页面布局 </tag>
+            
+            <tag> css </tag>
             
         </tags>
       

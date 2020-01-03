@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>测试本地 | Hexo</title>
-  <meta name="keywords" content="">
-  <meta name="description" content="测试本地 | Hexo">
+  <title>13-页面性能 | Hexo</title>
+  <meta name="keywords" content=" 浏览器 , 缓存 , 性能 ">
+  <meta name="description" content="13-页面性能 | Hexo">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="个人简介毕业于苏州大学应用技术学院软件工程专业,目前于上海从事前端开发工作 技术栈 基本技术:HTML &#x2F; CSS &#x2F; JavaScript(ES) CSS框架和库: Bootstrap   VantUI  elementUI   JavaScript框架和库: jQuery Vue全家桶 nuxtjs   http库:axios 辅助工具与技术:Sass webpack  联系方式 QQ:278">
 <meta property="og:type" content="website">
@@ -378,9 +378,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-测试本地" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-yuque/13-页面性能" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">测试本地</h1>
+        <h1 class="article-title">13-页面性能</h1>
     
     <div class="article-meta">
         
@@ -388,20 +388,30 @@
         
         <span class="book">
             
-                <a  data-rel="测试">测试</a>
+                <a  data-rel="前端">前端</a>
             
         </span>
         
         
+        <span class="tag">
+            
+            <a class="color4">浏览器</a>
+            
+            <a class="color3">缓存</a>
+            
+            <a class="color3">性能</a>
+            
+        </span>
+        
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2019-12-10 16:25:37'>2019-12-10 16:25</time>
+        创建时间:<time class="date" title='更新时间: 2020-01-03 10:00:38'>2020-01-03 09:17</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:11</span>
+        <span>字数:425</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -420,7 +430,7 @@
     
     <div class="toc-ref">
     
-        
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#提升页面性能的方法："><span class="toc-text">提升页面性能的方法：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#非核心代码的异步加载"><span class="toc-text">非核心代码的异步加载:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#利用浏览器缓存："><span class="toc-text">利用浏览器缓存：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#预解析DNS："><span class="toc-text">预解析DNS：</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -436,7 +446,52 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>测试本地发布和语雀发布</p>
+        <h3 id="提升页面性能的方法："><a href="#提升页面性能的方法：" class="headerlink" title="提升页面性能的方法："></a>提升页面性能的方法：</h3><ol>
+<li>资源压缩合并，减少HTTP请求（如开启gzip压缩）</li>
+<li>非核心代码的异步加载</li>
+<li>利用浏览器缓存</li>
+<li>使用CDN加速资源（网络优化，第一次打开尤其明显）</li>
+<li>预解析DNS</li>
+</ol>
+<p><a name="tVyAY"></a></p>
+<h3 id="非核心代码的异步加载"><a href="#非核心代码的异步加载" class="headerlink" title="非核心代码的异步加载:"></a>非核心代码的异步加载:</h3><ol>
+<li>异步加载的方式<ol>
+<li>动态脚本加载（js创建标签，加到body上）</li>
+<li>defer（script的标签上加defer/async属性）</li>
+<li>async</li>
+</ol>
+</li>
+<li>异步加载方式的区别<ol>
+<li>defer是先加载完，但是在HTML解析完之后才会执行，多个defer的情况下，按照顺序执行js代码</li>
+<li>async是在加载完之后立即执行，多个async情况下，顺序与执行先后无关</li>
+</ol>
+</li>
+</ol>
+<p><a name="4UIXJ"></a></p>
+<h3 id="利用浏览器缓存："><a href="#利用浏览器缓存：" class="headerlink" title="利用浏览器缓存："></a>利用浏览器缓存：</h3><ol>
+<li>缓存的分类<ol>
+<li>强缓存：不请求直接使用</li>
+<li>协商缓存：浏览器发现本地有副本，请求服务器本地文件是否过期，再决定是否使用缓存文件</li>
+</ol>
+</li>
+<li>缓存的原理</li>
+<li>缓存本质上是资源文件在浏览器中存在的副本或备份</li>
+</ol>
+<pre><code class="bash">response head响应头：
+强缓存方式：
+//服务器时间-绝对时间
+expires: Fri, 03 Jan 2020 00:48:11 GMT
+//相对时间
+cache-control: max-age=14400（单位秒）</code></pre>
+<pre><code class="bash">//强缓存失效的情况下使用协商缓存
+last-modified: Fri, 15 Nov 2019 14:43:48 GMT//服务器下发，位于响应头中
+if-modified-since: Fri, 27 Dec 2019 16:15:10 GMT //请求头中携带
+//上述两种方法不能确定内容有没有改变
+etag: W/&quot;5e062e0e-14236&quot;    
+if-none-match: W/&quot;5e062e0e-14236&quot;</code></pre>
+<p><a name="VfC9F"></a></p>
+<h3 id="预解析DNS："><a href="#预解析DNS：" class="headerlink" title="预解析DNS："></a>预解析DNS：</h3><pre><code class="html">&lt;meta http-equiv=&quot;x-dns-prefetch-control&quot; content=&quot;on&quot;&gt;
+&lt;link rel=&quot;dns-prefetch&quot; href=&quot;//host_name_to_prefetch.com&quot;&gt;</code></pre>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达 </span>
@@ -446,12 +501,12 @@
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>测试本地</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">11</span></p>
+    <p><span class="copy-title">文章标题:</span>13-页面性能</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">425</span></p>
     <p><span class="copy-title">本文作者:</span><a  title="月月颜">月月颜</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-12-10, 16:25:08</p>
-    <p><span class="copy-title">最后更新:</span>2019-12-10, 16:25:37</p>
-    <!-- <span class="copy-title">原始链接:</span><a class="post-url" href="/2019/12/10/%E6%B5%8B%E8%AF%95%E6%9C%AC%E5%9C%B0/" title="测试本地">http://blog.yanyue.xyz/2019/12/10/%E6%B5%8B%E8%AF%95%E6%9C%AC%E5%9C%B0/</a> -->
+    <p><span class="copy-title">发布时间:</span>2020-01-03, 09:17:46</p>
+    <p><span class="copy-title">最后更新:</span>2020-01-03, 10:00:38</p>
+    <!-- <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/01/03/yuque/13-%E9%A1%B5%E9%9D%A2%E6%80%A7%E8%83%BD/" title="13-页面性能">http://blog.yanyue.xyz/2020/01/03/yuque/13-%E9%A1%B5%E9%9D%A2%E6%80%A7%E8%83%BD/</a> -->
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>

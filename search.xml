@@ -4,11 +4,11 @@
   
     
     <entry>
-      <title>13-页面性能</title>
-      <link href="/2020/01/03/yuque/13-%E9%A1%B5%E9%9D%A2%E6%80%A7%E8%83%BD/"/>
-      <url>/2020/01/03/yuque/13-%E9%A1%B5%E9%9D%A2%E6%80%A7%E8%83%BD/</url>
+      <title>14-错误监控</title>
+      <link href="/2020/01/06/yuque/14-%E9%94%99%E8%AF%AF%E7%9B%91%E6%8E%A7/"/>
+      <url>/2020/01/06/yuque/14-%E9%94%99%E8%AF%AF%E7%9B%91%E6%8E%A7/</url>
       
-        <content type="html"><![CDATA[<h3 id="提升页面性能的方法："><a href="#提升页面性能的方法：" class="headerlink" title="提升页面性能的方法："></a>提升页面性能的方法：</h3><ol><li>资源压缩合并，减少HTTP请求（如开启gzip压缩）</li><li>非核心代码的异步加载</li><li>利用浏览器缓存</li><li>使用CDN加速资源（网络优化，第一次打开尤其明显）</li><li>预解析DNS</li></ol><p><a name="tVyAY"></a></p><h3 id="非核心代码的异步加载"><a href="#非核心代码的异步加载" class="headerlink" title="非核心代码的异步加载:"></a>非核心代码的异步加载:</h3><ol><li>异步加载的方式<ol><li>动态脚本加载（js创建标签，加到body上）</li><li>defer（script的标签上加defer/async属性）</li><li>async</li></ol></li><li>异步加载方式的区别<ol><li>defer是先加载完，但是在HTML解析完之后才会执行，多个defer的情况下，按照顺序执行js代码</li><li>async是在加载完之后立即执行，多个async情况下，顺序与执行先后无关</li></ol></li></ol><p><a name="4UIXJ"></a></p><h3 id="利用浏览器缓存："><a href="#利用浏览器缓存：" class="headerlink" title="利用浏览器缓存："></a>利用浏览器缓存：</h3><ol><li>缓存的分类<ol><li>强缓存：不请求直接使用</li><li>协商缓存：浏览器发现本地有副本，请求服务器本地文件是否过期，再决定是否使用缓存文件</li></ol></li><li>缓存的原理</li><li>缓存本质上是资源文件在浏览器中存在的副本或备份</li></ol><pre><code class="bash">response head响应头：强缓存方式：//服务器时间-绝对时间expires: Fri, 03 Jan 2020 00:48:11 GMT//相对时间cache-control: max-age=14400（单位秒）</code></pre><pre><code class="bash">//没有设置强缓存或者强缓存失效的情况下使用协商缓存last-modified: Fri, 15 Nov 2019 14:43:48 GMT//服务器下发，位于响应头中if-modified-since: Fri, 27 Dec 2019 16:15:10 GMT //请求头中携带//上述两种方法不能确定内容有没有改变etag: W/&quot;5e062e0e-14236&quot;    if-none-match: W/&quot;5e062e0e-14236&quot;</code></pre><p><a name="VfC9F"></a></p><h3 id="预解析DNS："><a href="#预解析DNS：" class="headerlink" title="预解析DNS："></a>预解析DNS：</h3><pre><code class="html">&lt;meta http-equiv=&quot;x-dns-prefetch-control&quot; content=&quot;on&quot;&gt;&lt;link rel=&quot;dns-prefetch&quot; href=&quot;//host_name_to_prefetch.com&quot;&gt;</code></pre><p>资料链接：<a href="https://harttle.land/2017/04/04/using-http-cache.html" target="_blank" rel="noopener">关于缓存</a><br><a href="https://www.jianshu.com/p/8691f4e3f96e" target="_blank" rel="noopener">meta前端设置缓存</a></p>]]></content>
+        <content type="html"><![CDATA[<p><a name="j3CXZ"></a></p><h3 id="问法："><a href="#问法：" class="headerlink" title="问法："></a>问法：</h3><ul><li>如何监测js错误</li><li>如何保证产品质量<br><a name="wymjh"></a></li></ul><h3 id=""><a href="#" class="headerlink" title=""></a></h3><p><a name="50wGf"></a></p><h3 id="错误分类："><a href="#错误分类：" class="headerlink" title="错误分类："></a>错误分类：</h3><ul><li>即时运行错误：代码错误</li><li>资源加载错误</li></ul><p><a name="TOkfS"></a></p><h3 id="捕获方式："><a href="#捕获方式：" class="headerlink" title="捕获方式："></a>捕获方式：</h3><ul><li>即时性错误：try-catch</li><li>window.onerror</li><li>资源加载错误：object.onerror</li><li>performance.getEntries()获取到所有已经加载的资源</li><li>Error事件捕获：</li></ul><pre><code class="javascript">window.addEventListener(&#39;error&#39;,function(e){console.log(e)},true)//第三个参数必须是true,表示这是捕获阶段</code></pre><p><a name="2sRls"></a></p><h3 id="跨域的js错误："><a href="#跨域的js错误：" class="headerlink" title="跨域的js错误："></a>跨域的js错误：</h3><ol><li>可以捕获到跨域的js错误，但是不会有详细的错误信息，只会显示script error</li><li>解决方案：<ol><li>在script标签增加<code>crossorigin</code>属性</li><li>设置js资源响应头<code>Access-control-allow-origin:*</code></li></ol></li></ol><p><a name="3LFIF"></a></p><h3 id="上报错误的基本原理："><a href="#上报错误的基本原理：" class="headerlink" title="上报错误的基本原理："></a>上报错误的基本原理：</h3><ol><li>Ajax通信的方式上报</li><li>利用Image对象上报</li></ol>]]></content>
       
       
       <categories>
@@ -20,11 +20,32 @@
       
         <tags>
             
-            <tag> 浏览器 </tag>
+            <tag> js </tag>
             
-            <tag> 缓存 </tag>
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>13-页面性能</title>
+      <link href="/2020/01/03/yuque/13-%E9%A1%B5%E9%9D%A2%E6%80%A7%E8%83%BD/"/>
+      <url>/2020/01/03/yuque/13-%E9%A1%B5%E9%9D%A2%E6%80%A7%E8%83%BD/</url>
+      
+        <content type="html"><![CDATA[<p><a name="uSOor"></a></p><h3 id="提升页面性能的方法："><a href="#提升页面性能的方法：" class="headerlink" title="提升页面性能的方法："></a>提升页面性能的方法：</h3><ol><li>资源压缩合并，减少HTTP请求（如开启gzip压缩）</li><li>非核心代码的异步加载</li><li>利用浏览器缓存</li><li>使用CDN加速资源（网络优化，第一次打开尤其明显）</li><li>预解析DNS</li></ol><p><a name="tVyAY"></a></p><h3 id="非核心代码的异步加载"><a href="#非核心代码的异步加载" class="headerlink" title="非核心代码的异步加载:"></a>非核心代码的异步加载:</h3><ol><li>异步加载的方式<ol><li>动态脚本加载（js创建标签，加到body上）</li><li>defer（script的标签上加defer/async属性）</li><li>async</li></ol></li><li>异步加载方式的区别<ol><li>defer是先加载完，但是在HTML解析完之后才会执行，多个defer的情况下，按照顺序执行js代码</li><li>async是在加载完之后立即执行，多个async情况下，顺序与执行先后无关</li></ol></li></ol><p><a name="4UIXJ"></a></p><h3 id="利用浏览器缓存："><a href="#利用浏览器缓存：" class="headerlink" title="利用浏览器缓存："></a>利用浏览器缓存：</h3><ol><li>缓存的分类<ol><li>强缓存：不请求直接使用</li><li>协商缓存：浏览器发现本地有副本，请求服务器本地文件是否过期，再决定是否使用缓存文件</li></ol></li><li>缓存的原理</li><li>缓存本质上是资源文件在浏览器中存在的副本或备份</li></ol><pre><code class="bash">response head响应头：强缓存方式：//服务器时间-绝对时间expires: Fri, 03 Jan 2020 00:48:11 GMT//相对时间cache-control: max-age=14400（单位秒）</code></pre><pre><code class="bash">//强缓存失效的情况下使用协商缓存last-modified: Fri, 15 Nov 2019 14:43:48 GMT//服务器下发，位于响应头中if-modified-since: Fri, 27 Dec 2019 16:15:10 GMT //请求头中携带//上述两种方法不能确定内容有没有改变etag: W/&quot;5e062e0e-14236&quot;    if-none-match: W/&quot;5e062e0e-14236&quot;</code></pre><p><a name="VfC9F"></a></p><h3 id="预解析DNS："><a href="#预解析DNS：" class="headerlink" title="预解析DNS："></a>预解析DNS：</h3><pre><code class="html">&lt;meta http-equiv=&quot;x-dns-prefetch-control&quot; content=&quot;on&quot;&gt;&lt;link rel=&quot;dns-prefetch&quot; href=&quot;//host_name_to_prefetch.com&quot;&gt;</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 前端 </category>
+          
+      </categories>
+      
+      
+        <tags>
             
-            <tag> 性能 </tag>
+            <tag> 页面性能 </tag>
             
         </tags>
       
@@ -336,9 +357,9 @@
       
         <tags>
             
-            <tag> css </tag>
-            
             <tag> 页面布局 </tag>
+            
+            <tag> css </tag>
             
         </tags>
       

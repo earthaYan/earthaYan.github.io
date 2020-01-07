@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Hexo</title>
-  <meta name="keywords" content="">
-  <meta name="description" content="Hexo">
+  <title>15-双向绑定 | Hexo</title>
+  <meta name="keywords" content=" MVVM ">
+  <meta name="description" content="15-双向绑定 | Hexo">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="个人简介毕业于苏州大学应用技术学院软件工程专业,目前于上海从事前端开发工作 技术栈 基本技术:HTML &#x2F; CSS &#x2F; JavaScript(ES) CSS框架和库: Bootstrap   VantUI  elementUI   JavaScript框架和库: jQuery Vue全家桶 nuxtjs   http库:axios 辅助工具与技术:Sass webpack  联系方式 QQ:278">
 <meta property="og:type" content="website">
@@ -51,7 +51,7 @@
 </div>
 
 <body>
-<aside class="nav mobile">
+<aside class="nav">
     <div class="nav-left">
         <a href="/" class="avatar_target">
     <img class="avatar" src="/img/avator.jpg" />
@@ -390,12 +390,57 @@
         </div>
     </div>
 </aside>
-<div class="post index">
+<div class="post">
     <div class="pjax">
-        <article class="index">
-            <div class="toc-ref">
+        <article id="post-yuque/15-双向绑定" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Why-Blog"><span class="toc-text">Why Blog</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#对博客的理解"><span class="toc-text">对博客的理解</span></a></li></ol></li></ol>
+        <h1 class="article-title">15-双向绑定</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            
+                <a  data-rel="前端">前端</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            
+            <a class="color5">MVVM</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+        创建时间:<time class="date" title='更新时间: 2020-01-07 15:31:50'>2020-01-07 09:45</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        <span>字数:564</span>
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读:<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#常见MVVM框架："><span class="toc-text">常见MVVM框架：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对MVVM的认识："><span class="toc-text">对MVVM的认识：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#双向绑定的原理：view-data双向"><span class="toc-text">双向绑定的原理：view-data双向</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Object-defineProperty-："><span class="toc-text">Object.defineProperty()：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Object-defineProperty-与reflect-defineProperty-区别："><span class="toc-text">Object.defineProperty()与reflect.defineProperty()区别：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤："><span class="toc-text">步骤：</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -408,28 +453,78 @@
     }
 </style>
 </div>
-            <h1 id="Why-Blog"><a href="#Why-Blog" class="headerlink" title="Why Blog"></a>Why Blog</h1><h2 id="对博客的理解"><a href="#对博客的理解" class="headerlink" title="对博客的理解"></a>对博客的理解</h2><p>喜欢写Blog的人，会经历三个阶段。</p>
-<blockquote>
-<p>第一阶段，刚接触Blog，觉得很新鲜，试着选择一个免费空间来写。</p>
-</blockquote>
-<blockquote>
-<p>第二阶段，发现免费空间限制太多，就自己购买域名和空间，搭建独立博客。</p>
-</blockquote>
-<blockquote>
-<p>第三阶段，觉得独立博客的管理太麻烦，最好在保留控制权的前提下，让别人来管，自己只负责写文章。</p>
-</blockquote>
-<p>我们每个人的在网络上产生的数据越来越多，这些信息是我们在互联网上存在过的痕迹，值得我们认真对待。但是它们被分散分布在各个网站上。很多时候我们很难将它们聚合在一起，而且各个网站的信息排布方式也没有办法自由控制，所以我们需要一个可以由自己主宰的空间——博客。</p>
-<p>通过博客，我们可以记录自己的生活和成长的轨迹。它不像 Twitter 那样碎片化，也不像 Facebook 那样关系化，它是私人的空间。</p>
-<p>主要功能：</p>
-<ul>
-<li>搜索支持文章标题、标签(#标签)、作者(@作者)</li>
-<li>pad/手机等移动端适配</li>
-<li>页面全局快捷键 <a href='http://yelog.org/2017/03/24/3-hexo-shortcuts/' target="_blank" rel="noopener">3-hexo快捷键说明</a></li>
-</ul>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a name="TRFWs"></a></p>
+<h3 id="常见MVVM框架："><a href="#常见MVVM框架：" class="headerlink" title="常见MVVM框架："></a>常见MVVM框架：</h3><p><strong>vue</strong>/react/angular</p>
+<p><a name="ytpbH"></a></p>
+<h3 id="对MVVM的认识："><a href="#对MVVM的认识：" class="headerlink" title="对MVVM的认识："></a>对MVVM的认识：</h3><ol>
+<li>MVC:<img src="https://cdn.nlark.com/yuque/0/2020/png/115484/1578362869845-7fb30db6-ce4b-4aed-ad33-66c19b458d2b.png#align=left&display=inline&height=156&name=image.png&originHeight=156&originWidth=345&size=18940&status=done&style=none&width=345" alt="MVC.png"></li>
+<li>MVVM的定义：如上图</li>
+<li>对比MVVM和MVC:<ol>
+<li>开发者在代码中大量调用相同的 DOM API, 处理繁琐 ，操作冗余，使得代码难以维护(通过jquery解决)。</li>
+<li>大量的DOM 操作使页面渲染性能降低，加载速度变慢，影响用户体验。</li>
+<li>当 Model 频繁发生变化，开发者需要主动更新到View ；当用户的操作导致 Model 发生变化，开发者同样需要将变化的数据同步到Model 中，这样的工作不仅繁琐，而且很难维护复杂多变的数据状态。</li>
+</ol>
+</li>
+</ol>
+<p><a name="oMNVB"></a></p>
+<h3 id="双向绑定的原理：view-data双向"><a href="#双向绑定的原理：view-data双向" class="headerlink" title="双向绑定的原理：view-data双向"></a>双向绑定的原理：view-data双向</h3><ol>
+<li>自动化处理以前需要手动监控的事件，减轻了开发负担</li>
+<li>开发者只需关注业务逻辑，不需要手动操作DOM, 不需要关注数据状态的同步问题，复杂的数据状态维护完全由 MVVM 来统一管理。</li>
+<li>正向data-&gt;view: <code>Object.defineProperty</code>监听到data变化，回调函数写明view和数据之间的关系</li>
+<li>反向view-&gt;data:   通过input事件 </li>
+<li>采用 Object.defineProperty 的 getter 和 setter，并结合观察者模式来实现数据绑定</li>
+</ol>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/115484/1578381832859-5c79b83f-6837-4a0b-a59a-144adf087353.png#align=left&display=inline&height=390&name=image.png&originHeight=390&originWidth=730&size=40051&status=done&style=none&width=730" alt="vue双向绑定.png"></p>
+<p><a name="UgKFb"></a></p>
+<h3 id="Object-defineProperty-："><a href="#Object-defineProperty-：" class="headerlink" title="Object.defineProperty()："></a>Object.defineProperty()：</h3><pre><code class="javascript">Object.defineProperty(obj, prop, descriptor)
+//obj 要在其上定义属性的对象。
+//prop  要定义或修改的属性的名称。
+//descriptor 将被定义或修改的属性描述符。
+//descriptor 里面的get/set或者value必须有一个</code></pre>
+<p><a name="Nj6m3"></a></p>
+<h3 id="Object-defineProperty-与reflect-defineProperty-区别："><a href="#Object-defineProperty-与reflect-defineProperty-区别：" class="headerlink" title="Object.defineProperty()与reflect.defineProperty()区别："></a>Object.defineProperty()与reflect.defineProperty()区别：</h3><ol>
+<li>Object.defineProperty()：ES5</li>
+<li>reflect.defineProperty():es6</li>
+</ol>
+<p><a name="TcK4V"></a></p>
+<h3 id="步骤："><a href="#步骤：" class="headerlink" title="步骤："></a>步骤：</h3><ol>
+<li>当执行 new Vue() 时，Vue 就进入了初始化阶段，一方面Vue 会遍历 data 选项中的属性，并用 Object.defineProperty 将它们转为 getter/setter，实现数据变化监听功能；</li>
+<li>另一方面，Vue 的指令编译器Compile 对元素节点的指令进行扫描和解析，初始化视图，并订阅Watcher 来更新视图， 此时Wather 会将自己添加到消息订阅器中(Dep),初始化完毕。</li>
+<li>当数据发生变化时，Observer 中的 setter 方法被触发，setter 会立即调用Dep.notify()，Dep 开始遍历所有的订阅者，并调用订阅者的 update 方法，订阅者收到通知后对视图进行相应的更新。</li>
+</ol>
+<p><a href="https://www.ctolib.com/howelljiang1992-MVVM.html#articleHeader6" target="_blank" rel="noopener">相关资料</a></p>
 
-        </article>
-        
-        
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达 </span>
+    </div>
+</article>
+
+
+
+<div class="article_copyright">
+    <p><span class="copy-title">文章标题:</span>15-双向绑定</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">564</span></p>
+    <p><span class="copy-title">本文作者:</span><a  title="月月颜">月月颜</a></p>
+    <p><span class="copy-title">发布时间:</span>2020-01-07, 09:45:02</p>
+    <p><span class="copy-title">最后更新:</span>2020-01-07, 15:31:50</p>
+    <!-- <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/01/07/yuque/15-%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9A/" title="15-双向绑定">http://blog.yanyue.xyz/2020/01/07/yuque/15-%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9A/</a> -->
+    <p>
+        <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+    </p>
+</div>
+
+
+
+
+
+    
+
+
+
+
     </div>
     <div class="copyright">
         <p class="footer-entry">©2019 月月颜</p>

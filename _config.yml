@@ -51,11 +51,6 @@ highlight:
   wrap: true
   hljs: false
 # 主题配置
-prism_plugin:
-  mode: 'preprocess' # realtime/preprocess
-  theme: 'tomorrow'
-  line_number: false # default false
-  custom_css:
 search:
   path: search.xml
   field: post
@@ -69,7 +64,7 @@ wordCount:
   totalCount: true
 
 prismjs:
-  enable: false
+  enable: true
   preprocess: true
   line_number: true
   tab_replace: ''

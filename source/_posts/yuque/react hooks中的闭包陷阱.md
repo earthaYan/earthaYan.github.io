@@ -2,8 +2,8 @@
 title: react hooks中的闭包陷阱
 urlname: gknl3f
 date: '2022-07-14 10:20:48 +0800'
-tags: []
-categories: []
+tags: [工作]
+categories: [工作]
 ---
 
 原文：[Understanding the Closure Trap of React Hooks

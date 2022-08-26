@@ -2,8 +2,8 @@
 title: 008-docker的存储
 urlname: rvncs2
 date: '2021-12-28 22:44:04 +0800'
-tags: []
-categories: []
+tags: [docker]
+categories: [docker]
 ---
 
 ## 背景：

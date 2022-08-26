@@ -2,8 +2,8 @@
 title: 011-jenkins+gitee自动构建镜像
 urlname: kzxamo
 date: '2022-03-22 22:12:36 +0800'
-tags: []
-categories: []
+tags: [docker]
+categories: [docker]
 ---
 
 ## 使用 docker 安装 Jenkins

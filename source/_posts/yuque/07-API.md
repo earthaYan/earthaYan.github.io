@@ -2,8 +2,8 @@
 title: 07-API
 urlname: vqcmu7
 date: '2022-07-19 01:00:41 +0800'
-tags: []
-categories: []
+tags:  [electron]
+categories: [electron]
 ---
 
 ## 主进程 Api：main.ts

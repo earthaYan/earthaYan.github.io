@@ -2,8 +2,8 @@
 title: ssr-2
 urlname: pxpg8p
 date: '2022-04-06 14:06:16 +0800'
-tags: []
-categories: []
+tags: [工作]
+categories: [工作]
 ---
 
 SSR（`Server Side Rendering`）:服务端渲染，将渲染的工作放在服务端进行

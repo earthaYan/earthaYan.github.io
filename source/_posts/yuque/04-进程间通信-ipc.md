@@ -2,8 +2,8 @@
 title: 04-进程间通信-ipc
 urlname: xy40g8
 date: '2022-07-05 12:49:42 +0800'
-tags: []
-categories: []
+tags: [electron]
+categories: [electron]
 ---
 
 IPC 是执行许多常规任务的唯一途径，如从 ui 或者调用 native API 或者从本地菜单触发 web 内容更改

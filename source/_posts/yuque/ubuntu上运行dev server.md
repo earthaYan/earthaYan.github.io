@@ -2,8 +2,8 @@
 title: ubuntu上运行dev server
 urlname: axvpa0
 date: '2022-03-14 16:33:21 +0800'
-tags: []
-categories: []
+tags: [工作]
+categories: [工作]
 ---
 
 1.安装 node.js

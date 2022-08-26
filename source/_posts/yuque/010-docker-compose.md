@@ -2,8 +2,8 @@
 title: 010-docker-compose
 urlname: gi7n7u
 date: '2022-01-25 07:03:48 +0800'
-tags: []
-categories: []
+tags: [docker]
+categories: [docker]
 ---
 
 ## 安装：

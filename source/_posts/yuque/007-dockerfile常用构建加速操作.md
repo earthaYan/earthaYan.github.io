@@ -2,8 +2,8 @@
 title: 007-dockerfile常用构建加速操作
 urlname: vgfaye
 date: '2021-12-28 17:22:58 +0800'
-tags: []
-categories: []
+tags: [docker]
+categories: [docker]
 ---
 
 ## 缓存：

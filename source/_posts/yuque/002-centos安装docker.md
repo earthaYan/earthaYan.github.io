@@ -3,7 +3,7 @@ title: 002-centos安装docker
 urlname: svcf4g
 date: '2021-12-09 11:13:20 +0800'
 tags: []
-categories: []
+categories: [docker]
 ---
 
 ```bash

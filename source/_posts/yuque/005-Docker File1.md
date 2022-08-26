@@ -2,8 +2,8 @@
 title: 005-Docker File1
 urlname: gqdl3o
 date: '2021-12-28 01:32:15 +0800'
-tags: []
-categories: []
+tags: [docker]
+categories: [docker]
 ---
 
 ### 从 dockerfile 创建镜像【推荐】

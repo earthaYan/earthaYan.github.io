@@ -2,8 +2,8 @@
 title: 006-Dockerfile2
 urlname: gh96x0
 date: '2021-12-28 11:07:37 +0800'
-tags: []
-categories: []
+tags: [docker]
+categories: [docker]
 ---
 
 ## 基础镜像选择原则-FROM：

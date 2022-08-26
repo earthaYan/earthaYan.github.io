@@ -2,8 +2,8 @@
 title: Mutation Observer
 urlname: qv0s9s
 date: '2021-12-13 10:17:27 +0800'
-tags: []
-categories: []
+tags: [工作]
+categories: [工作]
 ---
 
 ## 背景：

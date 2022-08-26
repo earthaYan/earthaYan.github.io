@@ -2,8 +2,8 @@
 title: 06-MessagePorts
 urlname: bdpz9i
 date: '2022-07-18 22:53:12 +0800'
-tags: []
-categories: []
+tags: [electron]
+categories: [electron]
 ---
 
 [MessagePort](https://developer.mozilla.org/en-US/docs/Web/API/MessagePort)s 是一个 web 特性，它可以实现在不同的上下文中传递消息。类似不同 channal 上的的 window.postMessage

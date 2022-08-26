@@ -2,8 +2,8 @@
 title: DBLE读写分离操作文档
 urlname: wuofdb
 date: '2022-02-09 13:24:26 +0800'
-tags: []
-categories: []
+tags: [工作]
+categories: [工作]
 ---
 
 # 一、背景

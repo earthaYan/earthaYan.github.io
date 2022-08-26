@@ -2,8 +2,8 @@
 title: umc操作报错
 urlname: pnx542
 date: '2022-01-20 18:01:05 +0800'
-tags: []
-categories: []
+tags: [工作]
+categories: [工作]
 ---
 
 # [ushard 创建实例-安装/启动 dble 报错： rpc error: code = Unknown desc = parse rule.xml error: unmarshal sharding.xml error: EOF](http://10.186.18.11/confluence/pages/viewpage.action?pageId=29696886)

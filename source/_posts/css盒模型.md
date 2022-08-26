@@ -23,7 +23,7 @@ margin/padding 设置百分比都是相对于父盒子的宽度(width 属性)
 
 
 ---
-## 清除浮动 测试
+## 清除浮动
 ### 方法
 1. 在需要清除浮动的元素后面添加一个空白标签，设置类名 clear，设置 `clear: both` 
 2. 父级元素添加 `overflow: hidden`

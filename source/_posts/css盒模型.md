@@ -23,7 +23,8 @@ margin/padding 设置百分比都是相对于父盒子的宽度(width 属性)
 
 
 ---
-## 清除浮动
+## 清除浮动 测试
+### 方法
 1. 在需要清除浮动的元素后面添加一个空白标签，设置类名 clear，设置 `clear: both` 
 2. 父级元素添加 `overflow: hidden`
 3. 父元素 `display：table`
@@ -31,7 +32,6 @@ margin/padding 设置百分比都是相对于父盒子的宽度(width 属性)
 
 ```css
 .clearfix:after {
-  
   /*正常浏览器 清除浮动*/
   content: '';
   display: block;
@@ -40,3 +40,6 @@ margin/padding 设置百分比都是相对于父盒子的宽度(width 属性)
   visibility: hidden;
 }
 ```
+### 原理
+- clear 属性清除浮动：clear 属性规定元素盒子的边不能和浮动元素相邻。该属性只能影响使用清除的元素本身，不能影响其他元素。换而言之，如果已经存在浮动元素的话，那么该元素就不会像原本元素一样受其影响了。
+- 其他的可以归为一类，都是通过触发 BFC 来实现的

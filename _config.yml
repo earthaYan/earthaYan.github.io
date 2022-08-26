@@ -118,4 +118,4 @@ deploy:
   type: 'git'
   repo:
     github: https://github.com/earthaYan/earthaYan.github.io
-  branch: masters
+  branch: master

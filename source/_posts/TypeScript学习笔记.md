@@ -12,8 +12,8 @@ categories: TypeScript
 >`boolean, bigint, null, number, string, symbol,undefined`
 - 多个简单类型组合成复杂的类型
   - Unions：联合类型
-  <img src="./TypeScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0//typeof.jpg" style="border: 1px solid red;" />
 
+  {% asset_img typeof.jpg typeof 结果 %}
 
   ```TypeScript
   type WindowStates = "open" | "closed" | "minimized";
@@ -137,9 +137,8 @@ tsc --noEmitOnError hello.ts //报错时不生成输出文件
 
 ## interface和type的区别
 - type创建类型后不能被修改添加新的属性
-
-  <img src="./TypeScript学习笔记/interface.jpg" style="border: 1px solid red;" />  
-  <img src="./TypeScript学习笔记/error.jpg" style="border: 1px solid red;" />
+  {% asset_img interface.jpg interface %}
+  {% asset_img error.jpg error %}
 
 上图中左边等价于：
 ```TypeScript

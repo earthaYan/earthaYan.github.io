@@ -121,7 +121,7 @@ tsc --noEmitOnError hello.ts //报错时不生成输出文件
   - bigint
   - symbol
 - Array
-  - Array<T>
+  - Array\<T\>
   - T[]
 - any:
   - 任意类型，不推荐使用
@@ -183,5 +183,183 @@ handleRequest(req.url, req.method);
 function liveDangerously(x?: number | null) {
   //不报错
   console.log(x!.toFixed());
+}
+```
+## 缩小
+### 类型保护 typeof
+`typeof null ==== 'object'，typeof undefined==='undefined'`
+### if检查
+```TypeScript
+function padLeft(padding: number | string, input: string) {
+  if (typeof padding === "number") {
+    return " ".repeat(padding) + input;//此时padding类型只有number
+  }
+  return padding + input;//此时padding类型只有string
+}
+```
+### Truthiness检查：
+- `&&`,`||`,`!`,if语句
+- <font color="red">0,NaN,"" (the empty string),0n (the bigint version of zero),null,undefined</font>转换为布尔值都是false
+### 使用===, !==, ==,  !=
+```TypeScript
+function example(x: string | number, y: string | boolean) {
+  if (x === y) {
+    x.toUpperCase();
+    y.toLowerCase();
+  } else {
+    console.log(x);
+    console.log(y);
+  }
+}
+```
+### in操作符：判断对象中是否有指定的属性
+```TypeScript
+type Fish = { swim: () => void };
+type Bird = { fly: () => void };
+type Human = { swim?: () => void; fly?: () => void };
+
+function move(animal: Fish | Bird | Human) {
+  if ("swim" in animal) {
+    animal;//Fish|Human
+  } else {
+    animal;//bird/human
+  }
+}
+```
+{% asset_img in.jpg in操作符 %}
+### instanceof
+x instanceof Foo :检测 x的原型链 是否包含 Foo.prototype
+
+### 控制流分析（类型推断）
+### 类型判断：parameterName is Type
+```TypeScript
+type Fish = { swim: () => void };
+type Bird = { fly: () => void };
+declare function getSmallPet(): Fish | Bird;
+function isFish(pet: Fish | Bird): pet is Fish {
+  return (pet as Fish).swim !== undefined;
+}
+let pet = getSmallPet();
+if (isFish(pet)) {
+  pet.swim();
+} else {
+  pet.fly();
+}
+```
+### 可区分联合类型
+```TypeScript
+interface Circle {
+  kind: "circle";
+  radius: number;
+}
+interface Square {
+  kind: "square";
+  sideLength: number;
+}
+type Shape = Circle | Square;
+function getArea(shape: Shape) {
+  switch (shape.kind) {
+    case "circle":
+      return Math.PI * shape.radius ** 2;
+    case "square":
+      return shape.sideLength ** 2;
+  }
+}
+```
+
+---
+## Function
+### 调用签名
+原因：解决无法在函数类型表达式声明其他属性
+写法：
+```TypeScript
+type DescribableFunction = {
+  description: string;
+  (someArg: number): boolean;
+};
+function doSomething(fn: DescribableFunction) {
+  console.log(fn.description + " returned " + fn(6));
+}
+```
+### 构造函数签名
+```TypeScript
+type SomeConstructor = {
+  new (s: string): SomeObject;
+};
+function fn(ctor: SomeConstructor) {
+  return new ctor("hello");
+}
+```
+### Function的泛型
+原因：处理函数输入和输出有关联的情况或者两个函数输入有某种关联关系
+```TypeScript
+function map<Input, Output>(arr: Input[], func: (arg: Input) => Output): Output[] {
+  return arr.map(func);
+}
+// Parameter 'n' is of type 'string'
+// 'parsed' is of type 'number[]'
+const parsed = map(["1", "2", "3"], (n) => parseInt(n));
+```
+### 泛型的约束
+- 使用extends
+```TypeScript
+function minimumLength<Type extends { length: number }>(
+  obj: Type,
+  minimum: number
+): Type {
+  if (obj.length >= minimum) {
+    return obj;
+  } else {
+    return { length: minimum };//报错，原因是不能返回只返回符合约束的对象
+  }
+}
+```
+
+> Type '{ length: number; }' is not assignable to type 'Type'.
+> '{ length: number; }' is assignable to the constraint of type 'Type', 
+> but 'Type' could be instantiated with a different subtype of constraint '{ length: number; }'.
+### 可选参数
+使用 `name?:type`
+### 函数重载
+作用：需要调用不同参数个数和类型的函数实现同一个目的
+```TypeScript
+function makeDate(timestamp: number): Date;
+function makeDate(m: number, d: string): Date;
+function makeDate(m: number, d: number, y: number): Date;
+function makeDate(mOrTimestamp: number, d?: number|string, y?: number): Date {
+  if (d !== undefined && y !== undefined) {
+    return new Date(y, mOrTimestamp, d);
+  } else {
+    return new Date(mOrTimestamp);
+  }
+}
+const d1 = makeDate(12345678);
+const d2 = makeDate(5, 5, 5);
+const d3 = makeDate(1,'3');
+```
+### 剩余参数
+使用 `...变量名` 表示
+### 返回类型为void
+`type vf = () => void`
+- 此时并不强制只返回void,也可以返回其他类型值，但是ts会推论为void
+- 但是直接 `function A():void` 返回其他值的时候会报错
+
+---
+- 只读属性 readOnly 
+`interface SomeType {
+  readonly prop: string;
+}`
+- 可选属性
+```TypeScript
+interface PaintOptions {
+  shape: Shape;
+  xPos?: number;
+  yPos?: number;
+}`
+```
+- 索引签名:字典
+```TypeScript
+interface StringArray {
+  [index: number]: string;
 }
 ```

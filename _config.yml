@@ -117,5 +117,5 @@ theme: hexo-theme-matery-master
 deploy:
   type: 'git'
   repo:
-    github: git@github.com:earthaYan.github.io.git
+    github: git@github.com:earthaYan/earthaYan.github.io.git
   branch: master

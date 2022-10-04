@@ -21,7 +21,7 @@ categories: GoLang
 export GOPROXY=https://proxy.golang.com.cn,direct 该地址在中国大陆已被屏蔽，所以不可用
 
 
-引用包：(转换为本地代码)
+引用包：(指明本地路径)
  ```
  go mod edit -replace example.com/greetings=../greetings
  ```

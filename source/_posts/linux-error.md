@@ -7,7 +7,7 @@ categories: 虚拟机
 
 ## 报错信息
 
-> Failed to download metadata for repo ‘AppStream’ [CentOS]
+> Failed to download metadata for repo ‘AppStream’ [CentOS8]
 
 ## 解决方法
 
@@ -68,3 +68,8 @@ source /etc/profile
 ```
 
 - 软链接[实测并不生效]
+
+### 参考文章:
+
+1. https://git-scm.com/download/linux
+2. https://www.cnblogs.com/zhi-leaf/p/10978538.html

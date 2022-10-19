@@ -32,6 +32,20 @@ Host github.com
     Port 443
 ```
 
+## git clone 报错
+
+具体报错信息：
+
+> git clone git@github.com:marmotedu/iam.git
+> Cloning into 'iam'...
+> Unable to negotiate with 192.30.255.112 port 22: no matching MAC found. Their offer: hmac-sha2-512-etm@openssh.com,
+> hmac-sha2-256-etm@openssh.com,hmac-sha2-512,hmac-sha2-256
+> fatal: Could not read from remote repository.
+> Please make sure you have the correct access rights
+
+解决方法：
+在`/etc/ssh/ssh_config`文件最后一行修改`MACs hmac-sha1`为`MACs hmac-sha1,hmac-sha2-256,hmac-sha2-512`
+
 ## centos7 安装 最新版 git
 
 1. 将最新版压缩包上传到云服务器（scp 命令）`scp git-2.38.1.tar.gz root@36.133.137.19:/root/setup/`

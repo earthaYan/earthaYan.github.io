@@ -18,3 +18,8 @@ categories: 虚拟机
 - `sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*`
 
 3. 更新 `yum update -y`
+
+### 磁盘过满怎么处理
+
+1. `docker volume prune -f`
+2. https://blog.csdn.net/a854517900/article/details/80824966

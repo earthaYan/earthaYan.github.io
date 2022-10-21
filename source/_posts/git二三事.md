@@ -18,7 +18,7 @@ Host github.com
     Port 443
 ```
 
-## git clone 报错
+## git clone 报错 1
 
 具体报错信息：
 
@@ -31,6 +31,13 @@ Host github.com
 
 解决方法：
 在`/etc/ssh/ssh_config`文件最后一行修改`MACs hmac-sha1`为`MACs hmac-sha1,hmac-sha2-256,hmac-sha2-512`
+
+## git clone 报错 2
+
+> fatal: unable to access 'https://github.com/protocolbuffers/protobuf/': Failed connect to github.com:443; Connection timed out
+
+解决方法：
+使用 ssh 链接 `git clone -b v3.21.1 --depth=1 git@github.com:protocolbuffers/protobuf.git`
 
 ## centos7 安装 最新版 git
 

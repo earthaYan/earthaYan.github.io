@@ -9,7 +9,7 @@ categories: 虚拟机
 
 > Failed to download metadata for repo ‘AppStream’ [CentOS8]
 
-## 解决方法
+### 解决方法
 
 1. 进入目录 `cd /etc/yum.repos.d/`
 2. 执行以下命令：
@@ -19,7 +19,13 @@ categories: 虚拟机
 
 3. 更新 `yum update -y`
 
-### 磁盘过满怎么处理
+## 磁盘过满怎么处理
 
 1. `docker volume prune -f`
 2. https://blog.csdn.net/a854517900/article/details/80824966
+
+## Linux 修改环境变量失败
+
+1. /etc/profile
+2. /root/.bash_profile（推荐）
+3. **_ 修改完之后重启机器，环境变量的修改才会真正生效_**

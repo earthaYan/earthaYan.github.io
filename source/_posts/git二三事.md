@@ -44,6 +44,9 @@ Host github.com
 > ERROR: You're using an RSA key with SHA-1, which is no longer allowed. Please use a newer client or a different key type.
 > Please see https://github.blog/2021-09-01-improving-git-protocol-security-github/ for more information.
 
+解决方法：
+ssh-keygen -t ecdsa -b 521 -C "your_email@example.com"
+
 ## centos7 安装 最新版 git
 
 1. 将最新版压缩包上传到云服务器（scp 命令）`scp git-2.38.1.tar.gz root@36.133.137.19:/root/setup/`

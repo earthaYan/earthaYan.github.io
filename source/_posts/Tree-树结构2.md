@@ -30,7 +30,6 @@ mathjax: true
 
 ### 步骤
 
-
 ### 先根遍历 DLR
 
 1. 如果当前二叉树(包括子树)为空,则什么也不做
@@ -71,6 +70,7 @@ func preorderTraversal(root *TreeNode) []int {
 ### 中根遍历 LDR
 
 遍历顺序：左子树-根节点-右子树
+
 ```go
 func inorderTraversal(root *TreeNode) []int {
 	nodes := make([]int, 0)
@@ -88,9 +88,11 @@ func inorderTraversal(root *TreeNode) []int {
 	return nodes
 }
 ```
+
 ### 后根遍历 LRD
 
 遍历顺序：左子树-右子树-根节点
+
 ```go
 func postorderTraversal(root *TreeNode) []int {
 	// LRD
@@ -109,11 +111,11 @@ func postorderTraversal(root *TreeNode) []int {
 }
 ```
 
-
 ## 二叉树的实际应用
-1.	求二叉树各个节点的层数
-节点的层数是父节点的层数+1，故可以先求父亲节点的层数，即先序遍历
 
-2.	求二叉树各个节点的高度
-从下而上，即后序遍历
-3.	
+1. 求二叉树各个节点的层数
+   节点的层数是父节点的层数+1，故可以先求父亲节点的层数，即先序遍历
+
+2. 求二叉树各个节点的高度
+   从下而上，即后序遍历
+3. 求给定节点的所有子孙节点,结合先序遍历和后序遍历

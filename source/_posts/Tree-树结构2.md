@@ -30,9 +30,6 @@ mathjax: true
 
 ### 步骤
 
-1. 确定二叉树的存储方式
-   常用的为双链表结构【待学章节：链表】
-2.
 
 ### 先根遍历 DLR
 
@@ -48,31 +45,75 @@ mathjax: true
 1. 确定二叉树的存储方式——定义双链表结构
 
 ```go
-type TreeNode struct{
-  data int
-  leftSon *TreeNode
-  rightSon *TreeNode
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
 }
-func visit(tree){
-  fmt.Printf("%v ",tree.data)
-}
-func preOrder(tree) {
-  if(tree ==nil){
-    return
-  }
-  visit(tree)
-  preOrder(tree.leftSon)
-  preOrder(tree.rightSon)
-}
-func main(){
-  preOrder(rootNode)
+
+func preorderTraversal(root *TreeNode) []int {
+	var nodes = make([]int, 0)
+	//DLR
+	if root == nil {
+		return nodes
+	}
+	nodes = append(nodes, root.Val)
+	if root.Left != nil {
+		nodes = append(nodes, preorderTraversal(root.Left)...)
+	}
+	if root.Right != nil {
+		nodes = append(nodes, preorderTraversal(root.Right)...)
+	}
+	return nodes
 }
 ```
 
 ### 中根遍历 LDR
 
 遍历顺序：左子树-根节点-右子树
-
+```go
+func inorderTraversal(root *TreeNode) []int {
+	nodes := make([]int, 0)
+	// LDR
+	if root == nil {
+		return nodes
+	}
+	if root.Left != nil {
+		nodes = append(nodes, inorderTraversal(root.Left)...)
+	}
+	nodes = append(nodes, root.Val)
+	if root.Right != nil {
+		nodes = append(nodes, inorderTraversal(root.Right)...)
+	}
+	return nodes
+}
+```
 ### 后根遍历 LRD
 
 遍历顺序：左子树-右子树-根节点
+```go
+func postorderTraversal(root *TreeNode) []int {
+	// LRD
+	var nodes = make([]int, 0)
+	if root == nil {
+		return nodes
+	}
+	if root.Left != nil {
+		nodes = append(nodes, inorderTraversal(root.Left)...)
+	}
+	if root.Right != nil {
+		nodes = append(nodes, inorderTraversal(root.Right)...)
+	}
+	nodes = append(nodes, root.Val)
+	return nodes
+}
+```
+
+
+## 二叉树的实际应用
+1.	求二叉树各个节点的层数
+节点的层数是父节点的层数+1，故可以先求父亲节点的层数，即先序遍历
+
+2.	求二叉树各个节点的高度
+从下而上，即后序遍历
+3.	

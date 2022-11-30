@@ -32,7 +32,9 @@ categories: GoLang
 ### RequestID
 原因：定位和跟踪某一次请求用来排障
 ### 跨域请求
+
 原因：项目前后端分离，前端访问地址和后端访问地址不同，会因为浏览器的同源策略产生跨域问题
+
 ---
 ## Gin框架
 基于net/http包封装的开源框架
@@ -43,3 +45,98 @@ categories: GoLang
 4.  性能，稳定性
 5.  使用门槛
 6.  社区活跃度
+
+---
+
+### http/https支持
+```go
+// 一进程多端口
+// 开启http服务
+insecureServer := &http.Server{
+    Addr:         ":8080",
+    Handler:      router(),
+    ReadTimeout:  5 * time.Second,
+    WriteTimeout: 10 * time.Second,
+}
+
+// 开启https端口
+secureServer := &http.Server{
+    Addr:         ":8443",
+    Handler:      router(),
+    ReadTimeout:  5 * time.Second,
+    WriteTimeout: 10 * time.Second,
+}
+```
+----
+
+### json 数据支持
+1. 通过c.ShouldBindJSON函数解析Body 中的 JSON 格式数据参数
+2. 通过c.JSON函数返回 JSON 格式的数据
+```go
+if err := c.ShouldBindJSON(&product); err != nil {
+    c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+    return
+}
+c.JSON(http.StatusOK, product)
+```
+---
+
+### 路由匹配
+#### 精确匹配
+精确匹配——路由为 /products/:name
+{% asset_img 路由精确匹配.webp 路由精确匹配%}
+#### 模糊匹配
+模糊匹配——路由为 /products/*name
+{% asset_img 路由模糊匹配.webp 模糊匹配%}
+
+---
+
+### 路由分组
+Gin通过Group函数实现分组
+```go
+func router() http.Handler {
+    router := gin.Default()
+    productHandler := newProductHandler()
+    // 路由分组、中间件、认证
+    // 给所有属于 v1 分组的路由都添加 gin.BasicAuth 中间件，以实现认证功能
+    v1 := router.Group("/v1", gin.BasicAuth(gin.Accounts{"foo": "bar", "colin": "colin404"}))
+    {
+        productv1 := v1.Group("/products")
+        {
+            // 路由匹配
+            productv1.POST("", productHandler.Create)
+            productv1.GET(":name", productHandler.Get)
+        }
+    }
+    return router
+}
+```
+---
+
+### 一进程多服务
+
+实现了2个相同的服务，分别监听在不同端口。
+```go
+
+var eg errgroup.Group
+insecureServer := &http.Server{...}
+secureServer := &http.Server{...}
+eg.Go(func() error {
+  err := insecureServer.ListenAndServe()
+  if err != nil && err != http.ErrServerClosed {
+    log.Fatal(err)
+  }
+  return err
+})
+eg.Go(func() error {
+  err := secureServer.ListenAndServeTLS("server.pem", "server.key")
+  if err != nil && err != http.ErrServerClosed {
+    log.Fatal(err)
+  }
+  return err
+}
+
+if err := eg.Wait(); err != nil {
+  log.Fatal(err)
+})
+```

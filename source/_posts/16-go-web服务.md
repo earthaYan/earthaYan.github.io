@@ -114,13 +114,21 @@ func router() http.Handler {
 ---
 
 ### 一进程多服务
+#### go的并发
 
+Go语言支持并发,通过go关键词来开启一个goroutine(轻量级线程,其调度由GoLang运行时进行管理)
+```go
+go 函数名( 参数列表 )
+```
+
+#### 实例
 实现了2个相同的服务，分别监听在不同端口。
 ```go
-
 var eg errgroup.Group
 insecureServer := &http.Server{...}
 secureServer := &http.Server{...}
+// insecureServer
+// 启动一个 goroutine 去处理
 eg.Go(func() error {
   err := insecureServer.ListenAndServe()
   if err != nil && err != http.ErrServerClosed {
@@ -128,6 +136,7 @@ eg.Go(func() error {
   }
   return err
 })
+// secureServer
 eg.Go(func() error {
   err := secureServer.ListenAndServeTLS("server.pem", "server.key")
   if err != nil && err != http.ErrServerClosed {
@@ -135,7 +144,7 @@ eg.Go(func() error {
   }
   return err
 }
-
+// 等待所有的 goroutine 结束后退出，返回的错误是一个出错的 err
 if err := eg.Wait(); err != nil {
   log.Fatal(err)
 })

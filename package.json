@@ -3,17 +3,17 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "hexo generate",
-    "clean": "hexo clean",
-    "deploy": "hexo deploy",
-    "server": "hexo server",
+    "build": "npx hexo generate",
+    "clean": "npx hexo clean",
+    "deploy": "npx hexo deploy",
+    "server": "npx hexo server",
     "ci": "npm run clean && npm run build && npm run deploy",
     "sync": "yuque-hexo sync",
     "clean:yuque": "yuque-hexo clean",
     "dev": "npm run clean && npm run build && npm run server"
   },
   "hexo": {
-    "version": "6.2.0"
+    "version": "6.3.0"
   },
   "yuqueConfig": {
     "postPath": "source/_posts/yuque",
@@ -30,7 +30,7 @@
     "lastGeneratePath": "lastGeneratePath.log"
   },
   "dependencies": {
-    "hexo": "^6.2.0",
+    "hexo": "^6.3.0",
     "hexo-deployer-git": "^3.0.0",
     "hexo-generator-archive": "^1.0.0",
     "hexo-generator-category": "^1.0.0",

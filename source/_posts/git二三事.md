@@ -84,6 +84,12 @@ source /etc/profile
 
 - 软链接[实测并不生效]
 
+
+
+### 克隆指定分支/tag代码
+
+git clone -b v1.1.0  git@github.com:marmotedu/iam.git
+
 ### 参考文章:
 
 1. https://git-scm.com/download/linux

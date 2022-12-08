@@ -13,7 +13,7 @@
     "dev": "npm run clean && npm run build && npm run server"
   },
   "hexo": {
-    "version": "6.3.0"
+    "version": "6.2.0"
   },
   "yuqueConfig": {
     "postPath": "source/_posts/yuque",

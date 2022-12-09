@@ -1,5 +1,5 @@
 ---
-title: 翻译-slice-length-vs-capacity-in-go
+title: 翻译-Slice length vs. capacity in Go
 date: 2022-11-25 16:43:54
 tags: [翻译, Go]
 categories: 翻译

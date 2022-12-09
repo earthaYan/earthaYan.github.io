@@ -9,3 +9,5 @@ categories: 翻译
 
 待完成
 https://teivah.medium.com/maps-and-memory-leaks-in-go-a85ebe6e7e69
+
+<b>长话短说：</b> map在内存中会一直增长,不会缩小。因此如果它引起了一些内存问题，你可以尝试不同的选项：比如强制GO

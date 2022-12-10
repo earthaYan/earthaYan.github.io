@@ -70,3 +70,9 @@ mv redis.conf /usr/local/redis/etc
 make
 make install prefix=/usr/local/python3
 ```
+
+## centos7替换国内yum源
+1. 备份源yum文件 `mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo_bak`
+2. 下载阿里云镜像文件  `wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo`
+3. 清空缓存 `yum clean all`
+4. 重新生成缓存 `yum makecache`

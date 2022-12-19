@@ -123,7 +123,9 @@ tree
 client:存放客户端代码
 helloworld:存放服务的IDL定义
 server：存放server目录
-
+### proto文件：定义服务
+编译命令：
+`protoc -I=$SRC_DIR --go_out=$DST_DIR $SRC_DIR/addressbook.proto`
 
 
 

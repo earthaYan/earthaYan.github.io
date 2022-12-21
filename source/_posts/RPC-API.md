@@ -127,6 +127,23 @@ server：存放server目录
 编译命令：
 `protoc -I=$SRC_DIR --go_out=$DST_DIR $SRC_DIR/addressbook.proto`
 
+### 服务方法类型
+1. 简单模式:客户端发起一次请求，服务端响应一个数据
+```go
+rpc SayHello (HelloRequest) returns (HelloReply) {}
+```
+2. 服务端数据流模式:客户端发送一个请求，服务器返回数据流响应，客户端从流中读取数据直到为空
+```go
+rpc SayHello (HelloRequest) returns (stream HelloReply) {}
+```
+3. 客户端数据流模式：客户端将消息以流的方式发送给服务器，服务器全部处理完成之后返回一次响应。
+```go
+ rpc SayHello (stream HelloRequest) returns (HelloReply) {}
+```
+4. 双向数据流模式:客户端和服务端都可以向对方发送数据流，这个时候双方的数据可以同时互相发送
+```go
+rpc SayHello (stream HelloRequest) returns (stream HelloReply) {}
+```
 
 
 

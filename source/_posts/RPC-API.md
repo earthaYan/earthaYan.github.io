@@ -87,8 +87,29 @@ $ protoc --version # 查看 protoc 版本，成功输出版本号，说明安装
 libprotoc 3.21.1
 
 # 第二步：安装 protoc-gen-go
-$ go install github.com/golang/protobuf/protoc-gen-go@v1.5.2
+go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28
+go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2
+
+# 第三步:客户端和服务器代码
+# 生成的 .pb.go 文件在输出目录中的放置位置取决于编译器标志
+protoc   --go_out=. --go_opt=paths=source_relative  helloworld/helloworld.proto
+protoc   --go-grpc_out=. --go-grpc_opt=paths=source_relative helloworld/helloworld.proto
 ```
+编译器标志：输出模式
+1. paths=import: 默认输出模式，输出文件将存放在以GO软件包的导入路径命名的目录中
+输入文件:/root/protos/buzz.proto 
+GO文件导入路径：example.com/project/protos/fizz
+输出文件：/root/../example.com/project/protos/fizz/buzz.pb.go
+2. paths=source_relative: 输出文件将与输入文件位于同一相对目录中
+输入文件:protos/buzz.proto
+输出文件:protos/buzz.pb.go。
+3.  module=$PREFIX:输出文件会被放置在一个以 Go 软件包的导入路径命名的目录中，但指定的目录前缀会从输出文件名中移除
+输入文件：protos/buzz.proto
+go导入路径：example.com/project/protos/fizz
+前缀：example.com/project 
+输出文件：protos/fizz/buzz.pb.go
+
+> Go 导入路径与 .proto 文件中的 package 说明符之间没有关联。后者只与 protobuf 命名空间相关，而前者仅与 >  Go 命名空间相关。此外，Go 导入路径与 .proto 导入路径之间没有任何关联。
 
 ### 报错
 #### 执行./autogen.sh报错
@@ -148,8 +169,8 @@ rpc SayHello (stream HelloRequest) returns (stream HelloReply) {}
 
 
 
-
-
+## 区别
+{%asset_img grpc-vs-restful.webp 接口类型比较%}
 
 
 

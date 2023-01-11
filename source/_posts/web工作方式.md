@@ -153,10 +153,77 @@ func sayhelloName(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/", sayhelloName) //设置访问的路由
-	err := http.ListenAndServe(":9090", nil) //设置监听的端口
+	http.HandleFunc("/", sayhelloName) //设置访问的路由,注册了请求/的路由规则
+	err := http.ListenAndServe(":9090", nil) //设置监听的端口,第二个参数默认为空则获取handler = DefaultServeMux
+  // 上述 DefaultServeMux变量本质是一个路由器，用来匹配url跳转到其相应的handle函数
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
 }
 ```
+### 服务器端的基本概念
+- Request:用户请求的信息，用来解析用户的请求信息，包括post、get、cookie、url等信息
+- Response:服务器需要返回给客户端的信息
+- Conn:用户的每次请求链接
+- Handler:处理请求和生成返回信息的处理逻辑
+### http包执行流程
+{%  assset_img 3.3.http.png http包执行流程 %}
+1. 创建Listen Socket，监听指定端口,等待客户端请求到来
+2. Listen Socket接受客户端的请求, 得到Client Socket, 接下来通过Client Socket与客户端通信
+3. 处理客户端的请求
+    - 首先从Client Socket读取HTTP请求的协议头,
+    - 如果是POST方法, 还可能要读取客户端提交的数据
+    - 然后交给相应的handler处理请求
+    - handler处理完毕准备好客户端需要的数据, 通过Client Socket写给客户端。
+#### 关键点
+- 如何监听端口:使用`net/http`包的`ListenAndServe`方法
+- 如何接收客户端请求
+- 如何分配handler
+```go
+// ListenAndServe方法实现
+func ListenAndServe(addr string, handler Handler) error {
+	server := &Server{Addr: addr, Handler: handler} //初始化一个Server对象
+	return server.ListenAndServe()//调用Server对象的方法ListenAndServe
+}
+func ListenAndServe(addr string, handler Handler) error {
+	server := &Server{Addr: addr, Handler: handler} //初始化Server对象
+	return server.ListenAndServe()                  //调用Server对象的方法ListenAndServe
+}
+func (srv *Server) ListenAndServe() error {
+	addr := srv.Addr
+	ln, err := net.Listen("tcp", addr) //底层用TCP协议搭建了一个服务
+	if err != nil {
+		return err
+	}
+	return srv.Serve(ln) //调用srv.Serve监控我们设置的端口
+}
+
+func (srv *Server) Serve(l net.Listener) error {
+	ctx := context.WithValue(baseCtx, ServerContextKey, srv)
+	for {
+		rw, err := l.Accept() //通过Listener接收请求
+		c := srv.newConn(rw)  //创建一个Conn
+		go c.serve(connCtx)   //单独开了一个goroutine，把这个请求的数据当做参数扔给这个conn去服务
+		//高并发体现:用户的每一次请求都是在一个新的goroutine去服务，相互不影响。
+    // 客户端的每次请求都会创建一个Conn，这个Conn里面保存了该次请求的信息，
+    // 然后再传递到对应的handler，该handler中便可以读取到相应的header信息，这样保证了每个请求的独立性。
+	}
+}
+func (c *conn) serve(ctx context.Context) {
+	for {
+		w, err := c.readRequest(ctx)                //解析request
+		serverHandler{c.server}.ServeHTTP(w, w.req) //获取相应的handler去处理请求
+	}
+}
+func (sh serverHandler) ServeHTTP(rw ResponseWriter, req *Request) {
+	handler := sh.srv.Handler
+	if handler == nil {
+		handler = DefaultServeMux
+	}
+	handler.ServeHTTP(rw, req)
+}
+```
+{% asset_img 3.3.illustrator.png 一个http连接处理流程 %}
+
+
+##  Go的http包

@@ -124,3 +124,39 @@ Content-Length: 90					//主体内容长度
 2.  当解析到HTML DOM里面的图片连接，css脚本和js脚本的链接，浏览器就会自动发起一个请求静态资源的HTTP请求，获取相对应的静态资源，然后浏览器就会渲染出来，最终将所有资源整合、渲染，完整展现在我们面前的屏幕上。
 #### 网页优化：
 减少HTTP请求次数，就是把尽量多的css和js资源合并在一起，目的是尽量减少网页请求静态资源的次数，提高网页加载速度，同时减缓服务器的压力。
+
+
+
+##  Go与web
+一个简单的web服务器
+```go
+package main
+
+import (
+	"fmt"
+	"net/http"
+	"strings"
+	"log"
+)
+
+func sayhelloName(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()  //解析参数，默认是不会解析的
+	fmt.Println(r.Form)  //这些信息是输出到服务器端的打印信息
+	fmt.Println("path", r.URL.Path)
+	fmt.Println("scheme", r.URL.Scheme)
+	fmt.Println(r.Form["url_long"])
+	for k, v := range r.Form {
+		fmt.Println("key:", k)
+		fmt.Println("val:", strings.Join(v, ""))
+	}
+	fmt.Fprintf(w, "Hello astaxie!") //这个写入到w的是输出到客户端的
+}
+
+func main() {
+	http.HandleFunc("/", sayhelloName) //设置访问的路由
+	err := http.ListenAndServe(":9090", nil) //设置监听的端口
+	if err != nil {
+		log.Fatal("ListenAndServe: ", err)
+	}
+}
+```

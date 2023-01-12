@@ -167,7 +167,7 @@ func main() {
 - Conn:用户的每次请求链接
 - Handler:处理请求和生成返回信息的处理逻辑
 ### http包执行流程
-{%  assset_img 3.3.http.png http包执行流程 %}
+{%  asset_img 3.3.http.png http包执行流程 %}
 1. 创建Listen Socket，监听指定端口,等待客户端请求到来
 2. Listen Socket接受客户端的请求, 得到Client Socket, 接下来通过Client Socket与客户端通信
 3. 处理客户端的请求

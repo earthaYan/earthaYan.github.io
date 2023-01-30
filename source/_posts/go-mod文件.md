@@ -70,6 +70,7 @@ replace google.golang.org/grpc => google.golang.org/grpc v1.29.1
 go mod edit -replace=golang.org/x/image@v0.0.0-20180708004352-c73c2afc3b81=github.com/golang/image@v0.0.0-20180708004352-c73c2afc3b81
 
 ```
+4. 可以向第三方库提交PR，合并上去后可以删除replace语句
 ## 补充知识
 ### 初始化module 
 `go mod init project_name`

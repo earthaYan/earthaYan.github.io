@@ -1,7 +1,7 @@
 ---
 title: PFlag
 date: 2023-02-16 22:37:23
-tags: [GoLang,PFlg]
+tags: [GoLang,PFlag]
 categories: GoLang
 ---
 

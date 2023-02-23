@@ -5,6 +5,7 @@ tags: [翻译, Go]
 categories: 翻译
 ---
 
+原文地址：https://medium.com/@func25/golang-secret-how-to-add-default-values-to-function-parameters-60bd1e9625dc
 ## GloLang 小技巧：如何给 Function 参数添加默认值?
 
 ![](https://cdn-images-1.medium.com/max/4044/1*7PBtpnlYoSLWJMSOliQweQ.png)

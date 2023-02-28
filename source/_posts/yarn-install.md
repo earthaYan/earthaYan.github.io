@@ -5,7 +5,7 @@ tags: ['工作','常用功能']
 categories: 缺陷修复
 ---
 
-# yarn install 报错：
+## yarn install 报错：
 >   Error: unable to verify the first certificate
       at TLSSocket.onConnectSecure (node:_tls_wrap:1539:34)
       at TLSSocket.emit (node:events:513:28)
@@ -14,7 +14,7 @@ categories: 缺陷修复
 
 解决方法：暂时关闭ssl验证 `yarn config set strict-ssl false`
 
-# yarn start报错：
+## yarn start报错：
 > node:internal/errors:478
     ErrorCaptureStackTrace(err);
     ^
@@ -25,3 +25,8 @@ categories: 缺陷修复
 echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
 cat /proc/sys/fs/inotify/max_user_watches //查看是否修改成功
 ```
+
+## 全局安装yarn 
+node -v
+- >16 执行`corepack enable`
+- <16  执行`npm i -g corepack`

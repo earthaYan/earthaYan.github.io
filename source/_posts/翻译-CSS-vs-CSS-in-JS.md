@@ -71,14 +71,14 @@ CSS-in-JS 简单来说就是外部功能层，它可以让你通过 JavaScript �
 yarn add styled-components
 ```
 
-安装完 styled-components库之后,导入styled函数，按如下代码使用：
+安装完 styled-components 库之后,导入 styled 函数，按如下代码使用：
 
 ```jsx
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const StyledButton = styled.a`
   padding: 0.75em 1em;
-  background-color: ${({ primary }) => (primary ? '#07c' : '#333')};
+  background-color: ${({ primary }) => (primary ? "#07c" : "#333")};
   color: white;
 
   &:hover {
@@ -89,9 +89,9 @@ const StyledButton = styled.a`
 export default StyledButton;
 ```
 
-如果你没有React环境，[这里](https://codepen.io/_rahul/pen/oNywWXR)有一个运行上述代码的链接：
+如果你没有 React 环境，[这里](https://codepen.io/_rahul/pen/oNywWXR)有一个运行上述代码的链接：
 
-上面的代码演示了如何在React中给一个button-link组件添加样式。添加完样式的组件现在可以不用担心样式问题在任意地方被导入并被直接用来构建一个功能组件：
+上面的代码演示了如何在 React 中给一个 button-link 组件添加样式。添加完样式的组件现在可以不用担心样式问题在任意地方被导入并被直接用来构建一个功能组件：
 
 ```bash
 import StyledButton from './components/styles/Button.styled';
@@ -108,35 +108,33 @@ function App() {
 export default App;
 ```
 
-Note that the styles applied to the styled components are locally scoped, which eliminates the cumbersome need to be mindful of CSS class naming and the global scope. In addition, we can add or remove CSS dynamically based on the props supplied to our component or any other logic demanded by an app feature.
-注意应用到styled组件上的样式
-## Pros of CSS-in-JS
+注意：应用到 styled 组件上的样式是局部范围的,这消除了需要留心 CSS 类命名和全局范围的繁琐需求。除此之外，我们可以基于提供给组件的 props 或者 app 功能所需的任何其他逻辑动态添加或移除 CSS。
 
-A JavaScript developer may prefer to style things with CSS-in-JS rather than going through CSS classes. The biggest problem the CSS-in-JS approach solves is the global scope. It also has some other advantages that make a lot of sense if you are a JavaScript developer.
+## CSS-in-JS 的好处
 
-Let’s explore some of these benefits now.
+比起 CSS 类,JavaScript 开发者可能更喜欢使用 CSS-in-JS 来写样式。CSS-in-JS 解决的最大问题是全局作用域。如果你是 JavaScript 开发者的话，它其他的一些优势也非常有意义。
 
-### No scoping and specificity problems
+现在让我们开始探索这些优势中的一部分。
 
-ince styles are available in a local scope, they are not prone to clashing with the styles of other components. You don’t even have to worry about naming things strictly to avoid style clashes.
+### 没有作用域和特异性问题
 
-Styles are written exclusively for one component without prepending child selectors, so specificity issues are rare.
+由于样式只能在局部范围内使用，所以他们不容易和其他组件的样式冲突。你甚至不需要担心使用严格的命名来避免样式冲突。
 
-### Dynamic styling
+专门为一个组件写的样式不需要预先考虑子选择器，所以特异性问题很少。
 
-Conditional CSS is another highlight of CSS-in-JS. As the button example above demonstrates, checking for prop values and adding suitable styles is way cooler than writing separate CSS styles for each variation.
+### 动态样式
 
-### Less CSS specificity
+条件 CSS 是 CSS-in-JS 的另外一个高光点。如同上面演示的按钮示例一样，比起为每个变动写一个单独的样式，检查 props 值并且添加合适的样式是更酷的一种方法。
 
-CSS-in-JS helps you keep the specificity of CSS declarations to the lowest, as the only thing you style with it is the element itself. The same applies to creating component variations, where you can check for prop object values and add dynamic styling when required.
+### 更少的CSS特异性
 
-### easy theming
+CSS-in-JS 帮助你把 CSS 声明的特异性保持在最低水平，因为你唯一使用它的样式的途径就是元素本身。这同样适用于创建组件变体，你可以检查prop对象值并且在需要的时候添加动态样式。
 
-Theming apps with custom CSS properties makes sense. In the end, you will have to move to the JavaScript side and write the logic to switch and remember the theme based on user input.
+### 容易的主题
 
-CSS-in-JS allows you to write theming logic entirely in JavaScript. With the styled-components ThemeProvider wrapper, you can quickly color-code themes for components. Take a look at this [CodePen](https://codepen.io/_rahul/pen/qBKXevo) example to see component theming with styled-components in action:
+使用自定义CSS属性为app设置主题非常有意义。在最后，你必须转到JavaScript侧，基于用户输入写一些逻辑代码来切换和记住主题。
 
-### Painless maintenance
+CSS-in-JS 让你可以完全使用JavaScript编写主题逻辑。借助 styled-components的 ThemeProvider wrapper，你可以快速为组件的主题进行颜色编码。下面借[这个案例](https://codepen.io/_rahul/pen/qBKXevo)来查看使用styled-components定制主题：
 
 Considering the features and advantages CSS-in-JS offers, a JavaScript developer may find CSS-in-JS more convenient than managing hundreds of CSS files.
 
@@ -191,11 +189,11 @@ A CSS Module is a CSS file in which all the properties are scoped locally by def
 To use CSS Module, you need to name your CSS files with a .module.css extension and then import them into JavaScript files. The below code snippet provides a basic example of how to use CSS Module:
 
 ```jsx
-import styles from './Button.module.css';
+import styles from "./Button.module.css";
 
 export default function Button(props) {
   return (
-    <a href={props.href ? props.href : '#'} className={styles.btn}>
+    <a href={props.href ? props.href : "#"} className={styles.btn}>
       {props.name}
     </a>
   );
@@ -268,8 +266,8 @@ To use CSS Modules with TypeScript, you have to add module definitions in the in
 
 ```typescript
 /** index.d.ts **/
-declare module '*.module.css'; // TS module for CSS Module files
-declare module '*.module.scss'; // TS module for CSS Module files in SCSS format
+declare module "*.module.css"; // TS module for CSS Module files
+declare module "*.module.scss"; // TS module for CSS Module files in SCSS format
 ```
 
 ## Recommendations for where to use CSS Module

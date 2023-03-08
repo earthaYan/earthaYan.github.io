@@ -126,67 +126,69 @@ export default App;
 
 条件 CSS 是 CSS-in-JS 的另外一个高光点。如同上面演示的按钮示例一样，比起为每个变动写一个单独的样式，检查 props 值并且添加合适的样式是更酷的一种方法。
 
-### 更少的CSS特异性
+### 更少的 CSS 特异性
 
-CSS-in-JS 帮助你把 CSS 声明的特异性保持在最低水平，因为你唯一使用它的样式的途径就是元素本身。这同样适用于创建组件变体，你可以检查prop对象值并且在需要的时候添加动态样式。
+CSS-in-JS 帮助你把 CSS 声明的特异性保持在最低水平，因为你唯一使用它的样式的途径就是元素本身。这同样适用于创建组件变体，你可以检查 prop 对象值并且在需要的时候添加动态样式。
 
 ### 容易的主题
 
-使用自定义CSS属性为app设置主题非常有意义。在最后，你必须转到JavaScript侧，基于用户输入写一些逻辑代码来切换和记住主题。
+使用自定义 CSS 属性为 app 设置主题非常有意义。在最后，你必须转到 JavaScript 侧，基于用户输入写一些逻辑代码来切换和记住主题。
 
-CSS-in-JS 让你可以完全使用JavaScript编写主题逻辑。借助 styled-components的 ThemeProvider wrapper，你可以快速为组件的主题进行颜色编码。下面借[这个案例](https://codepen.io/_rahul/pen/qBKXevo)来查看使用styled-components定制主题：
+CSS-in-JS 让你可以完全使用 JavaScript 编写主题逻辑。借助 styled-components 的 ThemeProvider wrapper，你可以快速为组件的主题进行颜色编码。下面借[这个案例](https://codepen.io/_rahul/pen/qBKXevo)来查看使用 styled-components 定制主题：
 
-Considering the features and advantages CSS-in-JS offers, a JavaScript developer may find CSS-in-JS more convenient than managing hundreds of CSS files.
+### 无痛维护
 
-The fact remains, however, that one must have a good understanding of both JavaScript and CSS to effectively manage and maintain huge projects powered by CSS-in-JS.
+考虑到 CSS-in-JS 提供的特性和优势，JavaScript 可能会发现 CSS-in-JS 比管理上百个 CSS 文件更方便。
 
-## Cons of CSS-in-JS
+但是有一个遗留事实是：只有对 JavaScript 和 CSS 都有很深的理解,才能高效管理和维护由 CSS-in-JS 驱动的大型项。
 
-CSS-in-JS does solve the scoping problem very well. But as we discussed initially, we have much bigger challenges — like render-blocking — that directly affect the user experience. Along with that, there are some other issues that the concept of CSS-in-JS still has to address.
+## CSS-in-JS 的坏处
 
-### Delayed rendering
+CSS-in-JS 确实非常完美的解决了作用域问题。但是就像我们一开始讨论的那样，我们会面临更大的挑战——比如渲染阻塞——这会直接影响用户体验。除此之外，CSS-in-JS 的概念还需要处理一些其他的问题。
 
-CSS-in-JS will execute JavaScript to parse CSS from JavaScript components, and then inject these parsed styles into the DOM. The more components more will be the more time taken by the browser for the first paint.
+### 延迟渲染
 
-### Caching problem
+CSS-in-JS 会执行 JavaScript 来从 JavaScript 组件中解析 CSS,然后把这些转换出来的样式注入 DOM。组件越多，浏览器首绘的时间就越长。
 
-CSS caching is often used to improve successive page load times. Since no CSS files are involved when using CSS-in-JS, caching is a big problem. Also, dynamically generated CSS class names make this issue even more complicated.
+### 缓存问题
 
-### No CSS preprocessor support
+CSS 缓存经常被用来改善连续页面加载时间。当使用 CSS-in-JS 的时候由于没有 CSS 文件,缓存变成了一个大问题。而且。动态生成 CSS 类名让这个问题变得更复杂。
 
-With the regular componentized CSS approach, it’s easy to add support for preprocessors like SASS, Less, PostCSS, and others. The same is not possible with CSS-in-JS.
+### CSS 预处理器支持度
 
-### Messy DOM
+借助组件化的 CSS 方法,很容易添加像[SASS](https://blog.logrocket.com/how-to-write-reusable-css-with-sass/), Less, PostCSS 和其他的预处理的支持。而在 CSS-in-JS 中，这是不可能的。
 
-CSS-in-JS is based on the idea of parsing all style definitions from JavaScript into vanilla CSS and then injecting the styles into the DOM using style blocks.
+### 凌乱的 DOM
 
-For each component styled with CSS-in-JS, there could be 100 style blocks that must be parsed first, then injected. Simply put, there will be more overhead costs.
+CSS-in-JS 的基础是将所有的样式定义从 JavaScript 解析为基础 CSS，然后使用样式块将样式注入 DOM 中。
 
-### Library dependency
+对于每个使用 CSS-in-JS 进行样式编写的组件来说,可能首先就会有 100 个样式块需要解析然后注入。简单来说就是会有更多的间接成本。
 
-As we already know, we can add CSS-in-JS functionality with an external library. A lot of JavaScript will be included and run before actual CSS parsing, as parsing styles from JavaScript to CSS styles depends on a library like styled-components.
+### 库依赖
 
-### Learning curve
+如同我们所知道的那样，我们可以使用外部库添加 CSS-in-JS 功能。许多 JavaScript 将在实际的 CSS 解析之前被包含并运行，因为从 JavaScript 到 CSS 样式的解析取决于像 styled-components 这样的库。
 
-A lot of native CSS and SCSS features are missing with CSS-in-JS. It may be very challenging for developers who are used to CSS and SCSS to adapt to CSS-in-JS.
+### 学习曲线
 
-### No extensive support
+CSS-in-JS 缺失很多 CSS 和 SCSS 与生俱来的特性。对于已经习惯了 CSS 和 SCSS 的开发者来说适应 CSS-in-JS 将会非常有挑战性
 
-Most of the UI and component libraries don’t support the CSS-in-JS approach right now, as it still has a lot of issues to address.
+### 没有大规模的支持
 
-The problems discussed above may collectively contribute to a low-performant, hard-to-maintain product with several UI and UX inconsistencies.
+目前大部分 UI 库和组件库都不支持 CSS-in-JS 方式，因为它仍然有许多问题需要解决
 
-## Recommendations for where to use CSS-in-JS
+上面讨论的问题可能会累积在一起，导致产品性能低、难以维护，并存在若干 UI 和 用户体验不一致的问题。
 
-The CSS-in-JS solution is ideal when you are dealing with a smaller application for which performance is a lower priority. It may not be ideal when dealing with a performance-critical application with a huge design system.
+## 什么情况下推荐使用 CSS-in-JS
 
-As an app grows bigger, using CSS-in-JS can get complicated easily, considering all the drawbacks of this concept. A lot of work goes into converting a design system into CSS-in-JS, and in my opinion, no JavaScript developer would want to deal with that.
+当你处理一个较小的应用并且性能优先级要求不高的话， CSS-in-JS 是一个理想的解决方案。在处理具有庞大设计系统的性能要求高的应用时，它可能并不理想。
 
-## Overview of CSS Module
+随着 app 逐渐变大，考虑到这个概念的所有缺点，使用 CSS-in-JS 会很容易变得复杂，把一个设计系统转化为 CSS-in-JS 有许多工作要做，从我的角度来看，没有 JavaScript 开发者会想要处理这种情况。
 
-A CSS Module is a CSS file in which all the properties are scoped locally by default in the rendered CSS. JavaScript processes the CSS Module files further and encapsulates their style declarations to solve the scoping issue.
+## CSS Module 概览
 
-To use CSS Module, you need to name your CSS files with a .module.css extension and then import them into JavaScript files. The below code snippet provides a basic example of how to use CSS Module:
+[CSS Module](https://blog.logrocket.com/a-deep-dive-into-css-modules/)是一个 CSS 文件，里面所有的属性在已经渲染的 CSS 中默认都被限制在局部范围内。JavaScript 进一步处理 CSS Module 文件并且封装他们的样式声明来解决作用域问题。
+
+为了使用 CSS Module，你需要把 CSS 文件扩展名修改为`.module.css`,然后将他们导入 JavaScript 文件中。下面的代码片段提供了一个如何使用 CSS Module 的例子：
 
 ```jsx
 import styles from "./Button.module.css";
@@ -200,21 +202,21 @@ export default function Button(props) {
 }
 ```
 
-Take a look at this StackBlitz example for implementing CSS Modules in React. This example shows how to use CSS Modules to fix the scoping problem.
+看这个在 React 中实现 CSS Module 的[示例](https://stackblitz.com/edit/react-hbivvp?file=src%2Fcomponents%2FAnotherButton%2FAnotherButton.jsx)。这个例子展示了如何使用 CSS Module 修复作用域问题。
 
-In the StackBlitz example, notice how the same class names in Button.module.css and AnotherButton.module.css are processed and optimized intelligently to prevent naming conflicts.
+在这个例子里,请注意如何智能地处理和优化 Button.module.css 和 AnotherButton.module.css 的相同类名来防止命名冲突。
 
-## Pros of CSS Module
+## CSS Module 的好处
 
-The most significant benefit that CSS Module offers is removing the reliance on CSS-in-JS to fix the scoping and specificity problems. If we can fix the scoping and specificity problems by keeping CSS as traditional as possible, CSS-in-JS will be more work than necessary.
+CSS Module 提供的最大的好处就是摆脱对 CSS in-JS 的依赖解决范围和特异性问题。如果我们可以通过保持尽可能传统 CSS 来解决作用域和特异性问题，那么 CSS-in-JS 的工作量会比必要的工作量大。
 
-### No scoping and specificity issues
+### 没有作用域和特异性问题
 
-As demonstrated in the example above, CSS Module successfully solves the scoping problem we have with traditional, old-style CSS. As the rules are loosely written in CSS Module files, it’s rare to observe any specificity problems.
+就像上面演示的示例一样，CSS Module 成功解决了我们遇到的传统旧式的 CSS 作用域问题。。由于规则是松散地编写在 CSS 模块文档中的，因此很少观察到任何特异性问题。
 
-### Organized code
+### 有组织的代码
 
-Keeping separate CSS files may appear to be a limitation. However, this method actually promotes better organization. For example, here’s how I organize components by separating them into their own folders:
+保留各自单独的 CSS 文件似乎是一个限制。但是这个方法确实促进了更好的组织组件。举例来说，这就是我如何通过把他们分到各自的文件夹下来组织组件：
 
 ```bash
 - Project
@@ -228,41 +230,42 @@ Keeping separate CSS files may appear to be a limitation. However, this method a
           - Carousel.modules.css
 ```
 
-### Caching possibilities
+### 缓存的可能
 
-The minified CSS files generated with the final build can be cached by the browser to improve the successive page load times.
+最终构建生成的极简化的 CSS 文件可以被浏览器缓存，从而改善连续页面加载时间。
 
-### CSS preprocessing
+### CSS 预处理
 
-It’s easy to add support for CSS preprocessors like PostCSS, SASS, Less, and others. However, you have to rely on additional packages to do so.
+添加对 CSS 预处理器（如 PostCSS，SASS，Less 等）的支持很容易。但是必须依赖额外的包来做这个事情。
 
-### Zero learning curve
+### 零学习曲线
 
 If you know how CSS works, you can use CSS Module without learning anything new besides the few points that we discussed above in the intro segment.
+如果你知道 CSS 是怎么工作的就能使用 CSS Module，除了上面介绍部分讨论的几点外你几乎不用学习任何新的东西。
 
-### Great support
+### 强大的支持
 
-You won’t need to add additional packages to use CSS Modules. All major frameworks and libraries provide inbuilt support.
+你不需要添加任何额外的包就能使用 CSS Module。所有的主流框架和库都提供了内置的支持。
 
-## Cons of CSS Module
+## CSS Module 的坏处
 
-While CSS Module offers many benefits, it’s not a perfect solution. Below are some considerations to keep in mind.
+尽管 CSS Modue 提供了许多好处，但是他还不是一个完美的解决方案。以下是一些需要牢记的注意事项。
 
-### The nonstandard :global property
+### 非标准的 `:global` 属性
 
-When targeting selectors in the global scope, you must use the :global rule. This not a part of CSS specifications but is used by JavaScript to label global styles.
+当在全局作用域内定位选择器的时候，你必须使用`:global`规则。这不是 CSS 规范的一部分，但是被 JavaScript 用它来标记全局样式。
 
-### No dynamic styles
+### 没有动态样式
 
-With CSS Module, all the declarations go into separate CSS files. It’s therefore impossible to implement dynamic styles like CSS-in-JS, as we can’t implement any JavaScript in CSS files.
+借助 CSS Module，所有的声明都会进入单独的 CSS 文件。因此不可能像 CSS-in-JS 一样实现动态样式，因为我们不能在 CSS 文件中实现任何 JavaScript。
 
-### External CSS files
+### 外部的 CSS 文件
 
-You can’t omit the usage of CSS files with CSS modules in your components. The only possible way to use CSS modules is to maintain and import external CSS files.
+你不能省略组件中带有 CSS 模块的 CSS 文件的用法。使用 CSS 模块的唯一可能方法是维护和导入外部 CSS 文档。
 
-### TypeScript limitation
+### TypeScript 限制
 
-To use CSS Modules with TypeScript, you have to add module definitions in the index.d.ts file or use a webpack loader:
+为了在 TypeScript 下使用 CSS Module,你必须在`index.d.ts`中添加 module 定义或者使用[webpack loader](https://blog.logrocket.com/how-to-configure-css-modules-webpack/)：
 
 ```typescript
 /** index.d.ts **/
@@ -270,25 +273,24 @@ declare module "*.module.css"; // TS module for CSS Module files
 declare module "*.module.scss"; // TS module for CSS Module files in SCSS format
 ```
 
-## Recommendations for where to use CSS Module
+## 推荐使用 CSS Module 的场景
 
-Using CSS Module is a good choice if you have a performance-critical application with a large UI. Since everything offered by CSS Module is ultimately based on traditional, non-experimental usage, this method makes it easier to monitor and fix performance.
+如果你应用 UI 规模大并且对性能要求严苛，CSS Module 是一个非常好的选择。由于 CSS Module 提供的每个东西最终都是基于传统的,非实验性的用法，所以这个方法让监控和修复性能变得更容易。
+CSS Module 文件非常容易适应你选择的任意 CSS 框架的代码，因为你需要处理的只有 CSS。就像前面说的，基础的 CSS 对于这个任务来说已经足够了。
 
-The CSS Module files are simple to adapt code from any CSS framework of your choice since all you’re dealing with is CSS. Some basic knowledge of CSS is sufficient for this task, as discussed previously.
+## 现代 CSS 特性
 
-## Modern CSS features to watch
+在介绍里，我提到了一些现代化的 CSS 特性在未来不需要依赖 CSS Module，CSS-in-JS 或者其他的一些 JavaScript 解决方案的情况下是如何协助解决作用域问题的。
 
-In the introduction, I mentioned how some modern CSS features may help solve the scoping problem in the future without relying on CSS Module, CSS-in-JS, or any other JavaScript solution.
+新的并且正在计划中的特性——例如作用域指令和@scope 伪元素——旨在使用传统的 CSS 解决老问题。反之，这也会减少开发者转向类似 CSS-in-JS 作为这些缺陷的变通方法的需求
 
-New and planned features — such as scoping directives and the @scope pseudo-element — aim to address the old issues with traditional CSS. This, in turn, may reduce the need for developers to turn to methods like CSS-in-JS as workarounds for those issues.
+让我们看一下目前的 scoped CSS 草案是如何解决 CSS-in-JS 甚至 CSS Module 的问题。对于其他的 CSS 属性的完整列表，查看[the State of CSS 2022](https://web.dev/state-of-css-2022/)
 
-Let’s take a look at how the current draft for scoped CSS could solve the problems with CSS-in-JS and even CSS Module. For a full list of other modern CSS features, check out the State of CSS 2022.
+### CSS 作用域的潜在可能性
 
-### The potential future of CSS scoping
-
-After the strange introduction and removal of <style scope> from the CSS specifications, the current draft for scoped CSS looks good enough to define scoping premises for elements by writing CSS rules.
-
+在从 CSS 规范中奇怪的引入和移除<style scope>之后，当前的 Scope CSS 草案看上去已经足够优秀到去通过编写 CSS 规则来定义元素的作用域前提。
 Its current status involves using a directive and a pseudo-class to control the provision of scoping for a given element. Here is a rough picture of how it will lock an element’s scope within a boundary and maintain it regardless of the cascade’s rules of scoping:
+目前的状态涉及了使用指令和伪类来控制一个给定的元素的作用域。这里是一个如何将元素的作用域锁定在边界内并维护它的粗略图片，而不管级联的作用域规则如何：
 
 ```html
 <div class="card">
@@ -317,12 +319,10 @@ Its current status involves using a directive and a pseudo-class to control the 
 </style>
 ```
 
-This new feature may remove the need for CSS Module or CSS-in-JS to resolve the scoping problem. We have to wait and see until it becomes available in our browsers.
+这个新特性也许会消除对于 CSS Module 或者 CSS-in-JS 解决作用域问题的需求。我们拭目以待，等它在我们的浏览器中可以使用的那一天。
 
-## Conclusion
+## 总结
 
-Above, we discussed how CSS render-blocking can be a major performance issue for your web apps. We then discussed some solutions to fix this issue, which led us to explore CSS-in-JS, CSS Modules, and the current status of the official in-progress draft for new scoped CSS features.
+以上，我们首先提到了对于web应用来说，CSS 渲染阻塞是一个主要的性能问题。然后讨论了修复这些问题的部分解决方案，这促使我们探索 CSS-in-JS、CSS Module以及新作用域 CSS 功能的官方进度草案的当前状态。
 
-Developers who like JavaScript love CSS-in-JS because it covers almost all styling aspects with JavaScript. On the other hand, those who like CSS — and want the current technologies to support developers and end users equally — may prefer CSS Module.
-
-I hope you enjoyed this article. Let me know your thoughts, questions, and suggestions in the comments.
+开发者喜欢JavaScript，爱CSS-in-JS是因为它用JavaScript覆盖了几乎所有的样式角度。另一方面，这些喜欢CSS的——并且想让当前的技术能支持开发者和终端用户同样也许会更喜欢CSS Module。

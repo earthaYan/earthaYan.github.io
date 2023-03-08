@@ -6,7 +6,7 @@ categories: 翻译
 ---
 
 原文地址：https://blog.logrocket.com/css-vs-css-in-js/
-
+https://blog.logrocket.com/how-style-react-router-links-styled-components/
 当使用 javascript 框架写代码的时候，开发者经常会面临一个困境：是否需要使用 CSS-in-JS。如果你使用 React 进行开发，可能你之前就使用过 CSS-in-JS。
 
 CSS vs CSS-in-JS 是当下的热门话题。这主要是因为 CSS-in-JS 正在因为性能问题而备受关注。但是在[这个方向上(pipline 翻译不确定)](https://web.dev/state-of-css-2022/)也有一些新的 CSS 特性,他们应该会在不久的未来解决一部分问题。
@@ -59,25 +59,26 @@ CSS-in-JS 简单来说就是外部功能层，它可以让你通过 JavaScript �
 
 这一切起源于 2015 年一个叫做 [JSS](https://cssinjs.org/?v=v10.10.0) 的库，当然这个库现在仍然处于活跃的维护状态。你必须使用 JavaScript 语法给选择器提供 CSS 属性，一旦页面加载后就会自动把这些属性应用到他们各自的选择器。
 
-当 JavaScript 使用类似 React 的库接管渲染和管理前端的时候，一个叫做 styled-components 的 CSS-in-JS 解决方案出现了。另外一个快速流行的解决方案是使用 Emotion 库做同样的事。
+当 JavaScript 使用类似 React 的库接管渲染和管理前端的时候，一个叫做 [styled-components](https://blog.logrocket.com/how-style-react-router-links-styled-components/) 的 CSS-in-JS 解决方案出现了。另外一个快速流行的解决方案是使用 Emotion 库做同样的事。
 
-我们打算用styled-components库演示CSS-in-JS的示例用例，因为他是在React生态中使用CSS-in-JS方案中最流行的。
+我们打算用 styled-components 库演示 CSS-in-JS 的示例用例，因为他是在 React 生态中使用 CSS-in-JS 方案中最流行的。
 
-### 通过styled-components使用 CSS-in-JS的例子
-In your React app, install the styled-components library using the below Yarn command. If you are using a different package manager, see the styled-components installation docs to find the appropriate installation command:
-在React app中
+### 通过 styled-components 使用 CSS-in-JS 的例子
+
+在 React app 中使用下面的 Yarn 命令安装 styled-components 库。如果你使用的是不同的包管理器,可以查看 styled-components 安装文档找到合适的安装命令：
+
 ```bash
 yarn add styled-components
 ```
 
-After installing the styled-components library, import the styled function and use it as shown in the code below:
+安装完 styled-components库之后,导入styled函数，按如下代码使用：
 
 ```jsx
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const StyledButton = styled.a`
   padding: 0.75em 1em;
-  background-color: ${({ primary }) => (primary ? "#07c" : "#333")};
+  background-color: ${({ primary }) => (primary ? '#07c' : '#333')};
   color: white;
 
   &:hover {
@@ -88,9 +89,9 @@ const StyledButton = styled.a`
 export default StyledButton;
 ```
 
-If you don’t have access to a React environment, here’s a [CodePen demo](https://codepen.io/_rahul/pen/oNywWXR) for you to see the above code in action:
+如果你没有React环境，[这里](https://codepen.io/_rahul/pen/oNywWXR)有一个运行上述代码的链接：
 
-The code above demonstrates how to style a button-link component in React. This styled component can now be imported anywhere and used directly to build a functional component without having to worry about the styles:
+上面的代码演示了如何在React中给一个button-link组件添加样式。添加完样式的组件现在可以不用担心样式问题在任意地方被导入并被直接用来构建一个功能组件：
 
 ```bash
 import StyledButton from './components/styles/Button.styled';
@@ -104,12 +105,11 @@ function App() {
     </div>
   );
 }
-
 export default App;
 ```
 
 Note that the styles applied to the styled components are locally scoped, which eliminates the cumbersome need to be mindful of CSS class naming and the global scope. In addition, we can add or remove CSS dynamically based on the props supplied to our component or any other logic demanded by an app feature.
-
+注意应用到styled组件上的样式
 ## Pros of CSS-in-JS
 
 A JavaScript developer may prefer to style things with CSS-in-JS rather than going through CSS classes. The biggest problem the CSS-in-JS approach solves is the global scope. It also has some other advantages that make a lot of sense if you are a JavaScript developer.
@@ -191,11 +191,11 @@ A CSS Module is a CSS file in which all the properties are scoped locally by def
 To use CSS Module, you need to name your CSS files with a .module.css extension and then import them into JavaScript files. The below code snippet provides a basic example of how to use CSS Module:
 
 ```jsx
-import styles from "./Button.module.css";
+import styles from './Button.module.css';
 
 export default function Button(props) {
   return (
-    <a href={props.href ? props.href : "#"} className={styles.btn}>
+    <a href={props.href ? props.href : '#'} className={styles.btn}>
       {props.name}
     </a>
   );
@@ -268,8 +268,8 @@ To use CSS Modules with TypeScript, you have to add module definitions in the in
 
 ```typescript
 /** index.d.ts **/
-declare module "*.module.css"; // TS module for CSS Module files
-declare module "*.module.scss"; // TS module for CSS Module files in SCSS format
+declare module '*.module.css'; // TS module for CSS Module files
+declare module '*.module.scss'; // TS module for CSS Module files in SCSS format
 ```
 
 ## Recommendations for where to use CSS Module

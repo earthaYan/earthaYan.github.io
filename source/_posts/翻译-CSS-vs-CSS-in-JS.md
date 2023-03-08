@@ -9,7 +9,7 @@ categories: 翻译
 
 当使用 javascript 框架写代码的时候，开发者经常会面临一个困境：是否需要使用 CSS-in-JS。如果你使用 React 进行开发，可能你之前就使用过 CSS-in-JS。
 
-CSS vs CSS-in-JS 是当下的热门话题。这主要是因为 CSS-in-JS 正在因为性能问题而备受关注。但是在[这个方向上(pipline 翻译不确定)](https://web.dev/state-of-css-2022/)也有一些新的 CSS 特性应该会在不久的未来解决一部分问题。
+CSS vs CSS-in-JS 是当下的热门话题。这主要是因为 CSS-in-JS 正在因为性能问题而备受关注。但是在[这个方向上(pipline 翻译不确定)](https://web.dev/state-of-css-2022/)也有一些新的 CSS 特性,他们应该会在不久的未来解决一部分问题。
 
 这篇文章的目的是结合现代 CSS 的当前状态以及将来可能如何变化帮助你在接下来的项目中就 CSS 和 CSS-in-JS 中做出选择。
 
@@ -37,36 +37,35 @@ CSS vs CSS-in-JS 是当下的热门话题。这主要是因为 CSS-in-JS 正在�
 
 我们假设 app 的一个页面有许多 CSS。这个页面可能包含了很多存在但是没有被使用的选择器，因为我们在每个页面都导入了一个主 CSS 文件。
 
-The above scenario basically describes how we are accustomed to directly consuming [a CSS UI framework or a UI kit](https://blog.logrocket.com/comparing-tailwind-css-bootstrap-time-ditch-ui-kits/) we created to quickly facilitate our design system. Not all the styles referenced from that framework or kit get used on every page. As a result, we end up with more junk in our final CSS styles for the page.
-上面这个场景基本描述了我们是如何习惯直接使用我们创建的 [CSS UI 框架或者 UI 工具箱](https://blog.logrocket.com/comparing-tailwind-css-bootstrap-time-ditch-ui-kits/)
-The more CSS, the longer it will take the browser to construct CSSOM, which results in completely unnecessary render blocking.
+上面这个场景基本描述了我们是如何习惯直接使用我们创建的 [CSS UI 框架或者 UI 工具箱](https://blog.logrocket.com/comparing-tailwind-css-bootstrap-time-ditch-ui-kits/)来快速促进我们的设计系统。并非所有从框架或者工具箱引用的样式都会在每个页面内被使用。结果就是我们最终为这个页面生成的 CSS 样式里出现了更多的垃圾。
 
-To counter this, splitting CSS into small chunks is very helpful. In other words, keep the global styles and critical CSS in one universal CSS file, then componentize everything else. This strategy makes much more sense and solves the unnecessary blocking problem:
+CSS 越多,浏览器构建 CSSOM 的时间越长，这会导致完全没有必要的渲染阻塞。
+
+为了遏制这种局面,把 CSS 分割成小代码块非常有用。换句话说,把全局样式和必要的 CSS 保存在一个全局文件中，然后将其他内容组件化。这种策略更有意义且解决了不必要的非必要 CSS 阻塞：
 
 {%asset_img img2-Project-structure-componentized-CSS.avif%}
 
-The picture above shows the traditional way to create and manage separate CSS files for different components in React. Because each CSS file is directly attached to its respective component, it imports only when the relevant component is imported and disappears when that component is removed.
+上面这张图展示了在 React 中为各个组件创建和管理局部 CSS 文件的传统方式。因为每个 CSS 文件是直接附加在各自的组件上,所以它只在相关组件被导入的时候被导入，在组件被移除的的时候消失。
 
-Now, there is one downside to this method. Let’s suppose our app contains 100 components, and other developers working on the same project have accidentally used the same class names in some of these CSS files.
+目前，这个方法还有不足之处。假设 app 包含 100 个组件，同一个项目中的其他开发者可能在这些 CSS 文件中已经不小心使用了一样的类名。
 
-Here, the scope of every CSS file for each component is global, so these accidentally duplicated styles would keep overriding each other and getting applied globally. A scenario like this will result in severe layout and design inconsistencies.
+在这里,每个组件的每个 CSS 文件的范围都是全局的，所以这些不小心重复的样式会不断相互覆盖并被全局应用。像这样的场景会引起严重的布局和设计不一致。
 
-CSS-in-JS is said to fix this scoping issue. The upcoming segment reviews CSS-in-JS at a high level and discusses whether or not it solves the scoping problem effectively once and for all.
+据说 CSS-in-JS 可以解决这个作用域问题。接下来的文章在高层次上回顾了 CSS-in-JS，并讨论了它是否一劳永逸地有效地解决了作用域问题。
 
-## What CSS-in-JS offers
+## CSS-in-JS 提供了什么
 
-CSS-in-JS, in a nutshell, is an external layer of functionality that allows you to write CSS properties for components through JavaScript.
+CSS-in-JS 简单来说就是外部功能层，它可以让你通过 JavaScript 为组件编写 CSS 属性。
 
-It all started in 2015 with a JavaScript library called JSS, which is still actively maintained. You have to provide the CSS properties to the selectors using JavaScript syntax, which then automatically applies those properties to their respective selectors once the page loads.
+这一切起源于 2015 年一个叫做 [JSS](https://cssinjs.org/?v=v10.10.0) 的库，当然这个库现在仍然处于活跃的维护状态。你必须使用 JavaScript 语法给选择器提供 CSS 属性，一旦页面加载后就会自动把这些属性应用到他们各自的选择器。
 
-When JavaScript took over rendering and managing the frontend with libraries like React, a CSS-in-JS solution called styled-components emerged. Another increasingly popular way to do the same thing is by using the Emotion library.
+当 JavaScript 使用类似 React 的库接管渲染和管理前端的时候，一个叫做 styled-components 的 CSS-in-JS 解决方案出现了。另外一个快速流行的解决方案是使用 Emotion 库做同样的事。
 
-We are going to demonstrate an example use case for CSS-in-JS with the styled-components library, as it is the most popular way to use CSS-in-JS in React.
+我们打算用styled-components库演示CSS-in-JS的示例用例，因为他是在React生态中使用CSS-in-JS方案中最流行的。
 
-### Example using CSS-in-JS with styled-components
-
+### 通过styled-components使用 CSS-in-JS的例子
 In your React app, install the styled-components library using the below Yarn command. If you are using a different package manager, see the styled-components installation docs to find the appropriate installation command:
-
+在React app中
 ```bash
 yarn add styled-components
 ```
@@ -74,11 +73,11 @@ yarn add styled-components
 After installing the styled-components library, import the styled function and use it as shown in the code below:
 
 ```jsx
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const StyledButton = styled.a`
   padding: 0.75em 1em;
-  background-color: ${({ primary }) => (primary ? '#07c' : '#333')};
+  background-color: ${({ primary }) => (primary ? "#07c" : "#333")};
   color: white;
 
   &:hover {
@@ -192,11 +191,11 @@ A CSS Module is a CSS file in which all the properties are scoped locally by def
 To use CSS Module, you need to name your CSS files with a .module.css extension and then import them into JavaScript files. The below code snippet provides a basic example of how to use CSS Module:
 
 ```jsx
-import styles from './Button.module.css';
+import styles from "./Button.module.css";
 
 export default function Button(props) {
   return (
-    <a href={props.href ? props.href : '#'} className={styles.btn}>
+    <a href={props.href ? props.href : "#"} className={styles.btn}>
       {props.name}
     </a>
   );
@@ -269,8 +268,8 @@ To use CSS Modules with TypeScript, you have to add module definitions in the in
 
 ```typescript
 /** index.d.ts **/
-declare module '*.module.css'; // TS module for CSS Module files
-declare module '*.module.scss'; // TS module for CSS Module files in SCSS format
+declare module "*.module.css"; // TS module for CSS Module files
+declare module "*.module.scss"; // TS module for CSS Module files in SCSS format
 ```
 
 ## Recommendations for where to use CSS Module

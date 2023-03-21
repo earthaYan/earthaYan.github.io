@@ -12,7 +12,6 @@ go get -u gorm.io/gorm
 # 安装对应数据库驱动，比如mysql,sqlite
 go get -u gorm.io/driver/mysql
 ```
-
 ## 常见用法
 
 ```go
@@ -239,16 +238,14 @@ gormDB, err := gorm.Open(mysql.New(mysql.Config{
 
 ```
 
-## 数据库的增删改查
 
-### 增加
+## 增加
 
-#### 通过数据的指针创建
+### 通过数据的指针创建
 
 ```go
 user:=User{Name:"yueyueyan",Age:19,Birthday:time.Now()}
 result:=db.Create(&user)
-
 ```
 
 返回结果
@@ -256,7 +253,7 @@ user.ID：返回插入数据的主键
 result.Error ：返回 error
 result.RowsAffected ： 返回插入记录的条数
 
-#### 用指定的字段创建记录
+### 用指定的字段创建记录
 
 ```go
 db.Select("Name", "Age", "CreatedAt").Create(&user)//创建指定字段的记录
@@ -265,15 +262,13 @@ db.Omit("Name", "Age", "CreatedAt").Create(&user)//创建忽略指定字段的�
 // INSERT INTO `users` (`birthday`,`updated_at`) VALUES ("2020-01-01 00:00:00.000", "2020-07-04 11:05:21.775")
 ```
 
-#### 批量添加
+### 批量添加
 
 原理:将切片传给 Create 方法
 注意：使用 CreateBatchSize 选项初始化 GORM 时，所有的创建& 关联 INSERT 都将遵循该选项
 
 > 比如 gorm.Config 中 CreateBatchSize 设置为 1000，则之后所有数据插入都要遵循这个值
-
-> users = [5000]User{{Name: "jinzhu", Pets: []Pet{pet1, pet2, pet3}}...}
-
+> `users = [5000]User{{Name: "jinzhu", Pets: []Pet{pet1, pet2, pet3}}...}`
 > 则 users 需要批量插入 5 次,pets 需要批量插入 15 次
 
 ```go
@@ -285,14 +280,146 @@ for _, user := range users {
 }
 ```
 
-#### 创建钩子
-
+### 创建钩子
+支持的钩子函数：BeforeSave, BeforeCreate, AfterSave, AfterCreate
+跳过钩子函数：`DB.Session(&gorm.Session{SkipHooks: true}).Create(&user)`
 #### 根据 Map 创建
+- 根据`map[string]interface{}`创建
+```go
+db.Model(&User{}).Create(map[string]interface{}{
+  "Name": "jinzhu", "Age": 18,
+})
+```
+- 根据`[]map[string]interface{}{}`创建
+```go
+db.Model(&User{}).Create([]map[string]interface{}{
+  {"Name": "jinzhu_1", "Age": 18},
+  {"Name": "jinzhu_2", "Age": 20},
+})
+```
+### 使用 SQL 表达式、Context Valuer 创建记录
+暂时忽略    
 
-#### 使用 SQL 表达式、Context Valuer 创建记录
 
-### 修改
+## 查询
+### 获取单条记录：
+- First() 获取第一条记录[主键升序]
+- Take() 获取一条记录
+- Last（）获取最后一条记录[主键降序]
+- 检查ErrRecordNotFound 错误
+`errors.Is(result.Error, gorm.ErrRecordNotFound)`
+- 避开ErrRecordNotFound 错误
+`db.Limit(1).Find(&user)`
+- Fist和Last方法生效条件
+  1. 指向目标struct的指针作为参数传入方法
+  2. 使用`db.Model()`指定model
+- 如果没有定义主键,则按照第一个字段排序
 
-### 删除
+```go
+var user  User
+var users []User
+// 生效，满足条件1
+// 查询users表中按user struct 主键id排列的第一条记录
+db.First(&user)
+// 生效，满足条件2
+result := map[string]interface{}{}
+db.Model(&User{}).First(&result)
+// 不生效
+result := map[string]interface{}{}
+db.Table("users").First(&result)
+// 使用Take生效
+result := map[string]interface{}{}
+db.Table("users").Take(&result)
 
-### 查询
+```
+### 按照主键获取
+1. 主键是数值:使用内联条件
+```go
+db.First(&user, 10)
+db.First(&user, "10")//查询id为10的第一条记录
+db.Find(&users, []int{1,2,3}) //查询id在1,2,3中的记录
+```
+2. 主键是字符串:有sql注入风险
+```go
+// 搜索id为1bxx-xx-xx的用户记录
+db.First(&user, "id = ?", "1b74413f-f3b8-409f-ac47-e8c062e3472a")
+```
+
+### 检索全部对象
+```go
+// result.RowsAffected :返回找到的记录条数
+// result.Error: 返回错误
+result := db.Find(&users)
+```
+
+### 条件
+#### string条件
+```go
+//查询name等于jinzhu的第一条记录
+db.Where("name = ?", "jinzhu").First(&user)
+// 查询name不等于jinzhu的所有记录
+db.Where("name <> ?", "jinzhu").Find(&users) 
+// 查询name为jinzhu或者 jinzhu 2的所有记录
+db.Where("name IN ?", []string{"jinzhu", "jinzhu 2"}).Find(&users)
+// 模糊匹配,查询name包含jin的所有记录
+db.Where("name LIKE ?", "%jin%").Find(&users)
+// 查询name为jinzhu并且age>=22的所有记录
+db.Where("name = ? AND age >= ?", "jinzhu", "22").Find(&users)
+// 查询更新时间大于上周的所有记录
+db.Where("updated_at > ?", week(now())-1).Find(&users)
+// 查询上周和今天之间创建的所有记录
+db.Where("created_at BETWEEN ? AND ?", lastWeek, today).Find(&users)
+```
+如果设置了对象的主键,则与查询条件构成AND关系
+
+#### struct&Map条件
+```go
+// struct:查询Name为jinzhu,年龄为20的按主键id升序的第一条记录
+db.Where(&User{Name: "jinzhu", Age: 20}).First(&user)
+// Map：查询name为jinzhu,年龄为20的所有记录
+db.Where(map[string]interface{}{"name": "jinzhu", "age": 20}).Find(&users)
+// 查询id为20/21/22的所有记录
+db.Where([]int64{20, 21, 22}).Find(&users)
+// 不支持零值,查询name为jinzhu的所有记录
+db.Where(&User{Name: "jinzhu", Age: 0}).Find(&users)
+// 支持零值
+db.Where(map[string]interface{}{"Name": "jinzhu", "Age": 0}).Find(&users)
+
+```
+#### 指定结构体查询字段
+```go
+// 查询名称为jinzhu,Age为0的用户
+db.Where(&User{Name: "jinzhu"}, "name", "Age").Find(&users)
+// 查询年龄为0的所有记录
+db.Where(&User{Name: "jinzhu"}, "Age").Find(&users)
+// SELECT * FROM users WHERE age = 0;
+
+```
+#### 内联条件
+内联指的是将查询条件嵌入到First等方法中,达到与where相似的效果
+```go
+db.First(&user, "id = ?", "string_primary_key")
+db.Find(&user, "name = ?", "jinzhu")
+db.Find(&users, "name <> ? AND age > ?", "jinzhu", 20)
+// struct
+db.Find(&users, User{Age: 20})
+// map
+db.Find(&users, map[string]interface{}{"age": 20})
+```
+#### Not条件 和 Or条件
+```go
+// Not
+// 查询namewe
+db.Not("name = ?", "jinzhu").First(&user)
+db.Not(map[string]interface{}{"name": []string{"jinzhu", "jinzhu 2"}}).Find(&users)
+db.Not(User{Name: "jinzhu", Age: 18}).First(&user)
+db.Not([]int64{1,2,3}).First(&user)
+// Or
+db.Where("role = ?", "admin").Or("role = ?", "super_admin").Find(&users)
+db.Where("name = 'jinzhu'").Or(User{Name: "jinzhu 2", Age: 18}).Find(&users)
+db.Where("name = 'jinzhu'").Or(map[string]interface{}{"name": "jinzhu 2", "age": 18}).Find(&users)
+
+```
+## 修改
+
+## 删除

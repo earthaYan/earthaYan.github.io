@@ -409,15 +409,37 @@ db.Find(&users, map[string]interface{}{"age": 20})
 #### Not条件 和 Or条件
 ```go
 // Not
-// 查询namewe
+// 查询name不为jinzhu的第一条记录
 db.Not("name = ?", "jinzhu").First(&user)
+// 查询name不为jinzhu或者jinzhu 2的所有记录
 db.Not(map[string]interface{}{"name": []string{"jinzhu", "jinzhu 2"}}).Find(&users)
+// 查询name不为jinzhu并且Age不为18的第一条记录
 db.Not(User{Name: "jinzhu", Age: 18}).First(&user)
+// 查询主键id不在1,2,3的第一条记录
 db.Not([]int64{1,2,3}).First(&user)
 // Or
+// 查询role是admin或者role是super_admin的第一条记录
 db.Where("role = ?", "admin").Or("role = ?", "super_admin").Find(&users)
+// 查询name为jinzhu,或者name为jinzhu2并且Age为18的所有记录
+// struct:
 db.Where("name = 'jinzhu'").Or(User{Name: "jinzhu 2", Age: 18}).Find(&users)
+// map:
 db.Where("name = 'jinzhu'").Or(map[string]interface{}{"name": "jinzhu 2", "age": 18}).Find(&users)
+
+```
+#### 选择特定字段Select方法
+```go
+// 从users表中查询name,age字段
+db.Select("name", "age").Find(&users)
+db.Select([]string{"name", "age"}).Find(&users)
+db.Table("users").Select("COALESCE(age,?)", 42).Rows()
+```
+### 排序
+默认升序
+```go
+// age降序,name升序返回所有记录
+db.Order("age desc, name").Find(&users)
+
 
 ```
 ## 修改

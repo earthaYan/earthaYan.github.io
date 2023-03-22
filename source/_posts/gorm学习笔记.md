@@ -12,6 +12,7 @@ go get -u gorm.io/gorm
 # 安装对应数据库驱动，比如mysql,sqlite
 go get -u gorm.io/driver/mysql
 ```
+
 ## 常见用法
 
 ```go
@@ -238,7 +239,6 @@ gormDB, err := gorm.Open(mysql.New(mysql.Config{
 
 ```
 
-
 ## 增加
 
 ### 通过数据的指针创建
@@ -281,38 +281,47 @@ for _, user := range users {
 ```
 
 ### 创建钩子
+
 支持的钩子函数：BeforeSave, BeforeCreate, AfterSave, AfterCreate
 跳过钩子函数：`DB.Session(&gorm.Session{SkipHooks: true}).Create(&user)`
+
 #### 根据 Map 创建
+
 - 根据`map[string]interface{}`创建
+
 ```go
 db.Model(&User{}).Create(map[string]interface{}{
   "Name": "jinzhu", "Age": 18,
 })
 ```
+
 - 根据`[]map[string]interface{}{}`创建
+
 ```go
 db.Model(&User{}).Create([]map[string]interface{}{
   {"Name": "jinzhu_1", "Age": 18},
   {"Name": "jinzhu_2", "Age": 20},
 })
 ```
-### 使用 SQL 表达式、Context Valuer 创建记录
-暂时忽略    
 
+### 使用 SQL 表达式、Context Valuer 创建记录
+
+暂时忽略
 
 ## 查询
+
 ### 获取单条记录：
+
 - First() 获取第一条记录[主键升序]
 - Take() 获取一条记录
 - Last（）获取最后一条记录[主键降序]
-- 检查ErrRecordNotFound 错误
-`errors.Is(result.Error, gorm.ErrRecordNotFound)`
-- 避开ErrRecordNotFound 错误
-`db.Limit(1).Find(&user)`
-- Fist和Last方法生效条件
-  1. 指向目标struct的指针作为参数传入方法
-  2. 使用`db.Model()`指定model
+- 检查 ErrRecordNotFound 错误
+  `errors.Is(result.Error, gorm.ErrRecordNotFound)`
+- 避开 ErrRecordNotFound 错误
+  `db.Limit(1).Find(&user)`
+- Fist 和 Last 方法生效条件
+  1. 指向目标 struct 的指针作为参数传入方法
+  2. 使用`db.Model()`指定 model
 - 如果没有定义主键,则按照第一个字段排序
 
 ```go
@@ -332,20 +341,26 @@ result := map[string]interface{}{}
 db.Table("users").Take(&result)
 
 ```
+
 ### 按照主键获取
+
 1. 主键是数值:使用内联条件
+
 ```go
 db.First(&user, 10)
 db.First(&user, "10")//查询id为10的第一条记录
 db.Find(&users, []int{1,2,3}) //查询id在1,2,3中的记录
 ```
-2. 主键是字符串:有sql注入风险
+
+2. 主键是字符串:有 sql 注入风险
+
 ```go
 // 搜索id为1bxx-xx-xx的用户记录
 db.First(&user, "id = ?", "1b74413f-f3b8-409f-ac47-e8c062e3472a")
 ```
 
 ### 检索全部对象
+
 ```go
 // result.RowsAffected :返回找到的记录条数
 // result.Error: 返回错误
@@ -353,12 +368,14 @@ result := db.Find(&users)
 ```
 
 ### 条件
-#### string条件
+
+#### string 条件
+
 ```go
 //查询name等于jinzhu的第一条记录
 db.Where("name = ?", "jinzhu").First(&user)
 // 查询name不等于jinzhu的所有记录
-db.Where("name <> ?", "jinzhu").Find(&users) 
+db.Where("name <> ?", "jinzhu").Find(&users)
 // 查询name为jinzhu或者 jinzhu 2的所有记录
 db.Where("name IN ?", []string{"jinzhu", "jinzhu 2"}).Find(&users)
 // 模糊匹配,查询name包含jin的所有记录
@@ -370,9 +387,11 @@ db.Where("updated_at > ?", week(now())-1).Find(&users)
 // 查询上周和今天之间创建的所有记录
 db.Where("created_at BETWEEN ? AND ?", lastWeek, today).Find(&users)
 ```
-如果设置了对象的主键,则与查询条件构成AND关系
 
-#### struct&Map条件
+如果设置了对象的主键,则与查询条件构成 AND 关系
+
+#### struct&Map 条件
+
 ```go
 // struct:查询Name为jinzhu,年龄为20的按主键id升序的第一条记录
 db.Where(&User{Name: "jinzhu", Age: 20}).First(&user)
@@ -386,7 +405,9 @@ db.Where(&User{Name: "jinzhu", Age: 0}).Find(&users)
 db.Where(map[string]interface{}{"Name": "jinzhu", "Age": 0}).Find(&users)
 
 ```
+
 #### 指定结构体查询字段
+
 ```go
 // 查询名称为jinzhu,Age为0的用户
 db.Where(&User{Name: "jinzhu"}, "name", "Age").Find(&users)
@@ -395,8 +416,11 @@ db.Where(&User{Name: "jinzhu"}, "Age").Find(&users)
 // SELECT * FROM users WHERE age = 0;
 
 ```
+
 #### 内联条件
-内联指的是将查询条件嵌入到First等方法中,达到与where相似的效果
+
+内联指的是将查询条件嵌入到 First 等方法中,达到与 where 相似的效果
+
 ```go
 db.First(&user, "id = ?", "string_primary_key")
 db.Find(&user, "name = ?", "jinzhu")
@@ -406,7 +430,9 @@ db.Find(&users, User{Age: 20})
 // map
 db.Find(&users, map[string]interface{}{"age": 20})
 ```
-#### Not条件 和 Or条件
+
+#### Not 条件 和 Or 条件
+
 ```go
 // Not
 // 查询name不为jinzhu的第一条记录
@@ -427,21 +453,142 @@ db.Where("name = 'jinzhu'").Or(User{Name: "jinzhu 2", Age: 18}).Find(&users)
 db.Where("name = 'jinzhu'").Or(map[string]interface{}{"name": "jinzhu 2", "age": 18}).Find(&users)
 
 ```
-#### 选择特定字段Select方法
+
+#### 选择特定字段 Select 方法
+
 ```go
 // 从users表中查询name,age字段
 db.Select("name", "age").Find(&users)
 db.Select([]string{"name", "age"}).Find(&users)
 db.Table("users").Select("COALESCE(age,?)", 42).Rows()
 ```
+
 ### 排序
+
 默认升序
+
 ```go
 // age降序,name升序返回所有记录
 db.Order("age desc, name").Find(&users)
+db.Order("age desc").Order("name").Find(&users)
+// SQL语句：不常用~SELECT * FROM users ORDER BY FIELD(id,1,2,3)
+db.Clauses(clause.OrderBy{
+  Expression: clause.Expr{SQL: "FIELD(id,?)", Vars: []interface{}{[]int{1, 2, 3}}, WithoutParentheses: true},
+}).Find(&User{})
+```
 
+### Limit&Offset
+
+#### Limit
+
+作用:指定返回记录的最大值
+Limit(-1):取消 limit 限制
+
+```go
+// 从users表查询3条记录
+db.Limit(3).Find(&users)
+// 从users1表查询10条记录，从users2表中查询所有记录
+db.Limit(10).Find(&users1).Limit(-1).Find(&users2)
 
 ```
+
+#### Offset
+
+作用:指定在开始返回记录之前要跳过的记录数量
+Offset(-1)：取消 Offset 限制
+
+```go
+// 从第四条开始返回记录
+db.Offset(3).Find(&users)
+db.Limit(10).Offset(5).Find(&users)
+db.Offset(10).Find(&users1).Offset(-1).Find(&users2)
+```
+
+offset 具体效果：
+
+{% asset_img no_offset.jpg %}
+{% asset_img offset.jpg %}
+
+### Group By &Having
+
+#### Group By：Group()
+
+作用：将具有相同值的行分组到汇总行中，例如“查找每个国家的客户数”。
+
+```go
+type result struct {
+  Date  time.Time
+  Total int
+}
+// SELECT name, sum(age) as total FROM `users` WHERE name LIKE "group%" GROUP BY `name` LIMIT 1
+// as关键字用于重命名列或表
+db.Model(&User{}).Select("name, sum(age) as total").Where("name LIKE ?", "group%").Group("name").First(&result)
+rows, err := db.Table("orders").Select("date(created_at) as date, sum(amount) as total").Group("date(created_at)").Rows()
+```
+
+#### Having
+
+作用：where 的替代品，因为 where 不能和聚合函数一起使用,所以使用 having 子句来设置条件
+聚合函数：
+
+- AVG - 计算一组值或表达式的平均值。
+- COUNT - 计算表中的行数。
+- INSTR - 返回字符串中第一次出现的子字符串的位置。
+- SUM - 计算一组值或表达式的总和。
+- MIN - 在一组值中找到最小值
+- MAX - 在一组值中找到最大值
+
+```go
+
+db.Model(&User{}).Select("name, sum(age) as total").Group("name").Having("name = ?", "group").Find(&result)
+db.Table("orders").Select("date(created_at) as date, sum(amount) as total").Group("date(created_at)").Having("sum(amount) > ?", 100).Scan(&results)
+rows, err := db.Table("orders").Select("date(created_at) as date, sum(amount) as total").Group("date(created_at)").Having("sum(amount) > ?", 100).Rows()
+
+```
+
+### Distinct
+
+作用：查询去重,只保留一个
+只根据查询字段去重:
+{% asset_img distinct1.jpg %}{% asset_img distinct2.jpg %}{% asset_img distinct3.jpg %}{% asset_img distinct4.jpg %}
+
+```go
+db.Distinct("name", "age").Order("name, age desc").Find(&results)
+```
+
+### Join
+
+外键列：数据库中的公共列
+作用：指定 joins 条件，基于表之间的公共列的值在一个（自连接）或更多表之间链接数据
+存在表：t1,t2
+- cross join笛卡尔积 —— 结果集包括t1表中行和t2表中行的组合->`SELECT t1.id, t2.id FROM t1 CROSS JOIN t2; `
+- inner join —— 必须有一个连接字段条件,结果集包括满足该条件的t1和t2行的组合-> `SELECT t1.id, t2.id FROM t1 INNER JOIN t2 ON t1.pattern = t2.pattern; `
+- left join —— 必须有一个条件,结果集包含左表t1的所有数据和满足条件的t2的行的组合 `SELECT t1.id, t2.id FROM t1 LEFT JOIN t2 ON t1.pattern = t2.pattern;`,此处比inner join多一个1,null
+- right join —— 同left join相反，结果集包含右表t2的所有数据
+
+```go
+type result struct {
+  Name  string
+  Email string
+}
+db.Model(&User{}).Select("users.name, emails.email").Joins("left join emails on emails.user_id = users.id").Scan(&result{}) //users表，左连接
+rows, err := db.Table("users").Select("users.name, emails.email").Joins("left join emails on emails.user_id = users.id").Rows()//users表，右连接
+db.Table("users").Select("users.name, emails.email").Joins("left join emails on emails.user_id = users.id").Scan(&results)
+// 带参数的多重join
+db.Joins("JOIN emails ON emails.user_id = users.id AND emails.email = ?", "jinzhu@example.org").Joins("JOIN credit_cards ON credit_cards.user_id = users.id").Where("credit_cards.number = ?", "411111111111").Find(&user)
+```
+#### Join预加载
+```go
+// SELECT users.id,users.name,users.age,Company.id AS Company__id,Company.name AS Company__name FROM users LEFT JOIN companies AS Company ON users.company_id = Company.id;
+db.Joins("Company").Find(&users)
+// SELECT users.id,users.name,users.age,Company.id AS Company__id,Company.name AS Company__name FROM users INNER JOIN  companies AS Company  ON users.company_id = Company.id;
+db.InnerJoins("Company").Find(&users)
+// 条件连接
+// SELECT users.id,users.name,users.age,Company.id AS Company__id,Company.name AS Company__name FROM users LEFT JOIN companies AS Company  ON users.company_id = Company.id AND Company.alive = true;
+db.Joins("Company", db.Where(&Company{Alive: true})).Find(&users)
+```
+#### Scan()
+
 ## 修改
 
 ## 删除

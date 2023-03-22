@@ -46,6 +46,6 @@
     "hexo-wordcount": "^6.0.1"
   },
   "devDependencies": {
-    "yuque-hexo": "^1.9.1"
+    "yuque-hexo": "^1.9.5"
   }
 }

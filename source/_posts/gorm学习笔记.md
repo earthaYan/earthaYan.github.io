@@ -702,10 +702,375 @@ db.Clauses(clause.Locking{
 
 ### 子查询
 ```go
+// 相当于SELECT * FROM "orders" WHERE amount > (SELECT AVG(amount) FROM "orders");
+db.Where("amount > (?)", db.Table("orders").Select("AVG(amount)")).Find(&orders)
+// 相当于SELECT AVG(age) as avgage FROM `users` GROUP BY `name` HAVING AVG(age) > (SELECT AVG(age) FROM `users` WHERE name LIKE "name%")
+
+subQuery := db.Select("AVG(age)").Where("name LIKE ?", "name%").Table("users")
+db.Select("AVG(age) as avgage").Group("name").Having("AVG(age) > (?)", subQuery).Find(&results)
+// FROM子查询
+// 相当于SELECT * FROM (SELECT `name`,`age` FROM `users`) as u WHERE `age` = 18
+db.Table("(?) as u", db.Model(&User{}).Select("name", "age")).Where("age = ?", 18).Find(&User{})
 ```
-
-### Group 条件
-
-## 修改
+### 多个列的IN查询
+```go
+// SELECT * FROM users WHERE (name, age, role) IN (("jinzhu", 18, "admin"), ("jinzhu 2", 19, "user"));
+db.Where("(name, age, role) IN ?", [][]interface{}{{"jinzhu", 18, "admin"}, {"jinzhu2", 19, "user"}}).Find(&users)
+```
+<!-- 待补充 -->
+## 修改更新
+### 保存所有字段
+```go
+// UPDATE users SET name='jinzhu 2', age=100, birthday='2016-01-01', updated_at = '2013-11-17 21:34:10' WHERE id=111;
+db.First(&user)
+user.Name = "jinzhu 2"
+user.Age = 100
+db.Save(&user)
+```
+### 修改单个列
+需要设置一些条件避免`ErrMissingWhereClause`错误
+使用 Model 方法，并且值中有主键值时，主键将会被用于构建条件
+```go
+// 条件更新:UPDATE users SET name='hello', updated_at='2013-11-17 21:34:10' WHERE active=true;
+db.Model(&User{}).Where("active = ?", true).Update("name", "hello")
+// User 的 ID 是 `111`: UPDATE users SET name='hello', updated_at='2013-11-17 21:34:10' WHERE id=111;
+db.Model(&user).Update("name", "hello")
+// 根据条件和 model 的值进行更新:UPDATE users SET name='hello', updated_at='2013-11-17 21:34:10' WHERE id=111 AND active=true;
+db.Model(&user).Where("active = ?", true).Update("name", "hello")
+```
+### 修改多个列
+根据 `struct` 更新属性，只会更新非零值的字段
+```go
+// 根据 `struct` 更新属性
+// UPDATE users SET name='hello', age=18, updated_at = '2013-11-17 21:34:10' WHERE id = 111;
+db.Model(&user).Updates(User{Name: "hello", Age: 18, Active: false})
+// 根据 `map` 更新属性
+// UPDATE users SET name='hello', age=18, active=false, updated_at='2013-11-17 21:34:10' WHERE id=111;
+db.Model(&user).Updates(map[string]interface{}{"name": "hello", "age": 18, "active": false})
+```
+### 修改指定字段
+方法: Select、Omit
+```go
+// User's ID is `111`:
+// struct:UPDATE users SET name='hello' WHERE id=111;
+db.Model(&user).Select("name").Updates(map[string]interface{}{"name": "hello", "age": 18, "active": false})
+// 忽略某个字段
+// UPDATE users SET age=18, active=false, updated_at='2013-11-17 21:34:10' WHERE id=111;
+db.Model(&user).Omit("name").Updates(map[string]interface{}{"name": "hello", "age": 18, "active": false})
+//选择role以外的所有字段
+db.Model(&user).Select("*").Omit("Role").Updates(User{Name: "jinzhu", Role: "admin", Age: 0})
+```
+###  更新hook
+暂时忽略
+### 批量更新
+未通过 Model 指定记录的主键，则 GORM 会执行批量更新
+更新如果没有任何条件则会报错,可以通过添加条件或原生Sql或者启用`AllowGlobalUpdate`模式
+```go
+// 根据 struct 更新
+// UPDATE users SET name='hello', age=18 WHERE role = 'admin';
+db.Model(User{}).Where("role = ?", "admin").Updates(User{Name: "hello", Age: 18})
+// 根据 map 更新
+db.Table("users").Where("id IN ?", []int{10, 11}).Updates(map[string]interface{}{"name": "hello", "age": 18})
+// UPDATE users SET name='hello', age=18 WHERE id IN (10, 11);
+// gorm.ErrMissingWhereClause
+db.Model(&User{}).Updates("name", "jinzhu").Error 
+```
+通过原生sql,启用`AllowGlobalUpdate`模式解决gorm.ErrMissingWhereClause报错
+```go
+db.Exec("UPDATE users SET name = ?", "jinzhu")
+// UPDATE users SET name = "jinzhu"
+db.Session(&gorm.Session{AllowGlobalUpdate: true}).Model(&User{}).Update("name", "jinzhu")
+// UPDATE users SET `name` = "jinzhu"
+```
+### 获取受更新影响的行数
+`RowsAffected`属性
+```go
+// UPDATE users SET name='hello', age=18 WHERE role = 'admin';
+result := db.Model(User{}).Where("role = ?", "admin").Updates(User{Name: "hello", Age: 18})
+result.RowsAffected // 更新的记录数
+result.Error        // 更新的错误
+```
+### 高级选项
+暂时忽略
 
 ## 删除
+
+### 删除单条记录
+需要指定主键,否则会触发批量删除
+```go
+// Email 的 ID 是 `10`
+// DELETE from emails where id = 10;
+db.Delete(&email)
+// 带额外条件的删除
+// DELETE from emails where id = 10 AND name = "jinzhu"
+db.Where("name = ?", "jinzhu").Delete(&email)
+```
+### 根据主键删除
+```go
+// DELETE FROM users WHERE id = 10;
+db.Delete(&User{}, 10)
+db.Delete(&User{}, "10")
+// DELETE FROM users WHERE id IN (1,2,3);
+db.Delete(&users, []int{1,2,3})
+```
+### Delete hook
+暂时忽略
+### 批量删除
+如果指定的值不包括主属性，那么 GORM 会执行批量删除，将删除所有匹配的记录
+```go
+// DELETE from emails where email LIKE "%jinzhu%";
+db.Where("email LIKE ?", "%jinzhu%").Delete(&Email{})
+// DELETE from emails where email LIKE "%jinzhu%";
+db.Delete(&Email{}, "email LIKE ?", "%jinzhu%")
+```
+### 返回被删除的数据
+```go
+// 返回所有列
+var users []User
+// 返回所有列
+var users []User
+// DELETE FROM `users` WHERE role = "admin" RETURNING *
+DB.Clauses(clause.Returning{}).Where("role = ?", "admin").Delete(&users)
+// users => []User{{ID: 1, Name: "jinzhu", Role: "admin", Salary: 100}, {ID: 2, Name: "jinzhu.2", Role: "admin", Salary: 1000}}
+// 返回指定的列
+// DELETE FROM `users` WHERE role = "admin" RETURNING `name`, `salary`
+// users => []User{{ID: 0, Name: "jinzhu", Role: "", Salary: 100}, {ID: 0, Name: "jinzhu.2", Role: "", Salary: 1000}}
+DB.Clauses(clause.Returning{Columns: []clause.Column{{Name: "name"}, {Name: "salary"}}}).Where("role = ?", "admin").Delete(&users)
+
+```
+
+### 软删除
+概念:
+1. 不会把记录从数据库中真正删除,只是把DeletedAt设置为当前时间
+2. 删除后不能再通过普通的查询方法找到该记录
+```go
+// user 的 ID 是 `111`
+// UPDATE users SET deleted_at="2013-10-29 10:23" WHERE id = 111;
+db.Delete(&user)
+// 批量删除
+// UPDATE users SET deleted_at="2013-10-29 10:23" WHERE age = 20;
+db.Where("age = ?", 20).Delete(&User{})
+// 查询时会忽略被软删除的记录
+db.Where("age = 20").Find(&user)
+// SELECT * FROM users WHERE age = 20 AND deleted_at IS NULL
+```
+### 永久删除
+找到被软删除的记录:`db.Unscoped().Where("age = 20").Find(&users)`
+```go
+// DELETE FROM orders WHERE id=10;
+db.Unscoped().Delete(&order)
+```
+---
+## 关联
+### belongs to
+概念:
+1. 包含 user 和 company，并且每个 user 能且只能被分配给一个 company
+2. User和Company有一个共同的外键CompanyID
+```go
+type User struct {
+  gorm.Model
+  Name      string
+  CompanyID int
+  Company   Company `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+}
+type Company struct {
+  ID   int
+  Name string
+}
+```
+
+
+### has one 
+概念:
+1. 包含 user 和 credit card ，且每个 user 只能有一张 credit card
+```go
+// User 有一张 CreditCard，UserID 是外键
+type User struct {
+  gorm.Model
+  CreditCard CreditCard
+}
+type CreditCard struct {
+  gorm.Model
+  Number string
+  UserID uint
+}
+// 检索用户列表并预加载信用卡
+func GetAll(db *gorm.DB) ([]User, error) {
+    var users []User
+    err := db.Model(&User{}).Preload("CreditCard").Find(&users).Error
+    return users, err
+}
+```
+### Has Many
+概念:
+1. 包含 user 和 credit card 模型，且每个 user 可以有多张 credit card
+```go
+// User 有多张 CreditCard，UserID 是外键
+type User struct {
+  gorm.Model
+  CreditCards []CreditCard
+}
+type CreditCard struct {
+  gorm.Model
+  Number string
+  UserID uint
+}
+// 检索用户列表并预加载信用卡
+func GetAll(db *gorm.DB) ([]User, error) {
+    var users []User
+    err := db.Model(&User{}).Preload("CreditCards").Find(&users).Error
+    return users, err
+}
+```
+### Many to Many
+概念:
+1. 包含了 user 和 language，且一个 user 可以说多种 language，多个 user 也可以说一种 language
+2. 当使用 GORM 的 AutoMigrate 为 User 创建表时，GORM 会自动创建连接表
+```go
+// User 拥有并属于多种 language，`user_languages` 是连接表
+type User struct {
+  gorm.Model
+  Languages []Language `gorm:"many2many:user_languages;"`
+}
+type Language struct {
+  gorm.Model
+  Name string
+}
+// User 拥有并属于多种 language，`user_languages` 是连接表
+type User struct {
+  gorm.Model
+  Languages []*Language `gorm:"many2many:user_languages;"`
+}
+
+type Language struct {
+  gorm.Model
+  Name string
+  Users []*User `gorm:"many2many:user_languages;"`
+}
+// 检索 User 列表并预加载 Language
+func GetAllUsers(db *gorm.DB) ([]User, error) {
+    var users []User
+    err := db.Model(&User{}).Preload("Languages").Find(&users).Error
+    return users, err
+}
+// 检索 Language 列表并预加载 User
+func GetAllLanguages(db *gorm.DB) ([]Language, error) {
+    var languages []Language
+    err := db.Model(&Language{}).Preload("Users").Find(&languages).Error
+    return languages, err
+}
+```
+### 实体关联
+在创建、更新记录时，GORM 会通过 Upsert 自动保存关联及其引用记录。
+跳过自动创建更新:使用select 和 omit
+
+### 预加载
+#### 使用 `Preload`通过多个SQL中来直接加载关系
+```go
+type User struct {
+  gorm.Model
+  Username string
+  Orders   []Order
+}
+type Order struct {
+  gorm.Model
+  UserID uint
+  Price  float64
+}
+// 查找 user 时预加载相关 Order
+// SELECT * FROM users;
+// SELECT * FROM orders WHERE user_id IN (1,2,3,4);
+db.Preload("Orders").Find(&users)
+// SELECT * FROM users;
+// SELECT * FROM orders WHERE user_id IN (1,2,3,4); // has many
+// SELECT * FROM profiles WHERE user_id IN (1,2,3,4); // has one
+// SELECT * FROM roles WHERE id IN (4,5,6); // belongs to
+db.Preload("Orders").Preload("Profile").Preload("Role").Find(&users)
+
+```
+#### joins预加载
+```go
+db.Joins("Company").Joins("Manager").Joins("Account").First(&user, 1)
+db.Joins("Company").Joins("Manager").Joins("Account").First(&user, "users.name = ?", "jinzhu")
+db.Joins("Company").Joins("Manager").Joins("Account").Find(&users, "users.id IN ?", []int{1,2,3,4,5})
+db.Joins("Company", DB.Where(&Company{Alive: true})).Find(&users)
+```
+---
+## 处理错误
+普通错误:
+```go
+if err := db.Where("name = ?", "jinzhu").First(&user).Error; err != nil {
+  // 处理错误...
+}
+```
+未找到对应记录错误ErrRecordNotFound
+```go
+// 检查错误是否为 RecordNotFound
+err := db.First(&user, 100).Error
+errors.Is(err, gorm.ErrRecordNotFound)
+```
+## 链式方法
+链式/终结方法之后返回一个初始化的`*gorm.DB`实例
+- 链式方法:Where, Select, Omit, Joins, Scopes, Preload, Raw
+- 终结方法:Create, First, Find, Take, Save, Update, Delete, Scan, Row, Rows
+- 新建会话方法: Session、WithContext、Debug 
+## session
+## 钩子
+## 事务
+暂时忽略
+## 迁移
+用于自动迁移 schema，保持您的 schema 是最新的
+schema:数据库对象集合，它包含了各种对像，比如：表，视图，存储过程，索引等等
+```go
+db.AutoMigrate(&User{})
+db.AutoMigrate(&User{}, &Product{}, &Order{})
+// 创建表时添加后缀
+db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&User{})
+
+```
+## 日志Logger
+作用:打印慢 SQL 和错误
+级别:Silent、Error、Warn、Info
+```go
+newLogger := logger.New(
+  log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer（日志输出的目标，前缀和日志包含的内容）
+  logger.Config{
+    SlowThreshold: time.Second,   // 慢 SQL 阈值
+    LogLevel:      logger.Silent, // 日志级别
+    IgnoreRecordNotFoundError: true,   // 忽略ErrRecordNotFound（记录未找到）错误
+    Colorful:      false,         // 禁用彩色打印
+  },
+)
+// 全局模式
+db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{
+  Logger: newLogger,
+})
+
+// 新建会话模式
+tx := db.Session(&Session{Logger: newLogger})
+tx.First(&user)
+tx.Model(&user).Update("Age", 18)
+```
+
+## 通用数据库接口
+```go
+// 获取通用数据库对象 sql.DB，然后使用其提供的功能
+sqlDB, err := db.DB()
+// Ping
+sqlDB.Ping()
+// Close
+sqlDB.Close()
+// 返回数据库统计信息
+sqlDB.Stats()
+```
+### 连接池
+```go
+// 获取通用数据库对象 sql.DB ，然后使用其提供的功能
+sqlDB, err := db.DB()
+// SetMaxIdleConns 用于设置连接池中空闲连接的最大数量。
+sqlDB.SetMaxIdleConns(10)
+// SetMaxOpenConns 设置打开数据库连接的最大数量。
+sqlDB.SetMaxOpenConns(100)
+// SetConnMaxLifetime 设置了连接可复用的最大时间。
+sqlDB.SetConnMaxLifetime(time.Hour)
+```

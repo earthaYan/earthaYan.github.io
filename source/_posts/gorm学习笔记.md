@@ -561,10 +561,11 @@ db.Distinct("name", "age").Order("name, age desc").Find(&results)
 外键列：数据库中的公共列
 作用：指定 joins 条件，基于表之间的公共列的值在一个（自连接）或更多表之间链接数据
 存在表：t1,t2
-- cross join笛卡尔积 —— 结果集包括t1表中行和t2表中行的组合->`SELECT t1.id, t2.id FROM t1 CROSS JOIN t2; `
-- inner join —— 必须有一个连接字段条件,结果集包括满足该条件的t1和t2行的组合-> `SELECT t1.id, t2.id FROM t1 INNER JOIN t2 ON t1.pattern = t2.pattern; `
-- left join —— 必须有一个条件,结果集包含左表t1的所有数据和满足条件的t2的行的组合 `SELECT t1.id, t2.id FROM t1 LEFT JOIN t2 ON t1.pattern = t2.pattern;`,此处比inner join多一个1,null
-- right join —— 同left join相反，结果集包含右表t2的所有数据
+
+- cross join 笛卡尔积 —— 结果集包括 t1 表中行和 t2 表中行的组合->`SELECT t1.id, t2.id FROM t1 CROSS JOIN t2; `
+- inner join —— 必须有一个连接字段条件,结果集包括满足该条件的 t1 和 t2 行的组合-> `SELECT t1.id, t2.id FROM t1 INNER JOIN t2 ON t1.pattern = t2.pattern; `
+- left join —— 必须有一个条件,结果集包含左表 t1 的所有数据和满足条件的 t2 的行的组合 `SELECT t1.id, t2.id FROM t1 LEFT JOIN t2 ON t1.pattern = t2.pattern;`,此处比 inner join 多一个 1,null
+- right join —— 同 left join 相反，结果集包含右表 t2 的所有数据
 
 ```go
 type result struct {
@@ -577,7 +578,9 @@ db.Table("users").Select("users.name, emails.email").Joins("left join emails on 
 // 带参数的多重join
 db.Joins("JOIN emails ON emails.user_id = users.id AND emails.email = ?", "jinzhu@example.org").Joins("JOIN credit_cards ON credit_cards.user_id = users.id").Where("credit_cards.number = ?", "411111111111").Find(&user)
 ```
-#### Join预加载
+
+#### Join 预加载
+
 ```go
 // SELECT users.id,users.name,users.age,Company.id AS Company__id,Company.name AS Company__name FROM users LEFT JOIN companies AS Company ON users.company_id = Company.id;
 db.Joins("Company").Find(&users)
@@ -587,7 +590,121 @@ db.InnerJoins("Company").Find(&users)
 // SELECT users.id,users.name,users.age,Company.id AS Company__id,Company.name AS Company__name FROM users LEFT JOIN companies AS Company  ON users.company_id = Company.id AND Company.alive = true;
 db.Joins("Company", db.Where(&Company{Alive: true})).Find(&users)
 ```
+
 #### Scan()
+
+把结果扫描到一个 struct,和 Find()方法类似
+
+```go
+type Result struct {
+  Name string
+  Age  int
+}
+var result Result
+db.Table("users").Select("name", "age").Where("name = ?", "Antonio").Scan(&result)
+// Raw SQL
+db.Raw("SELECT name, age FROM users WHERE name = ?", "Antonio").Scan(&result)
+```
+
+## 高级查询
+
+### 自动选择字段
+
+手动：使用 Select()方法选择特定字段
+自动：将需要选择的字段放在一个 struct 中
+
+```go
+type User struct {
+  ID     uint
+  Name   string
+  Age    int
+  Gender string
+  // 假设后面还有几百个字段...
+}
+type APIUser struct {
+  ID   uint
+  Name string
+}
+// 查询时会自动选择 `id`, `name` 字段
+db.Model(&User{}).Limit(10).Find(&APIUser{})
+// SELECT id, name FROM users LIMIT 10
+
+```
+
+### Locking
+
+Gorm 支持多种类型的锁
+锁：和表关联的标志，
+
+- 针对会话
+- 防止其他会话在特定时间段内访问同一个表。
+- 客户端会话只能为自己获取或释放表锁。它无法获取或释放其他会话的表锁
+
+#### 读锁-共享锁 (表锁)
+
+语法：
+
+- 显式上锁：`LOCK TABLES table_name READ`
+- 隐式上锁：`select `
+- 解锁：`UNLOCK TABLES; `
+
+约束：
+
+1. 当在 A 会话中设置了 READ 锁，则 A 会话中插入数据会报错
+2. 当在 A 会话中设置了 READ 锁，会话 B 依然可以从表中读取数据
+3. 当在 A 会话中设置了 READ 锁，会话 B 如果要插入数据，会进入等待状态，直至 A 会话中的锁被释放
+4. 如果会话终止，则隐式释放所有锁
+
+#### 写锁-排他锁 (表锁)
+
+语法：
+
+- 显式上锁：`LOCK TABLE table_name WRITE;`
+- 隐式上锁：`insert、update、delete`
+  种类：
+
+- 约束：
+
+1. 当在 A 会话中设置了 WRITE 锁,A 会话仍可以检索或者插入数据
+2. 当在 A 会话中设置了 WRITE 锁,会话 B 的所有命令都会进入等待状态，直至解锁
+
+#### 行锁
+
+显式上锁：
+
+- `select * from tableName lock in share mode;`//读锁/共享锁 5.7
+- ``select * from tableName lock for share;`//读锁 8.0
+- `select * from tableName for update;`//写锁/排他锁
+
+解锁：
+
+- 提交事务（commit）
+- 回滚事务（rollback）
+- kill 阻塞进程
+
+---
+
+```go
+// SELECT * FROM users FOR UPDATE
+db.Clauses(clause.Locking{Strength: "UPDATE"}).Find(&users)
+// SELECT * FROM users FOR SHARE OF users
+db.Clauses(clause.Locking{
+  Strength: "SHARE",
+  Table: clause.Table{Name: clause.CurrentTable},
+}).Find(&users)
+
+// SELECT * FROM users FOR UPDATE NOWAIT
+db.Clauses(clause.Locking{
+  Strength: "UPDATE",
+  Options: "NOWAIT",
+}).Find(&users)
+```
+
+### 子查询
+```go
+```
+
+### Group 条件
 
 ## 修改
 

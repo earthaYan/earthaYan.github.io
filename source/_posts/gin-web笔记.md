@@ -13,6 +13,11 @@ go get -u github.com/gin-gonic/gin
 
 Gin 默认使用`encoding/json`进行编译
 
+## 快捷方式：
+
+- gin.H 是 map[string]interface{}的快捷方式
+- gin.Accounts 是 map[string]string 的一种快捷方式
+
 ## AsciiJSON
 
 使用 AsciiJSON 生成具有转义的非 ASCII 字符的 ASCII-only JSON。
@@ -207,8 +212,6 @@ c.SecureJSON(http.StatusOK, names)
 
 ## XML/JSON/YAML/ProtoBuf 渲染
 
-- gin.H 是 map[string]interface{}的快捷方式
-
 ```go
 // JSON
 r.GET("/someJSON", func(c *gin.Context) {
@@ -273,3 +276,149 @@ router.POST("/upload", func(c *gin.Context) {
 ```
 
 ### 多文件
+
+```go
+router.POST("/upload", func(c *gin.Context) {
+  // Multipart form
+  form, _ := c.MultipartForm()
+  files := form.File["upload[]"]
+  for _, file := range files {
+    log.Println(file.Filename)
+    // 上传文件至指定目录
+    c.SaveUploadedFile(file, dst)
+  }
+  c.String(http.StatusOK, fmt.Sprintf("%d files uploaded!", len(files)))
+})
+// curl -X POST http://localhost:8080/upload \
+//   -F "upload[]=@/Users/appleboy/test1.zip" \
+//   -F "upload[]=@/Users/appleboy/test2.zip" \
+//   -H "Content-Type: multipart/form-data"
+```
+
+## 不使用默认的中间件
+
+gin.Default()默认使用 Logger 和 Recovery 中间件
+gin.New()可以用于不需要使用默认的中间件的场景下
+
+## 从 reader 读取数据
+
+```go
+response, err := http.Get("https://raw.githubusercontent.com/gin-gonic/logo/master/color.png")
+if err != nil || response.StatusCode != http.StatusOK {
+  c.Status(http.StatusServiceUnavailable)
+  return
+}
+reader := response.Body
+contentLength := response.ContentLength
+contentType := response.Header.Get("Content-Type")
+extraHeaders := map[string]string{
+  "Content-Disposition": `attachment; filename="gopher.png"`,
+}
+c.DataFromReader(http.StatusOK, contentLength, contentType, reader, extraHeaders)
+```
+
+## 重启或停止 web 服务器
+
+使用`fvbock/endless`代替`ListenAndServe`
+
+```go
+router := gin.Default()
+router.GET("/", handler)
+// [...]
+endless.ListenAndServe(":4242", router)
+```
+
+## 使用 BasicAuth 中间件
+
+gin.BasicAuth() 中间件
+
+```go
+var secrets = gin.H{
+	"foo":    gin.H{"email": "foo@bar.com", "phone": "123433"},
+	"austin": gin.H{"email": "austin@example.com", "phone": "666"},
+	"lena":   gin.H{"email": "lena@guapa.com", "phone": "523443"},
+}
+authorized := r.Group("/admin", gin.BasicAuth(gin.Accounts{
+ "foo":    "bar",
+ "austin": "1234",
+ "lena":   "hello2",
+ "manu":   "4321",
+}))
+
+// /admin/secrets 端点
+// 触发 "localhost:8080/admin/secrets
+authorized.GET("/secrets", func(c *gin.Context) {
+  // 获取用户，它是由 BasicAuth 中间件设置的
+  user := c.MustGet(gin.AuthUserKey).(string)
+  if secret, ok := secrets[user]; ok {
+    c.JSON(http.StatusOK, gin.H{"user": user, "secret": secret})
+  } else {
+    c.JSON(http.StatusOK, gin.H{"user": user, "secret": "NO SECRET :("})
+  }
+})
+```
+## 使用http方法
+```go
+	// 使用默认中间件（logger 和 recovery 中间件）创建 gin 路由
+	router := gin.Default()
+	router.GET("/someGet", getting)
+	router.POST("/somePost", posting)
+	router.PUT("/somePut", putting)
+	router.DELETE("/someDelete", deleting)
+	router.PATCH("/somePatch", patching)
+	router.HEAD("/someHead", head)
+	router.OPTIONS("/someOptions", options)
+	// 默认在 8080 端口启动服务，除非定义了一个 PORT 的环境变量。
+	router.Run()
+```
+## 使用中间件
+```go
+// Logger 中间件将日志写入 gin.DefaultWriter，
+r.Use(gin.Logger())
+// Recovery 中间件会 recover 任何 panic。如果有 panic 的话，会写入 500。
+r.Use(gin.Recovery())
+// 可以为每个路由添加任意数量的中间件。
+r.GET("/benchmark", MyBenchLogger(), benchEndpoint)
+```
+### 路由组
+
+```go
+authorized := r.Group("/", AuthRequired())
+{
+  authorized.POST("/login", loginEndpoint)
+  authorized.POST("/submit", submitEndpoint)
+  authorized.POST("/read", readEndpoint)
+  // 嵌套路由组
+  testing := authorized.Group("testing")
+  testing.GET("/analytics", analyticsEndpoint)
+}
+```
+同下面的完全一样
+
+```go
+authorized := r.Group("/")
+authorized.Use(AuthRequired())
+{
+  authorized.POST("/login", loginEndpoint)
+  authorized.POST("/submit", submitEndpoint)
+  authorized.POST("/read", readEndpoint)
+}
+```
+## 只绑定url查询字符串
+只绑定url查询参数，而忽略post参数：`ShouldBindQuery`
+```go
+type Person struct {
+	Name    string `form:"name"`
+	Address string `form:"address"`
+}
+route.PUT("/testing", startPage)
+func startPage(c *gin.Context) {
+	var person Person
+	if c.ShouldBindQuery(&person) == nil {
+		log.Println("====== Only Bind By Query String ======")
+		log.Println(person.Name)
+		log.Println(person.Address)
+	}
+	c.String(200, "Success")
+}
+```

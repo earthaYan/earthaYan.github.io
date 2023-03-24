@@ -357,7 +357,9 @@ authorized.GET("/secrets", func(c *gin.Context) {
   }
 })
 ```
-## 使用http方法
+
+## 使用 http 方法
+
 ```go
 	// 使用默认中间件（logger 和 recovery 中间件）创建 gin 路由
 	router := gin.Default()
@@ -371,7 +373,9 @@ authorized.GET("/secrets", func(c *gin.Context) {
 	// 默认在 8080 端口启动服务，除非定义了一个 PORT 的环境变量。
 	router.Run()
 ```
+
 ## 使用中间件
+
 ```go
 // Logger 中间件将日志写入 gin.DefaultWriter，
 r.Use(gin.Logger())
@@ -380,6 +384,7 @@ r.Use(gin.Recovery())
 // 可以为每个路由添加任意数量的中间件。
 r.GET("/benchmark", MyBenchLogger(), benchEndpoint)
 ```
+
 ### 路由组
 
 ```go
@@ -393,6 +398,7 @@ authorized := r.Group("/", AuthRequired())
   testing.GET("/analytics", analyticsEndpoint)
 }
 ```
+
 同下面的完全一样
 
 ```go
@@ -404,8 +410,11 @@ authorized.Use(AuthRequired())
   authorized.POST("/read", readEndpoint)
 }
 ```
-## 只绑定url查询字符串
-只绑定url查询参数，而忽略post参数：`ShouldBindQuery`
+
+## 只绑定 url 查询字符串
+
+只绑定 url 查询参数，而忽略 post 参数：`ShouldBindQuery`
+
 ```go
 type Person struct {
 	Name    string `form:"name"`
@@ -422,3 +431,465 @@ func startPage(c *gin.Context) {
 	c.String(200, "Success")
 }
 ```
+
+## 在中间件使用 go routine
+
+当在中间件或 handler 中启动新的 Goroutine 时，不能使用原始的上下文，必须使用只读副本。
+
+```go
+r.GET("/long_async", func(c *gin.Context) {
+  // 创建在 goroutine 中使用的副本
+  cCp := c.Copy()
+  go func() {
+    // 用 time.Sleep() 模拟一个长任务。
+    time.Sleep(5 * time.Second)
+    // 使用的是复制的上下文 "cCp"，这一点很重要
+    log.Println("Done! in path " + cCp.Request.URL.Path)
+  }()
+})
+r.GET("/long_sync", func(c *gin.Context) {
+  // 用 time.Sleep() 模拟一个长任务。
+  time.Sleep(5 * time.Second)
+  // 因为没有使用 goroutine，不需要使用上下文副本
+  log.Println("Done! in path " + c.Request.URL.Path)
+})
+```
+
+## 记录日志
+
+```go
+// 只将日志写入文件
+f, _ := os.Create("gin.log")
+gin.DefaultWriter = io.MultiWriter(f)
+// 需要同时将日志写入文件和控制台
+gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
+```
+
+## 定义路由日志的格式
+
+默认的路由日志格式
+
+```bash
+[GIN-debug] POST   /foo                      --> main.main.func1 (3 handlers)
+[GIN-debug] GET    /bar                      --> main.main.func2 (3 handlers)
+[GIN-debug] GET    /status                   --> main.main.func3 (3 handlers)
+```
+
+自定义日志格式：JSON，key-value 等->`gin.DebugPrintRouteFunc`
+
+```go
+gin.DebugPrintRouteFunc = func(httpMethod, absolutePath, handlerName string, nuHandlers int) {
+  log.Printf("endpoint %v %v %v %v\n", httpMethod, absolutePath, handlerName, nuHandlers)
+}
+```
+
+## 将 request body 绑定到不同的结构体中
+
+`c.ShouldBind`通过`c.Request.Body`绑定数据，但是在部分格式不能多次调用：
+
+- JSON
+- XML
+- MsgPack
+- ProtoBuf
+  如果需要多次绑定到不同结构体,需要使用`c.ShouldBindBodyWith`
+  可以多次调用`c.ShouldBind`的格式：
+- Query
+- Form
+- FormPost
+- FormMultipart
+
+```go
+type formA struct {
+  Foo string `json:"foo" xml:"foo" binding:"required"`
+}
+type formB struct {
+  Bar string `json:"bar" xml:"bar" binding:"required"`
+}
+func SomeHandler(c *gin.Context) {
+  objA := formA{}
+  objB := formB{}
+  // c.ShouldBind 使用了 c.Request.Body，不可重用。
+  if errA := c.ShouldBind(&objA); errA == nil {
+    c.String(http.StatusOK, `the body should be formA`)
+  // 因为现在 c.Request.Body 是 EOF，所以这里会报错。
+  } else if errB := c.ShouldBind(&objB); errB == nil {
+    c.String(http.StatusOK, `the body should be formB`)
+  }
+}
+// 读取 c.Request.Body 并将结果存入上下文。
+if errA := c.ShouldBindBodyWith(&objA, binding.JSON); errA == nil {
+  c.String(http.StatusOK, `the body should be formA`)
+// 这时, 复用存储在上下文中的 body。
+} else if errB := c.ShouldBindBodyWith(&objB, binding.JSON); errB == nil {
+  c.String(http.StatusOK, `the body should be formB JSON`)
+// 可以接受其他格式
+} else if errB2 := c.ShouldBindBodyWith(&objB, binding.XML); errB2 == nil {
+  c.String(http.StatusOK, `the body should be formB XML`)
+}
+```
+
+## 控制日志输出颜色
+
+输出到控制台的日志默认是有颜色的
+
+```go
+// 禁止日志的颜色
+gin.DisableConsoleColor()
+// 强制日志颜色化
+gin.ForceConsoleColor()
+```
+
+## 映射查询字符串或表单参数
+
+```bash
+POST /post?ids[a]=1234&ids[b]=hello HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+names[first]=thinkerou&names[second]=tianou
+```
+
+```go
+ids := c.QueryMap("ids")
+names := c.PostFormMap("names")
+fmt.Printf("ids: %v; names: %v", ids, names)
+
+// query参数——ids: map[b:hello a:1234],
+// 表单参数——names: map[second:tianou first:thinkerou]
+
+```
+
+## 查询字符串参数
+
+// 使用现有的基础请求对象解析查询字符串参数。
+示例 URL： /welcome?firstname=Jane&lastname=Doe
+
+```go
+router.GET("/welcome", func(c *gin.Context) {
+  firstname := c.DefaultQuery("firstname", "Guest")
+  lastname := c.Query("lastname") // c.Request.URL.Query().Get("lastname") 的一种快捷方式
+
+  c.String(http.StatusOK, "Hello %s %s", firstname, lastname)
+})
+```
+
+## model binding 绑定和验证
+
+在绑定的所有字段上，设置相应的 tag，比如使用 json 绑定的时候，设置字段标签为 `json:"filename"`
+方法：ShouldBind, ShouldBindJSON, ShouldBindXML, ShouldBindQuery, ShouldBindYAML
+行为： 如果发生绑定错误，Gin 会返回错误并由开发者处理错误和请求。
+
+```go
+type Login struct {
+	User     string `form:"user" json:"user" xml:"user"  binding:"required"`
+	Password string `form:"password" json:"password" xml:"password" binding:"required"`
+}
+// 绑定 JSON ({"user": "manu", "password": "123"})
+router.POST("/loginJSON", func(c *gin.Context) {
+  var json Login
+  if err := c.ShouldBindJSON(&json); err != nil {
+    c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+    return
+  }
+
+  if json.User != "manu" || json.Password != "123" {
+    c.JSON(http.StatusUnauthorized, gin.H{"status": "unauthorized"})
+    return
+  }
+
+  c.JSON(http.StatusOK, gin.H{"status": "you are logged in"})
+})
+// 绑定XML
+//	<?xml version="1.0" encoding="UTF-8"?>
+//	<root>
+//		<user>manu</user>
+//		<password>123</password>
+//	</root>)
+router.POST("/loginXML", func(c *gin.Context) {
+  var xml Login
+  if err := c.ShouldBindXML(&xml); err != nil {
+    c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+    return
+  }
+
+  if xml.User != "manu" || xml.Password != "123" {
+    c.JSON(http.StatusUnauthorized, gin.H{"status": "unauthorized"})
+    return
+  }
+
+  c.JSON(http.StatusOK, gin.H{"status": "you are logged in"})
+})
+// 绑定 HTML 表单 (user=manu&password=123)
+router.POST("/loginForm", func(c *gin.Context) {
+  var form Login
+  // 根据 Content-Type Header 推断使用哪个绑定器。
+  if err := c.ShouldBind(&form); err != nil {
+    c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+    return
+  }
+  if form.User != "manu" || form.Password != "123" {
+    c.JSON(http.StatusUnauthorized, gin.H{"status": "unauthorized"})
+    return
+  }
+  c.JSON(http.StatusOK, gin.H{"status": "you are logged in"})
+})
+```
+
+## 绑定 uri
+
+```go
+type Person struct {
+	ID   string `uri:"id" binding:"required,uuid"`
+	Name string `uri:"name" binding:"required"`
+}
+route.GET("/:name/:id", func(c *gin.Context) {
+  var person Person
+  if err := c.ShouldBindUri(&person); err != nil {
+    c.JSON(400, gin.H{"msg": err.Error()})
+    return
+  }
+  c.JSON(200, gin.H{"name": person.Name, "uuid": person.ID})
+})
+```
+
+## 绑定查询字符串或者表单数据
+
+```go
+
+type Person struct {
+	Name     string    `form:"name"`
+	Address  string    `form:"address"`
+	Birthday time.Time `form:"birthday" time_format:"2006-01-02" time_utc:"1"`
+}
+route.GET("/testing", startPage)
+func startPage(c *gin.Context) {
+	var person Person
+	// 如果是 `GET` 请求，只使用 `Form` 绑定引擎（`query`）。
+	// 如果是 `POST` 请求，首先检查 `content-type` 是否为 `JSON` 或 `XML`，然后再使用 `Form`（`form-data`）。
+	// 查看更多：https://github.com/gin-gonic/gin/blob/master/binding/binding.go#L88
+	if c.ShouldBind(&person) == nil {
+		log.Println(person.Name)
+		log.Println(person.Address)
+		log.Println(person.Birthday)
+	}
+
+	c.String(200, "Success")
+}
+```
+
+## 绑定表单数据到自定义 struct
+
+不支持嵌套的 struct
+
+```go
+type StructA struct {
+    FieldA string `form:"field_a"`
+}
+
+type StructB struct {
+    NestedStruct StructA
+    FieldB string `form:"field_b"`
+}
+func GetDataB(c *gin.Context) {
+  var b StructB
+  c.Bind(&b)
+  c.JSON(200, gin.H{
+      "a": b.NestedStruct,
+      "b": b.FieldB,
+  })
+}
+```
+
+## 自定义 http 配置
+
+```go
+http.ListenAndServe(":8080", router)
+// 自定义
+s := &http.Server{
+  Addr:           ":8080",
+  Handler:        router,
+  ReadTimeout:    10 * time.Second,
+  WriteTimeout:   10 * time.Second,
+  MaxHeaderBytes: 1 << 20,
+}
+s.ListenAndServe()
+```
+
+## 自定义中间件
+
+```go
+func Logger() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		t := time.Now()
+
+		// 设置 example 变量
+		c.Set("example", "12345")
+
+		// 请求前
+
+		c.Next()
+
+		// 请求后
+		latency := time.Since(t)
+		log.Print(latency)
+
+		// 获取发送的 status
+		status := c.Writer.Status()
+		log.Println(status)
+	}
+}
+//
+r := gin.New()
+r.Use(Logger())
+
+r.GET("/test", func(c *gin.Context) {
+  example := c.MustGet("example").(string)
+  // 打印："12345"
+  log.Println(example)
+})
+```
+
+## 自定义验证
+
+```go
+type Booking struct {
+	CheckIn  time.Time `form:"check_in" binding:"required,bookabledate" time_format:"2006-01-02"`
+	CheckOut time.Time `form:"check_out" binding:"required,gtfield=CheckIn,bookabledate" time_format:"2006-01-02"`
+}
+var bookableDate validator.Func = func(fl validator.FieldLevel) bool {
+	date, ok := fl.Field().Interface().(time.Time)
+	if ok {
+		today := time.Now()
+		if today.After(date) {
+			return false
+		}
+	}
+	return true
+}
+	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
+		v.RegisterValidation("bookabledate", bookableDate)
+	}
+```
+
+## 设置/获取 cookie
+
+获取:`cookie, err := c.Cookie("gin_cookie")`
+设置:`c.SetCookie("gin_cookie", "test", 3600, "/", "localhost", false, true)`
+
+## 路由参数
+匹配 /user/john 但不会匹配 /user/ 或者 /user:
+```go
+router.GET("/user/:name", func(c *gin.Context) {
+  name := c.Param("name")
+  c.String(http.StatusOK, "Hello %s", name)
+})
+```
+匹配 /user/john/ 和 /user/john/send:
+```go
+//  如果没有其他路由匹配 /user/john，它将重定向到 /user/john/
+router.GET("/user/:name/*action", func(c *gin.Context) {
+  name := c.Param("name")
+  action := c.Param("action")
+  message := name + " is " + action
+  c.String(http.StatusOK, message)
+})
+```
+
+## 路由组
+```go
+v1 := router.Group("/v1")
+{
+  v1.POST("/login", loginEndpoint)
+  v1.POST("/submit", submitEndpoint)
+  v1.POST("/read", readEndpoint)
+}
+```
+
+## 运行多个服务
+GO 
+```go
+var (
+	g errgroup.Group
+)
+
+func router01() http.Handler {
+	e := gin.New()
+	e.Use(gin.Recovery())
+	e.GET("/", func(c *gin.Context) {
+		c.JSON(
+			http.StatusOK,
+			gin.H{
+				"code":  http.StatusOK,
+				"error": "Welcome server 01",
+			},
+		)
+	})
+	return e
+}
+func router02() http.Handler {
+	e := gin.New()
+	e.Use(gin.Recovery())
+	e.GET("/", func(c *gin.Context) {
+		c.JSON(
+			http.StatusOK,
+			gin.H{
+				"code":  http.StatusOK,
+				"error": "Welcome server 02",
+			},
+		)
+	})
+
+	return e
+}
+
+server01 := &http.Server{
+  Addr:         ":8080",
+  Handler:      router01(),
+  ReadTimeout:  5 * time.Second,
+  WriteTimeout: 10 * time.Second,
+}
+
+server02 := &http.Server{
+  Addr:         ":8081",
+  Handler:      router02(),
+  ReadTimeout:  5 * time.Second,
+  WriteTimeout: 10 * time.Second,
+}
+
+g.Go(func() error {
+  return server01.ListenAndServe()
+})
+
+g.Go(func() error {
+  return server02.ListenAndServe()
+})
+
+if err := g.Wait(); err != nil {
+  log.Fatal(err)
+}
+```
+## 重定向
+### get重定向
+```go
+r.GET("/test", func(c *gin.Context) {
+	c.Redirect(http.StatusMovedPermanently, "http://www.google.com/")
+})
+```
+### post 重定向
+```go
+r.POST("/test", func(c *gin.Context) {
+	c.Redirect(http.StatusFound, "/foo")
+})
+```
+### 路由重定向
+使用`HandleContext`
+```go
+r.GET("/test", func(c *gin.Context) {
+    c.Request.URL.Path = "/test2"
+    r.HandleContext(c)
+})
+r.GET("/test2", func(c *gin.Context) {
+    c.JSON(200, gin.H{"hello": "world"})
+})
+```
+
+## 静态文件

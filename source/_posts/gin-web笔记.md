@@ -893,3 +893,38 @@ r.GET("/test2", func(c *gin.Context) {
 ```
 
 ## 静态文件
+```go
+router.Static("/assets", "./assets")
+router.StaticFS("/more_static", http.Dir("my_file_system"))
+router.StaticFile("/favicon.ico", "./resources/favicon.ico")
+```
+## 静态资源嵌入
+```go
+// loadTemplate 加载由 go-assets-builder 嵌入的模板
+func loadTemplate() (*template.Template, error) {
+	t := template.New("")
+	for name, file := range Assets.Files {
+		if file.IsDir() || !strings.HasSuffix(name, ".tmpl") {
+			continue
+		}
+		h, err := ioutil.ReadAll(file)
+		if err != nil {
+			return nil, err
+		}
+		t, err = t.New(name).Parse(string(h))
+		if err != nil {
+			return nil, err
+		}
+	}
+	return t, nil
+}
+t, err := loadTemplate()
+if err != nil {
+  panic(err)
+}
+r.SetHTMLTemplate(t)
+
+r.GET("/", func(c *gin.Context) {
+  c.HTML(http.StatusOK, "/html/index.tmpl", nil)
+})
+```

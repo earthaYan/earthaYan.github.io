@@ -14,3 +14,15 @@ cobra作用：
 go get -u github.com/spf13/cobra@latest
 import "github.com/spf13/cobra"
 ```
+
+## 基础概念
+Commands:动作
+Args:事物
+Flags:动作的修饰符
+遵循的模式：`APPNAME VERB NOUN --ADJECTIVE`或者`APPNAME COMMAND ARG --FLAG`
+
+### 举例
+hugo server --port=1313
+遵循模式2，server是一个command,port是一个flag
+git clone URL --bare
+遵循模式1，clone是一个动词，URL是名词,bare是一个形容词。告诉git克隆url的内容

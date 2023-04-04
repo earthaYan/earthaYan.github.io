@@ -156,3 +156,11 @@ func main() {
 	cmd.Execute()
 }
 ```
+
+### 和Flags一起使用
+#### 为一个command分配flags
+1. 由于flags
+```go
+
+```
+### 位置和自定义参数

@@ -22,7 +22,7 @@ Flags:动作的修饰符
 遵循的模式：`APPNAME VERB NOUN --ADJECTIVE`或者`APPNAME COMMAND ARG --FLAG`
 
 ### 举例
-hugo server --port=1313
+hugo server --po  rt=1313
 遵循模式2，server是一个command,port是一个flag
 git clone URL --bare
 遵循模式1，clone是一个动词，URL是名词,bare是一个形容词。告诉git克隆url的内容
@@ -41,3 +41,4 @@ type Command struct{
 2. ...标志：表明可以为之前的参数指定多个值
 3. |标志：表明左右两边的参数是互相排斥的，即不能同时使用|左右两边的参数
 4. {}标志：划定一系列互相排斥的参数，如果这些参数是可选的，应包括在[]之内
+

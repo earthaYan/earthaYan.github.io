@@ -132,7 +132,7 @@ export default function MyComponent() {
 
 可以避免调用在对话框的组件使用了 overflow:hidden 或者其他样式的情况下，不能展示悬浮对话框
 
-### 将 React 组件渲染到非 React 服务端页面标记
+### 在非 React 服务端页面标记渲染 React 组件
 
 React root 如果是非 React 构建的静态页面或者服务端渲染页面的一部分，就可以利用 portals 在静态区域创建交互区域，比如 sideBars
 
@@ -140,7 +140,9 @@ React root 如果是非 React 构建的静态页面或者服务端渲染页面�
 
 - 即使内部渲染成 DOM 的不同部分，portal 也可以将这个应用作为一个<font color="red">状态共享</font>的 React 树去对待
 
-### 将 React 组件渲染到非 React 的 DOM 节点
+完整代码见:https://stackblitz.com/edit/react-ts-cwfhhp?file=index.html,style.css
+
+### 在非 React 的 DOM 节点渲染 React 组件
 
 用 portal 管理 React 外部的 DOM 节点的内容。
 

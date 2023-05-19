@@ -190,5 +190,3 @@ pflag.Parse()
 viper.BindPFlags(pflag.CommandLine)
 i := viper.GetInt("flagname") // 从viper而不是从pflag中恢复值
 ```
-### 远程 key/value 存储支持
-### 从viper中获取Value

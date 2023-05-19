@@ -10,9 +10,8 @@ categories: GoLang
 `go get github.com/spf13/viper`
 
 ## 作用
-
+简言之：用于读取配置。它支持将配置从多种不同的源加载到一个应用程序
 一个完整的配置解决方案，满足应用配置需求的注册表
-
 1. 设置默认值
 2. 从 JSON,TOML,YAML,HCL,INI,环境文件和 Java Properties 配置文件中读取配置
 3. 实时监听和重新读取配置文件

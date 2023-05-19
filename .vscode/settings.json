@@ -1,3 +1,14 @@
 {
-  "cSpell.words": ["CSSOM", "SPDY", "struct", "webp"]
+  "cSpell.words": [
+    "CSSOM",
+    "mykeyring",
+    "pflag",
+    "pflags",
+    "Println",
+    "Setenv",
+    "SPDY",
+    "struct",
+    "Unmarshal",
+    "webp"
+  ]
 }

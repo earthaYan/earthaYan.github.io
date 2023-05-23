@@ -33,12 +33,32 @@ web 中的`Prompt`组件是从核心的`Prompt`中二次导出的。
 
 #### string
 
-当用户试图离开当前页时，会给与用户这个字符串信息
-
+当用户试图离开当前页时，会给用户这个字符串信息
+{%asset_img prompt.jpeg %}
 #### function
+```jsx
+export function Users() {
+  return (
+    <React.Fragment>
+      <Prompt
+        message={(nextLocation, action) => {
+          if (action === 'POP') {
+            console.log('Backing up...');
+          }
 
+          return nextLocation.pathname.startsWith('/app')
+            ? false
+            : `Are you sure you want to go to ${location.pathname}?`;
+        }}
+      />
+      <h2>Users</h2>
+    </React.Fragment>
+  );
+}
+```
 会在进入用户试图导航进入的下一个 `location`和 `action`之前被调用。
 返回值：
 
-1. string：向用户展示一个提示
-2. true：允许这个过度
+1. string：向用户展示一个提示,用户点击确定后跳转，点击取消停留在原地
+2. true：允许这个过度，直接跳转到nextLocation
+3. false:不允许过度，且点击link无反应

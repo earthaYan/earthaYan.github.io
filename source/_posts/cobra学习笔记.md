@@ -57,8 +57,13 @@ type Command struct{
     Use string
     Aliases []string
     SuggestFor []string
+    Short string
+    GroupID string
 }
 ```
+### GroupID
+#### 作用
+用于将命令分组，具有相同 GroupID 的命令会被放入同一个命令组中。
 ### Use
 #### 作用
 1. 定义命令的使用说明,使用户快速理解每个命令及其子命令的用法
@@ -97,6 +102,11 @@ SuggestFor: []string{"run"}, // 对 "run" 提供建议
 >Error: invalid argument "run" for "app"
 >Did you mean "start" or "stop"?
 >Usage: app start|stop
-
-
-
+### Short
+定义命令或字段的简短描述，在`help`里展示的简短描述
+#### 显示条件
+1. 实际定义了该字段
+2. 没有定义Long字段
+如果同时定义了，则只会展示Long字段
+### Long
+作用：定义命令或字段的 详细描述

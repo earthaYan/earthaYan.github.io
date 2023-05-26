@@ -59,11 +59,168 @@ type Command struct{
     SuggestFor []string
     Short string
     GroupID string
+    Example  string
+    ValidArgs []string
+    ValidArgsFunction func(cmd *Command, args []string, toComplete string) ([]string, ShellCompDirective)
+    Args PositionalArgs
+	ArgAliases []string
+    BashCompletionFunction string
+    Deprecated string
+    Annotations map[string]string
+    Version string
+    PersistentPreRun func(cmd *Command, args []string)
+    PersistentPreRunE func(cmd *Command, args []string) error
+    PreRun func(cmd *Command, args []string)
+    PreRunE func(cmd *Command, args []string) error
+    Run func(cmd *Command, args []string)
+    RunE func(cmd *Command, args []string) error
+    PostRun func(cmd *Command, args []string)
+    PostRunE func(cmd *Command, args []string) error
+    PersistentPostRun func(cmd *Command, args []string)
+    PersistentPostRunE func(cmd *Command, args []string) error
+    FParseErrWhitelist FParseErrWhitelist
+    CompletionOptions CompletionOptions
+    TraverseChildren bool
+    Hidden bool
+    SilenceErrors bool
+	SilenceUsage bool
+    DisableFlagParsing bool
+	DisableAutoGenTag bool
+    DisableFlagsInUseLine bool
+    DisableSuggestions bool
+    SuggestionsMinimumDistance int
 }
 ```
+### Hidden
+定义该命令不应该出现在可获得命令列表中的
+### TraverseChildren
+定义当用户输入该命令的路径时,是否遍历其子命令。
+### CompletionOptions
+定义自动补全选项
+```go
+var cmd = &cobra.Command{
+  CompletionOptions: cobra.CompletionOptions{
+    Flags: []string{"flag1", "flag2"},
+    Commands: []string{"subcmd1", "subcmd2"},
+    GlobalFlags: true,
+  },
+}
+
+```
+### FParseErrWhitelist
+定义该命令在标志解析阶段忽略的错误。
+原本：当我们在命令行中输入与命令标志不匹配的内容时,Cobra 会返回一个 flag parse error
+```bash
+Error: unknown flag: --gh
+Usage:
+  add [action] [options] [target] [flags]
+
+Flags:
+  -h, --help   help for add
+```
+### Run相关函数
+> 执行顺序：
+>	PersistentPreRun()
+>	PreRun()
+>	Run()
+>	PostRun()
+>	PersistentPostRun()
+**Run和RunE的区别是后者会返回error**
+#### PersistentPostRun
+会在每次运行Run命令后被调用，会被子命令继承
+#### PostRun
+在Run之后调用，主要用于收尾工作
+- 清理临时文件
+- 断开数据库连接
+- 停止日志记录
+#### Run
+通常是实际功能函数，命令的核心功能
+- 访问命令的标志、参数等
+- 执行命令的主要业务逻辑
+- 调用外部服务
+- 修改系统状态
+- 返回结果给用户
+- 如果没有定义Run,本质上就是一个空命令
+#### PreRun
+会在每次运行该命令前被调用，不会被子命令继承
+
+#### PersistentPreRun
+会在每次运行该命令前被调用，会被子命令继承
+1. 验证全局标志或环境变量
+2. 启动日志记录
+3. 连接数据库等
+#### PersistentPreRunE
+### Annotations
+用于为该命令添加注解，可以用`cmd.Annotations`访问，主要用于在应用逻辑中传递和共享上下文信息,对最终用户不可见。
+### Version
+为命令定义版本，如果命令中定义了该字段且命令还没有定义 `version`标志，则cobra会自动给命令添加 --version和-v 标志，前提是这两者都没有定义。
+执行`cmd --version`会输出Version中定义的值
+### Deprecated
+如果该命令已经被废弃，当使用的时候应该打印这个字符串
+### BashCompletionFunction
+值是我们的 Bash 自动补全函数的函数名,例如:
+```go
+go
+var cmd = &cobra.Command{
+  BashCompletionFunction: "autocompleteDo",
+}
+// 同名函数实现
+func autocompleteDo(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
+  // ...
+}
+```
+### ArgAliases
+ValidArgs别名列表，不会提示给用户，但是手动输入也会接收
+### Args
+作用：指定它接收的位置参数模式,在内部可以：
+1. 定义当前命令接收的位置参数
+2. 校验用户输入的参数是否正确
+3. 返回一个 nil 的 error 表示校验成功,或返回非 nil 的 error 表示校验失败
+取值类型：`PositionalArgs`
+
+```go
+type PositionalArgs func(*Command, []string) error
+```
+### ValidArgsFunction
+动态的ValidArgs，一个命令中不能同时存在`ValidArgsFunction`和`ValidArgs`选项
+- 第三个参数`toCoplete`用于实现命令补全
+    - cobra.ShellCompDirectiveDefault:继续使用默认的补全方案
+    - cobra.ShellCompDirectiveError：阻止补全并返回错误
+    - cobra.ShellCompDirectiveNoFileComp：仅提供文件名补全而非命令补全
+```go
+ValidArgsFunction: func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
+    // 检查 toComplete 是否以 "enabl" 开头,如果是则返回可能的补全选项 ["enable", "enables", "enabling"]
+  if toComplete == "enabl" {
+    return []string{"enable", "enables", "enabling"}, cobra.ShellCompDirectiveNoFileComp 
+  }
+  
+  if args[0] != "enable" {
+    // 阻止补全并返回错误
+    return nil, cobra.ShellCompDirectiveError
+  }
+  
+  return nil, cobra.ShellCompDirectiveDefault
+} 
+
+```
+### ValidArgs
+作用：定义命令接收的所有合法的非flag参数，cobra会根据这个验证用户在shell命令中输入的参数是否有效，并在help输出中生成参数列表信息
+疑问：为什么定义了ValidArgs，运行./demo add不会报错？
+原因：cobra的解析流程导致的
+1. 解析命令链,识别出各个命令和参数
+2. 对每个命令及其参数,检查是否符合 ValidArgs 中的要求
+3. 如果不符合,则视为普通参数传入,并继续后续检查
+4. 检查是否定义了该参数的子命令
+5. 如果没有子命令,则将该参数传入 Run 方法
+6. 在 Run 方法中,需要我们自行判断该参数是否有效,如果无效需要手动报错
+### Example
+作用：示范如何使用命令
+区别：Use定义规范，Example展示用例
 ### GroupID
 #### 作用
 用于将命令分组，具有相同 GroupID 的命令会被放入同一个命令组中。
+1. 实际使用中不会影响命令的实际行为
+2. 优化help输出和自动补全功能
 ### Use
 #### 作用
 1. 定义命令的使用说明,使用户快速理解每个命令及其子命令的用法
@@ -76,6 +233,10 @@ type Command struct{
 2. `...`表示可以为前面的参数指定多个值,比如`Use: "app STR... NUM..."`,使用`app hello world 2 3` 。一个键(key)可以有多个值(value)
 3. `|`表示互斥,在一个命令里不能同时使用两边的参数
 4. `{}`表示分隔一组互斥参数,比如`add {arg1|arg2|arg3} {arg4|arg5|arg6}`
+
+> - 如果go build生成的二进制文件名demo和 rootCmd 的 Use 字段第一个单词相同,那么 ./demo 会直接被 Cobra 识别为 rootCmd 命令,而不是普通参数。
+> - 如果不同，则./demo相当于普通参数传入，需要在Run方法中自行解析
+
 ### Aliases
 #### 作用
 1. 表示命令或参数的别名

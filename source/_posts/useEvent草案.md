@@ -1,21 +1,21 @@
 ---
 title: useEvent草案
 date: 2023-07-03 23:49:34
-tags: [React,RFC]
+tags: [React, RFC]
 categories: React
 ---
 
-* Start Date: 2022–05-04
-* RFC PR: (leave this empty)
-* React Issue: https://github.com/facebook/react/issues/14099
+- Start Date: 2022–05-04
+- RFC PR: (leave this empty)
+- React Issue: https://github.com/facebook/react/issues/14099
 
-# Summary
+# 总结
 
-A Hook to define an event handler with an always-stable function identity.
+这个 Hook 定义了一个事件处理函数，这个函数有着稳定的函数标识。
 
-# Basic example
+# 基础示例
 
-You can wrap any event handler into `useEvent`.
+你可以将任何事件处理函数包裹进 `useEvent`。
 
 ```js
 function Chat() {
@@ -29,9 +29,10 @@ function Chat() {
 }
 ```
 
+`useEvent` 内部的代码可以“看到”调用时候的 props/state 值。即使引用的的
 The code inside `useEvent` “sees” the props/state values at the time of the call. The returned function has a stable identity even if the props/state it references change. There is no dependency array.
 
-# Motivation
+# 动机
 
 ## Reading state/props in event handlers breaks optimizations
 
@@ -114,7 +115,7 @@ function Chat({ selectedRoom }) {
 }
 ```
 
-A problem with this implementation is that changing `theme` or `muted` will cause the socket to reconnect. This is because `theme` and  `muted` are used inside the effect, and so they have to be specified in the effect dependency list. When they change, the effect has to re-run, destroying and recreating the socket.
+A problem with this implementation is that changing `theme` or `muted` will cause the socket to reconnect. This is because `theme` and `muted` are used inside the effect, and so they have to be specified in the effect dependency list. When they change, the effect has to re-run, destroying and recreating the socket.
 
 If you move these socket callbacks out of the effect and wrap them into `useCallback`, their dependency lists would still have to include `theme` and `muted`. So if `theme` or `muted` change, the callbacks will change their identity, and the effect (which depends on these callbacks) will have to re-run. So `useCallback` doesn’t solve this problem.
 
@@ -128,12 +129,12 @@ function Chat({ selectedRoom }) {
   const theme = useContext(ThemeContext);
 
   // ✅ Stable identity
-  const onConnected = useEvent(connectedRoom => {
+  const onConnected = useEvent((connectedRoom) => {
     showToast(theme, 'Connected to ' + connectedRoom);
   });
 
   // ✅ Stable identity
-  const onMessage = useEvent(message => {
+  const onMessage = useEvent((message) => {
     showToast(theme, 'New message: ' + message);
     if (!muted) {
       playSound();
@@ -163,10 +164,10 @@ The effect depends on `selectedRoom`, so when the room changes, the socket needs
 
 When you call `onConnected` or `onMessage`, the `theme` and `muted` variables inside are “fresh” and capture their values at the time of the event call. However, you might also want to pass some information from the “past”.
 
-In the above example, if `selectedRoom` changes (say, from “Room A” to “Room B”) while `checkConnection("Room A")` is being awaited, reading the `selectedRoom` inside the `onConnected` event will give you the latest value (“Room B”). But the room you’ve just connected to (and which should appear in the toast) is “Room A”. The value we want is not the *latest* value but the one that *caused* this event. This is why we pass it as a part of the event call (“Connected to Room A”), and `onConnected` receives `connectedRoom` as an argument:
+In the above example, if `selectedRoom` changes (say, from “Room A” to “Room B”) while `checkConnection("Room A")` is being awaited, reading the `selectedRoom` inside the `onConnected` event will give you the latest value (“Room B”). But the room you’ve just connected to (and which should appear in the toast) is “Room A”. The value we want is not the _latest_ value but the one that _caused_ this event. This is why we pass it as a part of the event call (“Connected to Room A”), and `onConnected` receives `connectedRoom` as an argument:
 
 ```js
-const onConnected = useEvent(connectedRoom => {
+const onConnected = useEvent((connectedRoom) => {
   console.log(selectedRoom); // already "Room B"
   showToast(theme, 'Connected to ' + connectedRoom); // "Room A" passed from effect
 });
@@ -182,18 +183,18 @@ Functions can be wrapped with `useEvent` further down from their definition — 
 function Chat({ selectedRoom }) {
   const [muted, setMuted] = useState(false);
   const theme = useContext(ThemeContext);
-  
+
   const onConnected = (connectedRoom) => {
     showToast(theme, 'Connected to ' + connectedRoom);
   };
-  
+
   const onMessage = (message) => {
     showToast(theme, 'New message: ' + message);
     if (!muted) {
       playSound();
     }
   };
-  
+
   useRoom(selectedRoom, { onConnected, onMessage });
   // ...
 }
@@ -241,7 +242,7 @@ This observation gives us a hint: conceptually, “User visited the page” is i
 ```js
 function Page({ route, currentUser }) {
   // ✅ Stable identity
-  const onVisit = useEvent(visitedUrl => {
+  const onVisit = useEvent((visitedUrl) => {
     logAnalytics('visit_page', visitedUrl, currentUser.name);
   });
 
@@ -256,7 +257,7 @@ Now our code is split in two parts. The “reactive” part of the code — whic
 
 When an effect doesn't do anything except calling an event, it's often a sign that there may be a better place to put that code than an effect. For example, the analytics log call might better be placed in a route change handler (conceptually, it's an event!) rather than as an effect caused by the page re-render. Thinking in terms of events and effects helps notice when effects are not necessary.
 
-# Detailed design
+# 细节设计
 
 ## Internal implementation
 
@@ -293,7 +294,7 @@ As an optimization, when server rendering, `useEvent` will return the same throw
 
 ## Linter plugin
 
-The dependency linter will treat the `useEvent` return values in scope as “stable”, so they are optional in the dependency list. (Similar to how `setState` functions are treated today.) The `useEvent` functions passed from parent components would have to be declared as dependencies.  When you use a plain function from inside an effect, the linter “suggestions” would generate a `useEvent` rather than `useCallback` wrapper if the function’s name starts with `on` or `handle`. 
+The dependency linter will treat the `useEvent` return values in scope as “stable”, so they are optional in the dependency list. (Similar to how `setState` functions are treated today.) The `useEvent` functions passed from parent components would have to be declared as dependencies. When you use a plain function from inside an effect, the linter “suggestions” would generate a `useEvent` rather than `useCallback` wrapper if the function’s name starts with `on` or `handle`.
 
 In the future, it might make sense for the linter to warn if you have `handle*` or `on*` functions in the effect dependencies. The solution would be to wrap them into `useEvent` in the same component. This lets you be sure that the event handler won’t cause the effect to re-fire (because its identity is always stable) and makes it unnecessary in the dependency list.
 
@@ -310,11 +311,14 @@ Some functions need to be memoized but are used during rendering. `useCallback` 
 ```js
 function ThemedGrid() {
   const theme = useContext(ThemeContext);
-  const renderItem = useCallback((item) => {
-    // Called during rendering, so it's not an event.
-    return <Row {...item} theme={theme} />;
-  }, [theme]);
-  return <Grid renderItem={renderItem} />
+  const renderItem = useCallback(
+    (item) => {
+      // Called during rendering, so it's not an event.
+      return <Row {...item} theme={theme} />;
+    },
+    [theme]
+  );
+  return <Grid renderItem={renderItem} />;
 }
 ```
 
@@ -367,34 +371,34 @@ This code is broken: since the effect no longer depends on `selectedRoom`, chang
 
 As a rule of thumb, it helps to think of events as things that objectively happened at a particular moment (“user visited a page”, “connected to a room”, “received a message”) regardless of how we structure the code. If the function name starts with `on` or `handle`, it’s probably an event. Conversely, events shouldn’t need to have cleanup code (because they represent discrete moments in time).
 
-# Drawbacks
+# 缺点
 
-* This adds a new concept to React. People are already struggling with the best practices around defining functions ("should I use `useCallback` everywhere?") and this adds another layer to it.
-    * This is the biggest issue. However, we think this concept is unavoidable in the practical usage of React so it benefits from a first-class API, a shared vocabulary, and a set of best practices. Between [#14099](https://github.com/facebook/react/issues/14099) and [#16956](https://github.com/facebook/react/issues/16956), the problem with `useCallback` invalidation is one of the top upvoted issues, is in our FAQ, and is one of the earliest patterns we needed to [write about](https://overreacted.io/making-setinterval-declarative-with-react-hooks/) after introducing Hooks. Even in the world where [memoization is done by a compiler](https://www.youtube.com/watch?v=lGEMwh32soc), we have to distinguish between optimizations and semantic guarantees about re-firing. We suspect that `useEvent` is a fundamental missing piece in the Hooks programming model and that it will provide the correct way to fix overfiring effects without error-prone hacks like skipping dependencies.
-* Compared to a plain event handler, wrapping with `useEvent` looks more noisy.
-    * However, it makes more sense to compare it with `useCallback` which people use today to solve the same problems. Many (likely the majority) of `useCallback` wrappers are used for functions that are never called during render, so they can be replaced with `useEvent`. Compared to them, `useEvent` is an ergonomic improvement (no dependency list and no invalidation). And it is optional, so if you prefer you can keep the code as is.
-* `useEvent` makes the "event handler" term broader than just the DOM event handlers.
-    * It could be called something like `useStableCallback` or `useCommittedCallback`. However, the whole point is to encourage using it for event handlers. Having a short name helps, and "is this an event handler?" is a good rule of thumb for the majority of cases when you want to use it. Even in effects, the cases where you'd want to extract a part of logic into an event corresponds to when you want to express "something happened!" (e.g. the user visited a page, and you want to log that). Conceptually, these "events" are similar to Events in Functional Reactive Programming. But most importantly, it is already common in React to refer to any `on*` callback prop as an "event handler", regardless of whether it corresponds to any actual DOM event (e.g. `onIntersect`, `onFetchComplete`, `onAddTodo`). `useEvent` is exactly the same concept.
-* Compared to `useCallback`, the implementation of `useEvent` adds extra work to the commit phase. 
-    * However, in practice this pattern is already widespread. Having a built-in way to do this and a set of best practices seems better overall than ad-hoc solutions that exist in many libraries and products but suffer from timing flaws.
-* There are a few edge cases. However, we think they’re not dealbreakers.
-    * Unmounting layout effects will observe the previous version of the event callback but unmounting non-layout effects will run after the switch, so they will observe the next version. This is similar to how reading a ref during unmounting layout and non-layout effects produces different results.
-    * The values in the event handler correspond to the values at the time it was called. This means that you don’t get truly “live” bindings. For example, if you have `async`/`await` inside an event and you read some prop after the `await`, the value will be the same as before the `await`. To get a “fresh” value again, you would need to step into another event. For this reason, events should usually not be asynchronous. It’s best to treat them as fire-and-forget: “here’s what just happened”
-    * The “conditional event” case like `onSomething={cond ? handler1 : handler2}`. In this case, if you use `onSomething` as an effect dependency, it would re-fire when `cond` changes. You can “protect” against it by moving the `useEvent`  wrapping to the same component as the effect that calls `onSomething`. We may consider adding more runtime or linter warnings if this case ends up common.
+- This adds a new concept to React. People are already struggling with the best practices around defining functions ("should I use `useCallback` everywhere?") and this adds another layer to it.
+  - This is the biggest issue. However, we think this concept is unavoidable in the practical usage of React so it benefits from a first-class API, a shared vocabulary, and a set of best practices. Between [#14099](https://github.com/facebook/react/issues/14099) and [#16956](https://github.com/facebook/react/issues/16956), the problem with `useCallback` invalidation is one of the top upvoted issues, is in our FAQ, and is one of the earliest patterns we needed to [write about](https://overreacted.io/making-setinterval-declarative-with-react-hooks/) after introducing Hooks. Even in the world where [memoization is done by a compiler](https://www.youtube.com/watch?v=lGEMwh32soc), we have to distinguish between optimizations and semantic guarantees about re-firing. We suspect that `useEvent` is a fundamental missing piece in the Hooks programming model and that it will provide the correct way to fix overfiring effects without error-prone hacks like skipping dependencies.
+- Compared to a plain event handler, wrapping with `useEvent` looks more noisy.
+  - However, it makes more sense to compare it with `useCallback` which people use today to solve the same problems. Many (likely the majority) of `useCallback` wrappers are used for functions that are never called during render, so they can be replaced with `useEvent`. Compared to them, `useEvent` is an ergonomic improvement (no dependency list and no invalidation). And it is optional, so if you prefer you can keep the code as is.
+- `useEvent` makes the "event handler" term broader than just the DOM event handlers.
+  - It could be called something like `useStableCallback` or `useCommittedCallback`. However, the whole point is to encourage using it for event handlers. Having a short name helps, and "is this an event handler?" is a good rule of thumb for the majority of cases when you want to use it. Even in effects, the cases where you'd want to extract a part of logic into an event corresponds to when you want to express "something happened!" (e.g. the user visited a page, and you want to log that). Conceptually, these "events" are similar to Events in Functional Reactive Programming. But most importantly, it is already common in React to refer to any `on*` callback prop as an "event handler", regardless of whether it corresponds to any actual DOM event (e.g. `onIntersect`, `onFetchComplete`, `onAddTodo`). `useEvent` is exactly the same concept.
+- Compared to `useCallback`, the implementation of `useEvent` adds extra work to the commit phase.
+  - However, in practice this pattern is already widespread. Having a built-in way to do this and a set of best practices seems better overall than ad-hoc solutions that exist in many libraries and products but suffer from timing flaws.
+- There are a few edge cases. However, we think they’re not dealbreakers.
+  - Unmounting layout effects will observe the previous version of the event callback but unmounting non-layout effects will run after the switch, so they will observe the next version. This is similar to how reading a ref during unmounting layout and non-layout effects produces different results.
+  - The values in the event handler correspond to the values at the time it was called. This means that you don’t get truly “live” bindings. For example, if you have `async`/`await` inside an event and you read some prop after the `await`, the value will be the same as before the `await`. To get a “fresh” value again, you would need to step into another event. For this reason, events should usually not be asynchronous. It’s best to treat them as fire-and-forget: “here’s what just happened”
+  - The “conditional event” case like `onSomething={cond ? handler1 : handler2}`. In this case, if you use `onSomething` as an effect dependency, it would re-fire when `cond` changes. You can “protect” against it by moving the `useEvent` wrapping to the same component as the effect that calls `onSomething`. We may consider adding more runtime or linter warnings if this case ends up common.
 
-# Alternatives
+# 备选方案
 
-* Status quo: `useCallback` invalidates too often and there's no built-in solution. Also, no built-in solution to overfiring effects. We think this is ergonomically untenable and that a solution is needed.
-* Call `useEvent` something different. For example, `useStableCallback`. We think this makes it more difficult to tell when to use it. Longer or more complex name also makes it less ergonomic.
-* Give the `useEvent` behavior to `useCallback`. We don’t want to do this because they have sufficiently different semantics.
-* Force React event handlers to always be declared with `useEvent`. This seems premature at this point.
-* Add an API to read the "latest" versions of arbitrary values instead. We find that this gets noisy in practice since a block of code often needs to read multiple values. Marking entire blocks of code (functions) instead of individual values is more convenient as the amount of code grows, and solves the same problem in a more generic way.
-* Add some special API to `useEffect` instead. We think this is not broad enough because the problem with memoizing event handlers is the same, and so a shared solution is better.
-* Same proposal, but allow calling event handlers during rendering. We think this creates too many footguns.
-* Same proposal, but different timing of when the "current" version is switched up. This is an open question.
-* Same proposal, but different linter behavior or runtime warnings. E.g. warn at runtime if an event is passed a dependency to an effect, and then lint to exclude events from dependencies altogether.
+- Status quo: `useCallback` invalidates too often and there's no built-in solution. Also, no built-in solution to overfiring effects. We think this is ergonomically untenable and that a solution is needed.
+- Call `useEvent` something different. For example, `useStableCallback`. We think this makes it more difficult to tell when to use it. Longer or more complex name also makes it less ergonomic.
+- Give the `useEvent` behavior to `useCallback`. We don’t want to do this because they have sufficiently different semantics.
+- Force React event handlers to always be declared with `useEvent`. This seems premature at this point.
+- Add an API to read the "latest" versions of arbitrary values instead. We find that this gets noisy in practice since a block of code often needs to read multiple values. Marking entire blocks of code (functions) instead of individual values is more convenient as the amount of code grows, and solves the same problem in a more generic way.
+- Add some special API to `useEffect` instead. We think this is not broad enough because the problem with memoizing event handlers is the same, and so a shared solution is better.
+- Same proposal, but allow calling event handlers during rendering. We think this creates too many footguns.
+- Same proposal, but different timing of when the "current" version is switched up. This is an open question.
+- Same proposal, but different linter behavior or runtime warnings. E.g. warn at runtime if an event is passed a dependency to an effect, and then lint to exclude events from dependencies altogether.
 
-# Adoption strategy
+# 采用的策略
 
 Release it in a minor. Change the dependency linter suggestions to wrap functions starting with `on*` or `handle*` into `useEvent` instead of the linter's current `useCallback` suggestion. Write new documentation teaching common patterns.
 
@@ -402,17 +406,17 @@ Release it in a minor. Change the dependency linter suggestions to wrap function
 
 A high-fidelty polyfill for `useEvent` is not possible because there is no lifecycle or Hook in React that we can use to switch `.current` at the right timing. Although [`use-event-callback`](https://github.com/Volune/use-event-callback) is “close enough” for many cases, it doesn't throw during rendering, and the timing isn’t quite right. We don’t recommend to broadly adopt this pattern until there is a version of React that includes a built-in `useEvent` implementation.
 
-# How we teach this
+# 我们怎么讲授它
 
 It's easy to teach how to wrap a function in it. Teaching how to solve problems with it is a bit harder.
 
 We might be able to introduce `useEvent` earlier in the documentation than `useEffect` or `memo` because you don't need to understand referential identity or dependency arrays to use it. Then, when you get to `useEffect` and `memo`, the solution to their pitfalls (breaking memoization, re-firing effects) is based on an API you already know how to use.
 
-# Unresolved questions
+# 还未解决的问题
 
-* The exact timing of when the "current" function switches.
-* Whether it makes sense for unmounting layout effects to "see" event handlers with the old value.
-* Whether it makes sense for unmounting non-layout effects to "see" event handlers with the old value.
-* Whether calling event handlers from an effect cleanup function is an anti-pattern and whether it should warn.
-* How exactly to change the linter suggestions.
-* Whether figuring out the full typing story in the follow-up RFC is a blocker for this one.
+- The exact timing of when the "current" function switches.
+- Whether it makes sense for unmounting layout effects to "see" event handlers with the old value.
+- Whether it makes sense for unmounting non-layout effects to "see" event handlers with the old value.
+- Whether calling event handlers from an effect cleanup function is an anti-pattern and whether it should warn.
+- How exactly to change the linter suggestions.
+- Whether figuring out the full typing story in the follow-up RFC is a blocker for this one.

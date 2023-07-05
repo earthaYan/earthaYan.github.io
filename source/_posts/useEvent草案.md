@@ -29,20 +29,18 @@ function Chat() {
 }
 ```
 
-`useEvent` 内部的代码可以“看到”调用时候的 props/state 值。即使引用的的
-The code inside `useEvent` “sees” the props/state values at the time of the call. The returned function has a stable identity even if the props/state it references change. There is no dependency array.
-
+`useEvent` 内部的代码可以“看到”调用时的 props/state 值。即使引用的 props/state 变了，返回的函数还是有一个稳定的标识。这里没有依赖数组。
 # 动机
 
-## Reading state/props in event handlers breaks optimizations
+## 在事件处理函数中读取 state/props 会破坏优化
 
-This `onClick` event handler needs to read the currently typed `text`:
+这个事件处理函数 `onClick` 需要读取当前输入的 needs `text`:
 
 ```js
 function Chat() {
   const [text, setText] = useState('');
 
-  // 🟡 Always a different function
+  // 🟡 一直是不同的函数
   const onClick = () => {
     sendMessage(text);
   };
@@ -51,15 +49,15 @@ function Chat() {
 }
 ```
 
-Let's say you want to optimize `SendButton` by wrapping it in `React.memo`. For this to work, the props need to be shallowly equal between re-renders. The `onClick` function will have a different function identity on every re-render, so it will break memoization.
+假设你想要通过将它包裹进 `React.memo` 来优化 `SendButton` 组件。为了让它生效，props 需要在两次重渲染之间做浅层比较。而 `onClick` 函数每次重渲染的时候都会有一个不同的函数标识符，所以它会破坏缓存。
 
-The usual way to approach a problem like this is to wrap the function into `useCallback` to preserve the function identity. However, it wouldn't help in this case because `onClick` needs to read the latest `text`:
+解决像这样的问题最常见的方式是将函数包裹进 `useCallback` 来维持函数标识符。但是它在这个场景下丝毫没有帮助，因为 `onClick` 需要读取最新的 `text`。
 
 ```js
 function Chat() {
   const [text, setText] = useState('');
 
-  // 🟡 A different function whenever `text` changes
+  // 🟡无论何时只要`text`变化就是不同的函数 
   const onClick = useCallback(() => {
     sendMessage(text);
   }, [text]);
@@ -68,15 +66,15 @@ function Chat() {
 }
 ```
 
-In the above example, the `text` changes with every keystroke, so `onClick` will still be a different function on every keystroke. (We can't remove `text` from the `useCallback` dependencies because otherwise the `onClick` handler would always "see" the initial text.)
+在上面的例子中，`text` 会随着输入变化，所以 `onClick` 在每次输入时仍然是不同的函数。（我们不能将`text`从 `useCallback` 的依赖项中移除，因为这样 `onClick` 处理函数会一直只能“看到”初始的text。）
 
-By comparison, `useEvent` does not take a dependency array and always returns the same stable function, even if the `text` changes. Nevertheless, `text` inside `useEvent` will reflect its latest value:
+相比之下， `useEvent` 没有使用依赖项数组，并且即使 `text` 变了也总是返回相同的稳定的函数。然而， `useEvent` 里面的 `text` 会反映它最新的值：
 
 ```js
 function Chat() {
   const [text, setText] = useState('');
 
-  // ✅ Always the same function (even if `text` changes)
+  // ✅ 一直是同一个函数(即使 `text` 变了)
   const onClick = useEvent(() => {
     sendMessage(text);
   });
@@ -85,11 +83,11 @@ function Chat() {
 }
 ```
 
-As a result, memoizing `SendButton` will now work because its `onClick` prop will always receive the same function.
+最终缓存 `SendButton` 组件将会生效，因为它的 `onClick` prop 会一直接收到同一个函数。
 
-## `useEffect` shouldn’t re-fire when event handlers change
+## 当事件处理函数变化时，`useEffect` 不应该再次触发
 
-In this example, the `Chat` component has an effect which connects to the selected room. When you join the room or receive a message, it shows a toast with the selected `theme` and, depending on the `muted` setting, may play a sound:
+在这个例子中， `Chat` 组件有一个 Effect，这个Effect会连接选定的房间。当你加入房间或者收到一个消息时，它会使用选中的 `theme` 展示一个toast,且因为`muted`设置，它可能会播放一种声音：
 
 ```js
 function Chat({ selectedRoom }) {
@@ -110,10 +108,10 @@ function Chat({ selectedRoom }) {
     });
     socket.connect();
     return () => socket.dispose();
-  }, [selectedRoom, theme, muted]); // 🟡 Re-runs when any of them change
-  // ...
+  }, [selectedRoom, theme, muted]); // 🟡 当他们变化时，都会导致Effect重新运行
 }
 ```
+
 
 A problem with this implementation is that changing `theme` or `muted` will cause the socket to reconnect. This is because `theme` and `muted` are used inside the effect, and so they have to be specified in the effect dependency list. When they change, the effect has to re-run, destroying and recreating the socket.
 

@@ -19,7 +19,7 @@ categories: React
 
 ```js
 function Chat() {
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
 
   const onClick = useEvent(() => {
     sendMessage(text);
@@ -39,7 +39,7 @@ function Chat() {
 
 ```js
 function Chat() {
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
 
   // 🟡 一直是不同的函数
   const onClick = () => {
@@ -56,7 +56,7 @@ function Chat() {
 
 ```js
 function Chat() {
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
 
   // 🟡无论何时只要`text`变化就是不同的函数
   const onClick = useCallback(() => {
@@ -73,7 +73,7 @@ function Chat() {
 
 ```js
 function Chat() {
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
 
   // ✅ 一直是同一个函数(即使 `text` 变了)
   const onClick = useEvent(() => {
@@ -96,13 +96,13 @@ function Chat({ selectedRoom }) {
   const theme = useContext(ThemeContext);
 
   useEffect(() => {
-    const socket = createSocket('/chat/' + selectedRoom);
-    socket.on('connected', async () => {
+    const socket = createSocket("/chat/" + selectedRoom);
+    socket.on("connected", async () => {
       await checkConnection(selectedRoom);
-      showToast(theme, 'Connected to ' + selectedRoom);
+      showToast(theme, "Connected to " + selectedRoom);
     });
-    socket.on('message', (message) => {
-      showToast(theme, 'New message: ' + message);
+    socket.on("message", (message) => {
+      showToast(theme, "New message: " + message);
       if (!muted) {
         playSound();
       }
@@ -128,24 +128,24 @@ function Chat({ selectedRoom }) {
 
   // ✅ Stable identity
   const onConnected = useEvent((connectedRoom) => {
-    showToast(theme, 'Connected to ' + connectedRoom);
+    showToast(theme, "Connected to " + connectedRoom);
   });
 
   // ✅ Stable identity
   const onMessage = useEvent((message) => {
-    showToast(theme, 'New message: ' + message);
+    showToast(theme, "New message: " + message);
     if (!muted) {
       playSound();
     }
   });
 
   useEffect(() => {
-    const socket = createSocket('/chat/' + selectedRoom);
-    socket.on('connected', async () => {
+    const socket = createSocket("/chat/" + selectedRoom);
+    socket.on("connected", async () => {
       await checkConnection(selectedRoom);
       onConnected(selectedRoom);
     });
-    socket.on('message', onMessage);
+    socket.on("message", onMessage);
     socket.connect();
     return () => socket.disconnect();
   }, [selectedRoom]); // ✅ Re-runs only when the room changes
@@ -167,7 +167,7 @@ In the above example, if `selectedRoom` changes (say, from “Room A” to “Ro
 ```js
 const onConnected = useEvent((connectedRoom) => {
   console.log(selectedRoom); // already "Room B"
-  showToast(theme, 'Connected to ' + connectedRoom); // "Room A" passed from effect
+  showToast(theme, "Connected to " + connectedRoom); // "Room A" passed from effect
 });
 ```
 
@@ -183,11 +183,11 @@ function Chat({ selectedRoom }) {
   const theme = useContext(ThemeContext);
 
   const onConnected = (connectedRoom) => {
-    showToast(theme, 'Connected to ' + connectedRoom);
+    showToast(theme, "Connected to " + connectedRoom);
   };
 
   const onMessage = (message) => {
-    showToast(theme, 'New message: ' + message);
+    showToast(theme, "New message: " + message);
     if (!muted) {
       playSound();
     }
@@ -203,11 +203,11 @@ function useRoom(room, events) {
 
   useEffect(() => {
     const socket = createSocket(room);
-    socket.on('connected', async () => {
+    socket.on("connected", async () => {
       await checkConnection(room);
       onConnected(room);
     });
-    socket.on('message', onMessage);
+    socket.on("message", onMessage);
     socket.connect();
     return () => socket.disconnect();
   }, [room]); // ✅ Re-runs only when the room changes
@@ -227,7 +227,7 @@ Consider this example that logs a page visit analytics event:
 ```js
 function Page({ route, currentUser }) {
   useEffect(() => {
-    logAnalytics('visit_page', route.url, currentUser.name);
+    logAnalytics("visit_page", route.url, currentUser.name);
   }, [route.url, currentUser.name]);
   // ...
 }
@@ -241,12 +241,12 @@ This observation gives us a hint: conceptually, “User visited the page” is i
 function Page({ route, currentUser }) {
   // ✅ Stable identity
   const onVisit = useEvent((visitedUrl) => {
-    logAnalytics('visit_page', visitedUrl, currentUser.name);
+    logAnalytics("visit_page", visitedUrl, currentUser.name);
   });
 
   useEffect(() => {
     onVisit(route.url);
-  }, [route.url]); // ✅ Re-runs only on route change
+  }, [route.url]); // ✅ 只在路有变化的时候重新运行
   // ...
 }
 ```
@@ -331,7 +331,7 @@ function Chat({ selectedRoom }) {
   const { createKeys } = useContext(EncryptionSettings);
   // ...
   useEffect(() => {
-    const socket = createSocket('/chat/' + selectedRoom, createKeys());
+    const socket = createSocket("/chat/" + selectedRoom, createKeys());
     // ...
     socket.connect();
     return () => socket.disconnect();
@@ -350,12 +350,12 @@ function Chat({ selectedRoom, theme }) {
   // ...
   // 🔴 这不应该是Event
   const createSocket = useEvent(() => {
-    const socket = createSocket('/chat/' + selectedRoom);
-    socket.on('connected', async () => {
+    const socket = createSocket("/chat/" + selectedRoom);
+    socket.on("connected", async () => {
       await checkConnection(selectedRoom);
       onConnected(selectedRoom);
     });
-    socket.on('message', onMessage);
+    socket.on("message", onMessage);
     socket.connect();
     return () => socket.disconnect();
   });
@@ -374,15 +374,15 @@ function Chat({ selectedRoom, theme }) {
   - 这是最大的问题。但是我们认为这个概念在 React 实际使用中是不可避免的，所以它受益于顶层的 API，共享词汇以及一系列的最佳实践。在 [#14099](https://github.com/facebook/react/issues/14099)和[#16956](https://github.com/facebook/react/issues/16956)中， `useCallback` 失效问题是投票最高的问题之一，同时也在我们的 FAQ 中，并且也是引入 Hook 后我们需要[写作](https://www.youtube.com/watch?v=lGEMwh32soc)的早期模式之一。即使在[编译器已经做了缓存](https://www.youtube.com/watch?v=lGEMwh32soc)的世界，我们也必须区别优化和关于重新触发的语义保证。我们怀疑 `useEvent` 是 Hook 编程模式中缺失的基础不分且它可以提供正确的方式修复过度触发 Effect 的问题，而不是像跳过依赖项这样的易出错的 hack 方式。
 
 - 和普通的事件处理函数相比，使用 `useEvent` 包裹看上去更具干扰性。
-  - However, it makes more sense to compare it with `useCallback` which people use today to solve the same problems. Many (likely the majority) of `useCallback` wrappers are used for functions that are never called during render, so they can be replaced with `useEvent`. Compared to them, `useEvent` is an ergonomic improvement (no dependency list and no invalidation). And it is optional, so if you prefer you can keep the code as is.
+  - 但是和人们现在使用的解决该问题的 `useCallback` 相比，它更有意义。许多（可能是大多数） `useCallback` wrapper 用于渲染期间从不会调用的函数，所以它们可以使用`useEvent`代替。与此相比，`useEvent`是一个人类感知上的改进（没有依赖项列表和失效）。并且它是可选的，所以如果你更喜欢现在的使用方法的话，就可以保持代码不变。
 - `useEvent` 让术语 "event handler" 的含义不止于 DOM 事件处理函数
-  - It could be called something like `useStableCallback` or `useCommittedCallback`. However, the whole point is to encourage using it for event handlers. Having a short name helps, and "is this an event handler?" is a good rule of thumb for the majority of cases when you want to use it. Even in effects, the cases where you'd want to extract a part of logic into an event corresponds to when you want to express "something happened!" (e.g. the user visited a page, and you want to log that). Conceptually, these "events" are similar to Events in Functional Reactive Programming. But most importantly, it is already common in React to refer to any `on*` callback prop as an "event handler", regardless of whether it corresponds to any actual DOM event (e.g. `onIntersect`, `onFetchComplete`, `onAddTodo`). `useEvent` is exactly the same concept.
+  - 它可以被`useStableCallback` 或 `useCommittedCallback`这样的 Hook 调用。但是重点还是鼓励将其用于事件处理。使用较短名称会有所帮助，并且每当你想使用它时，“这是事件处理函数？”对于大多数情况是一个很好的经验法则。即使在 effect 中，你想要提取一部分逻辑到事件的场景对应当你想要表达“某些事情发生了”（例如，用户访问一个页面，并且想要记录这次访问）。从概念上讲，这些“事件”类似于函数式响应式编程中的事件。但最重要的是，在 React 中，将任何 `on*` 回调 prop 称为“事件处理进程”已经很常见，无论它是否对应于任何实际的 DOM 事件（例如 `onIntersect`， `onFetchComplete`， `onAddTodo`）。“useEvent”是完全相同的概念。
 - 和 `useCallback`相比, `useEvent` 的实现在提交阶段增加了额外的工作
-  - However, in practice this pattern is already widespread. Having a built-in way to do this and a set of best practices seems better overall than ad-hoc solutions that exist in many libraries and products but suffer from timing flaws.
+  - 但是在实践中，这个模式已经广泛使用了。内置的途径去完成这个任务以及一系列最佳实践似乎总体上比已经存在于许多库和产品但是饱受时序缺陷之苦的临时解决方案更好
 - 有一些边缘用例，但我们不认为他们是破坏因素
-  - Unmounting layout effects will observe the previous version of the event callback but unmounting non-layout effects will run after the switch, so they will observe the next version. This is similar to how reading a ref during unmounting layout and non-layout effects produces different results.
-  - The values in the event handler correspond to the values at the time it was called. This means that you don’t get truly “live” bindings. For example, if you have `async`/`await` inside an event and you read some prop after the `await`, the value will be the same as before the `await`. To get a “fresh” value again, you would need to step into another event. For this reason, events should usually not be asynchronous. It’s best to treat them as fire-and-forget: “here’s what just happened”
-  - The “conditional event” case like `onSomething={cond ? handler1 : handler2}`. In this case, if you use `onSomething` as an effect dependency, it would re-fire when `cond` changes. You can “protect” against it by moving the `useEvent` wrapping to the same component as the effect that calls `onSomething`. We may consider adding more runtime or linter warnings if this case ends up common.
+  - 卸载 layout effect 将监听事件回调函数之前的版本，但卸载 non-layout effect 将在切换后运行，因此它们会监听下一个版本。这类似于在卸载 layout 和 non-layout effect 期间读取 ref 产生不同结果的方式。
+  - 事件处理函数中的值对应于调用它时的值。这意味着你不会获得真正的“实时”绑定。例如，如果你在一个事件中有`async/await`，并且在`await`之后读取了一些 prop，则该值将与`await`之前的值相同。若要再次获取“最新”值，需要
+  - 像`onSomething={cond ？ handler1 ： handler2}`这样的“有条件的事件”场景。在这种情况下，如果您使用`onSomething`作为 effect 依赖项，则当`cond`变化时，它将重新触发。你可以通过将`useEvent`包装移动到与调用`onSomething`的 effect 相同的组件来“保护”它。如果这种情况最终很常见，我们可能会考虑添加更多运行时或 linter 警告。
 
 # 备选方案
 

@@ -198,4 +198,18 @@ return <Input onSend={onSend} />;
 
 这样既减少了不必要的重渲染，代码可读性也得到了改善。
 
+那哪些情况不适合用 useEvent 呢？即需要在渲染期间调用的函数,因为useEvent在渲染期间运行会抛出错误
+```javascript
+function ThemedGrid() {
+  const theme = useContext(ThemeContext);
+  const renderItem = useCallback(
+    (item) => {
+      // 渲染期间调用，所以他不是一个事件
+      return <Row {...item} theme={theme} />;
+    },
+    [theme]
+  );
+  return <Grid renderItem={renderItem} />;
+}
+```
 代码：https://stackblitz.com/edit/stackblitz-starters-ida8fu

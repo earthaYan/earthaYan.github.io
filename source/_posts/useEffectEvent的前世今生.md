@@ -197,7 +197,7 @@ return <Input onSend={onSend} />;
 
 这样既减少了不必要的重渲染，代码可读性也得到了改善。
 
-那哪些情况不适合用 useEvent 呢？即需要在渲染期间调用的函数,因为 useEvent 在渲染期间运行会抛出错误
+那哪些情况不适合用 useEffectEvent 呢？即需要在渲染期间调用的函数,因为 useEffectEvent 在渲染期间运行会抛出错误
 
 ```javascript
 function ThemedGrid() {

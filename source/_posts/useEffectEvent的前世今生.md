@@ -8,11 +8,10 @@ tags:
 
 1. 将渲染优化和“修复”Effect 耦合在一个提案下，很难实现
 2. 容易诱导开发者将当前使用 `useCallback` 包裹的函数都替换成 `useEvent`
-   
-   
+
 但是关闭提案并不意味着全盘否定，事实上，只是对其进行了拆分。针对渲染优化，React 团队准备开发一个[自动记忆编译器](https://www.youtube.com/watch?v=lGEMwh32soc)，而针对修复 Effect，则发布了一个 `useEffectEvent`的新的 Hook。
 
-官方之前在RFC给出的 useEvent 的大概实现如下所示，当然这不是真正的实现，真正的实现肯定比这个复杂得多：
+官方之前在 RFC 给出的 useEvent 的大概实现如下所示，当然这不是真正的实现，真正的实现肯定比这个复杂得多：
 
 ```javascript
 // (!) Approximate behavior
@@ -198,7 +197,8 @@ return <Input onSend={onSend} />;
 
 这样既减少了不必要的重渲染，代码可读性也得到了改善。
 
-那哪些情况不适合用 useEvent 呢？即需要在渲染期间调用的函数,因为useEvent在渲染期间运行会抛出错误
+那哪些情况不适合用 useEvent 呢？即需要在渲染期间调用的函数,因为 useEvent 在渲染期间运行会抛出错误
+
 ```javascript
 function ThemedGrid() {
   const theme = useContext(ThemeContext);
@@ -212,4 +212,5 @@ function ThemedGrid() {
   return <Grid renderItem={renderItem} />;
 }
 ```
+
 代码：https://stackblitz.com/edit/stackblitz-starters-ida8fu

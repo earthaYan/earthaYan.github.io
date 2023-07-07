@@ -8,7 +8,25 @@ tags:
 
 1. 将渲染优化和“修复”Effect 耦合在一个提案下，很难实现
 2. 容易诱导开发者将当前使用 `useCallback` 包裹的函数都替换成 `useEvent`
-   但是关闭提案并不意味着全盘否定，事实上，只是对其进行了拆分。针对渲染优化，React 团队准备开发一个自动记忆编译器，而针对修复 Effect，则发布了了一个 `useEffectEvent`的新的 Hook。
+   但是关闭提案并不意味着全盘否定，事实上，只是对其进行了拆分。针对渲染优化，React 团队准备开发一个自动记忆编译器，而针对修复 Effect，则发布了一个 `useEffectEvent`的新的 Hook。
+
+官方之前在RFC给出的 useEvent 的大概实现如下所示，当然这不是真正的实现，真正的实现肯定比这个复杂得多：
+
+```javascript
+// (!) Approximate behavior
+function useEvent(handler) {
+  const handlerRef = useRef(null);
+  // 渲染之前运行
+  useLayoutEffect(() => {
+    handlerRef.current = handler;
+  });
+  return useCallback((...args) => {
+    // 渲染期间执行的话，会抛出错误
+    const fn = handlerRef.current;
+    return fn(...args);
+  }, []);
+}
+```
 
 下面就借助代码来讲述一下这个新的 Hook 应该怎么使用。
 当前存在的问题：
@@ -148,7 +166,7 @@ function Chat() {
 }
 ```
 
-实际上主题色变化的时候，不应该展示消息。所以我们使用 `useCallback` 将代码从 `useEffect` 中提取出来。
+实际上主题色变化的时候，连接的房间并没发生变化，所以实际上我们并不需要重新展示消息。我们可以使用 `useCallback` 将代码从 `useEffect` 中提取出来。
 
 ```javascript
 const theme = useContext(ThemeContext);
@@ -162,7 +180,7 @@ useEffect(() => {
 return <Input onSend={onSend} />;
 ```
 
-但是 `useEffectEvent` 在防止不必要的重渲染上更有意义,所以我们使用 `useEffectEvent` 包裹对应的代码，使它变成非响应式代码。
+但是因为 `useEffectEvent` 在防止不必要的重渲染上更有意义,所以我们使用 `useEffectEvent` 包裹对应的代码，使它变成非响应式代码。
 
 ```javascript
 const theme = useContext(ThemeContext);
@@ -176,22 +194,6 @@ useEffect(() => {
 return <Input onSend={onSend} />;
 ```
 
+这样既减少了不必要的重渲染，代码可读性也得到了改善。
+
 代码：https://stackblitz.com/edit/stackblitz-starters-ida8fu
-
-看完了 useEffectEvent 之后，我们可以看下它内部大概是怎么实现的，
-
-```javascript
-// (!) Approximate behavior
-function useEvent(handler) {
-  const handlerRef = useRef(null);
-  // 渲染之前运行
-  useLayoutEffect(() => {
-    handlerRef.current = handler;
-  });
-  return useCallback((...args) => {
-    // 渲染期间执行的话，会抛出错误
-    const fn = handlerRef.current;
-    return fn(...args);
-  }, []);
-}
-```

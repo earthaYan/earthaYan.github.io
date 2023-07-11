@@ -1,7 +1,7 @@
 ---
 title: 如何获取ui库未导出的组件类型
 date: 2023-03-09 20:20:24
-tags: [react,前端,TypeScript]
+tags: [TypeScript]
 categories: 前端
 ---
 

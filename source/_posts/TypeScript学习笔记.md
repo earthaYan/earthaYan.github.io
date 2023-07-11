@@ -1,8 +1,8 @@
 ---
 title: TypeScript学习笔记
 date: 2022-08-31 10:37:50
-tags: ['JavaScript','前端']
-categories: TypeScript
+tags: [TypeScript]
+categories: 前端
 ---
 
 ## TypeScript类型来源：

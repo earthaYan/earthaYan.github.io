@@ -1,7 +1,7 @@
 ---
 title: 翻译-chatGPT
 date: 2023-02-21 23:28:58
-tags: [chatGPT,翻译]
+tags: [chatGPT]
 categories: 翻译
 ---
 

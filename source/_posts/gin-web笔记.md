@@ -1,8 +1,8 @@
 ---
 title: gin-web笔记
 date: 2023-03-23 01:25:14
-tags: [golang, Gin]
-categories: GoLang
+tags: [GoLang]
+categories: 后端
 ---
 
 ## 安装

@@ -1,8 +1,8 @@
 ---
 title: 如何生成swagger-api文档
 date: 2023-02-02 00:37:39
-tags: [golang, 后端]
-categories: GoLang
+tags: [GoLang]
+categories: 后端
 ---
 使用依赖库：https://github.com/swaggo/swag
 ### 在makefile中提供生成命令

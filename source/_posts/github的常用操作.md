@@ -1,8 +1,8 @@
 ---
 title: github的常用操作
 date: 2023-05-05 10:12:39
-tags: [浏览器, Github]
-categories: [Git]
+tags: [github]
+categories: github
 ---
 
 https://github.com/FrontEndGitHub/FrontEndGitHub/issues/4

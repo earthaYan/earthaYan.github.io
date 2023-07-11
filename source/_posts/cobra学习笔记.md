@@ -1,8 +1,8 @@
 ---
 title: cobra学习笔记
 date: 2023-04-03 22:04:19
-tags: [cobra,CLI]
-categories: [GoLang]
+tags: [GoLang]
+categories: 后端
 ---
 cobra本质：Go的CLI（命令行界面）框架
 cobra作用：

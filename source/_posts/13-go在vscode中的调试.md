@@ -1,8 +1,8 @@
 ---
 title: 13-go在vscode中的调试
 date: 2022-11-18 11:55:04
-tags: [golang, 后端, 实践]
-categories: GoLang
+tags: [GoLang,编辑器]
+categories: 后端
 ---
 
 1. 新建.vscode/launch.json

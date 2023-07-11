@@ -1,7 +1,7 @@
 ---
 title: http 状态码
 date: 2022-08-17 02:41:36
-tags: [http,状态码]
+tags: [http]
 categories: 浏览器
 ---
 # HTTP 状态码

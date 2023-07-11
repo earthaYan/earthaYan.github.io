@@ -1,8 +1,8 @@
 ---
 title: hexo-deploy-github-443
 date: 2022-09-14 12:34:21
-tags: 'hexo'
-categories: hexo配置完善
+tags: [部署]
+categories: hexo
 ---
 >18 files changed, 191 insertions(+), 191 deletions(-)
 > ERROR: Repository not found.

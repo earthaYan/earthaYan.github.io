@@ -1,7 +1,7 @@
 ---
 title: linux-error
 date: 2022-09-23 13:50:37
-tags: [虚拟机, CentOS8]
+tags: [CentOS]
 categories: 虚拟机
 ---
 

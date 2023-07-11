@@ -1,7 +1,7 @@
 ---
 title: cookie和session以及webStorage的区别
 date: 2022-08-17 09:43:38
-tags: [session,webStorage,cookie]
+tags: [本地存储]
 categories: 浏览器
 ---
 # cookie VS webStorage

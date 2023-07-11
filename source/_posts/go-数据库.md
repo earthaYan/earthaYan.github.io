@@ -1,8 +1,8 @@
 ---
 title: go-数据库
 date: 2023-01-12 15:13:00
-tags: [数据库, GoLang]
-categories: [GoLang]
+tags: [GoLang]
+categories: 后端
 ---
 ##   mysql
 

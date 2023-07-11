@@ -1,8 +1,8 @@
 ---
 title: 01-Go语言环境的安装
 date: 2022-10-01 14:25:37
-tags: [golang, 后端]
-categories: GoLang
+tags: [GoLang]
+categories: 后端
 ---
 
 ## 安装

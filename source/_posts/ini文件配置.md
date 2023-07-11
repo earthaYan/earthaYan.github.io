@@ -1,8 +1,8 @@
 ---
 title: ini文件配置
 date: 2023-03-19 23:08:10
-tags: [golang, package，ini]
-categories: GoLang
+tags: [GoLang]
+categories: 后端
 ---
 github地址：https://github.com/go-ini/ini
 文档地址：https://ini.unknwon.io/

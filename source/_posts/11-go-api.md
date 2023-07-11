@@ -1,8 +1,8 @@
 ---
 title: 11-go-api
 date: 2022-10-18 10:29:23
-tags: [golang, 后端, 实践]
-categories: GoLang
+tags: [GoLang]
+categories: 后端
 ---
 
 ## 常用的 API 风格

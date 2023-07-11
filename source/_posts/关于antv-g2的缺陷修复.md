@@ -1,8 +1,8 @@
 ---
 title: 关于antv/g2的缺陷修复
 date: 2022-09-14 11:35:29
-tags: ['图表','可视化','工作']
-categories: 缺陷修复
+tags: ['图表']
+categories: 工作
 ---
 
 ## 缺陷链接

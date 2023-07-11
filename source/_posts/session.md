@@ -1,8 +1,8 @@
 ---
 title: session vs cookie
 date: 2023-01-13 13:09:49
-tags: [golang, cookie,session]
-categories: GoLang
+tags: [GoLang]
+categories: 后端
 ---
 ##  cookie
 ### 原理

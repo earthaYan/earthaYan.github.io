@@ -1,8 +1,8 @@
 ---
 title: yarn-install
 date: 2022-12-21 17:46:33
-tags: ['工作', '常用功能']
-categories: 缺陷修复
+tags: [yarn]
+categories: 工作
 ---
 
 ## yarn install 报错：

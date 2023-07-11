@@ -1,8 +1,8 @@
 ---
 title: GO中的while
 date: 2022-12-15 20:22:46
-tags: [golang, 后端]
-categories: GoLang
+tags: [GoLang]
+categories: 后端
 ---
 
 GO语言中没有while关键字，所以需要使用for代替

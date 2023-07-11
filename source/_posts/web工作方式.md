@@ -1,8 +1,8 @@
 ---
 title: web工作方式
 date: 2023-01-10 15:44:08
-tags: [浏览器,web,Go]
-categories: 浏览器
+tags: [GoLang,浏览器]
+categories: 后端
 ---
 
 ##### 表现：

@@ -1,8 +1,8 @@
 ---
 title: google浏览器自动更新失败
 date: 2023-01-05 10:09:33
-tags: [google,浏览器,缺陷修复]
-categories: google浏览器
+tags: [浏览器]
+categories: 浏览器
 ---
 
 报错：

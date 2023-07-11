@@ -1,8 +1,8 @@
 ---
 title: RPC-API
 date: 2022-12-16 13:33:54
-tags: [golang, 实践]
-categories: GoLang
+tags: [GoLang]
+categories: 后端
 ---
 
 ## RPC基本含义：

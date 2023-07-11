@@ -1,7 +1,7 @@
 ---
 title: 翻译-ES2015-Set
 date: 2023-02-15 21:16:50
-tags: [翻译, JavaScript]
+tags: [JavaScript]
 categories: 翻译
 ---
 

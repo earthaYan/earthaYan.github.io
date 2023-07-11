@@ -1,8 +1,8 @@
 ---
 title: gorm学习笔记
 date: 2023-03-21 12:58:53
-tags: [golang, gorm]
-categories: GoLang
+tags: [GoLang]
+categories: 后端
 ---
 
 ## 安装

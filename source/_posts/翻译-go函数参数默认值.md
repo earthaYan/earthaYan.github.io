@@ -1,7 +1,7 @@
 ---
 title: 翻译-go函数参数默认值
 date: 2023-02-23 10:32:59
-tags: [翻译, Go]
+tags: [GoLang]
 categories: 翻译
 ---
 

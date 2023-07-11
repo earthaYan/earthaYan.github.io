@@ -1,8 +1,8 @@
 ---
 title: 15-go-viper-cobra-pflag
 date: 2022-11-22 11:28:33
-tags: [golang, 后端, 实践]
-categories: GoLang
+tags: [GoLang]
+categories: 后端
 ---
 
 ## 如何构建应用框架

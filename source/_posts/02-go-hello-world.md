@@ -1,8 +1,8 @@
 ---
 title: 02-用go写一个hello_word程序
 date: 2022-10-08 15:32:39
-tags: [golang, 后端]
-categories: GoLang
+tags: [GoLang]
+categories: 后端
 ---
 
 去除 go.mod 文件中项目不需要的依赖：`go mod tidy `

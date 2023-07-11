@@ -2,7 +2,7 @@
 title: css盒模型
 date: 2022-08-17 09:59:18
 tags: [css]
-categories: CSS
+categories: 前端
 ---
 ## css盒模型
 1. content：内容，容纳着元素的”真实“内容，例如文本，图像或是视频播放器

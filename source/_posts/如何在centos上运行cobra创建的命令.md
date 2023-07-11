@@ -1,8 +1,8 @@
 ---
 title: 如何在centos上运行cobra创建的命令
 date: 2023-05-24 22:42:47
-tags: [golang, 后端]
-categories: GoLang
+tags: [GoLang]
+categories: 后端
 ---
 1. 编写源码
 ```go

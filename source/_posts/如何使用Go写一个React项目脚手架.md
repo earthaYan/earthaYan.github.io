@@ -1,8 +1,8 @@
 ---
 title: 如何使用Go写一个React项目脚手架
 date: 2023-05-23 15:21:35
-tags: [golang, 后端]
-categories: GoLang
+tags: [脚手架,GoLang]
+categories: 后端
 ---
 
 使用库：pflag + cobra + viper

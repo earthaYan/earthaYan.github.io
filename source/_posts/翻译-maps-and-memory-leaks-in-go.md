@@ -1,7 +1,7 @@
 ---
 title: 翻译-maps-and-memory-leaks-in-go
 date: 2022-12-10 16:39:30
-tags: [翻译, Go]
+tags: [GoLang]
 categories: 翻译
 ---
 

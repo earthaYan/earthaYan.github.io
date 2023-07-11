@@ -1,7 +1,7 @@
 ---
 title: 翻译-useEffectEvent-is-coming-to-React
 date: 2023-07-03 13:38:37
-tags: [翻译, React]
+tags: [React]
 categories: 翻译
 ---
 

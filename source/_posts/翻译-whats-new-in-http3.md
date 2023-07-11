@@ -1,7 +1,7 @@
 ---
 title: 翻译-whats-new-in-http3
 date: 2023-04-16 14:24:22
-tags: [翻译, http]
+tags: [http]
 categories: 翻译
 ---
 原文地址：https://medium.com/better-programming/whats-new-in-http-3-10c2455a4f8c

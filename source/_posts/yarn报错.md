@@ -1,8 +1,8 @@
 ---
 title: yarn报错
 date: 2023-02-16 22:25:39
-tags: [node,yarn]
-category:   node
+tags: [yarn]
+categories: 工作
 ---
 
 yarn install 报错

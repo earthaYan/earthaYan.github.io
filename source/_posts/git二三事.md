@@ -1,8 +1,8 @@
 ---
 title: git二三事
 date: 2022-10-19 15:11:02
-tags: [git, 代码托管]
-categories: [git, 虚拟机]
+tags: [github]
+categories: github
 ---
 
 ## git 链接失败

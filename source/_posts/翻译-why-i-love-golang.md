@@ -2,7 +2,7 @@
 layout: why I  Love Golang
 title: Golang
 date: 2022-11-21 10:21:51
-tags: [翻译, Go]
+tags: [GoLang]
 categories: 翻译
 ---
 

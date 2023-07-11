@@ -1,7 +1,7 @@
 ---
 title: unit-test-with-react
 date: 2023-04-18 00:38:16
-tags: [翻译, React]
+tags: [React]
 categories: 翻译
 ---
 

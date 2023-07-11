@@ -1,8 +1,8 @@
 ---
 title: go-表单处理文件上传
 date: 2023-01-11 16:09:58
-tags: [表单,Go,Web]
-categories: [Go]
+tags: [GoLang]
+categories: 后端
 ---
 
 ## form的`enctype`属性

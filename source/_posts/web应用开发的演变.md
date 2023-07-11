@@ -1,7 +1,7 @@
 ---
 title: 【译】The Evolution of the Modern Web Application Development
 date: 2022-09-19 11:22:55
-tags: [翻译,前端]
+tags: [前端]
 categories: 翻译
 ---
 >  本文原文链接：[https://blog.bitsrc.io/the-evolution-of-the-modern-web-application-development-18aa95b7c1a](https://blog.bitsrc.io/the-evolution-of-the-modern-web-application-development-18aa95b7c1a)

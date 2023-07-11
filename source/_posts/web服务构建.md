@@ -1,8 +1,8 @@
 ---
 title: web服务构建
 date: 2023-02-22 16:56:01
-tags: [golang, web]
-categories: GoLang
+tags: [GoLang]
+categories: 后端
 ---
 
 ## iam-api-server 服务

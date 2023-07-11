@@ -1,7 +1,8 @@
 ---
 title: useEffectEvent的前世今生
 date: 2023-07-06 20:00:48
-tags:
+tags: [React]
+categories: 前端
 ---
 
 去年 React 团队分享了一个新 Hook `useEvent` 的[RFC220](https://github.com/reactjs/rfcs/pull/220),完整 RFC 内容见[useEvent](https://github.com/reactjs/rfcs/blob/useevent/text/0000-useevent.md)。这个 Hook 的来源是[#14099](https://github.com/facebook/react/issues/14099)。 useEvent 的[原型](https://github.com/facebook/react/pull/25229)已经实现，但是今年 1 月份关闭了`useEvent`提案，为什么会关闭呢，主要有以下几个原因：

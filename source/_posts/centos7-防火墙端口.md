@@ -1,7 +1,7 @@
 ---
 title: centos7-防火墙端口
 date: 2022-11-30 08:55:24
-tags: [虚拟机, CentOS7]
+tags: [CentOS]
 categories: 虚拟机
 ---
 

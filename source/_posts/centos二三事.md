@@ -1,7 +1,7 @@
 ---
 title: centos二三事
 date: 2022-10-20 13:24:13
-tags: [虚拟机, CentOS8]
+tags: [CentOS]
 categories: 虚拟机
 ---
 

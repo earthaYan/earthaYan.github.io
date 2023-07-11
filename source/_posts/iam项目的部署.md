@@ -1,8 +1,8 @@
 ---
 title: iam项目的部署
 date: 2022-12-08 22:16:09
-tags: [golang, 实践]
-categories: GoLang
+tags: [GoLang]
+categories: 后端
 ---
 
 ## IAM的核心功能使用步骤

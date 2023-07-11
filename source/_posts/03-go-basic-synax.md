@@ -1,8 +1,8 @@
 ---
 title: 03-go 基础语法
 date: 2022-10-09 09:52:42
-tags: [golang, 后端]
-categories: GoLang
+tags: [GoLang]
+categories: 后端
 ---
 
 关键字，标识符(变量，类型)，常量，字符串，符号->标记->GO 程序

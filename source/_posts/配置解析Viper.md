@@ -1,8 +1,8 @@
 ---
 title: 配置解析Viper
 date: 2023-05-18 23:46:45
-tags: [GoLang, Viper]
-categories: GoLang
+tags: [GoLang]
+categories: 后端
 ---
 
 ## 安装

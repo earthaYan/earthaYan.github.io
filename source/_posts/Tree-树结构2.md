@@ -1,7 +1,7 @@
 ---
 title: Tree-树结构2
 date: 2022-11-07 23:48:09
-tags: [算法, 树结构, LeetCode]
+tags: [LeetCode]
 categories: 算法
 mathjax: true
 ---

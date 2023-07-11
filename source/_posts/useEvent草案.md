@@ -1,8 +1,8 @@
 ---
 title: useEvent草案
 date: 2023-07-03 23:49:34
-tags: [React, RFC]
-categories: React
+tags: [React]
+categories: 翻译
 ---
 
 - Start Date: 2022–05-04

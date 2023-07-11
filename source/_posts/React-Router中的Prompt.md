@@ -1,7 +1,7 @@
 ---
 title: React_Router中的Prompt
 date: 2023-05-23 14:17:29
-tags: [react, 前端]
+tags: [React]
 categories: 前端
 ---
 

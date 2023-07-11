@@ -2,7 +2,7 @@
 title: go.mod文件
 date: 2023-01-30 15:37:00
 tags: [GoLang]
-categories: [GoLang]
+categories: 后端
 ---
 ## go.mod常见用法以及注释
 ```go

@@ -1,8 +1,8 @@
 ---
 title: 命令行框架cobra
 date: 2023-02-17 01:40:56
-tags: [GoLang,Cobra]
-categories: GoLang
+tags: [GoLang]
+categories: 后端
 ---
 
 基于

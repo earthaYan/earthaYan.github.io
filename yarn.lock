@@ -1454,6 +1454,11 @@ hexo-log@^3.0.0, hexo-log@^3.2.0:
   dependencies:
     picocolors "^1.0.0"
 
+hexo-markmap@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.npmmirror.com/hexo-markmap/-/hexo-markmap-1.2.1.tgz#f5028204a75e76054dc0697ac683fcd4fe8afb01"
+  integrity sha512-Frsc/KgPqinETIck6e7MSGBhp+O4q3KTGefOnTt5AZyXQI5ZNTgZ7Ep0RGA1dpiigYUrfwKncAvY+p/QTySWzA==
+
 hexo-pagination@1.0.0:
   version "1.0.0"
   resolved "https://registry.npmmirror.com/hexo-pagination/-/hexo-pagination-1.0.0.tgz"

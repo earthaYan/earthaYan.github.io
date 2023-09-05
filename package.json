@@ -8,9 +8,10 @@
     "deploy": "npx hexo deploy",
     "server": "npx hexo server",
     "ci": "npm run clean && npm run build && npm run deploy",
+    "dev": "npm run clean && npm run build && npm run server",
     "sync": "yuque-hexo sync",
     "clean:yuque": "yuque-hexo clean",
-    "dev": "npm run clean && npm run build && npm run server"
+    "reset": "npm run clean:yuque && npm run sync"
   },
   "hexo": {
     "version": "6.3.0"

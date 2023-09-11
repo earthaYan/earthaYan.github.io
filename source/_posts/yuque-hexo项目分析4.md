@@ -79,7 +79,7 @@ fetchArticle(item, index) {
 }
 ```
 
-#### yuqueClient 的 getArticle 函数
+### yuqueClient 的 getArticle 函数
 
 ```js
 async getArticle(slug) {
@@ -131,9 +131,10 @@ post:文章详情
 
     const { postBasicPath } = this;
     const { mdNameFormat, adapter } = this.config;
-    const fileName = filenamify(post[mdNameFormat]);
+    // 下载的单篇最终生成的路径
     const postPath = path.join(postBasicPath, `${fileName}.md`);
     const internalAdapters = [ 'markdown', 'hexo' ];
+    // 获取adapter路径
     const adpaterPath = internalAdapters.includes(adapter)
       ? path.join(__dirname, '../adapter', adapter)
       : path.join(process.cwd(), adapter);
@@ -141,14 +142,42 @@ post:文章详情
     let transform;
     try {
       transform = require(adpaterPath);
-    } catch (error) {
-      out.error(`adpater (${adapter}) is invalid.`);
-      process.exit(-1);
-    }
-    out.info(`generate post file: ${postPath}`);
+    } 
+    // 获取文章内容
     const text = await transform(post);
+    // 实际写入文件
     fs.writeFileSync(postPath, text, {
       encoding: 'UTF8',
     });
   }
+```
+### transform函数
+```js
+async function(post) {
+  // 语雀img转成自己的cdn图片
+  if (config.imgCdn.enabled) {
+    post = await img2Cdn(post);
+  }
+  // matter 解析
+  const parseRet = parseMatter(post.body);
+  const { body, ...data } = parseRet;
+  const { title, slug: urlname, created_at } = post;
+  const raw = formatRaw(body);
+  const date = data.date || formatDate(created_at);
+  const tags = data.tags || [];
+  const categories = data.categories || [];
+  const props = {
+    title: title.replace(/"/g, ''), // 临时去掉标题中的引号，至少保证文章页面是正常可访问的
+    urlname,
+    date,
+    ...data,
+    tags,
+    categories,
+  };
+  const text = ejs.render(template, {
+    raw,
+    matter: FrontMatter.stringify(props),
+  });
+  return text;
+};
 ```

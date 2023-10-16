@@ -11,9 +11,7 @@
     "dev": "npm run clean && npm run build && npm run server",
     "sync": "yuque-hexo sync",
     "clean:yuque": "yuque-hexo clean",
-    "reset": "npm run clean:yuque && npm run sync",
-    "clean:py":"py ./source/_posts/clean.py"
-    
+    "reset": "npm run clean:yuque && npm run sync"
   },
   "hexo": {
     "version": "6.3.0"

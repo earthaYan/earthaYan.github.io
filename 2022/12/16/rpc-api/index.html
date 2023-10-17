@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="RPC-API" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            RPC-API
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#RPC%E5%9F%BA%E6%9C%AC%E5%90%AB%E4%B9%89%EF%BC%9A"><span class="post-toc-text">RPC基本含义：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#gRPC"><span class="post-toc-text">gRPC</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Protocol-Buffers"><span class="post-toc-text">Protocol Buffers</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Protocol-Buffers%E5%9C%A8gRPC%E6%8E%A5%E5%8F%A3%E4%B8%AD%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="post-toc-text">Protocol Buffers在gRPC接口中的作用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#gRPC%E4%BD%BF%E7%94%A8"><span class="post-toc-text">gRPC使用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AE%89%E8%A3%85protoc"><span class="post-toc-text">安装protoc</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%8A%A5%E9%94%99"><span class="post-toc-text">报错</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%89%A7%E8%A1%8C-x2F-autogen-sh%E6%8A%A5%E9%94%99"><span class="post-toc-text">执行.&#x2F;autogen.sh报错</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%89%A7%E8%A1%8C-x2F-configure%E6%8A%A5%E9%94%99"><span class="post-toc-text">执行.&#x2F;configure报错</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#gRPC-demo-%E5%AE%9E%E7%8E%B0"><span class="post-toc-text">gRPC demo 实现</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#proto%E6%96%87%E4%BB%B6%EF%BC%9A%E5%AE%9A%E4%B9%89%E6%9C%8D%E5%8A%A1"><span class="post-toc-text">proto文件：定义服务</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%9C%8D%E5%8A%A1%E6%96%B9%E6%B3%95%E7%B1%BB%E5%9E%8B"><span class="post-toc-text">服务方法类型</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8C%BA%E5%88%AB"><span class="post-toc-text">区别</span></a></li></ol>
+        
+        <h2 id="RPC基本含义："><a href="#RPC基本含义：" class="headerlink" title="RPC基本含义："></a>RPC基本含义：</h2><p>远程过程调用(Remote Procedure Call),属于计算机通信协议。<br>允许A计算机调用B计算机的子程序而不用为这个交互作用编程，屏蔽了底层的网络通信细节</p>
+<img src="/2022/12/16/rpc-api/RPC.webp" class="" title="RPC的调用过程">
+<ol>
+<li>Client 通过本地调用，调用 Client Stub。</li>
+<li>Client Stub 将参数打包（也叫 Marshalling）成一个消息，然后发送这个消息。</li>
+<li>Client 所在的 OS 将消息发送给 Server。</li>
+<li>Server 端接收到消息后，将消息传递给 Server Stub。</li>
+<li>Server Stub 将消息解包（也叫 Unmarshalling）得到参数。</li>
+<li>Server Stub 调用服务端的子程序（函数），处理完后，将最终结果按照相反的步骤返回给 Client。</li>
+</ol>
+<blockquote>
+<p>Stub 负责调用参数和返回值的流化（serialization）、参数的打包和解包，以及网络层的通信。Client 端一般叫 Stub，Server 端一般叫 Skeleton</p>
+</blockquote>
+<h2 id="gRPC"><a href="#gRPC" class="headerlink" title="gRPC"></a>gRPC</h2><p>google RPC</p>
+<ol>
+<li>支持多种语言，比如用Go语言实现gRPC服务,可以通过Java客户端调用gRPC服务提供的方法</li>
+<li>基于IDL（Interface Definition Language）文件定义服务</li>
+</ol>
+<ul>
+<li>gRPC服务预先定义好接口(名称&#x2F;入参&#x2F;返回值)。</li>
+<li>服务端实现定义的接口</li>
+<li>客户端,gRPC存根提供了跟服务端相同的方法</li>
+<li>通过 proto3 工具生成指定语言的数据结构、服务端接口以及客户端 Stub</li>
+</ul>
+<ol start="3">
+<li>通信协议基于HTTP&#x2F;2设计</li>
+<li>支持 Protobuf 和 JSON 序列化数据格式</li>
+</ol>
+<ul>
+<li>Protobuf ：和语言无关的序列化框架，可以减少网络传输流量,提高通信效率</li>
+</ul>
+<h2 id="Protocol-Buffers"><a href="#Protocol-Buffers" class="headerlink" title="Protocol Buffers"></a>Protocol Buffers</h2><p>gRPC API接口常用的数据传输格式，对数据结构进行序列化。<br>既可以做数据通信协议，也可以作为数据格式</p>
+<ol>
+<li>数据传输速度快：传输时会把数据序列化为二进制数据</li>
+</ol>
+<ul>
+<li>相对于XML和JSON的文本传输格式可以节省大量IO操作，提高传输速度</li>
+</ul>
+<ol start="2">
+<li>跨平台多语言</li>
+</ol>
+<ul>
+<li>自带的编译工具 protoc可以基于protobuf定义文件，编译出不同语言的客户端&#x2F;服务端</li>
+</ul>
+<ol start="3">
+<li>扩展性&#x2F;兼容性</li>
+</ol>
+<ul>
+<li>不破坏原有程序的基础手上更新已有的数据结构</li>
+</ul>
+<ol start="4">
+<li>基于 IDL 文件定义服务，通过 proto3 工具生成指定语言的数据结构、服务端和客户端接口</li>
+</ol>
+<h2 id="Protocol-Buffers在gRPC接口中的作用"><a href="#Protocol-Buffers在gRPC接口中的作用" class="headerlink" title="Protocol Buffers在gRPC接口中的作用"></a>Protocol Buffers在gRPC接口中的作用</h2><ol>
+<li>定义数据结构</li>
+</ol>
+<pre><code class="go">// SecretInfo contains secret details.
+message SecretInfo &#123;
+    string name = 1;
+    string secret_id  = 2;
+    string username   = 3;
+    string secret_key = 4;
+    int64 expires = 5;
+    string description = 6;
+    string created_at = 7;
+    string updated_at = 8;
+&#125;
+</code></pre>
+<ol start="2">
+<li>定义服务接口</li>
+</ol>
+<pre><code class="go">// 此处定义了一个Cache服务,服务包含ListSecrets和ListPolicies两个API接口
+// Cache implements a cache rpc service.
+service Cache&#123;
+  rpc ListSecrets(ListSecretsRequest) returns (ListSecretsResponse) &#123;&#125;
+  rpc ListPolicies(ListPoliciesRequest) returns (ListPoliciesResponse) &#123;&#125;
+&#125;
+</code></pre>
+<ol start="3">
+<li>通过 protobuf 序列化和反序列化，提升传输效率</li>
+</ol>
+<h2 id="gRPC使用"><a href="#gRPC使用" class="headerlink" title="gRPC使用"></a>gRPC使用</h2><h3 id="安装protoc"><a href="#安装protoc" class="headerlink" title="安装protoc"></a>安装protoc</h3><pre><code class="bash">
+# 第一步：安装 protobuf
+$ cd /tmp/
+$ git clone -b v3.21.1 --depth=1 https://github.com/protocolbuffers/protobuf
+$ cd protobuf
+$ ./autogen.sh
+$ ./configure
+$ make
+$ make install 
+$ protoc --version # 查看 protoc 版本，成功输出版本号，说明安装成功
+libprotoc 3.21.1
+
+# 第二步：安装 protoc-gen-go
+go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28
+go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2
+
+# 第三步:客户端和服务器代码
+# 生成的 .pb.go 文件在输出目录中的放置位置取决于编译器标志
+protoc   --go_out=. --go_opt=paths=source_relative  helloworld/helloworld.proto
+protoc   --go-grpc_out=. --go-grpc_opt=paths=source_relative helloworld/helloworld.proto
+</code></pre>
+<p>编译器标志：输出模式</p>
+<ol>
+<li>paths&#x3D;import: 默认输出模式，输出文件将存放在以GO软件包的导入路径命名的目录中<br>输入文件:&#x2F;root&#x2F;protos&#x2F;buzz.proto<br>GO文件导入路径：example.com&#x2F;project&#x2F;protos&#x2F;fizz<br>输出文件：&#x2F;root&#x2F;..&#x2F;example.com&#x2F;project&#x2F;protos&#x2F;fizz&#x2F;buzz.pb.go</li>
+<li>paths&#x3D;source_relative: 输出文件将与输入文件位于同一相对目录中<br>输入文件:protos&#x2F;buzz.proto<br>输出文件:protos&#x2F;buzz.pb.go。</li>
+<li>module&#x3D;$PREFIX:输出文件会被放置在一个以 Go 软件包的导入路径命名的目录中，但指定的目录前缀会从输出文件名中移除<br>输入文件：protos&#x2F;buzz.proto<br>go导入路径：example.com&#x2F;project&#x2F;protos&#x2F;fizz<br>前缀：example.com&#x2F;project<br>输出文件：protos&#x2F;fizz&#x2F;buzz.pb.go</li>
+</ol>
+<blockquote>
+<p>Go 导入路径与 .proto 文件中的 package 说明符之间没有关联。后者只与 protobuf 命名空间相关，而前者仅与 &gt;  Go 命名空间相关。此外，Go 导入路径与 .proto 导入路径之间没有任何关联。</p>
+</blockquote>
+<h3 id="报错"><a href="#报错" class="headerlink" title="报错"></a>报错</h3><h4 id="执行-x2F-autogen-sh报错"><a href="#执行-x2F-autogen-sh报错" class="headerlink" title="执行.&#x2F;autogen.sh报错"></a>执行.&#x2F;autogen.sh报错</h4><ol>
+<li>.&#x2F;autogen.sh: line 41: autoreconf: command not found<br>解决方法：yum安装 autoconf</li>
+<li>Can’t exec “aclocal”: No such file or directory at &#x2F;usr&#x2F;share&#x2F;autoconf&#x2F;Autom4te&#x2F; FileUtils.pm line 326.<br>解决方法：yum 安装automake</li>
+<li>configure.ac:109: error: possibly undefined macro: AC_PROG_LIBTOOL.If this token and others are legitimate, please use m4_pattern_allow.See the Autoconf documentation.<br>解决方法：yum 安装libtool</li>
+</ol>
+<h4 id="执行-x2F-configure报错"><a href="#执行-x2F-configure报错" class="headerlink" title="执行.&#x2F;configure报错"></a>执行.&#x2F;configure报错</h4><ol>
+<li>configure: error: in <code>/tmp/protobuf&#39;:configure: error: C++ preprocessor &quot;/lib/cpp&quot; fails sanity check  See &#39;config.log&#39; for more details 解决方法：由于c++编译器的相关package没有安装，yum 安装</code>yum install glibc-headers gcc-c++&#96;</li>
+</ol>
+<h2 id="gRPC-demo-实现"><a href="#gRPC-demo-实现" class="headerlink" title="gRPC demo 实现"></a>gRPC demo 实现</h2><ol>
+<li>定义gPRC服务</li>
+<li>生成客户端和服务器代码</li>
+<li>实现gRPC服务</li>
+<li>实现gRPC客户端</li>
+</ol>
+<pre><code class="go">tree
+├── client
+│   └── main.go
+├── helloworld
+│   ├── helloworld.pb.go
+│   └── helloworld.proto
+└── server
+    └── main.go
+</code></pre>
+<p>client:存放客户端代码<br>helloworld:存放服务的IDL定义<br>server：存放server目录</p>
+<h3 id="proto文件：定义服务"><a href="#proto文件：定义服务" class="headerlink" title="proto文件：定义服务"></a>proto文件：定义服务</h3><p>编译命令：<br><code>protoc -I=$SRC_DIR --go_out=$DST_DIR $SRC_DIR/addressbook.proto</code></p>
+<h3 id="服务方法类型"><a href="#服务方法类型" class="headerlink" title="服务方法类型"></a>服务方法类型</h3><ol>
+<li>简单模式:客户端发起一次请求，服务端响应一个数据</li>
+</ol>
+<pre><code class="go">rpc SayHello (HelloRequest) returns (HelloReply) &#123;&#125;
+</code></pre>
+<ol start="2">
+<li>服务端数据流模式:客户端发送一个请求，服务器返回数据流响应，客户端从流中读取数据直到为空</li>
+</ol>
+<pre><code class="go">rpc SayHello (HelloRequest) returns (stream HelloReply) &#123;&#125;
+</code></pre>
+<ol start="3">
+<li>客户端数据流模式：客户端将消息以流的方式发送给服务器，服务器全部处理完成之后返回一次响应。</li>
+</ol>
+<pre><code class="go"> rpc SayHello (stream HelloRequest) returns (HelloReply) &#123;&#125;
+</code></pre>
+<ol start="4">
+<li>双向数据流模式:客户端和服务端都可以向对方发送数据流，这个时候双方的数据可以同时互相发送</li>
+</ol>
+<pre><code class="go">rpc SayHello (stream HelloRequest) returns (stream HelloReply) &#123;&#125;
+</code></pre>
+<h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><img src="/2022/12/16/rpc-api/grpc-vs-restful.webp" class="" title="接口类型比较">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2022-12-16</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/GoLang/'>
+                            GoLang
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E5%90%8E%E7%AB%AF/'>
+                            后端
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

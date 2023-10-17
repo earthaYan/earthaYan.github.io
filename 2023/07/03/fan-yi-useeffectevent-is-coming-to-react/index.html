@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="翻译-useEffectEvent-is-coming-to-React" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            翻译-useEffectEvent-is-coming-to-React
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#useEvent-%E5%B7%B2%E6%AD%BB-useEffectEvent-%E4%B8%87%E5%B2%81%EF%BC%81"><span class="post-toc-text">useEvent 已死, useEffectEvent 万岁！</span></a></li></ol>
+        
+        <p>原文地址：<a target="_blank" rel="noopener" href="https://vived.io/useeffectevent-is-coming-to-react-frontend-weekly-vol-118/">https://vived.io/useeffectevent-is-coming-to-react-frontend-weekly-vol-118/</a></p>
+<h2 id="useEvent-已死-useEffectEvent-万岁！"><a href="#useEvent-已死-useEffectEvent-万岁！" class="headerlink" title="useEvent 已死, useEffectEvent 万岁！"></a>useEvent 已死, useEffectEvent 万岁！</h2><p>六个多月前，React 团队向全世界分享了一个有关新 hook <code>useEvent</code> 的意见征求。它本该返回一个稳定的函数引用。同时函数内的 state 也应该总是对应组件的当前 state。这种行为可以非常有效地优化不必要的渲染。</p>
+<pre><code class="javascript">function Chat() &#123;
+  const [text, setText] = useState(&#39;&#39;);
+  // 🟡 只要`text` 变化，就返回一个不同的函数
+  const onClick = useCallback(() =&gt; &#123;
+    sendMessage(text);
+  &#125;, [text]);
+
+  return &lt;SendButton onClick=&#123;onClick&#125; /&gt;;
+&#125;
+</code></pre>
+<pre><code class="javascript">function Chat() &#123;
+  const [text, setText] = useState(&#39;&#39;);
+  // ✅总是返回相同的函数 (即使 `text` 变化)
+  const onClick = useEvent(() =&gt; &#123;
+    sendMessage(text);
+  &#125;);
+  return &lt;SendButton onClick=&#123;onClick&#125; /&gt;;
+&#125;
+</code></pre>
+<p>不幸的是，RFC 完成了它的工作并展开了许多讨论。最终，这些讨论引发了了 Hook 创建者心里的疑虑，他们决定暂停其实现。此时两个反对的论据浮出了水面。首先，用户可能会这个新 Hook 当做优化版的<code>useCallback</code>，将两者混淆。事实上，这两个 hook 本应该有稍微不同的功能。其次，除了 <code>useEvent</code> 之外，开发者还致力于开发一个能够实现函数调用自动缓存的编译器。同时处理这两个功能太麻烦了。</p>
+<blockquote>
+<p>当一个函数接收相同的参数时,并不需要重新计算结果,而是直接使用缓存的结果。这就是 memoization 的工作原理。</p>
+</blockquote>
+<p>所有迹象都表明 <code>useEvent</code> 将会以另一种形式回到我们视野。一个神秘的PR出现在了React的仓库中。它将 <code>useEvent</code> 重命名为  <code>useEffectEvent</code> ,且稍微改变了一下它的行为。从现在起，这个函数不会返回一个稳定的引用，但是你仍然可以在<code>useEffect</code> 中引用它，而不需要将其指定为依赖项。</p>
+<pre><code class="javascript">function Chat() &#123;
+  const [text, setText] = useState(&#39;&#39;);
+  const [state, setState] = useState&lt;State&gt;(&#39;INITIAL&#39;);
+
+  const onHappened = useEffectEvent(() =&gt; &#123;
+    logValueToAnalytics(text);
+  &#125;);
+
+  useEffect(() =&gt; &#123;
+    onHappened();
+  &#125;, [state]);
+
+  return (/*...*/);
+&#125;
+</code></pre>
+<p>现在这个PR还没有完整的RFC文档描述，所以很难预测<code>useEffectEvent</code> 的未来或者对他的功能做出更清楚的结论。毫无疑问，当RFC最终出现的时候，会提供更多的上下文，并且你肯定会在我们的周报中读到它。</p>
+<p>参考链接：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://github.com/facebook/react/pull/25881">useEvent 命名为 useEffectEvent</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/reactjs/rfcs/blob/useevent/text/0000-useevent.md">useEvent 完整提案</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/reactjs/rfcs/pull/220">useEvent 提案描述</a></li>
+</ol>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2023-07-03</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/React/'>
+                            React
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E7%BF%BB%E8%AF%91/'>
+                            翻译
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

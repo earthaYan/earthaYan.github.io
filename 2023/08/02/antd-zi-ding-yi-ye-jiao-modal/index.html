@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="antd自定义页脚Modal" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            antd自定义页脚Modal
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%89%8D%E7%BD%AE%E8%83%8C%E6%99%AF%EF%BC%9A"><span class="post-toc-text">前置背景：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%9C%AC%E6%AC%A1%E9%9C%80%E6%B1%82"><span class="post-toc-text">本次需求</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E9%A6%96%E9%80%89%E6%96%B9%E6%A1%88%EF%BC%9A%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E9%A1%B5%E8%84%9A-footer-%E5%B1%9E%E6%80%A7"><span class="post-toc-text">首选方案：使用自定义页脚 footer 属性</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF"><span class="post-toc-text">实现思路</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%BD%BF%E7%94%A8-Modal-%E7%BB%84%E4%BB%B6%E5%B0%81%E8%A3%85%E4%B8%80%E4%B8%AA%E6%94%AF%E6%8C%81%E8%87%AA%E5%AE%9A%E4%B9%89%E9%A1%B5%E8%84%9A%E7%9A%84%E5%BC%B9%E7%AA%97"><span class="post-toc-text">使用 Modal 组件封装一个支持自定义页脚的弹窗</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%9C%80%E7%BB%88%E6%96%B9%E6%A1%88"><span class="post-toc-text">最终方案</span></a></li></ol></li></ol>
+        
+        <p>需求：</p>
+<img src="/2023/08/02/antd-zi-ding-yi-ye-jiao-modal/need.jpg" class="" title="需求">
+
+<h2 id="前置背景："><a href="#前置背景：" class="headerlink" title="前置背景："></a>前置背景：</h2><p>用户登录成功后，如果当前状态为初始密码状态，则跳转到目标页面且展示弹窗提示用户修改密码。由于之前产品希望 modal 可以跨页面展示，所以没有使用 Modal 组件，而是使用了 Modal.confirm:</p>
+<pre><code class="javascript">Modal.confirm(&#123;
+  content:
+    res.is_user_password_expired === IsUserPasswordExpiredEnum.EXPIRE_SOON
+      ? i18n.t(&#39;Login.Login.index.LOCALE_DEFAULT_SUFFIX3836&#39;)
+      : i18n.t(&#39;Login.Login.index.firstLoginModifyPwd&#39;),
+  okText: i18n.t(&#39;commonGenerator.confirm_3&#39;),
+  cancelText: i18n.t(&#39;commonGenerator.cancel&#39;),
+  onOk: () =&gt; &#123;
+    // 防止用户在修改密码界面点击浏览器返回键或者取消，程序卡死
+    dispatch(setIsLogin(&#123; isLogin: true, token: res.token ?? &#39;&#39; &#125;));
+    history.push(&#39;/password_modify&#39;);
+  &#125;,
+  onCancel: () =&gt; &#123;
+    dispatch(setIsLogin(&#123; isLogin: true, token: res.token ?? &#39;&#39; &#125;));
+    if (target) &#123;
+      window.location.href = target;
+    &#125;
+  &#125;,
+&#125;);
+</code></pre>
+<h2 id="本次需求"><a href="#本次需求" class="headerlink" title="本次需求"></a>本次需求</h2><p>产品希望在底部增加一个取消和确认之外的忽略按钮，点击忽略按钮时，调用新增的忽略密码提示接口，然后自动关闭弹窗。</p>
+<h3 id="首选方案：使用自定义页脚-footer-属性"><a href="#首选方案：使用自定义页脚-footer-属性" class="headerlink" title="首选方案：使用自定义页脚 footer 属性"></a>首选方案：使用自定义页脚 footer 属性</h3><pre><code class="javascript">Modal.confirm(&#123;
+  // ...
+  footer:[&#123;
+    &lt;Button key=&#39;1&#39;&gt;忽略&lt;/Button&gt;,
+    &lt;Button key=&#39;2&#39;&gt;取消&lt;/Button&gt;,
+    &lt;Button key=&#39;3&#39;&gt;确认&lt;/Button&gt;
+  &#125;]
+&#125;)
+</code></pre>
+<p>问题：目前项目使用的 antd 版本为 4.x,而 antd5.x 才支持 footer 属性，所以有两个选择：</p>
+<ol>
+<li>升级项目依赖库版本【暂时没有升级计划，直接忽略】</li>
+<li>通过非正常方式实现支持自定义页脚的 Modal</li>
+</ol>
+<h3 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h3><h4 id="使用-Modal-组件封装一个支持自定义页脚的弹窗"><a href="#使用-Modal-组件封装一个支持自定义页脚的弹窗" class="headerlink" title="使用 Modal 组件封装一个支持自定义页脚的弹窗"></a>使用 Modal 组件封装一个支持自定义页脚的弹窗</h4><pre><code class="javascript">const [visible, setVisible] = useState(false);
+
+const showModal = () =&gt; &#123;
+  setVisible(true);
+&#125;;
+
+const handleOk = () =&gt; &#123;
+  // ...handling
+&#125;;
+
+const handleCancel = () =&gt; &#123;
+  // ...handling
+&#125;;
+
+const handleIgnore = () =&gt; &#123;
+  // ...handling
+&#125;;
+
+return (
+  &lt;&gt;
+    &lt;Button onClick=&#123;showModal&#125;&gt;Open Modal&lt;/Button&gt;
+
+    &lt;Modal
+      visible=&#123;visible&#125;
+      onOk=&#123;handleOk&#125;
+      onCancel=&#123;handleCancel&#125;
+      footer=&#123;[
+        &lt;Button key=&quot;cancel&quot; onClick=&#123;handleCancel&#125;&gt;
+          取消
+        &lt;/Button&gt;,
+
+        &lt;Button key=&quot;ignore&quot; onClick=&#123;handleIgnore&#125;&gt;
+          忽略
+        &lt;/Button&gt;,
+
+        &lt;Button key=&quot;submit&quot; type=&quot;primary&quot; onClick=&#123;handleOk&#125;&gt;
+          确认
+        &lt;/Button&gt;,
+      ]&#125;
+    &gt;
+      &lt;p&gt;Modal Content&lt;/p&gt;
+    &lt;/Modal&gt;
+  &lt;/&gt;
+);
+</code></pre>
+<p>由于 antd4.x 的 Modal 组件支持 footer 属性，所以可以通过该组件封装。但是问题是我们需要弹窗能跨页面展示。需要做到这一点，可以采用方案：使用 redux 将 modal 的显示状态提升到全局</p>
+<pre><code class="jsx">// store.js
+export const store = createStore( reducer: (state, action) =&gt; &#123;
+  // ... handles modal visibility state
+&#125;)
+
+// App.js
+&lt;Provider store=&#123;store&#125;&gt;
+  &lt;Router&gt;
+    &#123;/* 根据 redux state 来渲染 Modal */&#125;
+    &lt;Modal /&gt;
+
+    &lt;Route path=&quot;/a&quot; component=&#123;PageA&#125; /&gt;
+    &lt;Route path=&quot;/b&quot; component=&#123;PageB&#125; /&gt;
+  &lt;/Router&gt;
+&lt;/Provider&gt;
+
+// PageA.js
+import &#123; showModal &#125; from &#39;./actions&#39;
+
+const openModal = () =&gt; &#123;
+  dispatch(showModal()) // 开启 modal
+&#125;
+
+// PageB.js
+// 这里不需要做任何处理,modal 会继续显示
+</code></pre>
+<p>但是这个弹窗并不是全局的功能，所以并不希望将其放置在全局的路由中，且这样做的话修改成本较高，所以放弃此方案。</p>
+<h3 id="最终方案"><a href="#最终方案" class="headerlink" title="最终方案"></a>最终方案</h3><p>思路：cancelText 属性类型支持 ReactNode，所以可以考虑将忽略按钮和取消按钮同一看做是 cancelText,通过 CSS 和点击事件设置达到相同效果</p>
+<pre><code class="javascript">const handleIgnore = async (modal: any) =&gt; &#123;
+  const token = localStorage.getItem(&#39;token&#39;);
+  dispatch(setIsLogin(&#123; isLogin: true, token: token ?? &#39;&#39; &#125;));
+  const ignore = UserService.ignorePasswdChangeAlarm();
+  modal.destroy();
+  ignore.catch((err) =&gt; message.error(getErrorMessage(err)));
+  if (target) &#123;
+    window.location.href = target;
+  &#125;
+&#125;;
+const handleCancel = (modal?: any) =&gt; &#123;
+  const token = localStorage.getItem(&#39;token&#39;);
+  dispatch(setIsLogin(&#123; isLogin: true, token: token ?? &#39;&#39; &#125;));
+  if (target) &#123;
+    window.location.href = target;
+  &#125;
+  if (!!modal) &#123;
+    modal.destroy();
+  &#125;
+&#125;;
+const modal = Modal.confirm(&#123;
+  // ....
+  className: &#39;need-modify-modal&#39;,
+  cancelText: (
+    &lt;&gt;
+      &lt;Button onClick=&#123;() =&gt; handleIgnore(modal)&#125;&gt;忽略&lt;/Button&gt;
+      &lt;Button onClick=&#123;() =&gt; handleCancel(modal)&#125;&gt;取消&lt;/Button&gt;
+    &lt;/&gt;
+  ),
+  cancelButtonProps: &#123;
+    className: &#39;cancel-ignore-btns&#39;,
+    onClick: () =&gt; &#123;&#125;,
+    type: &#39;text&#39;,
+  &#125;,
+&#125;);
+</code></pre>
+<p>此时再设置样式即可</p>
+<pre><code class="less">.need-modify-modal &#123;
+  .ant-modal-confirm-btns &#123;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    border: none;
+    .cancel-ignore-btns &#123;
+      border: none;
+      display: flex;
+      align-items: end;
+      padding: 0;
+      justify-content: end;
+      width: 80%;
+      cursor: default;
+      &gt; span &#123;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        background-color: #fff;
+      &#125;
+    &#125;
+  &#125;
+&#125;
+</code></pre>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2023-08-02</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/antd/'>
+                            antd
+                        </a>
+                    
+                        <a href='/tags/Modal/'>
+                            Modal
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E5%B7%A5%E4%BD%9C/'>
+                            工作
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

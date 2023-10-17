@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="umc-ui表格筛选不生效" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            umc-ui表格筛选不生效
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%83%8C%E6%99%AF%EF%BC%9A"><span class="post-toc-text">背景：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%EF%BC%9A"><span class="post-toc-text">解决方案：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%B1%BB%E4%BC%BC%E9%97%AE%E9%A2%98"><span class="post-toc-text">类似问题</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%90%8E%E7%BB%AD"><span class="post-toc-text">后续</span></a></li></ol>
+        
+        <h2 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h2><p>偶然发现项目中一个表格筛选没有生效,传参字段值为<code> filter_redis_sentinel_instance_ids: tableFilterInfo.redis_sentinel_instance_id ?? undefined</code></p>
+<img src="/2023/07/31/axios-qing-qiu-bu-sheng-xiao/fail.jpg" class="" title="表格筛选不生效">
+<p>上报缺陷以后，自己用 postman 试了一下，发现接口<code>v4/redis/sentinel_instance/list?page_index=1&amp;page_size=20&amp;filter_redis_sentinel_instance_ids[]=redis-sentinel-u97bvd</code>,当<code>filter_redis_sentinel_instance_ids</code>字段传入单个值的时候，是可以有效筛选出对应的节点 ID 数据的。</p>
+<h2 id="解决方案："><a href="#解决方案：" class="headerlink" title="解决方案："></a>解决方案：</h2><p>寻求后端帮助，后端发现如果将<code>filter_redis_sentinel_instance_ids</code>参数值用逗号分隔开，而不是直接传数组，此时筛选是有效的。但是实践后发现由于后端将其定义为字符串数组类型，所以前端将它使用<code>join()</code>方法转换为字符串后，TS 语法检查过不去。此时解决方案是后端重新定义接口字段类型，将其从<code>string[]</code>转换为<code>string</code>,将参数修改为<code>filter_redis_sentinel_instance_ids:tableFilterInfo.redis_sentinel_instance_id?.[0]</code>。此时可以修复问题。</p>
+<h2 id="类似问题"><a href="#类似问题" class="headerlink" title="类似问题"></a>类似问题</h2><p>发现项目中有很多类似的问题，比如 uProxy 页面实例列表有一个实例 id 筛选:</p>
+<pre><code class="javascript">  React.useEffect(() =&gt; &#123;
+    if (!!selectData) &#123;
+      const groupId = selectData?.uproxy_group_id ?? &#39;&#39;;
+      UproxyService.listUproxyInstancesV6(&#123;
+        // 该参数类型定义为Array&lt;string&gt;，但传递数组是无效的，只能传递字符串。
+        filter_uproxy_group_ids: groupId as any,
+      &#125;).then((res) =&gt; &#123;
+        if (res.data &amp;&amp; res.data.length === 1) &#123;
+          setIsLast(true);
+        &#125; else &#123;
+          setIsLast(false);
+        &#125;
+      &#125;);
+    &#125;
+  &#125;, [selectData]);
+</code></pre>
+<p>这里根据后端 swagger 文档生成的 api 接口定义里,<code>filter_uproxy_group_ids</code>字段是一个字符串数组，但是此时前端传递数组是无效的，只能传递字符串，但是 TS 检查过不去，所以这里使用了<code>as any</code>，这也是大部分同类问题没有出现问题的原因，比如：</p>
+<pre><code class="javascript">const params: IListUproxyInstancesV6Params = &#123;
+  filter_uproxy_group_ids: info.uproxy_group_id?.[0],
+&#125;;
+</code></pre>
+<p>由于<code>info</code>是<code>FilteredInfo</code>类型,所以此时传给<code>filter_uproxy_group_ids</code>的实际上是<code>any</code>类型,躲过了 TS 检查。但如果后续需求有多值筛选的时候，就无法躲过 TS 检查：</p>
+<pre><code class="javascript">export type FilteredInfo = &#123;
+  [key: string]: any[] | null,
+&#125;;
+</code></pre>
+<h2 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h2><p>有后端同事反馈，这种重新定义接口的解决方案修复成本较高，因为每次修改接口定义都需要新增一个 v1-&gt;v2 这种类似的接口，但是内部逻辑是不变的。所以需要从前端角度再找一找其他的解决方案，降低以后修改项目里其他类似缺陷的修复成本。询问其他前端同事得到以下信息：</p>
+<blockquote>
+<p>问题本质原因是 axios 对 query 类型的参数的 format 格式与后端使用的 parse params 方式不匹配。axios 默认会将 query 中的 array 格式化城?a[]&#x3D;1&amp;a[]&#x3D;2 的格式，但是后端使用的 parse 只支持 ?a&#x3D;1,2 的格式。</p>
+</blockquote>
+<p>查阅了<a target="_blank" rel="noopener" href="https://axios-http.com/zh/docs/req_config">axios 的官方文档</a> ,发现了配置项：</p>
+<pre><code class="javascript">import qs from &#39;query-string&#39;
+paramsSerializer: function (params) &#123;
+  return qs.stringify(params, &#123;arrayFormat: &#39;brackets&#39;&#125;)
+&#125;
+</code></pre>
+<p><code>arrayFormat</code>的默认值是<code>brackets</code>,所以出现了 url 中 a[]&#x3D;1 这种现象，导致筛选失败，将其修改为<code>comma</code>即可。</p>
+<pre><code class="javascript">qs.stringify(&#123; a: [&#39;b&#39;, &#39;c&#39;] &#125;, &#123; arrayFormat: &#39;indices&#39; &#125;);
+// &#39;a[0]=b&amp;a[1]=c&#39;
+qs.stringify(&#123; a: [&#39;b&#39;, &#39;c&#39;] &#125;, &#123; arrayFormat: &#39;brackets&#39; &#125;);
+// &#39;a[]=b&amp;a[]=c&#39;
+qs.stringify(&#123; a: [&#39;b&#39;, &#39;c&#39;] &#125;, &#123; arrayFormat: &#39;repeat&#39; &#125;);
+// &#39;a=b&amp;a=c&#39;
+qs.stringify(&#123; a: [&#39;b&#39;, &#39;c&#39;] &#125;, &#123; arrayFormat: &#39;comma&#39; &#125;);
+// &#39;a=b,c&#39;
+</code></pre>
+<p>所以最终修改方式是修改 request 属性值</p>
+<pre><code class="javascript">return handleTableRequestError(
+  RedisService.ListRedisSentinelInstancesV5(cleanEmptyParams(params))
+);
+// ----变更为--------
+return handleTableRequestError(
+  RedisService.ListRedisSentinelInstancesV5(cleanEmptyParams(params), &#123;
+    paramsSerializer(paramsAll) &#123;
+      return qs.stringify(paramsAll, &#123;
+        arrayFormat: &#39;comma&#39;,
+      &#125;);
+    &#125;,
+  &#125;)
+);
+</code></pre>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2023-07-31</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/http%E8%AF%B7%E6%B1%82/'>
+                            http请求
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E5%B7%A5%E4%BD%9C/'>
+                            工作
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

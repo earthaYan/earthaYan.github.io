@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="SQL必知必会笔记" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            SQL必知必会笔记
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%9C%A8%E8%BF%90%E8%A1%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A2%9E%E5%88%A0%E6%94%B9%E6%9F%A5%E8%84%9A%E6%9C%AC%E5%89%8D%E9%A2%84%E6%9C%9F%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%8C%E6%8A%A5%E9%94%99%EF%BC%9A"><span class="post-toc-text">在运行数据库增删改查脚本前预期创建一个新的数据库，报错：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%88%A0%E9%99%A4%E8%A1%8C%E6%95%B0%E6%8D%AE%E7%9A%84%E6%97%B6%E5%80%99%E6%8A%A5%E9%94%99%EF%BC%9A"><span class="post-toc-text">删除行数据的时候报错：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%8E%B7%E5%8F%96%E7%B3%BB%E7%BB%9F%E6%97%B6%E9%97%B4"><span class="post-toc-text">获取系统时间</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#MySQL-%E7%9A%84%E6%97%A5%E6%9C%9F%E7%B1%BB%E5%9E%8B%E5%A6%82%E4%BD%95%E8%AE%BE%E7%BD%AE%E5%BD%93%E5%89%8D%E6%97%B6%E9%97%B4%E4%B8%BA%E5%85%B6%E9%BB%98%E8%AE%A4%E5%80%BC"><span class="post-toc-text">MySQL 的日期类型如何设置当前时间为其默认值</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%AD%98%E5%82%A8-url"><span class="post-toc-text">存储 url</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%88%9B%E5%BB%BA%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B"><span class="post-toc-text">创建存储过程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E8%AE%A2%E5%8D%95"><span class="post-toc-text">创建一个新订单</span></a></li></ol></li></ol>
+        
+        <h2 id="在运行数据库增删改查脚本前预期创建一个新的数据库，报错："><a href="#在运行数据库增删改查脚本前预期创建一个新的数据库，报错：" class="headerlink" title="在运行数据库增删改查脚本前预期创建一个新的数据库，报错："></a>在运行数据库增删改查脚本前预期创建一个新的数据库，报错：</h2><blockquote>
+<p>Error Code：1044，Access denied for user ‘root‘@’%’ to database ‘dbName’(Mysql::Error)</p>
+</blockquote>
+<p>解决方法：修改 mysql 数据库下的 user 表的 root 用户权限</p>
+<pre><code class="bash">UPDATE mysql.user SET Grant_priv=&#39;Y&#39;, Super_priv=&#39;Y&#39; WHERE User=&#39;root&#39;;
+FLUSH PRIVILEGES;
+</code></pre>
+<h2 id="删除行数据的时候报错："><a href="#删除行数据的时候报错：" class="headerlink" title="删除行数据的时候报错："></a>删除行数据的时候报错：</h2><p><code>DELETE FROM Customers WHERE cust_id = 1000000006</code></p>
+<blockquote>
+<p>Error Code：1142 - DELETE command denied to user ‘root‘@’222.71.242.202’ for table ‘Customers’</p>
+</blockquote>
+<p>解决办法：</p>
+<ol>
+<li>查看当前登录用户信息</li>
+</ol>
+<pre><code class="SQL">SELECT
+ user,
+ host,
+ db,
+ command
+FROM
+ information_schema.processlist
+</code></pre>
+<p>结果：<br>user:root<br>host:222.71.242.202:54120<br>db:10Minute</p>
+<ol start="2">
+<li>增加权限 <code>Delete_priv=&#39;Y&#39;</code></li>
+</ol>
+<h2 id="获取系统时间"><a href="#获取系统时间" class="headerlink" title="获取系统时间"></a>获取系统时间</h2><p>MySQL 的日期类型有 5 个，分别是： date、time、year、datetime、timestamp。<br>Now(),CURRENT_TIMESTAMP(),CURRENT_DATE()</p>
+<h3 id="MySQL-的日期类型如何设置当前时间为其默认值"><a href="#MySQL-的日期类型如何设置当前时间为其默认值" class="headerlink" title="MySQL 的日期类型如何设置当前时间为其默认值"></a>MySQL 的日期类型如何设置当前时间为其默认值</h3><p>使用 timestamp 类型，且 默认值设为 now() 或 current_timestamp()</p>
+<h2 id="存储-url"><a href="#存储-url" class="headerlink" title="存储 url"></a>存储 url</h2><p>mysql 版本<br>低于 5.0.3：TEXT<br>5.0.3 及其以上：varChar(2083)</p>
+<h2 id="创建存储过程"><a href="#创建存储过程" class="headerlink" title="创建存储过程"></a>创建存储过程</h2><pre><code class="sql">CREATE PROCEDURE MailingListCount (OUT listCount INT)
+# 存储过程体开始
+BEGIN
+DECLARE v_rows INT;
+SELECT COUNT(*) INTO v_rows
+FROM Customers
+WHERE NOT cust_email IS NULL;
+SET listCount=v_rows;
+END;
+# 存储过程体结束
+</code></pre>
+<p>报错：Error code:1193,Unknown system variable ‘listCount’<br>解决：</p>
+<pre><code class="sql">delimiter $$
+CREATE PROCEDURE MailingListCount (OUT `listCount` INT)
+BEGIN
+DECLARE v_rows INT; 
+SELECT COUNT(*) INTO v_rows
+FROM Customers
+WHERE NOT cust_email IS NULL;
+SET listCount=v_rows;
+END $$
+delimiter ;
+CALL MailingListCount(@result);
+SELECT @result;
+</code></pre>
+<p>[注意]：out参数必须以<code>@</code>开头</p>
+<h3 id="创建一个新订单"><a href="#创建一个新订单" class="headerlink" title="创建一个新订单"></a>创建一个新订单</h3><pre><code class="sql">delimiter $$
+CREATE PROCEDURE NewOrder(IN `cust_id` VARCHAR(10))
+BEGIN
+#为订单号声明一个变量
+DECLARE new_order_num INT; 
+# 获取当前最大订单号,决定下一个订单号
+SET  new_order_num= MAX(order_num)+1;
+# 插入新订单
+INSERT INTO Orders(order_num, order_date, cust_id) VALUES(new_order_num, CURRENT_TIMESTAMP(),@cust_id); 
+END $$
+delimiter ;
+</code></pre>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2023-07-17</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/SQL/'>
+                            SQL
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/'>
+                            数据库
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

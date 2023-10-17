@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="TypeScript学习笔记" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            TypeScript学习笔记
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#TypeScript%E7%B1%BB%E5%9E%8B%E6%9D%A5%E6%BA%90%EF%BC%9A"><span class="post-toc-text">TypeScript类型来源：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#TypeScript%E7%9A%84%E9%B8%AD%E5%AD%90%E7%B1%BB%E5%9E%8B-structural-typing"><span class="post-toc-text">TypeScript的鸭子类型(structural typing)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#TypeScript%E7%9A%84%E9%A2%9D%E5%A4%96%E5%8A%9F%E8%83%BD"><span class="post-toc-text">TypeScript的额外功能</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#TypeScript%E7%BC%96%E8%AF%91%E5%99%A8%E2%80%94%E2%80%94tsc"><span class="post-toc-text">TypeScript编译器——tsc</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#tsconfig-json%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="post-toc-text">tsconfig.json配置文件</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%97%A5%E5%B8%B8%E7%B1%BB%E5%9E%8B"><span class="post-toc-text">日常类型</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#interface%E5%92%8Ctype%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="post-toc-text">interface和type的区别</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%B1%BB%E5%9E%8B%E6%96%AD%E8%A8%80"><span class="post-toc-text">类型断言</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%AD%97%E9%9D%A2%E9%87%8F%E7%B1%BB%E5%9E%8B"><span class="post-toc-text">字面量类型</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Null%E5%92%8CUndefined"><span class="post-toc-text">Null和Undefined</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%BC%A9%E5%B0%8F"><span class="post-toc-text">缩小</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%B1%BB%E5%9E%8B%E4%BF%9D%E6%8A%A4-typeof"><span class="post-toc-text">类型保护 typeof</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#if%E6%A3%80%E6%9F%A5"><span class="post-toc-text">if检查</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Truthiness%E6%A3%80%E6%9F%A5%EF%BC%9A"><span class="post-toc-text">Truthiness检查：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BD%BF%E7%94%A8-x3D-x3D-x3D-x3D-x3D-x3D-x3D-x3D"><span class="post-toc-text">使用&#x3D;&#x3D;&#x3D;, !&#x3D;&#x3D;, &#x3D;&#x3D;,  !&#x3D;</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#in%E6%93%8D%E4%BD%9C%E7%AC%A6%EF%BC%9A%E5%88%A4%E6%96%AD%E5%AF%B9%E8%B1%A1%E4%B8%AD%E6%98%AF%E5%90%A6%E6%9C%89%E6%8C%87%E5%AE%9A%E7%9A%84%E5%B1%9E%E6%80%A7"><span class="post-toc-text">in操作符：判断对象中是否有指定的属性</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#instanceof"><span class="post-toc-text">instanceof</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%8E%A7%E5%88%B6%E6%B5%81%E5%88%86%E6%9E%90%EF%BC%88%E7%B1%BB%E5%9E%8B%E6%8E%A8%E6%96%AD%EF%BC%89"><span class="post-toc-text">控制流分析（类型推断）</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%B1%BB%E5%9E%8B%E5%88%A4%E6%96%AD%EF%BC%9AparameterName-is-Type"><span class="post-toc-text">类型判断：parameterName is Type</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%8F%AF%E5%8C%BA%E5%88%86%E8%81%94%E5%90%88%E7%B1%BB%E5%9E%8B"><span class="post-toc-text">可区分联合类型</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Function"><span class="post-toc-text">Function</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%B0%83%E7%94%A8%E7%AD%BE%E5%90%8D"><span class="post-toc-text">调用签名</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E7%AD%BE%E5%90%8D"><span class="post-toc-text">构造函数签名</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Function%E7%9A%84%E6%B3%9B%E5%9E%8B"><span class="post-toc-text">Function的泛型</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%B3%9B%E5%9E%8B%E7%9A%84%E7%BA%A6%E6%9D%9F"><span class="post-toc-text">泛型的约束</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%8F%AF%E9%80%89%E5%8F%82%E6%95%B0"><span class="post-toc-text">可选参数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%87%BD%E6%95%B0%E9%87%8D%E8%BD%BD"><span class="post-toc-text">函数重载</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%89%A9%E4%BD%99%E5%8F%82%E6%95%B0"><span class="post-toc-text">剩余参数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%BF%94%E5%9B%9E%E7%B1%BB%E5%9E%8B%E4%B8%BAvoid"><span class="post-toc-text">返回类型为void</span></a></li></ol></li></ol>
+        
+        <h2 id="TypeScript类型来源："><a href="#TypeScript类型来源：" class="headerlink" title="TypeScript类型来源："></a>TypeScript类型来源：</h2><ul>
+<li><p>通过赋的值自动进行类型推论</p>
+</li>
+<li><p>通过 <code>interface</code> 和 <code>type</code> 定义类型</p>
+<blockquote>
+<p>JS自带的基础类型：<br><code>boolean, bigint, null, number, string, symbol,undefined</code></p>
+</blockquote>
+</li>
+<li><p>多个简单类型组合成复杂的类型</p>
+<ul>
+<li>Unions：联合类型</li>
+</ul>
+<img src="/2022/08/31/typescript-xue-xi-bi-ji/typeof.jpg" class="" title="typeof 结果">
+
+<pre><code class="TypeScript">type WindowStates = &quot;open&quot; | &quot;closed&quot; | &quot;minimized&quot;;
+function wrapInArray(obj: string | string[]) &#123;
+  if (typeof obj === &quot;string&quot;) &#123;
+    return [obj];
+  &#125;
+  return obj;
+&#125; 
+</code></pre>
+<ul>
+<li>Generics：泛型</li>
+</ul>
+</li>
+</ul>
+<pre><code class="TypeScript">type StringArray = Array&lt;string&gt;;
+
+interface Backpack&lt;Type&gt; &#123;
+  add: (obj: Type) =&gt; void;
+  get: () =&gt; Type;
+&#125;
+// 告诉TypeScript 有一个常量叫做 `backpack` 
+declare const backpack: Backpack&lt;string&gt;;
+// object 是一个字符串类型, 因为在上面声明了Backpack的变量
+const object = backpack.get();
+//由于backpack 变量是一个字符串, 不能传一个number给add方法
+backpack.add(23);//报错：Argument of type &#39;number&#39; is not assignable to parameter of type &#39;string&#39;.
+</code></pre>
+<h2 id="TypeScript的鸭子类型-structural-typing"><a href="#TypeScript的鸭子类型-structural-typing" class="headerlink" title="TypeScript的鸭子类型(structural typing)"></a>TypeScript的鸭子类型(structural typing)</h2><p><strong>定义</strong>：如果两个对象有一样的shape,他们就会被认为是一样的类型</p>
+<pre><code class="TypeScript">interface Point &#123;
+  x: number;
+  y: number;
+&#125;
+function logPoint(p: Point) &#123;
+  console.log(`$&#123;p.x&#125;, $&#123;p.y&#125;`);
+&#125;
+
+// logs &quot;12, 26&quot;
+const point = &#123; x: 12, y: 26 &#125;;
+logPoint(point);
+</code></pre>
+<p>如上述代码所示：变量point从来没有被声明为Point类型。但是TypeScript在类型检查中比较了Point和point的shape,完全一致，所以代码不会报错</p>
+<p><strong>注意</strong>:shape-matching 匹配对象字段的一个子集。</p>
+<pre><code class="TypeScript">interface Point &#123;
+  x: number;
+  y: number;
+&#125;
+function logPoint(p: Point) &#123;
+  console.log(`$&#123;p.x&#125;, $&#123;p.y&#125;`);
+&#125;
+const point3 = &#123; x: 12, y: 26, z: 89 &#125;;
+logPoint(point3); // logs &quot;12, 26&quot;
+const color = &#123;  x: 33,hex: &quot;#187ABF&quot; &#125;;
+logPoint(color);//此处报错，因为缺少缺少y
+</code></pre>
+<h2 id="TypeScript的额外功能"><a href="#TypeScript的额外功能" class="headerlink" title="TypeScript的额外功能"></a>TypeScript的额外功能</h2><ul>
+<li>输入的时候提供错误消息</li>
+<li>代码补全功能</li>
+<li>通过重构来轻松地重新组织代码</li>
+<li>通过导航功能来跳转到变量的定义</li>
+<li>查找给定变量的所有引用</li>
+</ul>
+<h2 id="TypeScript编译器——tsc"><a href="#TypeScript编译器——tsc" class="headerlink" title="TypeScript编译器——tsc"></a>TypeScript编译器——tsc</h2><pre><code class="bash">npm install -g typescript
+tsc hello.ts
+tsc --noEmitOnError hello.ts //报错时不生成输出文件
+</code></pre>
+<h2 id="tsconfig-json配置文件"><a href="#tsconfig-json配置文件" class="headerlink" title="tsconfig.json配置文件"></a>tsconfig.json配置文件</h2><pre><code class="json">&#123;
+  &quot;compilerOptions&quot;: &#123;
+    &quot;target&quot;: &quot;es5&quot;,
+    &quot;lib&quot;: [&quot;dom&quot;,&quot;dom.iterable&quot;,&quot;esnext&quot;],
+    &quot;allowJs&quot;: true,
+    &quot;skipLibCheck&quot;: true,
+    &quot;esModuleInterop&quot;: true,
+    &quot;allowSyntheticDefaultImports&quot;: true,
+    &quot;strict&quot;: true,
+    &quot;forceConsistentCasingInFileNames&quot;: true,
+    &quot;noFallthroughCasesInSwitch&quot;: true,
+    &quot;module&quot;: &quot;esnext&quot;,
+    &quot;moduleResolution&quot;: &quot;node&quot;,
+    &quot;resolveJsonModule&quot;: true,
+    &quot;isolatedModules&quot;: true,
+    &quot;noEmit&quot;: true,
+    &quot;jsx&quot;: &quot;react-jsx&quot;,
+    &quot;experimentalDecorators&quot;: true,
+    &quot;downlevelIteration&quot;:true
+  &#125;,
+  &quot;include&quot;: [
+    &quot;src&quot;,
+  ]
+&#125; 
+</code></pre>
+<h2 id="日常类型"><a href="#日常类型" class="headerlink" title="日常类型"></a>日常类型</h2><ul>
+<li>原始类型：<ul>
+<li>boolean</li>
+<li>number</li>
+<li>string</li>
+<li>bigint</li>
+<li>symbol</li>
+</ul>
+</li>
+<li>Array<ul>
+<li>Array&lt;T&gt;</li>
+<li>T[]</li>
+</ul>
+</li>
+<li>any:<ul>
+<li>任意类型，不推荐使用</li>
+<li>在tsconfig.json中设置{“noImplicitAny”: true}可使得它报错</li>
+</ul>
+</li>
+<li>Function<ul>
+<li>需要指定 入参类型，返回值类型</li>
+<li>匿名函数:当一个函数出现在TypeScript可以决定如何调用它的地方时，该函数的参数会自动指定类型，不需要指定入参和返回值</li>
+</ul>
+</li>
+<li>对象类型<ul>
+<li>可选属性,<code>name?:string</code></li>
+</ul>
+</li>
+<li>联合类型unions<ul>
+<li>类型1|类型2|类型3</li>
+<li>类型别名 <code>type UserInputSanitizedString = string;</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="interface和type的区别"><a href="#interface和type的区别" class="headerlink" title="interface和type的区别"></a>interface和type的区别</h2><ul>
+<li>type创建类型后不能被修改添加新的属性<img src="/2022/08/31/typescript-xue-xi-bi-ji/interface.jpg" class="" title="interface">
+<img src="/2022/08/31/typescript-xue-xi-bi-ji/error.jpg" class="" title="error"></li>
+</ul>
+<p>上图中左边等价于：</p>
+<pre><code class="TypeScript">interface Window&#123;
+  title:string;
+  ts:TypeScriptAPI
+&#125;
+</code></pre>
+<h2 id="类型断言"><a href="#类型断言" class="headerlink" title="类型断言"></a>类型断言</h2><ol>
+<li>使用as关键字</li>
+</ol>
+<pre><code class="TypeScript">const myCanvas = document.getElementById(&quot;main_canvas&quot;) as HTMLCanvasElement;
+</code></pre>
+<ol start="2">
+<li>使用尖角括号 —— 代码在.tsx文件中</li>
+</ol>
+<pre><code class="TypeScript">const myCanvas = &lt;HTMLCanvasElement&gt;document.getElementById(&quot;main_canvas&quot;);
+</code></pre>
+<ol start="3">
+<li>类型转换使用 as any&#x2F;unknown as</li>
+</ol>
+<pre><code class="TypeScript">const expr=2
+type T = &#123; a: 1; b: 2; c: 3 &#125;;
+// ---cut---
+const a = (expr) as unknown as T;
+</code></pre>
+<h2 id="字面量类型"><a href="#字面量类型" class="headerlink" title="字面量类型"></a>字面量类型</h2><ol>
+<li>如果是let,var定义的变量，他会被认为是基础类型-类型推论</li>
+<li>如果是const 定义的常量，它的类型就是常量值，不可修改</li>
+<li>如果const 字面量类型推论不符合预期，可通过以下方法解决</li>
+</ol>
+<pre><code class="TypeScript">// Change 1:
+const req = &#123; url: &quot;https://example.com&quot;, method: &quot;GET&quot; as &quot;GET&quot; &#125;;
+// change 2:
+const req = &#123; url: &quot;https://example.com&quot;, method: &quot;GET&quot; &#125; as const;
+handleRequest(req.url, req.method);
+</code></pre>
+<h2 id="Null和Undefined"><a href="#Null和Undefined" class="headerlink" title="Null和Undefined"></a>Null和Undefined</h2><ul>
+<li>Null：不存在，空对象</li>
+<li>undefined：没有初始化</li>
+<li>非null的断言操作：使用后缀!（知道类型不可能为null或者undefined）</li>
+</ul>
+<pre><code class="TypeScript">function liveDangerously(x?: number | null) &#123;
+  //不报错
+  console.log(x!.toFixed());
+&#125;
+</code></pre>
+<h2 id="缩小"><a href="#缩小" class="headerlink" title="缩小"></a>缩小</h2><h3 id="类型保护-typeof"><a href="#类型保护-typeof" class="headerlink" title="类型保护 typeof"></a>类型保护 typeof</h3><p><code>typeof null ==== &#39;object&#39;，typeof undefined===&#39;undefined&#39;</code></p>
+<h3 id="if检查"><a href="#if检查" class="headerlink" title="if检查"></a>if检查</h3><pre><code class="TypeScript">function padLeft(padding: number | string, input: string) &#123;
+  if (typeof padding === &quot;number&quot;) &#123;
+    return &quot; &quot;.repeat(padding) + input;//此时padding类型只有number
+  &#125;
+  return padding + input;//此时padding类型只有string
+&#125;
+</code></pre>
+<h3 id="Truthiness检查："><a href="#Truthiness检查：" class="headerlink" title="Truthiness检查："></a>Truthiness检查：</h3><ul>
+<li><code>&amp;&amp;</code>,<code>||</code>,<code>!</code>,if语句</li>
+<li><font color="red">0,NaN,”” (the empty string),0n (the bigint version of zero),null,undefined</font>转换为布尔值都是false</li>
+</ul>
+<h3 id="使用-x3D-x3D-x3D-x3D-x3D-x3D-x3D-x3D"><a href="#使用-x3D-x3D-x3D-x3D-x3D-x3D-x3D-x3D" class="headerlink" title="使用&#x3D;&#x3D;&#x3D;, !&#x3D;&#x3D;, &#x3D;&#x3D;,  !&#x3D;"></a>使用&#x3D;&#x3D;&#x3D;, !&#x3D;&#x3D;, &#x3D;&#x3D;,  !&#x3D;</h3><pre><code class="TypeScript">function example(x: string | number, y: string | boolean) &#123;
+  if (x === y) &#123;
+    x.toUpperCase();
+    y.toLowerCase();
+  &#125; else &#123;
+    console.log(x);
+    console.log(y);
+  &#125;
+&#125;
+</code></pre>
+<h3 id="in操作符：判断对象中是否有指定的属性"><a href="#in操作符：判断对象中是否有指定的属性" class="headerlink" title="in操作符：判断对象中是否有指定的属性"></a>in操作符：判断对象中是否有指定的属性</h3><pre><code class="TypeScript">type Fish = &#123; swim: () =&gt; void &#125;;
+type Bird = &#123; fly: () =&gt; void &#125;;
+type Human = &#123; swim?: () =&gt; void; fly?: () =&gt; void &#125;;
+
+function move(animal: Fish | Bird | Human) &#123;
+  if (&quot;swim&quot; in animal) &#123;
+    animal;//Fish|Human
+  &#125; else &#123;
+    animal;//bird/human
+  &#125;
+&#125;
+</code></pre>
+<img src="/2022/08/31/typescript-xue-xi-bi-ji/in.jpg" class="" title="in操作符">
+<h3 id="instanceof"><a href="#instanceof" class="headerlink" title="instanceof"></a>instanceof</h3><p>x instanceof Foo :检测 x的原型链 是否包含 Foo.prototype</p>
+<h3 id="控制流分析（类型推断）"><a href="#控制流分析（类型推断）" class="headerlink" title="控制流分析（类型推断）"></a>控制流分析（类型推断）</h3><h3 id="类型判断：parameterName-is-Type"><a href="#类型判断：parameterName-is-Type" class="headerlink" title="类型判断：parameterName is Type"></a>类型判断：parameterName is Type</h3><pre><code class="TypeScript">type Fish = &#123; swim: () =&gt; void &#125;;
+type Bird = &#123; fly: () =&gt; void &#125;;
+declare function getSmallPet(): Fish | Bird;
+function isFish(pet: Fish | Bird): pet is Fish &#123;
+  return (pet as Fish).swim !== undefined;
+&#125;
+let pet = getSmallPet();
+if (isFish(pet)) &#123;
+  pet.swim();
+&#125; else &#123;
+  pet.fly();
+&#125;
+</code></pre>
+<h3 id="可区分联合类型"><a href="#可区分联合类型" class="headerlink" title="可区分联合类型"></a>可区分联合类型</h3><pre><code class="TypeScript">interface Circle &#123;
+  kind: &quot;circle&quot;;
+  radius: number;
+&#125;
+interface Square &#123;
+  kind: &quot;square&quot;;
+  sideLength: number;
+&#125;
+type Shape = Circle | Square;
+function getArea(shape: Shape) &#123;
+  switch (shape.kind) &#123;
+    case &quot;circle&quot;:
+      return Math.PI * shape.radius ** 2;
+    case &quot;square&quot;:
+      return shape.sideLength ** 2;
+  &#125;
+&#125;
+</code></pre>
+<hr>
+<h2 id="Function"><a href="#Function" class="headerlink" title="Function"></a>Function</h2><h3 id="调用签名"><a href="#调用签名" class="headerlink" title="调用签名"></a>调用签名</h3><p>原因：解决无法在函数类型表达式声明其他属性<br>写法：</p>
+<pre><code class="TypeScript">type DescribableFunction = &#123;
+  description: string;
+  (someArg: number): boolean;
+&#125;;
+function doSomething(fn: DescribableFunction) &#123;
+  console.log(fn.description + &quot; returned &quot; + fn(6));
+&#125;
+</code></pre>
+<h3 id="构造函数签名"><a href="#构造函数签名" class="headerlink" title="构造函数签名"></a>构造函数签名</h3><pre><code class="TypeScript">type SomeConstructor = &#123;
+  new (s: string): SomeObject;
+&#125;;
+function fn(ctor: SomeConstructor) &#123;
+  return new ctor(&quot;hello&quot;);
+&#125;
+</code></pre>
+<h3 id="Function的泛型"><a href="#Function的泛型" class="headerlink" title="Function的泛型"></a>Function的泛型</h3><p>原因：处理函数输入和输出有关联的情况或者两个函数输入有某种关联关系</p>
+<pre><code class="TypeScript">function map&lt;Input, Output&gt;(arr: Input[], func: (arg: Input) =&gt; Output): Output[] &#123;
+  return arr.map(func);
+&#125;
+// Parameter &#39;n&#39; is of type &#39;string&#39;
+// &#39;parsed&#39; is of type &#39;number[]&#39;
+const parsed = map([&quot;1&quot;, &quot;2&quot;, &quot;3&quot;], (n) =&gt; parseInt(n));
+</code></pre>
+<h3 id="泛型的约束"><a href="#泛型的约束" class="headerlink" title="泛型的约束"></a>泛型的约束</h3><ul>
+<li>使用extends</li>
+</ul>
+<pre><code class="TypeScript">function minimumLength&lt;Type extends &#123; length: number &#125;&gt;(
+  obj: Type,
+  minimum: number
+): Type &#123;
+  if (obj.length &gt;= minimum) &#123;
+    return obj;
+  &#125; else &#123;
+    return &#123; length: minimum &#125;;//报错，原因是不能返回只返回符合约束的对象
+  &#125;
+&#125;
+</code></pre>
+<blockquote>
+<p>Type ‘{ length: number; }’ is not assignable to type ‘Type’.<br>‘{ length: number; }’ is assignable to the constraint of type ‘Type’,<br>but ‘Type’ could be instantiated with a different subtype of constraint ‘{ length: number; }’.</p>
+</blockquote>
+<h3 id="可选参数"><a href="#可选参数" class="headerlink" title="可选参数"></a>可选参数</h3><p>使用 <code>name?:type</code></p>
+<h3 id="函数重载"><a href="#函数重载" class="headerlink" title="函数重载"></a>函数重载</h3><p>作用：需要调用不同参数个数和类型的函数实现同一个目的</p>
+<pre><code class="TypeScript">function makeDate(timestamp: number): Date;
+function makeDate(m: number, d: string): Date;
+function makeDate(m: number, d: number, y: number): Date;
+function makeDate(mOrTimestamp: number, d?: number|string, y?: number): Date &#123;
+  if (d !== undefined &amp;&amp; y !== undefined) &#123;
+    return new Date(y, mOrTimestamp, d);
+  &#125; else &#123;
+    return new Date(mOrTimestamp);
+  &#125;
+&#125;
+const d1 = makeDate(12345678);
+const d2 = makeDate(5, 5, 5);
+const d3 = makeDate(1,&#39;3&#39;);
+</code></pre>
+<h3 id="剩余参数"><a href="#剩余参数" class="headerlink" title="剩余参数"></a>剩余参数</h3><p>使用 <code>...变量名</code> 表示</p>
+<h3 id="返回类型为void"><a href="#返回类型为void" class="headerlink" title="返回类型为void"></a>返回类型为void</h3><p><code>type vf = () =&gt; void</code></p>
+<ul>
+<li>此时并不强制只返回void,也可以返回其他类型值，但是ts会推论为void</li>
+<li>但是直接 <code>function A():void</code> 返回其他值的时候会报错</li>
+</ul>
+<hr>
+<ul>
+<li>只读属性 readOnly<br><code>interface SomeType &#123; readonly prop: string; &#125;</code></li>
+<li>可选属性</li>
+</ul>
+<pre><code class="TypeScript">interface PaintOptions &#123;
+  shape: Shape;
+  xPos?: number;
+  yPos?: number;
+&#125;`
+</code></pre>
+<ul>
+<li>索引签名:字典</li>
+</ul>
+<pre><code class="TypeScript">interface StringArray &#123;
+  [index: number]: string;
+&#125;
+</code></pre>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2022-08-31</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/TypeScript/'>
+                            TypeScript
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E5%89%8D%E7%AB%AF/'>
+                            前端
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

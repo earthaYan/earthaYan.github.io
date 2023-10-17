@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="12-go-常用设计模式" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            12-go-常用设计模式
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#go-%E9%A1%B9%E7%9B%AE%E3%80%90%E5%B7%A5%E7%A8%8B%E5%8C%96%E3%80%91"><span class="post-toc-text">go 项目【工程化】</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#go-%E5%BA%94%E7%94%A8"><span class="post-toc-text">go 应用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%A8%A1%E5%9D%97%E6%8B%86%E5%88%86"><span class="post-toc-text">模块拆分</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83"><span class="post-toc-text">代码规范</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95"><span class="post-toc-text">单元测试</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E4%BB%A3%E7%A0%81"><span class="post-toc-text">自动生成代码</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="post-toc-text">设计模式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F"><span class="post-toc-text">单例模式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E9%A5%BF%E6%B1%89%E6%A8%A1%E5%BC%8F"><span class="post-toc-text">饿汉模式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%87%92%E6%B1%89%E6%A8%A1%E5%BC%8F"><span class="post-toc-text">懒汉模式</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="post-toc-text">工厂模式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="post-toc-text">简单工厂模式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="post-toc-text">抽象工厂模式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F"><span class="post-toc-text">工厂方法模式</span></a></li></ol></li></ol></li></ol>
+        
+        <h2 id="go-项目【工程化】"><a href="#go-项目【工程化】" class="headerlink" title="go 项目【工程化】"></a>go 项目【工程化】</h2><img src="/2022/10/24/12-go-chang-yong-she-ji-mo-shi/go_engeneer.webp" class="" title="go项目">
+
+<h3 id="go-应用"><a href="#go-应用" class="headerlink" title="go 应用"></a>go 应用</h3><img src="/2022/10/24/12-go-chang-yong-she-ji-mo-shi/go_app.webp" class="" title="go应用">
+
+<h4 id="模块拆分"><a href="#模块拆分" class="headerlink" title="模块拆分"></a>模块拆分</h4><p>推荐：按功能拆分<br>不推荐：按 MVC 这样的层拆分<br>案例：<br>订单系统&#x3D;用户模块+订单模块+计费模块</p>
+<blockquote>
+<p>【注】:按功能拆分的</p>
+</blockquote>
+<h4 id="代码规范"><a href="#代码规范" class="headerlink" title="代码规范"></a>代码规范</h4><p><a target="_blank" rel="noopener" href="https://github.com/xxjwxc/uber_go_guide_cn">Uber Go 语言编码规范</a></p>
+<ul>
+<li>最佳实践<br><a target="_blank" rel="noopener" href="https://go.dev/doc/effective_go">Effective Go</a><br><a target="_blank" rel="noopener" href="https://github.com/golang/go/wiki/CodeReviewComments">CodeReviewComments</a><br><a target="_blank" rel="noopener" href="https://rakyll.org/style-packages/">Style guideline for Go packages</a></li>
+</ul>
+<h4 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h4><ol>
+<li><p>尽可能减少 function 中的依赖，让其只依赖必要模块</p>
+</li>
+<li><p>依赖模块应该易于 mock</p>
+</li>
+<li><p>提高单元测试覆盖率</p>
+<ul>
+<li>使用 gotests 工具自动生成单元测试代码，减少编写单元测试用例的工作量</li>
+<li>定期检查单元测试覆盖率。你可以通过以下方法来检查</li>
+</ul>
+<pre><code class="go">$ go test -race -cover -coverprofile=./coverage.out -timeout=10m -short -v ./...
+$ go tool cover -func ./coverage.out
+</code></pre>
+</li>
+</ol>
+<p>不可测试代码：</p>
+<pre><code class="go">
+package post
+
+import &quot;google.golang.org/grpc&quot;
+
+type Post struct &#123;
+Name    string
+Address string
+&#125;
+
+func ListPosts(client *grpc.ClientConn) ([]*Post, error) &#123;
+return client.ListPosts()
+&#125;
+</code></pre>
+<p>可测试代码：</p>
+<pre><code class="go">
+package main
+
+type Post struct &#123;
+  Name    string
+  Address string
+&#125;
+
+type Service interface &#123;
+  ListPosts() ([]*Post, error)
+&#125;
+
+func ListPosts(svc Service) ([]*Post, error) &#123;
+  return svc.ListPosts()
+&#125;
+</code></pre>
+<p>常用 mock 工具：<br><a target="_blank" rel="noopener" href="https://github.com/golang/mock">golang&#x2F;mock</a><br><a target="_blank" rel="noopener" href="https://github.com/DATA-DOG/go-sqlmock">sqlmock</a><br><a target="_blank" rel="noopener" href="https://github.com/jarcoal/httpmock">httpmock</a><br><a target="_blank" rel="noopener" href="https://github.com/bouk/monkey">bouk&#x2F;monkey</a></p>
+<h4 id="自动生成代码"><a href="#自动生成代码" class="headerlink" title="自动生成代码"></a>自动生成代码</h4><ul>
+<li>错误码、错误码说明文档。</li>
+<li>自动生成缺失的 doc.go 文件。</li>
+<li>利用 gotests 工具，自动生成单元测试用例。</li>
+<li>使用 Swagger 工具，自动生成 Swagger 文档。</li>
+<li>使用 Mock 工具，自动生成接口的 Mock 实例。</li>
+</ul>
+<h2 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h2><img src="/2022/10/24/12-go-chang-yong-she-ji-mo-shi/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.webp" class="">
+
+<h3 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h3><p>定义：全局只有一个实例，并且它负责创建自己的对象<br>优势：有利于减少内存开支，还能减少系统性能开销、防止多个实例产生冲突<br>适合场景：全局共享一个实例，且只需要被初始化一次，如数据库实例、全局配置、全局任务池</p>
+<h4 id="饿汉模式"><a href="#饿汉模式" class="headerlink" title="饿汉模式"></a>饿汉模式</h4><p>定义：全局的单例实例在包被加载时创建</p>
+<pre><code class="go">
+package singleton
+
+type singleton struct &#123;
+&#125;
+
+var ins *singleton = &amp;singleton&#123;&#125;
+
+func GetInsOr() *singleton &#123;
+    return ins
+&#125;
+</code></pre>
+<hr>
+<h4 id="懒汉模式"><a href="#懒汉模式" class="headerlink" title="懒汉模式"></a>懒汉模式</h4><p>定义：全局的单例实例在第一次被使用时创建</p>
+<pre><code class="go">
+package singleton
+
+type singleton struct &#123;
+&#125;
+
+var ins *singleton
+
+func GetInsOr() *singleton &#123;
+    if ins == nil &#123;
+        ins = &amp;singleton&#123;&#125;
+    &#125;
+
+    return ins
+&#125;
+// 带检查锁
+
+import &quot;sync&quot;
+
+type singleton struct &#123;
+&#125;
+
+var ins *singleton
+var mu sync.Mutex
+
+func GetIns() *singleton &#123;
+  if ins == nil &#123;
+    mu.Lock()
+    if ins == nil &#123;
+      ins = &amp;singleton&#123;&#125;
+    &#125;
+        mu.Unlock()
+  &#125;
+  return ins
+&#125;
+// =======================更完美方式
+
+package singleton
+
+import (
+    &quot;sync&quot;
+)
+
+type singleton struct &#123;
+&#125;
+
+var ins *singleton
+var once sync.Once
+
+func GetInsOr() *singleton &#123;
+    once.Do(func() &#123;
+      //使用once.Do可以确保 ins 实例全局只被创建一次，once.Do 函数还可以确保当同时有多个创建动作时，只有一个创建动作在被执行。
+        ins = &amp;singleton&#123;&#125;
+    &#125;)
+    return ins
+&#125;
+</code></pre>
+<h3 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h3><p>Go 中的结构体，可以理解为面向对象编程中的类，例如 Person 结构体（类）实现了 Greet 方法。</p>
+<pre><code class="go">type Person struct &#123;
+  Name string
+  Age int
+&#125;
+
+func (p Person) Greet() &#123;
+  fmt.Printf(&quot;Hi! My name is %s&quot;, p.Name)
+&#125;
+</code></pre>
+<h4 id="简单工厂模式"><a href="#简单工厂模式" class="headerlink" title="简单工厂模式"></a>简单工厂模式</h4><p>一个接受一些参数，然后返回 Person 实例的函数。确保我们创建的实例具有需要的参数，进而保证实例的方法可以按预期执行，例如，通过 NewPerson 创建 Person 实例时，可以确保实例的 name 和 age 属性被设置。</p>
+<pre><code class="go">
+type Person struct &#123;
+  Name string
+  Age int
+&#125;
+
+func (p Person) Greet() &#123;
+  fmt.Printf(&quot;Hi! My name is %s&quot;, p.Name)
+&#125;
+
+func NewPerson(name string, age int) *Person &#123;
+  return &amp;Person&#123;
+    Name: name,
+    Age: age,
+  &#125;
+&#125;
+</code></pre>
+<h4 id="抽象工厂模式"><a href="#抽象工厂模式" class="headerlink" title="抽象工厂模式"></a>抽象工厂模式</h4><p>和简单工厂模式的唯一区别，就是它返回的是接口而不是结构体</p>
+<pre><code class="go">
+type Person interface &#123;
+  Greet()
+&#125;
+
+type person struct &#123;
+  name string
+  age int
+&#125;
+
+func (p person) Greet() &#123;
+  fmt.Printf(&quot;Hi! My name is %s&quot;, p.name)
+&#125;
+
+// Here, NewPerson returns an interface, and not the person struct itself
+func NewPerson(name string, age int) Person &#123;
+  return person&#123;
+    name: name,
+    age: age,
+  &#125;
+&#125;
+</code></pre>
+<h4 id="工厂方法模式"><a href="#工厂方法模式" class="headerlink" title="工厂方法模式"></a>工厂方法模式</h4><pre><code class="go">
+type Person struct &#123;
+  name string
+  age int
+&#125;
+
+func NewPersonFactory(age int) func(name string) Person &#123;
+  return func(name string) Person &#123;
+    return Person&#123;
+      name: name,
+      age: age,
+    &#125;
+  &#125;
+&#125;
+</code></pre>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2022-10-24</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/GoLang/'>
+                            GoLang
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E5%90%8E%E7%AB%AF/'>
+                            后端
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

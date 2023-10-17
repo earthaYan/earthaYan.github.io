@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="React的createPortal" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            React的createPortal
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#React-createPortal"><span class="post-toc-text">React.createPortal()</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="post-toc-text">基本使用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%99%90%E5%88%B6"><span class="post-toc-text">限制</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%87%BD%E6%95%B0"><span class="post-toc-text">函数</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%85%A5%E5%8F%82"><span class="post-toc-text">入参</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="post-toc-text">返回值</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%B3%A8%E6%84%8F%E7%82%B9"><span class="post-toc-text">注意点</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="post-toc-text">使用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%88%9B%E5%BB%BA-portal"><span class="post-toc-text">创建 portal</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BD%BF%E7%94%A8-portal-%E6%B8%B2%E6%9F%93%E5%AF%B9%E8%AF%9D%E6%A1%86%E5%BC%B9%E7%AA%97"><span class="post-toc-text">使用 portal 渲染对话框弹窗</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%9C%A8%E9%9D%9E-React-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E9%A1%B5%E9%9D%A2%E6%A0%87%E8%AE%B0%E6%B8%B2%E6%9F%93-React-%E7%BB%84%E4%BB%B6"><span class="post-toc-text">在非 React 服务端页面标记渲染 React 组件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%9C%A8%E9%9D%9E-React-%E7%9A%84-DOM-%E8%8A%82%E7%82%B9%E6%B8%B2%E6%9F%93-React-%E7%BB%84%E4%BB%B6"><span class="post-toc-text">在非 React 的 DOM 节点渲染 React 组件</span></a></li></ol></li></ol></li></ol>
+        
+        <h1 id="React-createPortal"><a href="#React-createPortal" class="headerlink" title="React.createPortal()"></a>React.createPortal()</h1><p>作用：把部分子组件渲染到不同于父组件 DOM 节点的指定 DOM 节点</p>
+<p>使用：<br><code>React.createPortal(children,domNode)</code></p>
+<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><pre><code class="javascript">import &#123; createPortal &#125; from &#39;react-dom&#39;;
+&lt;div&gt;
+  &lt;p&gt;This child is placed in the parent div.&lt;/p&gt;
+  &#123;createPortal(
+    &lt;p&gt;This child is placed in the document body.&lt;/p&gt;,
+    document.body
+  )&#125;
+&lt;/div&gt;;
+</code></pre>
+<h2 id="限制"><a href="#限制" class="headerlink" title="限制"></a>限制</h2><p>portal 只会改变 DOM 节点的物理位置，但是渲染成 portal 的 JSX 仍然是渲染 JSX 的 React 组件的子节点。</p>
+<ul>
+<li>子组件仍然可以访问父组件树提供的上下文</li>
+<li>事件根据 React 树从子级冒泡到父级</li>
+</ul>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><h3 id="入参"><a href="#入参" class="headerlink" title="入参"></a>入参</h3><ol>
+<li>children:可以使用 React 渲染的：JSX 片段，&lt;&gt;&lt;&#x2F;&gt;,字符串，数字，或者一组这些元素</li>
+<li>domNode:已经存在的 DOM 节点，在更新期间传不同的 DOM 节点会导致不断重建 portal 内容</li>
+</ol>
+<h3 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h3><p>返回一个可以包含在 JSX 中或者可以从 React 组件返回的 React 节点</p>
+<h3 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h3><ul>
+<li>来自 portal 的事件是根据 React 树传播而不是 DOM 树。</li>
+</ul>
+<pre><code class="html">&lt;div id=&quot;root&quot;&gt;&lt;/div&gt;
+&lt;div id=&quot;name&quot;&gt;111&lt;/div&gt;
+&lt;script&gt;
+  //点击Demo组件portal组件中的p时，点击事件不会冒泡到dom树的节点，这里不会执行
+  document.getElementById(&#39;name&#39;).onclick = function () &#123;
+    console.log(&#39;hello world&#39;);
+  &#125;;
+&lt;/script&gt;
+</code></pre>
+<pre><code class="jsx">import &#123; createPortal &#125; from &#39;react-dom&#39;;
+
+const Demo = () =&gt; &#123;
+  return (
+    // 点击Demo组件portal组件中的p时，这里的onClick会执行，因为React组件树的事件冒泡
+    &lt;div style=&#123;&#123; border: '2px solid black' &#125;&#125; onClick=&#123;()=&gt;console.log(&quot;root div click&quot;)&#125;&gt;
+      &lt;p&gt;This child is placed in the parent div.&lt;/p&gt;
+      &#123;createPortal(
+        &lt;p onClick=&#123;() =&gt; console.log(&#39;portal click&#39;)&#125;&gt;
+          This child is placed in the name
+        &lt;/p&gt;,
+        document.getElementById(&#39;name&#39;) as Element
+      )&#125;
+    &lt;/div&gt;
+  );
+&#125;;
+</code></pre>
+<ul>
+<li>挂载节点必须是已经存在的节点，不可以是当前 JSX 片段中的 dom 节点</li>
+</ul>
+<pre><code class="jsx">// 正常展示
+const App1 = () =&gt; &#123;
+  const [popupContainer, setPopupContainer] = React.useState(null);
+
+  React.useEffect(() =&gt; &#123;
+    const popupDiv = document.getElementById(&#39;sister&#39;);
+    setPopupContainer(popupDiv);
+  &#125;, []);
+  return (
+    &lt;React.Fragment&gt;
+      &lt;div id=&quot;sister&quot;&gt;外部兄弟&lt;/div&gt;
+      &lt;div id=&quot;container&quot;&gt;
+        &lt;div id=&quot;inner&quot;&gt;内部兄弟&lt;/div&gt;
+        &#123;/* 正常展示1 */&#125;
+        &#123;!!popupContainer &amp;&amp; createPortal(&lt;p&gt;portal内容&lt;/p&gt;, popupContainer)&#125;
+        &#123;/* 正常展示2 */&#125;
+        &#123;document.getElementById(&#39;sister&#39;) &amp;&amp;
+          createPortal(&lt;p&gt;portal内容&lt;/p&gt;, document.getElementById(&#39;sister&#39;))&#125;
+        &#123;/* 报错:Target container is not a DOM element. */&#125;
+        &#123;createPortal(&lt;p&gt;portal内容&lt;/p&gt;, document.getElementById(&#39;sister&#39;))&#125;
+      &lt;/div&gt;
+    &lt;/React.Fragment&gt;
+  );
+&#125;;
+export default App1;
+</code></pre>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="创建-portal"><a href="#创建-portal" class="headerlink" title="创建 portal"></a>创建 portal</h3><pre><code class="jsx">import &#123; createPortal &#125; from &#39;react-dom&#39;;
+export default function MyComponent() &#123;
+  return (
+    &lt;div style=&#123;&#123; border: '2px solid black' &#125;&#125;&gt;
+      &lt;p&gt;This child is placed in the parent div.&lt;/p&gt;
+      &#123;createPortal(
+        &lt;p&gt;This child is placed in the document body.&lt;/p&gt;,
+        document.body
+      )&#125;
+    &lt;/div&gt;
+  );
+&#125;
+</code></pre>
+<img src="/2023/04/25/react-de-createportal/portal1.jpg" class="">
+
+<h3 id="使用-portal-渲染对话框弹窗"><a href="#使用-portal-渲染对话框弹窗" class="headerlink" title="使用 portal 渲染对话框弹窗"></a>使用 portal 渲染对话框弹窗</h3><p>可以避免调用在对话框的组件使用了 overflow:hidden 或者其他样式的情况下，不能展示悬浮对话框</p>
+<h3 id="在非-React-服务端页面标记渲染-React-组件"><a href="#在非-React-服务端页面标记渲染-React-组件" class="headerlink" title="在非 React 服务端页面标记渲染 React 组件"></a>在非 React 服务端页面标记渲染 React 组件</h3><p>React root 如果是非 React 构建的静态页面或者服务端渲染页面的一部分，就可以利用 portals 在静态区域创建交互区域，比如 sideBars</p>
+<p>与多 React root 的区别：</p>
+<ul>
+<li>即使内部渲染成 DOM 的不同部分，portal 也可以将这个应用作为一个<font color="red">状态共享</font>的 React 树去对待</li>
+</ul>
+<p>完整代码见:<a target="_blank" rel="noopener" href="https://stackblitz.com/edit/react-ts-cwfhhp?file=index.html,style.css">https://stackblitz.com/edit/react-ts-cwfhhp?file=index.html,style.css</a></p>
+<h3 id="在非-React-的-DOM-节点渲染-React-组件"><a href="#在非-React-的-DOM-节点渲染-React-组件" class="headerlink" title="在非 React 的 DOM 节点渲染 React 组件"></a>在非 React 的 DOM 节点渲染 React 组件</h3><p>用 portal 管理 React 外部的 DOM 节点的内容。</p>
+<pre><code class="jsx">const App = () =&gt; &#123;
+  // 1. 定义状态变量popupContainer存储要渲染的目标节点
+  const [popupContainer, setPopupContainer] = useState(null);
+  useEffect(() =&gt; &#123;
+    if (mapRef.current === null) &#123;
+      const map = createMapWidget(containerRef.current);
+      mapRef.current = map;
+      // 2. 当创建第三方组件时，存储组件返回的DOM 节点，这样你可以将内容渲染到这个DOM节点
+      const popupDiv = addPopupToMapWidget(map);
+      setPopupContainer(popupDiv);
+    &#125;
+  &#125;, []);
+  return (
+    &lt;div style=&#123;&#123; width: 250, height: 250 &#125;&#125; ref=&#123;containerRef&#125;&gt;
+      &#123;/* 一旦popupContainer变成可访问状态，
+    使用createPortal渲染React内容到popupContainer容器中 */&#125;
+      &#123;popupContainer !== null &amp;&amp;
+        createPortal(&lt;p&gt;Hello from React!&lt;/p&gt;, popupContainer)&#125;
+    &lt;/div&gt;
+  );
+&#125;;
+</code></pre>
+<p>完整例子见：<a target="_blank" rel="noopener" href="https://stackblitz.com/edit/react-ts-cwfhhp?file=App.tsx">https://stackblitz.com/edit/react-ts-cwfhhp?file=App.tsx</a></p>
+<pre><code class="jsx">// 核心代码
+export default function App() &#123;
+  const containerRef = React.useRef(null);
+  const mapRef = React.useRef(null);
+  const [popupContainer, setPopupContainer] = React.useState(null);
+  React.useEffect(() =&gt; &#123;
+    if (mapRef.current === null) &#123;
+      const map = createMapWidget(containerRef.current);
+      mapRef.current = map;
+      const popupDiv = addPopupToMapWidget(map);
+      setPopupContainer(popupDiv);
+    &#125;
+  &#125;, []);
+  return (
+    &lt;div style=&#123;&#123; width: 250, height: 250 &#125;&#125; ref=&#123;containerRef&#125;&gt;
+      &#123;popupContainer !== null &amp;&amp;
+        createPortal(&lt;p&gt;Hello from React!&lt;/p&gt;, popupContainer)&#125;
+    &lt;/div&gt;
+  );
+&#125;
+</code></pre>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2023-04-25</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/react/'>
+                            react
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E5%89%8D%E7%AB%AF/'>
+                            前端
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

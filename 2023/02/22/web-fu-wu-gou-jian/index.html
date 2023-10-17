@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="web服务构建" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            web服务构建
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#iam-api-server-%E6%9C%8D%E5%8A%A1"><span class="post-toc-text">iam-api-server 服务</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%8A%9F%E8%83%BD"><span class="post-toc-text">功能</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%AE%A4%E8%AF%81%E7%9B%B8%E5%85%B3%E6%8E%A5%E5%8F%A3"><span class="post-toc-text">认证相关接口</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%94%A8%E6%88%B7%E7%9B%B8%E5%85%B3%E6%8E%A5%E5%8F%A3"><span class="post-toc-text">用户相关接口</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%AF%86%E9%92%A5%E7%9B%B8%E5%85%B3%E6%8E%A5%E5%8F%A3"><span class="post-toc-text">密钥相关接口</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%AD%96%E7%95%A5%E7%9B%B8%E5%85%B3%E6%8E%A5%E5%8F%A3"><span class="post-toc-text">策略相关接口</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="post-toc-text">使用方法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="post-toc-text">代码实现</span></a></li></ol></li></ol>
+        
+        <h2 id="iam-api-server-服务"><a href="#iam-api-server-服务" class="headerlink" title="iam-api-server 服务"></a>iam-api-server 服务</h2><p>本质：web 服务,通过一个名为 iam-api_server 的进程，对外提供 RESTful API 接口，完成用户、密钥、策略三种 REST 资源的增删改查。</p>
+<h3 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h3><h4 id="认证相关接口"><a href="#认证相关接口" class="headerlink" title="认证相关接口"></a>认证相关接口</h4><img src="/2023/02/22/web-fu-wu-gou-jian/authn.webp" class="">
+
+<h4 id="用户相关接口"><a href="#用户相关接口" class="headerlink" title="用户相关接口"></a>用户相关接口</h4><img src="/2023/02/22/web-fu-wu-gou-jian/user.webp" class="">
+
+<h4 id="密钥相关接口"><a href="#密钥相关接口" class="headerlink" title="密钥相关接口"></a>密钥相关接口</h4><img src="/2023/02/22/web-fu-wu-gou-jian/key.webp" class="">
+
+<h4 id="策略相关接口"><a href="#策略相关接口" class="headerlink" title="策略相关接口"></a>策略相关接口</h4><img src="/2023/02/22/web-fu-wu-gou-jian/policy.webp" class="">
+
+<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><p>客户端【前端，API 调用，SDK,iamctl】都可以访问 iam-api_server，最终都会执行 HTTP 请求，调用 iam-api_server 提供的 RESTful API 接口,所以需要一个 REST API 客户端工具——curl 来执行 HTTP 请求。</p>
+<pre><code class="plain">-X/--request [GET|POST|PUT|DELETE|…]  指定请求的 HTTP 方法
+-H/--header                           指定请求的 HTTP Header
+-d/--data                             指定请求的 HTTP 消息体（Body）
+-v/--verbose                          输出详细的返回信息
+-u/--user                             指定账号、密码
+-b/--cookie                           读取 cookie
+-s/--silent                           安静模式
+-S                                    强制展示错误
+</code></pre>
+<ol>
+<li>登录 api-server,获取 token</li>
+</ol>
+<pre><code class="bash">$ curl -s -XPOST -H&quot;Authorization: Basic `echo -n &#39;admin:Admin@2021&#39;|base64`&quot; http://127.0.0.1:8080/login | jq -r .token
+# 将token设置为环境变量
+TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJpYW0uYXBpLm1hcm1vdGVkdS5jb20iLCJleHAiOjE2MzUwNTk4NDIsImlkZW50aXR5IjoiYWRtaW4iLCJpc3MiOiJpYW0tYXBpc2VydmVyIiwib3JpZ19pYXQiOjE2MjcyODM4NDIsInN1YiI6ImFkbWluIn0.gTS0n-7njLtpCJ7mvSnct2p3TxNTUQaduNXxqqLwGfI
+</code></pre>
+<ol start="2">
+<li>创建一个名为 secret0 的 secret</li>
+</ol>
+<pre><code class="bash">curl -v -XPOST -H &quot;Content-Type: application/json&quot; -H&quot;Authorization: Bearer $&#123;TOKEN&#125;&quot; -d&#39;&#123;&quot;metadata&quot;:&#123;&quot;name&quot;:&quot;secret0&quot;&#125;,&quot;expires&quot;:0,&quot;description&quot;:&quot;admin secret&quot;&#125;&#39; http://iam.api.marmotedu.com:8080/v1/secrets
+</code></pre>
+<ol start="3">
+<li>获取 secret0 的详细信息</li>
+</ol>
+<pre><code class="bash">curl -XGET -H&quot;Authorization: Bearer $&#123;TOKEN&#125;&quot; http://iam.api.marmotedu.com:8080/v1/secrets/secret0
+</code></pre>
+<ol start="4">
+<li>更新 secret0 的描述</li>
+</ol>
+<pre><code class="bash">curl -XPUT -H&quot;Authorization: Bearer $&#123;TOKEN&#125;&quot; -d&#39;&#123;&quot;metadata&quot;:&#123;&quot;name&quot;:&quot;secret&quot;&#125;,&quot;expires&quot;:0,&quot;description&quot;:&quot;admin secret(modify)&quot;&#125;&#39; http://iam.api.marmotedu.com:8080/v1/secrets/secret0
+</code></pre>
+<ol start="5">
+<li>获取 secret 列表</li>
+</ol>
+<pre><code class="bash">curl -XGET -H&quot;Authorization: Bearer $&#123;TOKEN&#125;&quot; http://iam.api.marmotedu.com:8080/v1/secrets
+</code></pre>
+<ol start="6">
+<li>删除 secret0s</li>
+</ol>
+<pre><code class="bash">curl -XDELETE -H&quot;Authorization: Bearer $&#123;TOKEN&#125;&quot; http://iam.api.marmotedu.com:8080/v1/secrets/secret0
+</code></pre>
+<p>CRUD:<br>C：创建<br>R：获取数据<br>U：修改更新<br>D：删除</p>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3>
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2023-02-22</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/GoLang/'>
+                            GoLang
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E5%90%8E%E7%AB%AF/'>
+                            后端
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="docker安装" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            docker安装
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%9F%BA%E4%BA%8Ecentos7%E7%9A%84%E8%AE%BE%E7%BD%AEDocker%E6%96%B9%E5%BC%8F%E7%9A%84%E5%AE%89%E8%A3%85"><span class="post-toc-text">基于centos7的设置Docker方式的安装</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%AE%BE%E7%BD%AE%E4%BB%93%E5%BA%93"><span class="post-toc-text">设置仓库</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AE%89%E8%A3%85docker-%E5%BC%95%E6%93%8E"><span class="post-toc-text">安装docker 引擎</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%90%AF%E5%8A%A8docker"><span class="post-toc-text">启动docker</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%88%9B%E5%BB%BAdocker-%E7%BB%84%E5%92%8C%E7%94%A8%E6%88%B7-%E9%9D%9E%E5%BF%85%E9%A1%BB"><span class="post-toc-text">创建docker 组和用户(非必须)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%A7%A3%E5%86%B3%E6%8A%A5%E9%94%99"><span class="post-toc-text">解决报错</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%AE%BE%E7%BD%AE%E4%B8%BA%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8"><span class="post-toc-text">设置为开机自启动</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AAmysql%E5%AE%B9%E5%99%A8"><span class="post-toc-text">创建一个mysql容器</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%85%B6%E4%BB%96%E6%93%8D%E4%BD%9C"><span class="post-toc-text">其他操作</span></a></li></ol>
+        
+        <h2 id="基于centos7的设置Docker方式的安装"><a href="#基于centos7的设置Docker方式的安装" class="headerlink" title="基于centos7的设置Docker方式的安装"></a>基于centos7的设置Docker方式的安装</h2><p>官方文档：<a target="_blank" rel="noopener" href="https://docs.docker.com/engine/install/centos/">https://docs.docker.com/engine/install/centos/</a></p>
+<h3 id="设置仓库"><a href="#设置仓库" class="headerlink" title="设置仓库"></a>设置仓库</h3><ol>
+<li>删除旧版本的docker engine</li>
+</ol>
+<pre><code class="bash">sudo yum remove docker \
+                  docker-client \
+                  docker-client-latest \
+                  docker-common \
+                  docker-latest \
+                  docker-latest-logrotate \
+                  docker-logrotate \
+                  docker-engine
+</code></pre>
+<ol start="2">
+<li>安装提供<code>yum-config-manager</code>工具的yum-utils包</li>
+</ol>
+<pre><code class="bash">yum install -y yum-utils
+yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+</code></pre>
+<h3 id="安装docker-引擎"><a href="#安装docker-引擎" class="headerlink" title="安装docker 引擎"></a>安装docker 引擎</h3><pre><code class="bash">yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin #安装最新版
+#安装指定版本
+yum list docker-ce --showduplicates | sort -r
+yum install docker-ce-&lt;VERSION_STRING&gt; docker-ce-cli-&lt;VERSION_STRING&gt; containerd.io docker-compose-plugin 
+</code></pre>
+<h3 id="启动docker"><a href="#启动docker" class="headerlink" title="启动docker"></a>启动docker</h3><pre><code class="bash">systemctl start docker
+# 验证
+docker run hello-world
+</code></pre>
+<h3 id="创建docker-组和用户-非必须"><a href="#创建docker-组和用户-非必须" class="headerlink" title="创建docker 组和用户(非必须)"></a>创建docker 组和用户(非必须)</h3><pre><code class="bash">groupadd docker # 创建docker用户组
+usermod -aG docker $USER #将用户添加到组内
+</code></pre>
+<p>退出登录后重新登录,组和用户才会生效，此时即使是非root用户也不需要使用sudo</p>
+<h4 id="解决报错"><a href="#解决报错" class="headerlink" title="解决报错"></a>解决报错</h4><blockquote>
+<p>WARNING: Error loading config file: &#x2F;home&#x2F;user&#x2F;.docker&#x2F;config.json - stat &#x2F;home&#x2F;user&#x2F;.docker&#x2F;config.json: permission denied<br>解决方法</p>
+</blockquote>
+<pre><code class="bash">sudo chown &quot;$USER&quot;:&quot;$USER&quot; /home/&quot;$USER&quot;/.docker -R
+sudo chmod g+rwx &quot;$HOME/.docker&quot; -R
+</code></pre>
+<h3 id="设置为开机自启动"><a href="#设置为开机自启动" class="headerlink" title="设置为开机自启动"></a>设置为开机自启动</h3><pre><code class="bash">systemctl enable docker.service
+systemctl enable containerd.service
+# 停止开机自启动
+systemctl disable docker.service
+systemctl disable containerd.service
+</code></pre>
+<h2 id="创建一个mysql容器"><a href="#创建一个mysql容器" class="headerlink" title="创建一个mysql容器"></a>创建一个mysql容器</h2><p><code>docker run --name test_sql -e MYSQL_ROOT_PASSWORD=123 -d mysql:latest</code></p>
+<h2 id="其他操作"><a href="#其他操作" class="headerlink" title="其他操作"></a>其他操作</h2><pre><code class="bash">docker exec -it test_sql bash
+# 查看日志
+docker logs test_sql 
+</code></pre>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2023-01-11</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/docker/'>
+                            docker
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/Docker/'>
+                            Docker
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

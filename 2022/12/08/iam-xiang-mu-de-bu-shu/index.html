@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="iam项目的部署" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            iam项目的部署
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#IAM%E7%9A%84%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD%E4%BD%BF%E7%94%A8%E6%AD%A5%E9%AA%A4"><span class="post-toc-text">IAM的核心功能使用步骤</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%88%9B%E5%BB%BA%E5%B9%B3%E5%8F%B0%E8%B5%84%E6%BA%90"><span class="post-toc-text">创建平台资源</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%AF%B7%E6%B1%82API%E5%AE%8C%E6%88%90%E8%B5%84%E6%BA%90%E6%8E%88%E6%9D%83"><span class="post-toc-text">请求API完成资源授权</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%8E%88%E6%9D%83%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90"><span class="post-toc-text">授权日志分析</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%BF%90%E8%90%A5%E5%B9%B3%E5%8F%B0%E6%8E%88%E6%9D%83%E6%95%B0%E6%8D%AE%E5%B1%95%E7%A4%BA"><span class="post-toc-text">运营平台授权数据展示</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#iam%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BD"><span class="post-toc-text">iam主要功能</span></a></li></ol>
+        
+        <h2 id="IAM的核心功能使用步骤"><a href="#IAM的核心功能使用步骤" class="headerlink" title="IAM的核心功能使用步骤"></a>IAM的核心功能使用步骤</h2><h3 id="创建平台资源"><a href="#创建平台资源" class="headerlink" title="创建平台资源"></a>创建平台资源</h3><ol>
+<li>用户通过前端请求 iam-apiserver 提供的 RESTful API 接口完成用户、密钥、授权策略的增删改查</li>
+<li>iam-apiserver 将这些资源持久化存储在MySQL中</li>
+<li>为了确保通信安全，客户端访问服务端都是通过HTTPS协议</li>
+</ol>
+<h3 id="请求API完成资源授权"><a href="#请求API完成资源授权" class="headerlink" title="请求API完成资源授权"></a>请求API完成资源授权</h3><ol>
+<li>用户通过前端请求 iam-authz-server 提供的 &#x2F;v1&#x2F;authz 接口进行资源授权</li>
+</ol>
+<ul>
+<li>先通过密钥认证</li>
+<li>认证通过后,&#x2F;v1&#x2F;authz 接口会查询授权策略，决定资源请求是否被允许</li>
+</ul>
+<ol start="2">
+<li>iam-authz-server 将密钥和策略信息缓存在内存中，实现快速查询，提高&#x2F;v1&#x2F;authz接口性能</li>
+<li>如何实现密钥和策略信息的缓存</li>
+</ol>
+<ul>
+<li>iam-authz-server 调用 iam-apiserver 提供的 gRPC接口，将上述信息缓存到内存中</li>
+<li>为了保持内存中的缓存和iam-apiserver保持一致，iam-apiserver有上述信息被更新的时候，iam-apiserver 会往特定的 Redis Channel（iam-authz-server 也会订阅该 Channel）中发送 PolicyChanged 和 SecretChanged 消息。</li>
+<li>当 iam-authz-server 监听到有新消息时就会获取并解析消息，根据消息内容判断是否需要重新调用 gRPC 接来获取密钥和授权策略信息，再更新到内存中。</li>
+</ul>
+<h3 id="授权日志分析"><a href="#授权日志分析" class="headerlink" title="授权日志分析"></a>授权日志分析</h3><ol>
+<li>iam-authz-server将授权日志上报到redis高速缓存中</li>
+<li>iam-pump异步消费授权日志，把清理后的数据保存在 MongoDB 中，供运营系统查询</li>
+</ol>
+<ul>
+<li>iam-authz-server 将授权日志保存在 Redis 中，可以最大化减少写入延时。</li>
+<li>不保存在内存中是因为授权日志量我们没法预测，当授权日志量很大时，很可能会将内存耗尽，造成服务中断。</li>
+</ul>
+<h3 id="运营平台授权数据展示"><a href="#运营平台授权数据展示" class="headerlink" title="运营平台授权数据展示"></a>运营平台授权数据展示</h3><img src="/2022/12/08/iam-xiang-mu-de-bu-shu/iam-operating-system.webp" class="" title="iam操作系统前后端分离架构">
+
+<p>总结：</p>
+<blockquote>
+<ol>
+<li>首先，用户通过调用 iam-apiserver 提供的 RESTful API 接口完成注册和登录系统，</li>
+<li>再调用接口创建密钥和授权策略。</li>
+<li>创建完密钥对和授权策略之后，IAM 可以通过调用 iam-authz-server 的授权接口完成资源的授权。<ul>
+<li>具体来说，iam-authz-server 通过 gRPC 接口获取 iam-apiserver 中存储的密钥和授权策略信息，通过 JWT 完成认证之后，再通过 ory&#x2F;ladon 包完成资源的授权。i</li>
+<li>iam-pump 组件异步消费 Redis 中的数据，并持久化存储在 MongoDB 中，供 iam-operating-system 运营平台展示。</li>
+<li>最后，IAM 相关的产品、研发人员可以通过 IAM 的运营系统 iam-operating-system 来查看 IAM 系统的使用情况，进行运营分析。例如某个用户的授权 &#x2F; 失败次数、授权失败时的授权信息等。</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+<h2 id="iam主要功能"><a href="#iam主要功能" class="headerlink" title="iam主要功能"></a>iam主要功能</h2><ol>
+<li>认证：用来判断是否是平台的合法用户，比如使用用户名和密码</li>
+<li>授权：用来判断是否可以访问平台的某类资源</li>
+</ol>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2022-12-08</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/GoLang/'>
+                            GoLang
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E5%90%8E%E7%AB%AF/'>
+                            后端
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="Golang" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            Golang
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%88%91%E5%96%9C%E6%AC%A2-Golang"><span class="post-toc-text">为什么我喜欢 Golang</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#GoPATH-%E7%8E%AF%E5%A2%83"><span class="post-toc-text">GoPATH 环境</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#GoLang-%E5%BA%94%E7%94%A8"><span class="post-toc-text">GoLang 应用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#GoLang-modules"><span class="post-toc-text">GoLang modules</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Golang-gofmt"><span class="post-toc-text">Golang gofmt</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#GoLang-Import"><span class="post-toc-text">GoLang Import</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Golang-Get-System"><span class="post-toc-text">Golang Get System</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Golang-Build-%E5%92%8C-Package-Systems"><span class="post-toc-text">Golang Build 和 Package Systems</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#GoLang-%E8%B7%A8%E5%B9%B3%E5%8F%B0%E6%9E%84%E5%BB%BA"><span class="post-toc-text">GoLang 跨平台构建</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Golang-%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80"><span class="post-toc-text">Golang 编程语言</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Golang-%E5%B9%B6%E5%8F%91"><span class="post-toc-text">Golang 并发</span></a></li></ol></li></ol>
+        
+        <h1 id="为什么我喜欢-Golang"><a href="#为什么我喜欢-Golang" class="headerlink" title="为什么我喜欢 Golang"></a>为什么我喜欢 Golang</h1><p>我喜欢 Go 语言编程,也就是一些人提到的 Golang。它简单且伟大。</p>
+<p>我写的有点跑题。没想到 GoLang 会这么好。</p>
+<p>我第一次遇到 Go 大概是在 2016 年 1 月份,它在以色列有一个比较小众却很活跃的社区。</p>
+<p>当时也没多想,只是想磨练编程技能,GoLang 也只是我用来完成任务的一个工具。</p>
+<p>即使是一年以前,使用 Go 也是非常明智的。一旦掌握了这门语言的核心要领,整个过程就很简单易懂。</p>
+<p>我为公司<a target="_blank" rel="noopener" href="https://www.visualead.com/">Visualead</a>写了一段关键代码,它没有让我们失望,一年之后仍然以零维护的形式运行在生产环境。</p>
+<p>最近我发现自己一次又一次地使用了 Golang,感觉有必要写一篇文章来描述我为什么对 GoLang 情有独钟了。</p>
+<h2 id="GoPATH-环境"><a href="#GoPATH-环境" class="headerlink" title="GoPATH 环境"></a>GoPATH 环境</h2><p>当你开始使用 Go 写代码的时候,这是你必须要处理的事情之一。</p>
+<p>将你的电脑上的任意一个位置设置为 GOPATH 目录,并且里面包含 bin,src 和 pkg 目录,那就可以开始编码了。</p>
+<pre><code class="bash">// How the directory structure looks like:
+go
+- bin
+- pkg
+- src
+</code></pre>
+<p>我在 home 目录下为用到的每种编程语言都创建了一个新目录。home 目录的文件夹结构如下所示：</p>
+<pre><code class="bash">chef
+cpp
+elixir
+elm
+go
+javascript
+meteor
+ocaml
+php
+python
+scala
+</code></pre>
+<p>除了 Go 以外,没有一种语言是强制执行这种结构的。Go 迫使你为所有的 GoLang 项目定义一个根目录，这样做是非常有好处的,接下来我们马上就会讲到。</p>
+<h2 id="GoLang-应用"><a href="#GoLang-应用" class="headerlink" title="GoLang 应用"></a>GoLang 应用</h2><p>想要创建一个新的 GoLang 应用?非常简单。</p>
+<p>进入 <code>$GOPATH/src</code> 目录,创建一个新文件夹,并且创建一个新的 <code>file.go</code>，调用 <code>main</code> 包,添加一个 <code>func main() &#123;&#125;</code> 函数,这就大功告成了。从此以后你可以使用 go 所有的好东西了。</p>
+<p>更多 Go 的好东西出现！但首先要提的必须是 GoLang modules。</p>
+<h2 id="GoLang-modules"><a href="#GoLang-modules" class="headerlink" title="GoLang modules"></a>GoLang modules</h2><p>我最喜欢的编程范式做得很好，我把模块系统视为面向对象类系统的一种替代方案。</p>
+<p>GoLang 调用它的模块包。所以从现在起每次我们说一个模块就意味着一个包，反之亦然。</p>
+<pre><code class="bash">Module == Package == Module
+</code></pre>
+<p>在 GoLang 里面,你创建的每一个目录都会变成一个包。如果包的名称是 main,那他会变成一个应用。这有助于将代码自然分隔为可管理的逻辑块。</p>
+<p>你总是想要从可复用的组件或者 Golang 的包中创建业务逻辑。</p>
+<p>在现在的应用中,我必须在部分文件中操作一些行,并且一旦完成就会将他们上传到 AWS S3。</p>
+<p>我的应用结构如下所示：</p>
+<pre><code class="bash">src
+- my_app
+- - main.go
+- - main_test.go
+- - uploader
+- - - uploader.go
+- - - uploader_test.go
+- - replace_file_lines
+- - - replace.go
+- - - replace_test.go
+- - - strings_util.go
+- - - strings_util_test.go
+</code></pre>
+<p><code>_test.go</code> 文件毫无疑问是 Golang 的单元测试文件,其核心部分有一个构建好的测试框架。</p>
+<p>对于来自面向对象编程语言的人来说,把每个目录认为是一个完整的静态类是很有用的,并且 <code>.go</code> 文件中的每个函数或者变量会变成它的属性或者方法。</p>
+<p>这里有个 <code>replace.go</code> 的例子：</p>
+<pre><code class="go">package replace_file_lines
+
+import (
+  // ...
+)
+
+// Variables that begin with an uppercase is exposed
+var PublicVariable int = 42
+// While those that begin with loweracse are private to the module
+var privateVariable int = 0
+
+// Function that begins with an uppercase is exposed
+func Replace(oldFilePath, outputFilePath, with, what string) &#123;
+ // ...
+&#125;
+
+// Function that begins with an uppercase is exposed
+func PublicFunction(/* .. */) &#123;
+  // ...
+)
+
+// While lowercase names makes functions private to the module
+func privateFunction(/* .. */) &#123;
+  // ...
+)
+</code></pre>
+<p>如果一个目录有不止一个的 <code>.go</code> 文件,所有的方法和变量甚至是私有的,在整个包里面都是可共享的。这有助于将一个包分割成更小的块,也可以避免大的单个文件出现。</p>
+<p>在不讨论面向对象 vs 功能&#x2F;程序的情况下,知道 Go 创始人决定不再将经典的类放在语言里是很重要的。取而代之的是使用 struct&#x2F;interface ，当然还有包。</p>
+<h2 id="Golang-gofmt"><a href="#Golang-gofmt" class="headerlink" title="Golang gofmt"></a>Golang gofmt</h2><p>GoLang 有一个公约:一切该如何看待，每个案例和每行需要的精确空间。</p>
+<p>这允许开发者可以专注于写代码而不是开始关于花括号位置的战争。</p>
+<p>旧的 {} vs {\n} 战争：</p>
+<img src="/2022/11/21/fan-yi-why-i-love-golang/cruly-brarce.png" class="" title="Or perhaps I am only happy because my side won in Go?">
+
+<p>点击此处阅读关于该问题的更多信息:<a target="_blank" rel="noopener" href="https://golang.org/cmd/gofmt/">https://golang.org/cmd/gofmt/</a></p>
+<h2 id="GoLang-Import"><a href="#GoLang-Import" class="headerlink" title="GoLang Import"></a>GoLang Import</h2><p>import 总是相对于 <code>GOPATH/src</code> 来说的。一直如此。我不会夸大这个决定在这个程度上在沮丧中拯救了我。</p>
+<p>警告：下一行会令人迷惑。【todo:此处翻译不确定】</p>
+<p>当使用其他语言的时候,你既可以使用相对&#x2F;绝对路径,也可以以某种方式设置古怪的 import,这使得你可以从鬼知道的任意地方导入一个文件(Python 我已经注意到你了)。</p>
+<p>Go 用一种独特的方式解决了这个问题。所有的 import，无论是哪一个文件，都是相对于 <code>GOPATH/src</code> 而言。</p>
+<p>所以在 my_app 中,主要的 import 如下所示：</p>
+<pre><code class="go">package main
+
+import (
+    &quot;my_app/replace_file_lines&quot;
+    &quot;my_app/uploader&quot;
+    // ...
+)
+</code></pre>
+<p>my_app 在 src 目录下,所以我们首先需要提到它,然后导入存在于 my_app 下的包,比如 <code>uploader</code> 和 <code>replace_file_lines</code>。注意,我们不再是引入单个文件,而是引入了整个包。像挂件一样工作并且引起 零值可用。【todo:此处翻译不确定】</p>
+<p>此外,除非你实际使用了导入的包,否则 GoLang 不会编译,这个小特性有助于你了解实际使用的每一个 import。</p>
+<p>期望你的程序员能够写一个没有未使用的 import 的干净代码?那为什么不让你本地的 Go 关注这个呢?</p>
+<h2 id="Golang-Get-System"><a href="#Golang-Get-System" class="headerlink" title="Golang Get System"></a>Golang Get System</h2><p>import 章节让我们了解了 GoLang 下一个伟大的特性, <code>go get</code> 特性。当其他人对<a target="_blank" rel="noopener" href="https://www.npmjs.com/">JavaScripts NPM</a> 包管理印象深刻,Go 采用了任意的 git 仓库作为它的包管理。</p>
+<p>它是怎么工作的呢?</p>
+<p>我之前写过我需要上传到 S3 对么?然后这意味着我需要 AWS SDK 来完成这个任务。</p>
+<p>为了让它可以工作,我只需要打开终端并且写下:</p>
+<pre><code>go get github.com/aws/aws-sdk-go
+</code></pre>
+<p>然后会发生什么呢?没有什么特殊的,GoLang 只是从<a target="_blank" rel="noopener" href="https://github.com/aws/aws-sdk-go">https://github.com/aws/aws-sdk-go</a> 下载了仓库到你的 <code>GOPATH/src</code> 目录下。</p>
+<p>然后你为了使用 aws-sdk 需要做的只是导入它：</p>
+<pre><code class="go">package uploader
+
+import (
+    &quot;github.com/aws/aws-sdk-go/service/s3&quot;
+    &quot;github.com/aws/aws-sdk-go/aws/session&quot;
+    &quot;github.com/aws/aws-sdk-go/aws&quot;
+    // ...
+)
+</code></pre>
+<p>还记得所有的 import 都是相对于 <code>GOPATH/src</code> 么? 现在你可以知道 <code>s3</code> 包位于<code>GOPATH/src/github.com/aws/aws-sdk-go/services/s3</code> 下面。</p>
+<p>简单,优雅。对于 Go 而言是另外一个闪光点。</p>
+<h2 id="Golang-Build-和-Package-Systems"><a href="#Golang-Build-和-Package-Systems" class="headerlink" title="Golang Build 和 Package Systems"></a>Golang Build 和 Package Systems</h2><p>我们一直关注 <code>GOPATH/src</code> ,但是仍然有其他目录我们需要处理,<code>GOPATH/pkg</code> 和 <code>GOPATH/bin</code>。</p>
+<p>GoLang 是一种编译型语言,这意味着代码必须先完成编译才能运行。GoLang 编译速度很快。它是怎么做的呢?</p>
+<p>每次你编译代码运行的时候,GoLang 会在同样的路径创建一个 <code>.a</code> 文件作为包，它只出现在 <code>GOPATH/pkg</code> 目录里。这<br>意味着比如你编译了 aws-sdk,一次编译之后,就可以在你其他代码之间共享。</p>
+<p>这当然不是 GoLang 编译快速的唯一原因,但是它只是一个引子来帮助你理解 <code>GOPATH/pkg</code> 的角色。</p>
+<p>现在,关于 <code>GOPATH/bin</code> 有哪些用途呢? 当你运行 <code>go install</code> 命令的时候,go 会创建一个二进制文件,放在 <code>GOPATH/bin</code> 下面,文件获取到你的 main 包目录的名字,即我们案例里面的 <code>my_app</code>。</p>
+<p>为什么说它非常棒呢? 因为你可以添加 <code>GOPATH/bin</code> 到环境变量中,这样构建的所有二进制文件都可以在命令行中获取到,而且不需要做任何额外的工作!(是不是很棒呢?)</p>
+<h2 id="GoLang-跨平台构建"><a href="#GoLang-跨平台构建" class="headerlink" title="GoLang 跨平台构建"></a>GoLang 跨平台构建</h2><p>想要部署到编码平台以外的其他平台?别担心,你不需要使用 windows 机器来构建你的 windows 版本的代码。<a target="_blank" rel="noopener" href="https://github.com/golang/go/wiki/WindowsCrossCompiling">GoLang 已经为你做好了</a>。</p>
+<p>主要运行:</p>
+<pre><code class="bash">GOOS=windows GOARCH=amd64 go install
+</code></pre>
+<p>我们的代码将会输出可以在 windows 机器上部署的二进制文件。 <code>.exe</code> 文件会出现在 <code>GOPATH/bin/windows_amd64/my_app.exe</code>。难度就像在公园里散步一样。</p>
+<h2 id="Golang-编程语言"><a href="#Golang-编程语言" class="headerlink" title="Golang 编程语言"></a>Golang 编程语言</h2><p>GoLang 旨在成为一门简单的编程语言。</p>
+<p>我很喜欢下面这个帖子,它问道:为什么 Go 没有被设计成函数式语言： <a target="_blank" rel="noopener" href="https://www.quora.com/Why-wasnt-Go-written-as-a-functional-language">https://www.quora.com/Why-wasnt-Go-written-as-a-functional-language</a></p>
+<blockquote>
+<p>在 google 工作的程序员职业生涯开始得很早，并且最熟悉过程式编程语言，尤其是来自于 c 语言家族的。需要程序员快速提高生产力,这意味着语言不能过于激进。</p>
+</blockquote>
+<p>它确实很简单。</p>
+<p>这是 GoLang 不支持的部分特性清单:</p>
+<ol>
+<li>类</li>
+<li>操作符重载</li>
+<li>函数重载</li>
+<li>可选参数</li>
+<li>异常</li>
+</ol>
+<p>尽管有时候我发现写 Go 的时候会丢掉一些语言特性,但是最终总是能够完成想做的事。只是有时候,需要更多的写和偶尔的思考。底线就是它使得代码更容易推理,不会那么抽象。</p>
+<p>有时候我很惊讶,在没有多年经验的情况下,用 Go 写代码,我竟然可以如此之快地达到目标,仅仅因为这门语言如此包容和清晰。</p>
+<h2 id="Golang-并发"><a href="#Golang-并发" class="headerlink" title="Golang 并发"></a>Golang 并发</h2><p>我有意把关于并发的讨论留在最后。为什么?因为我不认为它不是那么重要。</p>
+<p>它是 Go 语言中令人震惊的特性。但是有时候被认为是 Go 语言的本质,我不认同这种说法。</p>
+<p>因此我准备尝试用一段话总结一下。</p>
+<p>是的,GoLang 有很棒的并发性。你不需要处理线程,只需要创建简单的 goroutine,它的制作和管理都很简单。 Goroutines 使你可以在所有的 CPU 上分配负载，而不需要担心如何管理。</p>
+<p>有兴趣进一步了解 goroutines?可以阅读：<a target="_blank" rel="noopener" href="https://tour.golang.org/concurrency/1">https://tour.golang.org/concurrency/1</a></p>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2022-11-21</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/GoLang/'>
+                            GoLang
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E7%BF%BB%E8%AF%91/'>
+                            翻译
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

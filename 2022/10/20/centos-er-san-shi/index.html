@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="centos二三事" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            centos二三事
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#centos7-%E5%AE%89%E8%A3%85-mariadb"><span class="post-toc-text">centos7 安装 mariadb</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#centos7-%E5%AE%89%E8%A3%85-redis"><span class="post-toc-text">centos7 安装 redis</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#centos7-%E5%AE%89%E8%A3%85-Python3-7"><span class="post-toc-text">centos7 安装 Python3.7</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#centos7%E6%9B%BF%E6%8D%A2%E5%9B%BD%E5%86%85yum%E6%BA%90"><span class="post-toc-text">centos7替换国内yum源</span></a></li></ol>
+        
+        <h2 id="centos7-安装-mariadb"><a href="#centos7-安装-mariadb" class="headerlink" title="centos7 安装 mariadb"></a>centos7 安装 mariadb</h2><ol>
+<li>配置 MariaDB Yum 源</li>
+</ol>
+<pre><code class="bash">#/etc/yum.repos.d/mariadb.repo
+# MariaDB 10.5 CentOS repository list - created 2020-10-23 01:54 UTC
+# http://downloads.mariadb.org/mariadb/repositories/
+[mariadb]
+name = MariaDB
+baseurl = http://mirrors.aliyun.com/mariadb/mariadb-10.7.6/yum/centos/7/x86_64/
+module_hotfixes=1
+gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+gpgcheck=0
+</code></pre>
+<ol start="2">
+<li>安装 MariaDB 和 MariaDB 客户端<br><code>yum -y install MariaDB-server MariaDB-client</code></li>
+<li>启动 MariaDB，并设置开机启动<br><code>systemctl enable mariadb</code><br><code>systemctl start mariadb</code></li>
+<li>设置 root 初始密码<br><code>mysqladmin -u$&#123;MARIADB_ADMIN_USERNAME&#125; password $&#123;MARIADB_ADMIN_PASSWORD&#125;</code></li>
+<li>验证<br><code>mysql -h127.0.0.1 -uroot -p&#39;iam59!z$&#39;</code></li>
+</ol>
+<h2 id="centos7-安装-redis"><a href="#centos7-安装-redis" class="headerlink" title="centos7 安装 redis"></a>centos7 安装 redis</h2><p>由于 yum 不支持 redis，所以通过源码方式安装</p>
+<ol>
+<li><p>获取最新稳定版本的 redis 并解压<br><code>wget https://download.redis.io/redis-stable.tar.gz</code><br><code>tar -zxvf redis-4.0.8.tar.gz</code></p>
+</li>
+<li><p>安装 python3</p>
+</li>
+<li><p>编译</p>
+</li>
+</ol>
+<pre><code class="bash">cd redis-stable
+make
+make install prefix=/usr/local/redis
+mkdir /usr/local/redis/etc
+mv redis.conf /usr/local/redis/etc
+</code></pre>
+<ol start="4">
+<li>修改为后台启动<br><code>将daemonize no 改成daemonize yes</code></li>
+<li>将 redis 加入到开机启动</li>
+</ol>
+<h2 id="centos7-安装-Python3-7"><a href="#centos7-安装-Python3-7" class="headerlink" title="centos7 安装 Python3.7"></a>centos7 安装 Python3.7</h2><ol>
+<li>安装依赖包<br><code>yum install gcc patch libffi-devel python-devel zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel -y </code></li>
+<li>下载 Python<br><code>wget https://www.python.org/ftp/python/3.7.10/Python-3.7.10.tgz</code></li>
+<li>创建一个空文件夹，存放 python3 程序<br><code>mkdir /usr/local/python3</code></li>
+<li>编译&#x2F;安装</li>
+</ol>
+<pre><code class="bash">./configure --prefix=/usr/local/python3
+./configure --enable-optimization
+make
+make install prefix=/usr/local/python3
+</code></pre>
+<h2 id="centos7替换国内yum源"><a href="#centos7替换国内yum源" class="headerlink" title="centos7替换国内yum源"></a>centos7替换国内yum源</h2><ol>
+<li>备份源yum文件 <code>mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo_bak</code></li>
+<li>下载阿里云镜像文件  <code>wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</code></li>
+<li>清空缓存 <code>yum clean all</code></li>
+<li>重新生成缓存 <code>yum makecache</code></li>
+</ol>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2022-10-20</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/CentOS/'>
+                            CentOS
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E8%99%9A%E6%8B%9F%E6%9C%BA/'>
+                            虚拟机
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="css盒模型" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            css盒模型
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#css%E7%9B%92%E6%A8%A1%E5%9E%8B"><span class="post-toc-text">css盒模型</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%B8%A4%E7%A7%8D%E7%9B%92%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9A"><span class="post-toc-text">两种盒模型的区别：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#margin-x2F-padding-%E8%AE%BE%E7%BD%AE%E7%99%BE%E5%88%86%E6%AF%94%E6%98%AF%E7%9B%B8%E5%AF%B9%E8%B0%81%E7%9A%84"><span class="post-toc-text">margin&#x2F;padding 设置百分比是相对谁的</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%B8%85%E9%99%A4%E6%B5%AE%E5%8A%A8"><span class="post-toc-text">清除浮动</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%96%B9%E6%B3%95"><span class="post-toc-text">方法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%8E%9F%E7%90%86"><span class="post-toc-text">原理</span></a></li></ol></li></ol>
+        
+        <h2 id="css盒模型"><a href="#css盒模型" class="headerlink" title="css盒模型"></a>css盒模型</h2><ol>
+<li>content：内容，容纳着元素的”真实“内容，例如文本，图像或是视频播放器</li>
+<li>padding：内边距</li>
+<li>border：边框</li>
+<li>margin：外边距</li>
+</ol>
+<hr>
+<h2 id="两种盒模型的区别："><a href="#两种盒模型的区别：" class="headerlink" title="两种盒模型的区别："></a>两种盒模型的区别：</h2><ul>
+<li><p>W3C 盒模型 box-sizing: content-box</p>
+<ul>
+<li>W3C 盒模型中，通过 CSS 样式设置的 width 的大小只是 content 的大小</li>
+</ul>
+</li>
+<li><p>IE 盒模型 box-sizing: border-box</p>
+<ul>
+<li>IE 盒模型中，通过 CSS 样式设置的 width 的大小是 content + padding + border 的和</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="margin-x2F-padding-设置百分比是相对谁的"><a href="#margin-x2F-padding-设置百分比是相对谁的" class="headerlink" title="margin&#x2F;padding 设置百分比是相对谁的"></a>margin&#x2F;padding 设置百分比是相对谁的</h2><p>margin&#x2F;padding 设置百分比都是相对于父盒子的宽度(width 属性)</p>
+<hr>
+<h2 id="清除浮动"><a href="#清除浮动" class="headerlink" title="清除浮动"></a>清除浮动</h2><h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><ol>
+<li>在需要清除浮动的元素后面添加一个空白标签，设置类名 clear，设置 <code>clear: both</code> </li>
+<li>父级元素添加 <code>overflow: hidden</code></li>
+<li>父元素 <code>display：table</code></li>
+<li>伪元素清除浮动</li>
+</ol>
+<pre><code class="css">.clearfix:after &#123;
+  /*正常浏览器 清除浮动*/
+  content: &#39;&#39;;
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+&#125;
+</code></pre>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><ul>
+<li>clear 属性清除浮动：clear 属性规定元素盒子的边不能和浮动元素相邻。该属性只能影响使用清除的元素本身，不能影响其他元素。换而言之，如果已经存在浮动元素的话，那么该元素就不会像原本元素一样受其影响了。</li>
+<li>其他的可以归为一类，都是通过触发 BFC 来实现的</li>
+</ul>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2022-08-17</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/css/'>
+                            css
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E5%89%8D%E7%AB%AF/'>
+                            前端
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

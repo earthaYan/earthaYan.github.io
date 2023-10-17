@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="06-go数组" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            06-go数组
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%95%B0%E7%BB%84"><span class="post-toc-text">数组</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AE%9A%E4%B9%89%EF%BC%9A"><span class="post-toc-text">定义：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%A3%B0%E6%98%8E%EF%BC%9A"><span class="post-toc-text">声明：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%9A"><span class="post-toc-text">初始化：</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%B8%80%E7%BB%B4%E6%95%B0%E7%BB%84"><span class="post-toc-text">一维数组</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84"><span class="post-toc-text">二维数组</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%AE%BF%E9%97%AE%E6%95%B0%E7%BB%84%E5%85%83%E7%B4%A0%EF%BC%9A"><span class="post-toc-text">访问数组元素：</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%8C%87%E9%92%88"><span class="post-toc-text">指针</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B"><span class="post-toc-text">使用流程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%A9%BA%E6%8C%87%E9%92%88-nil"><span class="post-toc-text">空指针 nil</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%8C%87%E9%92%88%E6%95%B0%E7%BB%84var-ptr-MAX-int"><span class="post-toc-text">指针数组var ptr [MAX]*int;</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%8C%87%E5%90%91%E6%8C%87%E9%92%88%E7%9A%84%E6%8C%87%E9%92%88"><span class="post-toc-text">指向指针的指针</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%8C%87%E9%92%88%E4%BD%9C%E4%B8%BA%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0%E4%BD%BF%E7%94%A8"><span class="post-toc-text">指针作为函数的参数使用</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93"><span class="post-toc-text">结构体</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AE%9A%E4%B9%89%EF%BC%9A-1"><span class="post-toc-text">定义：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%AE%BF%E9%97%AE%E7%BB%93%E6%9E%84%E4%BD%93%E6%88%90%E5%91%98"><span class="post-toc-text">访问结构体成员</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%88%87%E7%89%87-Slice"><span class="post-toc-text">切片 Slice</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%88%9B%E5%BB%BA%EF%BC%9A"><span class="post-toc-text">创建：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%9A-1"><span class="post-toc-text">初始化：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%B8%B8%E8%A7%81%E5%87%BD%E6%95%B0"><span class="post-toc-text">常见函数:</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%8C%83%E5%9B%B4-Range"><span class="post-toc-text">范围 Range</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%9B%86%E5%90%88-Map"><span class="post-toc-text">集合 Map</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#delete"><span class="post-toc-text">delete()</span></a></li></ol></li></ol>
+        
+        <h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><h3 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h3><p>具有<font color=red>相同唯一类型</font>（原始类型&#x2F;自定义类型）的一组已编号且<font color=red>长度固定</font>的数据项序列</p>
+<h3 id="声明："><a href="#声明：" class="headerlink" title="声明："></a>声明：</h3><ul>
+<li>一维数组：var balance [10] float32</li>
+<li>二维数组：var arrayName [ x ][ y ] float32</li>
+</ul>
+<h3 id="初始化："><a href="#初始化：" class="headerlink" title="初始化："></a>初始化：</h3><h4 id="一维数组"><a href="#一维数组" class="headerlink" title="一维数组"></a>一维数组</h4><ul>
+<li><code>balance := [5]float32&#123;1000.0, 2.0, 3.4, 7.0, 50.0&#125;</code></li>
+<li>如果数组长度不确定，可以使用 … 代替数组的长度，编译器会根据元素个数自行推断数组的长度</li>
+<li>通过指定下标初始化元素：<code>balance := [5]float32&#123;1:2.0,3:7.0&#125;</code><blockquote>
+<p>…是go的语法糖，有两种用处：</p>
+<ol>
+<li>用于函数有多个不定参数的情况，可以接受多个不确定数量的参数</li>
+<li>切片可以打散进行传递</li>
+</ol>
+</blockquote>
+</li>
+</ul>
+<pre><code class="go">func test1(args ...string) &#123; //用法1
+    for _, v:= range args&#123;
+        fmt.Println(v)
+    &#125;
+&#125;
+
+func main()&#123;
+    var strss= []string&#123;
+        &quot;qwr&quot;,
+        &quot;234&quot;,
+        &quot;yui&quot;,
+        &quot;cvbc&quot;,
+    &#125;
+    test1(strss...) //用法2
+&#125;
+</code></pre>
+<h4 id="二维数组"><a href="#二维数组" class="headerlink" title="二维数组"></a>二维数组</h4><pre><code class="go">a := [3][4]int&#123;
+ &#123;0, 1, 2, 3&#125; ,   /*  第一行索引为 0 */
+ &#123;4, 5, 6, 7&#125; ,   /*  第二行索引为 1 */
+ &#123;8, 9, 10, 11&#125;,   /* 第三行索引为 2 */
+&#125;
+</code></pre>
+<h3 id="访问数组元素："><a href="#访问数组元素：" class="headerlink" title="访问数组元素："></a>访问数组元素：</h3><p>方法：通过索引未知来读取，<code>var salary float32 = balance[9]</code></p>
+<h2 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h2><p>取地址符：&amp;<br>一个指针变量指向了一个值的内存地址</p>
+<h3 id="使用流程"><a href="#使用流程" class="headerlink" title="使用流程"></a>使用流程</h3><ul>
+<li>定义指针变量。</li>
+<li>为指针变量赋值。</li>
+<li>访问指针变量中指向地址的值。</li>
+</ul>
+<pre><code class="go">func main() &#123;
+    var a int = 20
+    var ip *int //声明指针，指针变量指向了一个值的内存地址
+    ip = &amp;a     //对指针变量赋值
+    fmt.Printf(&quot;a变量的地址是:%x\n&quot;, &amp;a)
+    fmt.Printf(&quot;ip 变量存储的指针地址:%x\n&quot;, ip)
+    fmt.Printf(&quot;*ip 变量的值: %v\n&quot;, *ip)
+&#125;
+// 输出结果：===========
+// a变量的地址是:c00001c030
+// ip 变量存储的指针地址:c00001c030
+// *ip 变量的值: 20
+</code></pre>
+<h3 id="空指针-nil"><a href="#空指针-nil" class="headerlink" title="空指针 nil"></a>空指针 <code>nil</code></h3><h3 id="指针数组var-ptr-MAX-int"><a href="#指针数组var-ptr-MAX-int" class="headerlink" title="指针数组var ptr [MAX]*int;"></a>指针数组<code>var ptr [MAX]*int;</code></h3><pre><code class="go">const MAX int = 3
+
+func main() &#123;
+    var ptr [MAX]*int//声明了整型指针数组
+    a := []int&#123;10, 100, 200&#125;
+    var i int
+    for i = 0; i &lt; MAX; i++ &#123;
+        ptr[i] = &amp;a[i]
+    &#125;
+    for i = 0; i &lt; MAX; i++ &#123;
+        fmt.Printf(&quot;a[%d]=%d\n&quot;, i, *ptr[i])
+    &#125;
+&#125;
+// 输出结果:=============
+// a[0]=10
+// a[1]=100
+// a[2]=200
+</code></pre>
+<h3 id="指向指针的指针"><a href="#指向指针的指针" class="headerlink" title="指向指针的指针"></a>指向指针的指针</h3><pre><code class="go">func main() &#123;
+    var a int
+    var ptr *int
+    var pptr **int
+    a = 3000
+    ptr = &amp;a
+    pptr = &amp;ptr
+    fmt.Printf(&quot;变量a=%d\n&quot;, a)
+    fmt.Printf(&quot;指针变量 *ptr=%d\n&quot;, *ptr)
+    fmt.Printf(&quot;指向指针的指针变量 **pptr = %d\n&quot;, **pptr)
+    fmt.Printf(&quot;变量a的地址是:%v\n&quot;, &amp;a)
+    fmt.Printf(&quot;指针ptr的值为:%v\n&quot;, ptr)
+    fmt.Printf(&quot;指针ptr的地址是:%v\n&quot;, &amp;ptr)
+    fmt.Printf(&quot;指针pptr的值为:%v\n&quot;, pptr)
+&#125;
+//输出结果================
+// 变量a=3000
+// 指针变量 *ptr=3000
+// 指向指针的指针变量 **pptr = 3000
+// 变量a的地址是:0xc0000b2000
+// 指针ptr的值为:0xc0000b2000
+// 指针ptr的地址是:0xc0000ac018
+// 指针pptr的值为:0xc0000ac018
+</code></pre>
+<h3 id="指针作为函数的参数使用"><a href="#指针作为函数的参数使用" class="headerlink" title="指针作为函数的参数使用"></a>指针作为函数的参数使用</h3><p>可使用前提:需要在函数定义的参数上设置为指针类型</p>
+<pre><code class="go">func main() &#123;
+    var a int = 100
+    var b int = 200
+    fmt.Printf(&quot;交换前 a 的值 : %d\n&quot;, a)
+    fmt.Printf(&quot;交换前 b 的值 : %d\n&quot;, b)
+    fmt.Printf(&quot;交换前 a 的地址 : %v\n&quot;, &amp;a)
+    fmt.Printf(&quot;交换前 b 的地址 : %v\n&quot;, &amp;b)
+    swap(&amp;a, &amp;b)
+    fmt.Printf(&quot;交换后 a 的值 : %d\n&quot;, a)
+    fmt.Printf(&quot;交换后 b 的值 : %d\n&quot;, b)
+    fmt.Printf(&quot;交换后 a 的地址 : %v\n&quot;, &amp;a)
+    fmt.Printf(&quot;交换后 b 的地址 : %v\n&quot;, &amp;b)
+&#125;
+func swap(x *int, y *int) &#123;
+    var temp int
+    temp = *x
+    *x = *y
+    *y = temp
+&#125;
+// 输出结果
+// 交换前 a 的值 : 100
+// 交换前 b 的值 : 200
+// 交换前 a 的地址 : 0xc00001c030
+// 交换前 b 的地址 : 0xc00001c038
+// 交换后 a 的值 : 200
+// 交换后 b 的值 : 100
+// 交换后 a 的地址 : 0xc00001c030
+// 交换后 b 的地址 : 0xc00001c038
+</code></pre>
+<h2 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h2><h3 id="定义：-1"><a href="#定义：-1" class="headerlink" title="定义："></a>定义：</h3><p>由一系列具有相同类型或不同类型的数据构成的数据集合，一个结构体表示一项记录</p>
+<pre><code class="go">type Book struct &#123;
+    title   string
+    author  string
+    subject string
+    book_id int
+&#125;
+
+func main() &#123;
+    book1 := Book&#123;&quot;Go 语言&quot;, &quot;www.runoob.com&quot;, &quot;Go 语言教程&quot;, 6495407&#125;
+    book1.subject = &quot;编程&quot;
+    fmt.Println(book1)
+    book2 := Book&#123;title: &quot;Go 语言2&quot;, author: &quot;www.runoob.com&quot;, subject: &quot;Go 语言教程2&quot;, book_id: 6495408&#125;
+    fmt.Println(book2)
+    book3 := Book&#123;title: &quot;Go 语言3&quot;, subject: &quot;www.runoob.com&quot;&#125;
+    book3.book_id = 111
+    fmt.Println(book3.book_id)
+    fmt.Println(book3.author)
+    book4 := Book&#123;&quot;Go 语言&quot;, &quot;www.runoob.com&quot;&#125;
+    fmt.Println(book4)
+    // 输出结果============
+// &#123;Go 语言 www.runoob.com 编程 6495407&#125;
+// &#123;Go 语言2 www.runoob.com Go 语言教程2 6495408&#125;
+// 111
+// Error:too few values in Book&#123;…&#125;
+
+&#125;
+</code></pre>
+<h3 id="访问结构体成员"><a href="#访问结构体成员" class="headerlink" title="访问结构体成员"></a>访问结构体成员</h3><p>方式：结构体.成员名</p>
+<pre><code class="go">type Book struct &#123;
+    title   string
+    author  string
+    subject string
+    book_id int
+&#125;
+
+func printBook(book *Book) &#123;
+    fmt.Printf(&quot;Book title:%s\n&quot;, book.title)
+&#125;
+func main() &#123;
+    var Book1 Book
+    var Book2 Book
+    Book1.title = &quot;Go语言&quot;
+    Book2.title = &quot;Go语言2&quot;
+    printBook(&amp;Book1)
+    printBook(&amp;Book2)
+&#125;
+</code></pre>
+<h2 id="切片-Slice"><a href="#切片-Slice" class="headerlink" title="切片 Slice"></a>切片 Slice</h2><p>本质：对数组的抽象,即动态数组<br>区别：</p>
+<ol>
+<li>长度不固定</li>
+<li>可以追加元素</li>
+<li>追加元素的时候可能使切片容量增大</li>
+</ol>
+<h3 id="创建："><a href="#创建：" class="headerlink" title="创建："></a>创建：</h3><ol>
+<li>使用make创建:<br>make([]类型,初始长度,容量)</li>
+</ol>
+<pre><code class="go">nodes:=make([]int,3,10)
+</code></pre>
+<ol start="2">
+<li>声明一个未知长度的数组</li>
+</ol>
+<pre><code class="go">var nodes int[]
+</code></pre>
+<h3 id="初始化：-1"><a href="#初始化：-1" class="headerlink" title="初始化："></a>初始化：</h3><ol>
+<li>s :&#x3D;[] int {1,2,3 } </li>
+<li>初始化切片 s，是数组 arr 的引用。 s:&#x3D;arr[起始位置index1:结束位置index2],从index1~index2-1</li>
+</ol>
+<h3 id="常见函数"><a href="#常见函数" class="headerlink" title="常见函数:"></a>常见函数:</h3><ul>
+<li>len() 获取长度</li>
+<li>cap() 计算容量,测量切片最长可以达到多少</li>
+<li>append(切片名称,元素) 向切片追加新元素:<code>numbers=append(numbers,1,2)</code></li>
+<li>copy(numbers1,numbers) 拷贝 numbers 的内容到 numbers1 <code>copy(numbers1,numbers)</code><br>copy函数只会拷贝numbers1的长度</li>
+</ul>
+<pre><code class="go">func printSlice(x []int) &#123;
+    fmt.Printf(&quot;len=%d cap=%d slice=%v\n&quot;, len(x), cap(x), x)
+&#125;
+func main() &#123;
+    numbers := []int&#123;0, 1, 2, 3, 4, 5, 6, 7, 8&#125;
+    printSlice(numbers)
+    numbers1 := make([]int, 2, 5)
+    printSlice(numbers1)
+    copy(numbers1, numbers)
+    printSlice(numbers1)
+&#125;
+// ======输出结果
+// len=9 cap=9 slice=[0 1 2 3 4 5 6 7 8]
+// len=2 cap=5 slice=[0 0]
+// len=2 cap=5 slice=[0 1]
+</code></pre>
+<h2 id="范围-Range"><a href="#范围-Range" class="headerlink" title="范围 Range"></a>范围 Range</h2><p>关键字：range<br>作用：用于 for 循环中迭代数组(array)、切片(slice)、通道(channel)或集合(map)的元素<br>返回值：在数组和切片中它返回元素的索引和索引对应的值，在集合中返回 key-value 对</p>
+<pre><code class="go">for key, value := range oldMap &#123;
+    newMap[key] = value
+&#125;
+</code></pre>
+<h2 id="集合-Map"><a href="#集合-Map" class="headerlink" title="集合 Map"></a>集合 Map</h2><p>概念：无序的键值对的集合<br>实现：hash 表</p>
+<h3 id="delete"><a href="#delete" class="headerlink" title="delete()"></a>delete()</h3><p>作用：用于删除集合的元素, 参数为 map 和其对应的 key</p>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2022-10-14</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/GoLang/'>
+                            GoLang
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E5%90%8E%E7%AB%AF/'>
+                            后端
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

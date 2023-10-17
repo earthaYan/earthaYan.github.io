@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="14-go静态代码检查" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            14-go静态代码检查
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E6%A0%A1%E9%AA%8C"><span class="post-toc-text">静态代码校验</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%94%9F%E6%88%90-swagger-api-%E6%96%87%E6%A1%A3"><span class="post-toc-text">生成 swagger api 文档</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AE%89%E8%A3%85"><span class="post-toc-text">安装</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="post-toc-text">使用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%8A%A5%E9%94%99"><span class="post-toc-text">报错</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%EF%BC%9A"><span class="post-toc-text">常用命令：</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%94%99%E8%AF%AF%E7%A0%81%E8%AE%BE%E8%AE%A1"><span class="post-toc-text">错误码设计</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E9%94%99%E8%AF%AF%E4%BB%A3%E7%A0%81%E8%AF%B4%E6%98%8E%EF%BC%9A100101"><span class="post-toc-text">错误代码说明：100101:</span></a></li></ol></li></ol>
+        
+        <h2 id="静态代码校验"><a href="#静态代码校验" class="headerlink" title="静态代码校验"></a>静态代码校验</h2><p>工具：golangci-lint</p>
+<ol>
+<li>安装：</li>
+</ol>
+<pre><code class="bash">go get github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+golangci-lint version # 输出 golangci-lint 版本号，说明安装成功
+golangci-lint has version v1.39.0 built from (unknown, mod sum: &quot;h1:aAUjdBxARwkGLd5PU0vKuym281f2rFOyqh3GB4nXcq8=&quot;) on (unknown)
+</code></pre>
+<ol start="2">
+<li>使用：</li>
+</ol>
+<pre><code class="bash">golangci-lint run
+</code></pre>
+<h2 id="生成-swagger-api-文档"><a href="#生成-swagger-api-文档" class="headerlink" title="生成 swagger api 文档"></a>生成 swagger api 文档</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>方法 1：</p>
+<pre><code class="bash">go get -u github.com/go-swagger/go-swagger/cmd/swagger
+swagger version
+</code></pre>
+<p>方法 2：</p>
+<pre><code class="bash">yum install binutils binutils-devel -y
+rm -rf ~/.cache/go-build
+# 安装dev版本
+go install ./cmd/swagger
+# 安装指定版本
+git checkout v0.25.0
+go install -ldflags &quot;-X github.com/go-swagger/go-swagger/cmd/swagger/commands.Version=$(git describe --tags) -X github.com/go-swagger/go-swagger/cmd/swagger/commands.Commit=$(git rev-parse HEAD)&quot; ./cmd/swagger
+# 验证是否安装成功
+swagger version
+</code></pre>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>通过解析源码中的注释来生成 Swagger 文档</p>
+<pre><code class="bash"> swagger generate spec -o docs/swagger.yaml
+ swagger serve --no-open -F=swagger --port 36666  ./docs/swagger.yaml
+ # 在浏览器中打开localhost:36666/docs
+</code></pre>
+<h3 id="报错"><a href="#报错" class="headerlink" title="报错"></a>报错</h3><p><a target="_blank" rel="noopener" href="https://github.com/go-swagger/go-swagger/issues/2756">#2756</a></p>
+<h3 id="常用命令："><a href="#常用命令：" class="headerlink" title="常用命令："></a>常用命令：</h3><ol>
+<li>swagger:route：swagger:route 代表 API 接口描述的开始，后面的字符串格式为 HTTP 方法 URL Tag ID。可以填写多个 tag，相同 tag 的 API 接口在 Swagger 文档中会被分为一组。ID 是一个标识符，swagger:parameters 是具有相同 ID 的 swagger:route 的请求参数。swagger:route 下面的一行是该 API 接口的描述，需要以英文点号为结尾。responses:定义了 API 接口的返回参数，例如当 HTTP 状态码是 200 时，返回 createUserResponse，createUserResponse 会跟 swagger:response 进行匹配，匹配成功的 swagger:response 就是该 API 接口返回 200 状态码时的返回。</li>
+<li>swagger:response：swagger:response 定义了 API 接口的返回，例如 getUserResponseWrapper，关于名字，我们可以根据需要自由命名，并不会带来任何不同。getUserResponseWrapper 中有一个 Body 字段，其注释为&#x2F;&#x2F; in:body，说明该参数是在 HTTP Body 中返回。swagger:response 之上的注释会被解析为返回参数的描述。api.User 自动被 go-swagger 解析为 Example Value 和 Model。我们不用再去编写重复的返回字段，只需要引用已有的 Go 结构体即可，这也是通过工具生成 Swagger 文档的魅力所在</li>
+<li>swagger:parameters：swagger:parameters 定义了 API 接口的请求参数，例如 userParamsWrapper。userParamsWrapper 之上的注释会被解析为请求参数的描述，&#x2F;&#x2F; in:body 代表该参数是位于 HTTP Body 中。同样，userParamsWrapper 结构体名我们也可以随意命名，不会带来任何不同。swagger:parameters 之后的 createUserRequest 会跟 swagger:route 的 ID 进行匹配，匹配成功则说明是该 ID 所在 API 接口的请求参数。</li>
+</ol>
+<h2 id="错误码设计"><a href="#错误码设计" class="headerlink" title="错误码设计"></a>错误码设计</h2><ul>
+<li>错误码由两部分组成：HTTP status code 和 业务code。</li>
+<li>业务code采用数字格式拼接而成，一般包括，服务，模块，错误三部分</li>
+<li>返回的数据格式应该是固定的、规范的。</li>
+</ul>
+<h3 id="错误代码说明：100101"><a href="#错误代码说明：100101" class="headerlink" title="错误代码说明：100101:"></a>错误代码说明：100101:</h3><ul>
+<li>10：服务</li>
+<li>01: 某个服务下的某个模块。</li>
+<li>01: 模块下的错误码序号，每个模块可以注册 100 个错误。<br>结论：服务 A，数据库模块下的记录没有找到错误。</li>
+</ul>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2022-11-20</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/GoLang/'>
+                            GoLang
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E5%90%8E%E7%AB%AF/'>
+                            后端
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

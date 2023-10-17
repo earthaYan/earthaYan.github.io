@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="16-go-web服务" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            16-go-web服务
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%9F%BA%E7%A1%80%E5%8A%9F%E8%83%BD"><span class="post-toc-text">基础功能</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%B7%AF%E7%94%B1%E5%8C%B9%E9%85%8D"><span class="post-toc-text">路由匹配</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%B7%AF%E7%94%B1%E5%88%86%E7%BB%84"><span class="post-toc-text">路由分组</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%B8%80%E8%BF%9B%E7%A8%8B%E5%A4%9A%E6%9C%8D%E5%8A%A1"><span class="post-toc-text">一进程多服务</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%AB%98%E7%BA%A7%E5%8A%9F%E8%83%BD"><span class="post-toc-text">高级功能</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%B8%AD%E9%97%B4%E4%BB%B6"><span class="post-toc-text">中间件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%AE%A4%E8%AF%81"><span class="post-toc-text">认证</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RequestID"><span class="post-toc-text">RequestID</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%B7%A8%E5%9F%9F%E8%AF%B7%E6%B1%82"><span class="post-toc-text">跨域请求</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Gin%E6%A1%86%E6%9E%B6"><span class="post-toc-text">Gin框架</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E9%80%89%E6%8B%A9web%E6%A1%86%E6%9E%B6%E7%9A%84%E8%80%83%E8%99%91%E5%9B%A0%E7%B4%A0"><span class="post-toc-text">选择web框架的考虑因素</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#http-x2F-https%E6%94%AF%E6%8C%81"><span class="post-toc-text">http&#x2F;https支持</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#json-%E6%95%B0%E6%8D%AE%E6%94%AF%E6%8C%81"><span class="post-toc-text">json 数据支持</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%B7%AF%E7%94%B1%E5%8C%B9%E9%85%8D-1"><span class="post-toc-text">路由匹配</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%B2%BE%E7%A1%AE%E5%8C%B9%E9%85%8D"><span class="post-toc-text">精确匹配</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%A8%A1%E7%B3%8A%E5%8C%B9%E9%85%8D"><span class="post-toc-text">模糊匹配</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%B7%AF%E7%94%B1%E5%88%86%E7%BB%84-1"><span class="post-toc-text">路由分组</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%B8%80%E8%BF%9B%E7%A8%8B%E5%A4%9A%E6%9C%8D%E5%8A%A1-1"><span class="post-toc-text">一进程多服务</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#go%E7%9A%84%E5%B9%B6%E5%8F%91"><span class="post-toc-text">go的并发</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%AE%9E%E4%BE%8B"><span class="post-toc-text">实例</span></a></li></ol></li></ol></li></ol>
+        
+        <img src="/2022/11/29/16-go-web-fu-wu/web%E6%9C%8D%E5%8A%A1.webp" class="" title="web服务分类">
+<blockquote>
+<p>前提：要实现一个web服务，必须先选择通信协议和通信格式。如果服务本身主要是提供REST 风格的API，则使用HTTP+JSON。反之则使用gRpc+Protobuf</p>
+</blockquote>
+<h2 id="基础功能"><a href="#基础功能" class="headerlink" title="基础功能"></a>基础功能</h2><h3 id="路由匹配"><a href="#路由匹配" class="headerlink" title="路由匹配"></a>路由匹配</h3><p>概念：根据(HTTP方法, 请求路径)匹配到处理这个请求的函数，最终由该函数处理这次请求，并返回结果</p>
+<img src="/2022/11/29/16-go-web-fu-wu/%E8%B7%AF%E7%94%B1%E5%8C%B9%E9%85%8D.webp" class="" title="路由匹配">
+<p>如上图所示：</p>
+<ul>
+<li>最终这个请求由<code>Delete(c *gin.Context)</code>处理</li>
+<li>参数c存放了请求参数</li>
+<li>在函数Delete中进行业务处理(参数解析-&gt;参数校验-&gt;逻辑处理-&gt;返回结果)：也是web服务的核心诉求</li>
+</ul>
+<h3 id="路由分组"><a href="#路由分组" class="headerlink" title="路由分组"></a>路由分组</h3><p>原因：API 接口随着需求的更新迭代，可能会有多个版本，为了便于管理，所以需要进行路由分组</p>
+<h3 id="一进程多服务"><a href="#一进程多服务" class="headerlink" title="一进程多服务"></a>一进程多服务</h3><p>原因：避免为相同功能启动多个进程<br>典型例子：在一个服务进程中，同时开启 HTTP 服务的 80 端口和 HTTPS 的 443 端口对内的服务，访问 80 端口，简化服务访问复杂度；对外的服务，访问更为安全的 HTTPS 服务；此时有了</p>
+<hr>
+<h2 id="高级功能"><a href="#高级功能" class="headerlink" title="高级功能"></a>高级功能</h2><h3 id="中间件"><a href="#中间件" class="headerlink" title="中间件"></a>中间件</h3><p>原因：进行http请求的时候需要针对每一次请求都设置一些通用的操作，比如添加 Header、添加 RequestID、统计请求次数等</p>
+<h3 id="认证"><a href="#认证" class="headerlink" title="认证"></a>认证</h3><ul>
+<li>方式1：基于用户名和密码</li>
+<li>方式2：基于Token</li>
+</ul>
+<h3 id="RequestID"><a href="#RequestID" class="headerlink" title="RequestID"></a>RequestID</h3><p>原因：定位和跟踪某一次请求用来排障</p>
+<h3 id="跨域请求"><a href="#跨域请求" class="headerlink" title="跨域请求"></a>跨域请求</h3><p>原因：项目前后端分离，前端访问地址和后端访问地址不同，会因为浏览器的同源策略产生跨域问题</p>
+<hr>
+<h2 id="Gin框架"><a href="#Gin框架" class="headerlink" title="Gin框架"></a>Gin框架</h2><p>基于net&#x2F;http包封装的开源框架</p>
+<h3 id="选择web框架的考虑因素"><a href="#选择web框架的考虑因素" class="headerlink" title="选择web框架的考虑因素"></a>选择web框架的考虑因素</h3><ol>
+<li>路由功能</li>
+<li>是否具有中间件或者过滤功能</li>
+<li>http的参数的解析和返回能力</li>
+<li>性能，稳定性</li>
+<li>使用门槛</li>
+<li>社区活跃度</li>
+</ol>
+<hr>
+<h3 id="http-x2F-https支持"><a href="#http-x2F-https支持" class="headerlink" title="http&#x2F;https支持"></a>http&#x2F;https支持</h3><pre><code class="go">// 一进程多端口
+// 开启http服务
+insecureServer := &amp;http.Server&#123;
+    Addr:         &quot;:8080&quot;,
+    Handler:      router(),
+    ReadTimeout:  5 * time.Second,
+    WriteTimeout: 10 * time.Second,
+&#125;
+
+// 开启https端口
+secureServer := &amp;http.Server&#123;
+    Addr:         &quot;:8443&quot;,
+    Handler:      router(),
+    ReadTimeout:  5 * time.Second,
+    WriteTimeout: 10 * time.Second,
+&#125;
+</code></pre>
+<hr>
+<h3 id="json-数据支持"><a href="#json-数据支持" class="headerlink" title="json 数据支持"></a>json 数据支持</h3><ol>
+<li>通过c.ShouldBindJSON函数解析Body 中的 JSON 格式数据参数</li>
+<li>通过c.JSON函数返回 JSON 格式的数据</li>
+</ol>
+<pre><code class="go">if err := c.ShouldBindJSON(&amp;product); err != nil &#123;
+    c.JSON(http.StatusBadRequest, gin.H&#123;&quot;error&quot;: err.Error()&#125;)
+    return
+&#125;
+c.JSON(http.StatusOK, product)
+</code></pre>
+<hr>
+<h3 id="路由匹配-1"><a href="#路由匹配-1" class="headerlink" title="路由匹配"></a>路由匹配</h3><h4 id="精确匹配"><a href="#精确匹配" class="headerlink" title="精确匹配"></a>精确匹配</h4><p>精确匹配——路由为 &#x2F;products&#x2F;:name</p>
+<img src="/2022/11/29/16-go-web-fu-wu/%E8%B7%AF%E7%94%B1%E7%B2%BE%E7%A1%AE%E5%8C%B9%E9%85%8D.webp" class="" title="路由精确匹配">
+<h4 id="模糊匹配"><a href="#模糊匹配" class="headerlink" title="模糊匹配"></a>模糊匹配</h4><p>模糊匹配——路由为 &#x2F;products&#x2F;*name</p>
+<img src="/2022/11/29/16-go-web-fu-wu/%E8%B7%AF%E7%94%B1%E6%A8%A1%E7%B3%8A%E5%8C%B9%E9%85%8D.webp" class="" title="模糊匹配">
+
+<hr>
+<h3 id="路由分组-1"><a href="#路由分组-1" class="headerlink" title="路由分组"></a>路由分组</h3><p>Gin通过Group函数实现分组</p>
+<pre><code class="go">func router() http.Handler &#123;
+    router := gin.Default()
+    productHandler := newProductHandler()
+    // 路由分组、中间件、认证
+    // 给所有属于 v1 分组的路由都添加 gin.BasicAuth 中间件，以实现认证功能
+    v1 := router.Group(&quot;/v1&quot;, gin.BasicAuth(gin.Accounts&#123;&quot;foo&quot;: &quot;bar&quot;, &quot;colin&quot;: &quot;colin404&quot;&#125;))
+    &#123;
+        productv1 := v1.Group(&quot;/products&quot;)
+        &#123;
+            // 路由匹配
+            productv1.POST(&quot;&quot;, productHandler.Create)
+            productv1.GET(&quot;:name&quot;, productHandler.Get)
+        &#125;
+    &#125;
+    return router
+&#125;
+</code></pre>
+<hr>
+<h3 id="一进程多服务-1"><a href="#一进程多服务-1" class="headerlink" title="一进程多服务"></a>一进程多服务</h3><h4 id="go的并发"><a href="#go的并发" class="headerlink" title="go的并发"></a>go的并发</h4><p>Go语言支持并发,通过go关键词来开启一个goroutine(轻量级线程,其调度由GoLang运行时进行管理)</p>
+<pre><code class="go">go 函数名( 参数列表 )
+</code></pre>
+<h4 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h4><p>实现了2个相同的服务，分别监听在不同端口。</p>
+<pre><code class="go">var eg errgroup.Group
+insecureServer := &amp;http.Server&#123;...&#125;
+secureServer := &amp;http.Server&#123;...&#125;
+// insecureServer
+// 启动一个 goroutine 去处理
+eg.Go(func() error &#123;
+  err := insecureServer.ListenAndServe()
+  if err != nil &amp;&amp; err != http.ErrServerClosed &#123;
+    log.Fatal(err)
+  &#125;
+  return err
+&#125;)
+// secureServer
+eg.Go(func() error &#123;
+  err := secureServer.ListenAndServeTLS(&quot;server.pem&quot;, &quot;server.key&quot;)
+  if err != nil &amp;&amp; err != http.ErrServerClosed &#123;
+    log.Fatal(err)
+  &#125;
+  return err
+&#125;
+// 等待所有的 goroutine 结束后退出，返回的错误是一个出错的 err
+if err := eg.Wait(); err != nil &#123;
+  log.Fatal(err)
+&#125;)
+</code></pre>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2022-11-29</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/GoLang/'>
+                            GoLang
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E5%90%8E%E7%AB%AF/'>
+                            后端
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

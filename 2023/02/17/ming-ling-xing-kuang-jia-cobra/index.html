@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="命令行框架cobra" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            命令行框架cobra
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%88%9B%E5%BB%BA%E5%91%BD%E4%BB%A4"><span class="post-toc-text">创建命令</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BD%BF%E7%94%A8cobra%E5%BA%93"><span class="post-toc-text">使用cobra库</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BD%BF%E7%94%A8Cobra-%E5%91%BD%E4%BB%A4"><span class="post-toc-text">使用Cobra 命令</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%A0%B8%E5%BF%83%E7%89%B9%E6%80%A7"><span class="post-toc-text">核心特性</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BD%BF%E7%94%A8%E6%A0%87%E5%BF%97"><span class="post-toc-text">使用标志</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E9%9D%9E%E9%80%89%E9%A1%B9%E5%8F%82%E6%95%B0%E9%AA%8C%E8%AF%81"><span class="post-toc-text">非选项参数验证</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%86%85%E7%BD%AE%E9%AA%8C%E8%AF%81%E5%87%BD%E6%95%B0"><span class="post-toc-text">内置验证函数</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%AA%8C%E8%AF%81%E5%87%BD%E6%95%B0"><span class="post-toc-text">自定义验证函数</span></a></li></ol></li></ol></li></ol>
+        
+        <p>基于</p>
+<ol>
+<li>Commands 命令</li>
+<li>arguments 非选项参数</li>
+<li>flags 选项参数（即标志）</li>
+</ol>
+<pre><code class="bash"># clone 是一个命令，URL是一个非选项参数，bare是一个选项参数
+git clone URL --bare 
+</code></pre>
+<h2 id="创建命令"><a href="#创建命令" class="headerlink" title="创建命令"></a>创建命令</h2><h3 id="使用cobra库"><a href="#使用cobra库" class="headerlink" title="使用cobra库"></a>使用cobra库</h3><ol>
+<li>创建一个 rootCmd——文件cmd&#x2F;root.go</li>
+</ol>
+<pre><code class="bash">mkdir -p newApp2 &amp;&amp; cd newApp2
+var rootCmd = &amp;cobra.Command&#123;
+  Use:   &quot;hugo&quot;,
+  Short: &quot;Hugo is a very fast static site generator&quot;,
+  Long: `A Fast and Flexible Static Site Generator`,
+  Run: func(cmd *cobra.Command, args []string) &#123;
+    // Do Stuff Here
+  &#125;,
+&#125;
+func Execute() &#123;
+  if err := rootCmd.Execute(); err != nil &#123;
+    fmt.Println(err)
+    os.Exit(1)
+  &#125;
+&#125;
+</code></pre>
+<ol start="2">
+<li>创建main.go:调用rootCmd</li>
+</ol>
+<pre><code class="go">package main
+import (
+  &quot;&#123;pathToYourApp&#125;/cmd&quot;
+)
+func main() &#123;
+  // main.go 中不建议放很多代码，通常只需要调用 cmd.Execute() 
+  cmd.Execute()
+&#125;
+</code></pre>
+<ol start="3">
+<li>添加命令</li>
+</ol>
+<pre><code class="go">package cmd
+import (
+  &quot;fmt&quot;
+  &quot;github.com/spf13/cobra&quot;
+)
+func init() &#123;
+    // 定义标志和处理配置  cmd/version.go文件
+  rootCmd.AddCommand(versionCmd)
+&#125;
+// rootCmd之外可以调用 AddCommand 添加其他命令
+var versionCmd = &amp;cobra.Command&#123;
+  Use:   &quot;version&quot;,
+  Short: &quot;Print the version number of Hugo&quot;,
+  Long:  `All software has versions. This is Hugo&#39;s`,
+  Run: func(cmd *cobra.Command, args []string) &#123;
+    fmt.Println(&quot;Hugo Static Site Generator v0.9 -- HEAD&quot;)
+  &#125;,
+&#125;
+</code></pre>
+<ol start="4">
+<li>编译运行<br><code>go build -v .</code></li>
+</ol>
+<h3 id="使用Cobra-命令"><a href="#使用Cobra-命令" class="headerlink" title="使用Cobra 命令"></a>使用Cobra 命令</h3><p>生成一个 Cobra 命令模板，而命令模板也是通过引用 Cobra 库来构建命令的</p>
+<h2 id="核心特性"><a href="#核心特性" class="headerlink" title="核心特性"></a>核心特性</h2><h3 id="使用标志"><a href="#使用标志" class="headerlink" title="使用标志"></a>使用标志</h3><ol>
+<li>使用持久化的标志<br>作用：用于它所分配的命令以及该命令下的每个子命令<br><code>rootCmd.PersistentFlags().BoolVarP(&amp;Verbose, &quot;verbose&quot;, &quot;v&quot;, false, &quot;verbose output&quot;)</code></li>
+<li>使用本地标志<br>作用：本地标志只能在它所绑定的命令上使用<br><code>rootCmd.Flags().StringVarP(&amp;Source, &quot;source&quot;, &quot;s&quot;, &quot;&quot;, &quot;Source directory to read from&quot;)</code></li>
+<li>将标志绑到viper<br>作用：可以通过viper.Get()获取标志的值</li>
+</ol>
+<pre><code class="go">var author string
+func init() &#123;
+  rootCmd.PersistentFlags().StringVar(&amp;author, &quot;author&quot;, &quot;YOUR NAME&quot;, &quot;Author name for copyright attribution&quot;)
+  viper.BindPFlag(&quot;author&quot;, rootCmd.PersistentFlags().Lookup(&quot;author&quot;))
+&#125;
+</code></pre>
+<ol start="4">
+<li>设置标志为必选</li>
+</ol>
+<pre><code class="go">rootCmd.Flags().StringVarP(&amp;Region, &quot;region&quot;, &quot;r&quot;, &quot;&quot;, &quot;AWS region (required)&quot;)
+rootCmd.MarkFlagRequired(&quot;region&quot;)
+</code></pre>
+<h3 id="非选项参数验证"><a href="#非选项参数验证" class="headerlink" title="非选项参数验证"></a>非选项参数验证</h3><p>使用 Command 的 Args 字段来验证非选项参数</p>
+<h4 id="内置验证函数"><a href="#内置验证函数" class="headerlink" title="内置验证函数"></a>内置验证函数</h4><ul>
+<li>NoArgs：如果存在任何非选项参数，该命令将报错。</li>
+<li>ArbitraryArgs：该命令将接受任何非选项参数。</li>
+<li>OnlyValidArgs：如果有任何非选项参数不在 Command 的 ValidArgs 字段中，该命令将报错。</li>
+<li>MinimumNArgs(int)：如果没有至少 N 个非选项参数，该命令将报错。</li>
+<li>MaximumNArgs(int)：如果有多于 N 个非选项参数，该命令将报错。</li>
+<li>ExactArgs(int)：如果非选项参数个数不为 N，该命令将报错。</li>
+<li>ExactValidArgs(int)：如果非选项参数的个数不为 N，或者非选项参数不在 Command 的 ValidArgs 字段中，该命令将报错。</li>
+<li>RangeArgs(min, max)：如果非选项参数的个数不在 min 和 max 之间，该命令将报错。</li>
+</ul>
+<pre><code class="go">var cmd = &amp;cobra.Command&#123;
+  Short: &quot;hello&quot;,
+  Args: cobra.MinimumNArgs(1), // 使用内置的验证函数
+  Run: func(cmd *cobra.Command, args []string) &#123;
+    fmt.Println(&quot;Hello, World!&quot;)
+  &#125;,
+&#125;
+</code></pre>
+<h4 id="自定义验证函数"><a href="#自定义验证函数" class="headerlink" title="自定义验证函数"></a>自定义验证函数</h4><pre><code class="go">var cmd = &amp;cobra.Command&#123;
+  Short: &quot;hello&quot;,
+  Args: func(cmd *cobra.Command, args []string) error &#123; // 自定义验证函数
+    if len(args) &lt; 1 &#123;
+      return errors.New(&quot;requires at least one arg&quot;)
+    &#125;
+    if myapp.IsValidColor(args[0]) &#123;
+      return nil
+    &#125;
+    return fmt.Errorf(&quot;invalid color specified: %s&quot;, args[0])
+  &#125;,
+  Run: func(cmd *cobra.Command, args []string) &#123;
+    fmt.Println(&quot;Hello, World!&quot;)
+  &#125;,
+&#125;
+</code></pre>
+<p>解析命令行参数-&gt;Pflag<br>解析配置文件-&gt; Viper-&gt;从命令行参数、环境变量、配置文件等位置读取配置项<br>实现命令行框架-&gt;  Cobra</p>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2023-02-17</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/GoLang/'>
+                            GoLang
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E5%90%8E%E7%AB%AF/'>
+                            后端
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

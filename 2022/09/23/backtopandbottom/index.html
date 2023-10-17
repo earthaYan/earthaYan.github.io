@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="backTopAndBottom" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            backTopAndBottom
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%BC%BA%E9%99%B7%E9%93%BE%E6%8E%A5"><span class="post-toc-text">缺陷链接</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%9C%80%E6%B1%82"><span class="post-toc-text">需求</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="post-toc-text">思路</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%9B%B8%E5%85%B3%E4%BB%A3%E7%A0%81"><span class="post-toc-text">相关代码</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="post-toc-text">遇到的问题</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3"><span class="post-toc-text">问题解决</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%8C%9C%E6%83%B3"><span class="post-toc-text">猜想</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="post-toc-text">知识点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0%E9%93%BE%E6%8E%A5"><span class="post-toc-text">参考文章链接</span></a></li></ol>
+        
+        <h2 id="缺陷链接"><a href="#缺陷链接" class="headerlink" title="缺陷链接"></a>缺陷链接</h2><p><a target="_blank" rel="noopener" href="http://10.186.18.11/jira/browse/DMP-13892">http://10.186.18.11/jira/browse/DMP-13892</a></p>
+<h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>巡检报告页面、库表检查页面增加置顶、置底功能</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li>两个页面都需要增加这个功能,那就做成一个组件,避免写重复代码</li>
+<li>umc-ui项目中已经有这部分功能的实现,所以只需要整合一下相关的代码封装成组件</li>
+<li>置顶功能在antd中已经实现,所以需要我们自己实现的只有置底功能</li>
+<li>通过scrollInView方法实现</li>
+</ol>
+<h2 id="相关代码"><a href="#相关代码" class="headerlink" title="相关代码"></a>相关代码</h2><pre><code class="React">import &#123;
+  VerticalAlignBottomOutlined,
+  VerticalAlignTopOutlined,
+&#125; from &#39;@ant-design/icons&#39;;
+import &#123; BackTop, Button &#125; from &#39;antd&#39;;
+import &#123; useEffect, useState &#125; from &#39;react&#39;;
+
+const BackTopAndBottom: React.FC&lt;&#123; contentRef: HTMLDivElement | null &#125;&gt; = (&#123;
+  contentRef,
+&#125;) =&gt; &#123;
+  const [toBottomButtonVisible, setToBottomButtonVisible] = useState(true);
+  const moveToBottom = () =&gt; &#123;
+    if (contentRef) &#123;
+      contentRef.scrollIntoView(&#123;
+        block: &#39;end&#39;,
+        behavior: &#39;smooth&#39;,
+      &#125;);
+    &#125;
+  &#125;;
+  useEffect(() =&gt; &#123;
+    const dom = document.querySelector(
+      &#39;#root main.ant-layout-content.action-content&#39;
+    );
+    const handleScrollChange = () =&gt; &#123;
+      const interval =
+        (dom?.scrollHeight ?? 0) -
+        (dom?.scrollTop ?? 0) -
+        (dom?.clientHeight ?? 0);
+      setToBottomButtonVisible(interval &gt; 80);
+    &#125;;
+    dom?.addEventListener(&#39;scroll&#39;, handleScrollChange);
+    return () =&gt; &#123;
+      dom?.removeEventListener(&#39;scroll&#39;, handleScrollChange);
+    &#125;;
+  &#125;, []);
+  return (
+    &lt;&gt;
+      &#123;toBottomButtonVisible &amp;&amp; (
+        &lt;Button
+          shape=&quot;circle&quot;
+          icon=&#123;&lt;VerticalAlignBottomOutlined /&gt;&#125;
+          onClick=&#123;moveToBottom&#125;
+          type=&quot;primary&quot;
+        /&gt;
+      )&#125;
+      &lt;BackTop
+        visibilityHeight=&#123;250&#125;
+        className=&quot;back-top&quot;
+        target=&#123;() =&gt; document.querySelector(&#39;.action-content&#39;) as HTMLElement&#125;
+      &gt;
+        &lt;Button
+          shape=&quot;circle&quot;
+          type=&quot;primary&quot;
+          icon=&#123;&lt;VerticalAlignTopOutlined /&gt;&#125;
+        &gt;&lt;/Button&gt;
+      &lt;/BackTop&gt;
+    &lt;/&gt;
+  );
+&#125;;
+export default BackTopAndBottom;
+</code></pre>
+<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><p>这个组件添加以后,在库表检查页面没有问题,但是在巡检报告页面,出现了下面的bug:</p>
+<pre><code class="TypeScript">  contentRef.scrollIntoView(&#123;
+    block: &#39;end&#39;,
+    behavior: &#39;smooth&#39;,
+  &#125;);
+</code></pre>
+<p>当behavior设置为smooth的时候点击置底按钮,预期是拉到页面底部,但是实际情况是停在了页面的第一张canvas图部分,并没有一直拉到页面底部;但是设置为auto以后,即取消动画,点击可以拉到页面底部。</p>
+<h2 id="问题解决"><a href="#问题解决" class="headerlink" title="问题解决"></a>问题解决</h2><p>比较两个页面调用组件的父组件的代码，发现巡检报告页面监听了页面的滚动事件，而库表检查页面没有,于是注释了对应的代码，发现问题被解决了。</p>
+<pre><code class="TypeScript">  let setScroll = true;
+  useLayoutEffect(() =&gt; &#123;
+    const content = document.querySelector&lt;HTMLElement&gt;(&#39;.action-content&#39;);
+
+    if (setScroll &amp;&amp; content) &#123;
+      setScroll = false;
+      // 此处是问题产生的原因，增加防抖可解决问题
+      content.addEventListener(&#39;scroll&#39;,scrollChange);
+      // 修改后
+       content.addEventListener(&#39;scroll&#39;,lodash.debounce(scrollChange,100));
+    &#125;
+
+    return () =&gt; &#123;
+      if (content) &#123;
+        content.removeEventListener(&#39;scroll&#39;, scrollChange);
+      &#125;
+    &#125;;
+  &#125;);
+
+  const scrollChange = () =&gt; &#123;
+    const ball = document.querySelector&lt;HTMLSpanElement&gt;(
+      &#39;.ant-anchor-ink-ball&#39;
+    );
+
+    if (ball) &#123;
+      const top = Number.parseInt(ball.style.top || &#39;&#39;);
+      const wrapper = document.querySelector&lt;HTMLDivElement&gt;(
+        &#39;.ant-anchor-wrapper&#39;
+      );
+      const height = wrapper ? wrapper.clientHeight : 0;
+      if (wrapper) &#123;
+        if (top &gt; height) &#123;
+          wrapper.scrollTop = top - height + 100;
+        &#125; else if (top &lt; wrapper.scrollTop) &#123;
+          wrapper.scrollTop = top - 100;
+        &#125;
+      &#125;
+    &#125;
+  &#125;;
+</code></pre>
+<h2 id="猜想"><a href="#猜想" class="headerlink" title="猜想"></a>猜想</h2><p>子组件和父组件都监听了action-content容器的滚动事件，并且有不同的回调函数，同时执行会导致冲突，最终滚动的高度没有达到预期。使用debounce防抖，延迟执行，可以消除这一问题</p>
+<h2 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h2><ul>
+<li>debounce 防抖<blockquote>
+<ul>
+<li>_.debounce(func, [wait&#x3D;0], [options&#x3D;])</li>
+<li>在一段连续操作结束后，处理回调</li>
+<li>创建一个 debounced（防抖动）函数，该函数会从上一次被调用后，延迟 wait 毫秒后调用 func 方法</li>
+<li>如果 wait 为 0 并且 leading 为 false, func调用将被推迟到下一个点，类似setTimeout为0的超时</li>
+</ul>
+</blockquote>
+</li>
+<li>throttle 节流<blockquote>
+<ul>
+<li>_.throttle(func, [wait&#x3D;0], [options&#x3D;])</li>
+<li>创建一个节流函数，在 wait 秒内最多执行 func 一次的函数</li>
+<li>在一段连续操作中，每一段时间只执行一次</li>
+</ul>
+</blockquote>
+</li>
+<li>原生JS实现</li>
+</ul>
+<pre><code class="TypeScript">//防抖 debounce
+function debounce(fn, delay) &#123;
+    var timer; // 维护一个 timer
+    return function () &#123;
+        var _this = this; // 取debounce执行作用域的this
+        var args = arguments;
+        if (timer) &#123;
+            clearTimeout(timer);
+        &#125;
+        timer = setTimeout(function () &#123;
+            fn.apply(_this, args); // 用apply指向调用debounce的对象，相当于_this.fn(args);
+        &#125;, delay);
+    &#125;;
+&#125;
+//节流 throttle
+function throttle(fn, delay) &#123;
+    var timer;
+    return function () &#123;
+        var _this = this;
+        var args = arguments;
+        if (timer) &#123;
+            return;
+        &#125;
+        timer = setTimeout(function () &#123;
+            fn.apply(_this, args);
+            timer = null; // 在delay后执行完fn之后清空timer，此时timer为假，throttle触发可以进入计时器
+        &#125;, delay)
+    &#125;
+&#125;
+</code></pre>
+<h2 id="参考文章链接"><a href="#参考文章链接" class="headerlink" title="参考文章链接"></a>参考文章链接</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903669389885453">https://juejin.cn/post/6844903669389885453</a></li>
+<li><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000018445196">https://segmentfault.com/a/1190000018445196</a></li>
+</ol>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2022-09-23</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/%E7%BD%AE%E9%A1%B6%E5%8A%9F%E8%83%BD%E5%AE%9E%E7%8E%B0/'>
+                            置顶功能实现
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E5%B7%A5%E4%BD%9C/'>
+                            工作
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

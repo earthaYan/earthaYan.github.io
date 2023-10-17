@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="关于antv/g2的缺陷修复" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            关于antv/g2的缺陷修复
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%BC%BA%E9%99%B7%E9%93%BE%E6%8E%A5"><span class="post-toc-text">缺陷链接</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%97%AE%E9%A2%98%E5%A4%8D%E7%8E%B0%E5%92%8C%E8%A7%A3%E5%86%B3%E9%93%BE%E6%8E%A5"><span class="post-toc-text">问题复现和解决链接</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%97%AE%E9%A2%98%E5%A4%8D%E7%8E%B0%E6%88%AA%E5%9B%BE"><span class="post-toc-text">问题复现截图</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%AE%9A%E4%BD%8D%E9%97%AE%E9%A2%98"><span class="post-toc-text">定位问题</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%BF%AE%E5%A4%8D%E5%89%8D%E5%90%8E%E4%BB%A3%E7%A0%81%E5%AF%B9%E6%AF%94"><span class="post-toc-text">修复前后代码对比</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BD%BF%E7%94%A8antv-x2F-g2%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%9D%A1%E5%BD%A2%E5%9B%BE%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="post-toc-text">使用antv&#x2F;g2实现一个条形图的过程</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%81%97%E7%95%99%E9%97%AE%E9%A2%98"><span class="post-toc-text">遗留问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BF%AE%E5%A4%8D%E5%90%8E%E4%BD%BF%E7%94%A8target"><span class="post-toc-text">修复后使用target</span></a></li></ol></li></ol>
+        
+        <h2 id="缺陷链接"><a href="#缺陷链接" class="headerlink" title="缺陷链接"></a>缺陷链接</h2><p><a target="_blank" rel="noopener" href="http://10.186.18.11/jira/browse/DMP-13821">http://10.186.18.11/jira/browse/DMP-13821</a></p>
+<h2 id="问题复现和解决链接"><a href="#问题复现和解决链接" class="headerlink" title="问题复现和解决链接"></a>问题复现和解决链接</h2><p><a target="_blank" rel="noopener" href="https://codesandbox.io/s/tu-biao-xiu-fu-forked-1rqvwe?file=/src/index.data.ts">https://codesandbox.io/s/tu-biao-xiu-fu-forked-1rqvwe?file=/src/index.data.ts</a></p>
+<h2 id="问题复现截图"><a href="#问题复现截图" class="headerlink" title="问题复现截图"></a>问题复现截图</h2><img src="/2022/09/14/guan-yu-antv-g2-de-que-xian-xiu-fu/error.png" class="" title="测试提供截图">
+
+<h2 id="定位问题"><a href="#定位问题" class="headerlink" title="定位问题"></a>定位问题</h2><ol>
+<li>通过查看接口返回，发现接口返回数据是符合要求的，那么问题就是出在前端了</li>
+<li>查看相关代码，发现是使用antv&#x2F;g2的Chart实现的</li>
+<li>思考可能是传入数据的原因导致的：type轴值重复了</li>
+<li>有两种修复方法：<br>a. data里新增属性id，由type+device<br>b. 修改对应的type值，使它唯一，然后再通过formatter选项设置type轴的显示</li>
+<li>尝试了方法a，发现BarChart这个组件在多个父组件中被调用，如果使用该方案需要修改所有的父组件的data，所以最终选择方案2</li>
+</ol>
+<h2 id="修复前后代码对比"><a href="#修复前后代码对比" class="headerlink" title="修复前后代码对比"></a>修复前后代码对比</h2><img src="/2022/09/14/guan-yu-antv-g2-de-que-xian-xiu-fu/%E4%BF%AE%E5%A4%8D1.jpg" class="" title="BarChart组件">
+
+<img src="/2022/09/14/guan-yu-antv-g2-de-que-xian-xiu-fu/%E4%BF%AE%E5%A4%8D2.jpg" class="" title="调用BarChart的父组件">
+
+<h3 id="使用antv-x2F-g2实现一个条形图的过程"><a href="#使用antv-x2F-g2实现一个条形图的过程" class="headerlink" title="使用antv&#x2F;g2实现一个条形图的过程"></a>使用antv&#x2F;g2实现一个条形图的过程</h3><pre><code class="TypeScript">  // 初始化图表
+  const initChart = () =&gt; &#123;
+    chart.current = new Chart(&#123;
+      container: `$&#123;titleKey&#125;_chart`,
+      autoFit: true,
+      height: 295,
+      padding: [30, 50, 30, 200],
+    &#125;);
+  &#125;;
+</code></pre>
+<pre><code class="TypeScript">  // 绘制图表
+  const drawChart = (data: IChartData[]) =&gt; &#123;
+    chart.current?.data(data);
+    chart.current?.axis(&#39;type&#39;, &#123;
+      label: &#123;
+        autoEllipsis: true,
+        style: &#123;
+          fill: currentThemeData.chart.linkColor,
+          textAlign: &#39;left&#39;,
+          fontSize: 14,
+        &#125;,
+        offsetX: -180,
+        formatter: (val) =&gt; getIp(val),
+      &#125;,
+      tickLine: null,
+      line: null,
+      verticalLimitLength: 180,
+    &#125;);
+    chart.current?.axis(&#39;value&#39;, &#123;
+      grid: null,
+      label: null,
+    &#125;);
+    chart.current?.tooltip(false);
+    chart.current?.legend(false);
+    chart.current?.coordinate(&#39;rect&#39;).transpose();
+    if (percent) &#123;
+      chart.current
+        ?.interval()
+        .adjust(&#39;stack&#39;)
+        .position(&#39;type*value&#39;)
+        .color(&#39;barType*value&#39;, (barType: string, value: string[]) =&gt; &#123;
+          if (barType === barTypeEnum.background) &#123;
+            return &#39;#ebedf0&#39;;
+          &#125; else &#123;
+            return getTypeColor(Number(value[1]));
+          &#125;
+        &#125;)
+        .size(15)
+        .label(&#39;showValue*barType&#39;, (val, barType) =&gt; &#123;
+          if (barType === barTypeEnum.background) &#123;
+            return null;
+          &#125;
+          if (titleKey === &#39;disk_top10&#39;) &#123;
+            return &#123;
+              content: (data) =&gt; &#123;
+                let deviceStr = data.device;
+                if (deviceStr.length &gt; 20) &#123;
+                  deviceStr = data.device.substr(0, 20) + &#39;...&#39;;
+                &#125;
+                return `$&#123;Number(val) &gt; 20 ? val : &#39;&lt;20&#39;&#125;% $&#123;deviceStr ?? &#39;&#39;&#125;`;
+              &#125;,
+              offset: Number(val) &lt; 20 ? 2 : 10,
+              position: &#39;left&#39;,
+              style: &#123;
+                fill: &#39;#000&#39;,
+              &#125;,
+            &#125;;
+          &#125;
+          return &#123;
+            content: val + &#39;%&#39;,
+            style: &#123;
+              fill: Number(val) &lt; 20 ? &#39;#000&#39; : &#39;#fff&#39;,
+            &#125;,
+            position: &#39;left&#39;,
+          &#125;;
+        &#125;);
+    &#125; else &#123;
+      chart.current
+        ?.interval()
+        .position(&#39;type*value&#39;)
+        .size(15)
+        .color(barColor)
+        .label(&#39;value&#39;, &#123;
+          style: &#123;
+            fill: currentThemeData.chart.guideColor,
+          &#125;,
+          offset: 20,
+        &#125;);
+    &#125;
+  &#125;;
+</code></pre>
+<pre><code class="TypeScript">  // 渲染图表
+  React.useEffect(() =&gt; &#123;
+    initChart();
+    chart.current?.on(&#39;axis-label:click&#39;, jumpAction);
+    return () =&gt; &#123;
+      chart.current?.off(&#39;axis-label:click&#39;, jumpAction);
+    &#125;;
+  &#125;, []);
+  React.useEffect(() =&gt; &#123;
+    if (data?.length) &#123;
+      drawChart(data);
+      chart.current?.render();
+    &#125;
+    chart.current?.render(true);
+  &#125;, [data, currentThemeData]);
+</code></pre>
+<pre><code class="TypeScript">  // 监听重绘
+  React.useEffect(() =&gt; &#123;
+    const MutationObserver = window.MutationObserver;
+    let observer: MutationObserver;
+    const e = document.getElementById(`$&#123;titleKey&#125;`);
+    if (e) &#123;
+      observer = new MutationObserver(() =&gt; &#123;
+        chart.current?.forceFit();
+        chart.current?.render(true);
+        chart.current?.changeSize(e.scrollWidth, e.scrollHeight - 30);
+      &#125;);
+      observer.observe(e, &#123;
+        attributes: true,
+        attributeFilter: [&#39;style&#39;],
+        attributeOldValue: true,
+      &#125;);
+    &#125;
+    return () =&gt; &#123;
+      if (observer) &#123;
+        observer.disconnect();
+      &#125;
+    &#125;;
+  &#125;, []); 
+</code></pre>
+<h2 id="遗留问题"><a href="#遗留问题" class="headerlink" title="遗留问题"></a>遗留问题</h2><p>修复前getIp返回的是xxx.target,但是修复后只能通过xx.type去获取,原因不明</p>
+<h3 id="修复后使用target"><a href="#修复后使用target" class="headerlink" title="修复后使用target"></a>修复后使用target</h3><img src="/2022/09/14/guan-yu-antv-g2-de-que-xian-xiu-fu/%E4%BF%AE%E5%A4%8D%E5%90%8Etarget.jpg" class="" title="修复后使用target">
+<p>效果如下:</p>
+<img src="/2022/09/14/guan-yu-antv-g2-de-que-xian-xiu-fu/result.jpg" class="" title="修复后使用target效果图">
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2022-09-14</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/%E5%9B%BE%E8%A1%A8/'>
+                            图表
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E5%B7%A5%E4%BD%9C/'>
+                            工作
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

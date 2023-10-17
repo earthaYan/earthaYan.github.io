@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="11-go-api" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            11-go-api
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%B8%B8%E7%94%A8%E7%9A%84-API-%E9%A3%8E%E6%A0%BC"><span class="post-toc-text">常用的 API 风格</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#REST-API"><span class="post-toc-text">REST API</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%A7%84%E8%8C%83"><span class="post-toc-text">规范</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AE%89%E5%85%A8%E6%80%A7%E5%92%8C%E5%B9%82%E7%AD%89%E6%80%A7"><span class="post-toc-text">安全性和幂等性</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%89%B9%E9%87%8F%E5%88%A0%E9%99%A4"><span class="post-toc-text">批量删除</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86"><span class="post-toc-text">版本管理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#API-%E5%91%BD%E5%90%8D"><span class="post-toc-text">API 命名</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%BB%9F%E4%B8%80%E5%88%86%E9%A1%B5%EF%BC%8C%E6%8E%92%E5%BA%8F%EF%BC%8C%E8%BF%87%E6%BB%A4"><span class="post-toc-text">统一分页，排序，过滤</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#RPC-API"><span class="post-toc-text">RPC API</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%BF%87%E7%A8%8B"><span class="post-toc-text">过程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#gRPC"><span class="post-toc-text">gRPC</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Protocol-Buffers"><span class="post-toc-text">Protocol Buffers</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#gRPC-demo"><span class="post-toc-text">gRPC demo</span></a></li></ol></li></ol></li></ol>
+        
+        <h2 id="常用的-API-风格"><a href="#常用的-API-风格" class="headerlink" title="常用的 API 风格"></a>常用的 API 风格</h2><ol>
+<li>REST:表现层状态转移(REpresentational State Transfer)</li>
+<li>RPC</li>
+<li>GraphQL[不常用]<img src="/2022/10/18/11-go-api/http.webp" class=""></li>
+</ol>
+<h2 id="REST-API"><a href="#REST-API" class="headerlink" title="REST API"></a>REST API</h2><p>以资源 (resource) 为中心，所有的东西都抽象成资源</p>
+<ul>
+<li>资源<ul>
+<li>Collection:<br>一堆资源的集合,比如用户(User)的集合就是 Collection。<br>域名&#x2F;资源名复数:<code>https://xxx.com/users</code></li>
+<li>Member<br>单个特定资源<br>域名&#x2F;资源名复数&#x2F;资源名称:<code>https://xxx.com/users/admin</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="规范"><a href="#规范" class="headerlink" title="规范"></a>规范</h3><ol>
+<li>URI 结尾不应包含&#x2F;</li>
+<li>URI 中不能出现下划线 _，必须用中杠线 - 代替【不强制】</li>
+<li>路径用小写，不要用大写</li>
+<li>避免层级过深的 URI。超过 2 层的资源嵌套会很乱，建议将其他资源转化为?参数</li>
+<li>有些操作不能很好地映射为一个 REST 资源的时候,将一个操作变成资源的一个属性或者将操作当作是一个资源的嵌套资源</li>
+<li>返回格式统一【成功和失败】</li>
+</ol>
+<pre><code class="bash">/schools/tsinghua/classes/rooma/students/zhang # 不推荐
+/students?school=qinghua&amp;class=rooma # 推荐
+/users/zhangsan?active=false # 禁用某个用户
+PUT /gists/:id/star # github star action
+DELETE /gists/:id/star # github unstar action
+</code></pre>
+<h3 id="安全性和幂等性"><a href="#安全性和幂等性" class="headerlink" title="安全性和幂等性"></a>安全性和幂等性</h3><p>安全性：不会改变资源状态，可以理解为只读的。<br>幂等性：执行 1 次和执行 N 次，对资源状态改变的效果是等价的。</p>
+<img src="/2022/10/18/11-go-api/safe.webp" class="">
+
+<h3 id="批量删除"><a href="#批量删除" class="headerlink" title="批量删除"></a>批量删除</h3><p>HTTP 的 DELETE 方法不能携带多个资源名<br>解决方法：</p>
+<ol>
+<li>发起多个 DELETE 请求。</li>
+<li>操作路径中带多个 id，id 之间用分隔符分隔, 例如：DELETE &#x2F;users?ids&#x3D;1,2,3 。</li>
+<li>直接使用 POST 方式来批量删除，body 中传入需要删除的资源列表。</li>
+</ol>
+<h3 id="版本管理"><a href="#版本管理" class="headerlink" title="版本管理"></a>版本管理</h3><p>&#x2F;v1&#x2F;login</p>
+<h3 id="API-命名"><a href="#API-命名" class="headerlink" title="API 命名"></a>API 命名</h3><ul>
+<li>驼峰命名法 ：&#x2F;resetUserPasswd</li>
+<li>蛇形命名法 ：&#x2F;reset_user_passwd</li>
+<li>脊柱命名法 ：&#x2F;reset-user-passwd</li>
+</ul>
+<h3 id="统一分页，排序，过滤"><a href="#统一分页，排序，过滤" class="headerlink" title="统一分页，排序，过滤"></a>统一分页，排序，过滤</h3><p>资源的查询接口，通常情况下都需要实现分页、过滤、排序、搜索功能，因为这些功能是每个 REST 资源都能用到的，所以可以实现为一个公共的 API 组件</p>
+<ul>
+<li>分页：在列出一个 Collection 下所有的 Member 时，应该提供分页功能，例如&#x2F;users?offset&#x3D;0&amp;limit&#x3D;20（limit，指定返回记录的数量；offset，指定返回记录的开始位置）。</li>
+<li>过滤：如果用户不需要一个资源的全部状态属性，可以在 URI 参数里指定返回哪些属性，例如&#x2F;users?fields&#x3D;email,username,address。</li>
+<li>排序：用户很多时候会根据创建时间或者其他因素，列出一个 Collection 中前 100 个 Member，这时可以在 URI 参数中指明排序参数，例如&#x2F;users?sort&#x3D;age,desc。</li>
+<li>搜索：当一个资源的 Member 太多时，用户可能想通过搜索，快速找到所需要的 Member，或着想搜下有没有名字为 xxx 的某类资源，这时候就需要提供搜索功能。搜索建议按模糊匹配来搜索。</li>
+</ul>
+<hr>
+<h2 id="RPC-API"><a href="#RPC-API" class="headerlink" title="RPC API"></a>RPC API</h2><p>服务端实现了一个函数，客户端使用 RPC 框架提供的接口，像调用本地函数一样调用这个函数，并获取返回值。RPC 屏蔽了底层的网络通信细节，使得开发人员无需关注网络编程的细节，可以将更多的时间和精力放在业务逻辑本身的实现上，从而提高开发效率。</p>
+<img src="/2022/10/18/11-go-api/RPC.webp" class="">
+
+<h3 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h3><ol>
+<li>Client 通过本地调用，调用 Client Stub。</li>
+<li>Client Stub 将参数打包（也叫 Marshalling）成一个消息，然后发送这个消息。</li>
+<li>Client 所在的 OS 将消息发送给 Server。</li>
+<li>Server 端接收到消息后，将消息传递给 Server Stub。</li>
+<li>Server Stub 将消息解包（也叫 Unmarshalling）得到参数。</li>
+<li>Server Stub 调用服务端的子程序（函数），处理完后，将最终结果按照相反的步骤返回给 Client。</li>
+</ol>
+<h3 id="gRPC"><a href="#gRPC" class="headerlink" title="gRPC"></a>gRPC</h3><p>google Remote Procedure Call</p>
+<h4 id="Protocol-Buffers"><a href="#Protocol-Buffers" class="headerlink" title="Protocol Buffers"></a>Protocol Buffers</h4><p>对数据结构进行序列化的方法，可用作（数据）通信协议、数据存储格式等，也是一种更加灵活、高效的数据格式，与 XML、JSON 类似。它的传输性能非常好，所以常被用在一些对数据传输性能要求比较高的系统中，作为数据传输格式</p>
+<ol>
+<li>定义数据结构</li>
+</ol>
+<pre><code class="go">// 定义一个 SecretInfo 数据结构
+
+// SecretInfo contains secret details.
+message SecretInfo &#123;
+  string name = 1;
+  string secret_id  = 2;
+  string username   = 3;
+  string secret_key = 4;
+  int64 expires = 5;
+  string description = 6;
+  string created_at = 7;
+  string updated_at = 8;
+&#125;
+</code></pre>
+<ol start="2">
+<li>定义服务接口</li>
+</ol>
+<pre><code class="go">// Cache implements a cache rpc service.
+service Cache&#123;
+  rpc ListSecrets(ListSecretsRequest) returns (ListSecretsResponse) &#123;&#125;
+  rpc ListPolicies(ListPoliciesRequest) returns (ListPoliciesResponse) &#123;&#125;
+&#125;
+</code></pre>
+<ol start="3">
+<li>通过 protobuf 序列化和反序列化，提升传输效率</li>
+</ol>
+<h4 id="gRPC-demo"><a href="#gRPC-demo" class="headerlink" title="gRPC demo"></a>gRPC demo</h4><ul>
+<li>定义 gRPC 服务。</li>
+<li>生成客户端和服务器代码。</li>
+<li>实现 gRPC 服务。</li>
+<li>实现 gRPC 客户端。</li>
+</ul>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2022-10-18</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/GoLang/'>
+                            GoLang
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E5%90%8E%E7%AB%AF/'>
+                            后端
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

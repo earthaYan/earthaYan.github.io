@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="15-go-viper-cobra-pflag" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            15-go-viper-cobra-pflag
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E5%BA%94%E7%94%A8%E6%A1%86%E6%9E%B6"><span class="post-toc-text">如何构建应用框架</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90-pflag-%E5%8C%85"><span class="post-toc-text">命令行参数解析 pflag 包</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#flag-%E5%AE%9A%E4%B9%89"><span class="post-toc-text">flag 定义</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#FlagSet-%E5%AE%9A%E4%B9%89"><span class="post-toc-text">FlagSet 定义</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="post-toc-text">常用方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90-viper"><span class="post-toc-text">配置文件解析 viper</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%BC%98%E5%85%88%E7%BA%A7%E6%8E%92%E5%BA%8F"><span class="post-toc-text">优先级排序</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%AF%BB%E5%85%A5%E9%85%8D%E7%BD%AE%EF%BC%9A%E5%B0%86%E9%85%8D%E7%BD%AE%E8%AF%BB%E5%85%A5%E5%88%B0-Viper-%E4%B8%AD"><span class="post-toc-text">读入配置：将配置读入到 Viper 中</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%AF%BB%E5%8F%96%E9%85%8D%E7%BD%AE"><span class="post-toc-text">读取配置</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%BA%94%E7%94%A8%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%A1%86%E6%9E%B6-Cobra"><span class="post-toc-text">应用的命令行框架 Cobra</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%BA%94%E7%94%A8%E7%9A%84%E4%B8%89%E5%A4%A7%E5%9F%BA%E6%9C%AC%E5%8A%9F%E8%83%BD"><span class="post-toc-text">应用的三大基本功能</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B%E4%B8%80%E8%87%B4"><span class="post-toc-text">启动流程一致</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#iam-apiServer"><span class="post-toc-text">iam-apiServer</span></a></li></ol>
+        
+        <h2 id="如何构建应用框架"><a href="#如何构建应用框架" class="headerlink" title="如何构建应用框架"></a>如何构建应用框架</h2><h3 id="命令行参数解析-pflag-包"><a href="#命令行参数解析-pflag-包" class="headerlink" title="命令行参数解析 pflag 包"></a>命令行参数解析 pflag 包</h3><p>用来解析命令行参数【启动参数】，这些命令行参数可以影响命令的运行效果。</p>
+<h4 id="flag-定义"><a href="#flag-定义" class="headerlink" title="flag 定义"></a>flag 定义</h4><p>一个命令行参数在 Pflag 包中会解析为一个 Flag 类型的变量，即:</p>
+<pre><code class="go">
+type Flag struct &#123;
+    Name                string // flag长选项的名称
+    Shorthand           string // flag短选项的名称，一个缩写的字符
+    Usage               string // flag的使用文本
+    Value               Value  // flag的值
+    DefValue            string // flag的默认值
+    Changed             bool // 记录flag的值是否有被设置过
+    NoOptDefVal         string // 当flag出现在命令行，但是没有指定选项值时的默认值
+    Deprecated          string // 记录该flag是否被放弃
+    Hidden              bool // 如果值为true，则从help/usage输出信息中隐藏该flag
+    ShorthandDeprecated string // 如果flag的短选项被废弃，当使用flag的短选项时打印该信息
+    Annotations         map[string][]string // 给flag设置注解
+&#125;
+</code></pre>
+<p>Flag 的值是一个 Value 类型的接口，通过将 Flag 的值抽象成一个 interface 接口，可以自定义 Flag 的类型了,只要实现了 Value 接口的结构体，就是一个新类型</p>
+<pre><code class="go">
+type Value interface &#123;
+    String() string // 将flag类型的值转换为string类型的值，并返回string的内容
+    Set(string) error // 将string类型的值转换为flag类型的值，转换失败报错
+    Type() string // 返回flag的类型，例如：string、int、ip等
+&#125;
+</code></pre>
+<p>实际使用：</p>
+<pre><code class="go">package main
+
+import (
+    &quot;fmt&quot;
+)
+
+type Value interface &#123;
+    String() string // 将flag类型的值转换为string类型的值，并返回string的内容
+    Set(string) error // 将string类型的值转换为flag类型的值，转换失败报错
+    Type() string // 返回flag的类型，例如：string、int、ip等
+&#125;
+
+type Flag struct &#123;
+    Name                string // flag长选项的名称
+    Shorthand           string // flag短选项的名称，一个缩写的字符
+    Usage               string // flag的使用文本
+    Value               Value  // flag的值
+    DefValue            string // flag的默认值
+    Changed             bool // 记录flag的值是否有被设置过
+    NoOptDefVal         string // 当flag出现在命令行，但是没有指定选项值时的默认值
+    Deprecated          string // 记录该flag是否被放弃
+    Hidden              bool // 如果值为true，则从help/usage输出信息中隐藏该flag
+    ShorthandDeprecated string // 如果flag的短选项被废弃，当使用flag的短选项时打印该信息
+    Annotations         map[string][]string // 给flag设置注解
+&#125;
+
+func (flag1 Flag) String() &#123;
+    fmt.Println(&quot;将flag类型的值转换为string类型的值，并返回string的内容&quot;)
+&#125;
+
+type Flag2 struct &#123;
+  Value               Value  // flag的值
+&#125;
+
+func (flag2 Flag2) String() &#123;
+    fmt.Println(&quot;自定义flag类型&quot;)
+&#125;
+
+func main() &#123;
+    var val Value
+    flag1 = new(Flag)
+    flag1.String()
+    flag2 = new(Flag2)
+    flag2.String()
+&#125;
+</code></pre>
+<h4 id="FlagSet-定义"><a href="#FlagSet-定义" class="headerlink" title="FlagSet 定义"></a>FlagSet 定义</h4><p>预先定义好的 Flag 的集合<br>获取并使用 Flag 的方法：</p>
+<ol>
+<li>调用 NewFlagSet 创建一个 FlagSet,通过定义一个新的 FlagSet 来定义命令及其子命令的 Flag。</li>
+</ol>
+<pre><code class="go">var version bool
+flagSet:=pflag.NewFlagSet(&quot;test&quot;,pflag.ContinueOnError)
+flagSet.BoolVar(&amp;version,&quot;version&quot;,true,&quot;Print version information and quit.&quot;)
+</code></pre>
+<ol start="2">
+<li>使用 Pflag 包定义的全局 FlagSet：CommandLine。实际上 CommandLine 也是由 NewFlagSet 函数创建的<br>在一些不需要定义子命令的命令行工具中，我们可以直接使用全局的 FlagSet</li>
+</ol>
+<pre><code class="go">
+import (
+    &quot;github.com/spf13/pflag&quot;
+)
+
+pflag.BoolVarP(&amp;version, &quot;version&quot;, &quot;v&quot;, true, &quot;Print version information and quit.&quot;)
+func BoolVarP(p *bool, name, shorthand string, value bool, usage string) &#123;
+  flag := CommandLine.VarPF(newBoolValue(value, p), name, shorthand, usage)
+  flag.NoOptDefVal = &quot;true&quot;
+&#125;
+</code></pre>
+<h4 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h4><hr>
+<ol>
+<li>支持多种命令行参数定义方式</li>
+</ol>
+<ul>
+<li>支持长选项、默认值和使用文本，并将标志的值存储在指针中</li>
+</ul>
+<pre><code class="go">var name=pflag.String(&quot;name&quot;,&quot;colin&quot;,&quot;Input ur name&quot;)
+</code></pre>
+<ul>
+<li>支持长选项、短选项、默认值和使用文本，并将标志的值存储在指针中</li>
+</ul>
+<pre><code class="go">var name=pflag.StringP(&quot;name&quot;,&quot;n&quot;,&quot;colin&quot;,&quot;input ur name&quot;)
+</code></pre>
+<ul>
+<li>支持长选项、默认值和使用文本，并将标志的值绑定到变量</li>
+</ul>
+<pre><code class="go">var name string
+pflag.StringVar(&amp;name,&quot;name&quot;,&quot;colin&quot;,&quot;Input ur name&quot;)
+</code></pre>
+<ul>
+<li>支持长选项、短选项、默认值和使用文本，并将标志的值绑定到变量</li>
+</ul>
+<pre><code class="go">var name string
+pflag.StringVarP(&amp;name, &quot;name&quot;, &quot;n&quot;,&quot;colin&quot;, &quot;Input Your Name&quot;)
+</code></pre>
+<blockquote>
+<ol>
+<li>函数名带有 Var 说明是将标志的值绑定到变量，否则就是将标志的值存储在指针中</li>
+<li>函数名带 P 说明支持短选项，否则不支持短选项。</li>
+</ol>
+</blockquote>
+<hr>
+<ol start="2">
+<li>使用 Get<Type> 获取参数的值</li>
+</ol>
+<pre><code class="go">
+i, err := flagset.GetInt(&quot;flagname&quot;)
+</code></pre>
+<hr>
+<ol start="3">
+<li>获取非选项参数</li>
+</ol>
+<pre><code class="go">
+package main
+
+import (
+    &quot;fmt&quot;
+    &quot;github.com/spf13/pflag&quot;
+)
+// 定义标志
+var  flagvar = pflag.Int(&quot;flagname&quot;, 1234, &quot;help message for flagname&quot;)
+
+func main() &#123;
+    // 解析定义的标志
+    pflag.Parse()
+    // 返回无选项参数
+    fmt.Printf(&quot;argument number is: %v\n&quot;, pflag.NArg())
+    // 返回所有的非选项参数
+    fmt.Printf(&quot;argument list is: %v\n&quot;, pflag.Args())
+    //pflag.Arg(i) 返回第 i 个非选项参数
+    fmt.Printf(&quot;the first argument is: %v\n&quot;, pflag.Arg(0))
+&#125;
+// go run example1.go arg1 arg2
+// argument number is: 2
+// argument list is: [arg1 arg2]
+// the first argument is: arg1
+</code></pre>
+<hr>
+<ol start="4">
+<li>指定了选项但是没有指定选项值时的默认值</li>
+</ol>
+<pre><code class="go">// 定义标志
+var ip = pflag.IntP(&quot;flagname&quot;, &quot;f&quot;, 1234, &quot;help message&quot;)
+// 为ip这个flag设置NoOptDefVal,
+pflag.Lookup(&quot;flagname&quot;).NoOptDefVal = &quot;4321&quot;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>命令行参数</th>
+<th>解析结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>–flagname&#x3D;1357</td>
+<td>ip&#x3D;1357</td>
+</tr>
+<tr>
+<td>–flagname</td>
+<td>ip&#x3D;4321</td>
+</tr>
+<tr>
+<td></td>
+<td>ip&#x3D;1234</td>
+</tr>
+</tbody></table>
+<hr>
+<ol start="5">
+<li>弃用标志或者弃用标志的简写</li>
+</ol>
+<p>在帮助文本中会被隐藏，并在使用不推荐的标志或简写时打印正确的用法提示</p>
+<pre><code class="go">pflag.CommandLine.MarkDeprecated(&quot;logmode&quot;,&quot;please use --log-mode instead&quot;)
+//隐藏帮助文本中的logmode.当使用logmode的时候，打印出 Flag --logmode has been deprecated, please use --log-mode instead。
+</code></pre>
+<hr>
+<ol start="6">
+<li>只弃用简写形式</li>
+</ol>
+<pre><code class="go">pflag.IntVarP(&amp;port,&quot;port&quot;,&quot;p&quot;,3306,&quot;MySQL service host port.&quot;)
+// 弃用简写形式
+pflag.CommandLine.MarkShorthandDeprecated(&quot;port&quot;, &quot;please use --port only&quot;)
+
+// 这样隐藏了帮助文本中的简写 P，并且当使用简写 P 时，打印了Flag shorthand -P has been deprecated, please use --port only。usage message 在此处必不可少，并且不应为空。
+</code></pre>
+<hr>
+<ol start="7">
+<li>隐藏标志</li>
+</ol>
+<p>将 Flag 标记为隐藏，仍然可以正常运行，但不会显示在 usage&#x2F;help 中,只在内部使用</p>
+<pre><code class="go">// hide a flag by specifying its name
+pflag.CommandLine.MarkHidden(&quot;secretFlag&quot;)
+</code></pre>
+<hr>
+<h3 id="配置文件解析-viper"><a href="#配置文件解析-viper" class="headerlink" title="配置文件解析 viper"></a>配置文件解析 viper</h3><p>小型应用：配置项较少,可以通过命令行参数来传递配置<br>大型应用：配置项较多,通常具有很多参数，通过命令行参数传递不好维护。<br>解决方法：将这些配置信息保存在配置文件中，由程序启动时加载和解析<br>Viper 特点：<br>高优先级配置会覆盖低优先级相同配置</p>
+<h4 id="优先级排序"><a href="#优先级排序" class="headerlink" title="优先级排序"></a>优先级排序</h4><ol>
+<li>通过 viper.Set 函数显示设置的配置</li>
+<li>命令行参数</li>
+<li>环境变量</li>
+<li>配置文件</li>
+<li>Key&#x2F;Value 存储</li>
+<li>默认值</li>
+</ol>
+<h4 id="读入配置：将配置读入到-Viper-中"><a href="#读入配置：将配置读入到-Viper-中" class="headerlink" title="读入配置：将配置读入到 Viper 中"></a>读入配置：将配置读入到 Viper 中</h4><ol>
+<li>设置默认的配置文件名</li>
+</ol>
+<pre><code class="go">
+viper.SetDefault(&quot;ContentDir&quot;, &quot;content&quot;)
+viper.SetDefault(&quot;LayoutDir&quot;, &quot;layouts&quot;)
+viper.SetDefault(&quot;Taxonomies&quot;, map[string]string&#123;&quot;tag&quot;: &quot;tags&quot;, &quot;category&quot;: &quot;categories&quot;&#125;)
+</code></pre>
+<hr>
+<ol start="2">
+<li>读取配置文件</li>
+</ol>
+<p>支持 JSON、TOML、YAML、YML、Properties、Props、Prop、HCL、Dotenv、Env 格式的配置文件</p>
+<pre><code class="go">
+package main
+
+import (
+  &quot;fmt&quot;
+  &quot;github.com/spf13/pflag&quot;
+  &quot;github.com/spf13/viper&quot;
+)
+
+var (
+  cfg  = pflag.StringP(&quot;config&quot;, &quot;c&quot;, &quot;&quot;, &quot;Configuration file.&quot;)
+  help = pflag.BoolP(&quot;help&quot;, &quot;h&quot;, false, &quot;Show this help message.&quot;)
+)
+
+func main() &#123;
+  pflag.Parse()
+  if *help &#123;
+    pflag.Usage()
+    return
+  &#125;
+  // 从配置文件中读取配置
+  if *cfg != &quot;&quot; &#123;
+    viper.SetConfigFile(*cfg)   // 指定配置文件名
+    // 如果配置文件名中没有文件扩展名，则需要指定配置文件的格式，告诉viper以何种格式解析文件
+    viper.SetConfigType(&quot;yaml&quot;)
+  &#125; else &#123;
+    // 会根据添加的路径顺序搜索配置文件，如果找到则停止搜索
+    viper.AddConfigPath(&quot;.&quot;)          // 把当前目录加入到配置文件的搜索路径中
+    viper.AddConfigPath(&quot;$HOME/.iam&quot;) // 配置文件搜索路径，可以设置多个配置文件搜索路径
+    viper.SetConfigName(&quot;config&quot;)     // 配置文件名称（没有文件扩展名）
+  &#125;
+
+  if err := viper.ReadInConfig(); err != nil &#123;
+    // 读取配置文件。如果指定了配置文件名，则使用指定的配置文件，否则在注册的搜索路径中搜索
+    panic(fmt.Errorf(&quot;Fatal error config file: %s \n&quot;, err))
+  &#125;
+  fmt.Printf(&quot;Used configuration file is: %s\n&quot;, viper.ConfigFileUsed())
+&#125;
+</code></pre>
+<hr>
+<ol start="3">
+<li>监听和重新读取配置文件【不推荐】</li>
+</ol>
+<p>在运行的时候应用程序实时读取配置文件[热加载配置]。通过<code>WatchConfig</code>函数进行操作。<br>在操作之前需要确保已经添加了配置文件的搜索路径<br>可以为 Viper 提供一个回调函数，以便在每次发生更改时运行<br>不推荐使用原因：因为即使配置热加载了，程序中的代码也不一定会热加载。例如：修改了服务监听端口，但是服务没有重启，这时候服务还是监听在老的端口上，会造成不一致。</p>
+<pre><code class="go">viper.WatchConfig()
+viper.OnConfigChange(func(e fsnotify.Event) &#123;
+   // 配置文件发生变更之后会调用的回调函数
+  fmt.Println(&quot;Config file changed:&quot;, e.Name)
+&#125;)
+</code></pre>
+<hr>
+<ol start="4">
+<li>从 io.Reader 读取配置</li>
+</ol>
+<hr>
+<ol start="5">
+<li>从环境变量读取【区分大小写】<ul>
+<li>AutomaticEnv()</li>
+<li>BindEnv(input …string)</li>
+<li>errorSetEnvPrefix(in string)</li>
+<li>SetEnvKeyReplacer(r *strings.Replacer)</li>
+<li>AllowEmptyEnv(allowEmptyEnv bool)</li>
+</ul>
+</li>
+</ol>
+<hr>
+<ol start="6">
+<li>从命令行标志读取</li>
+</ol>
+<pre><code class="go">// 绑定单个标志
+viper.BindPFlag(&quot;token&quot;, pflag.Lookup(&quot;token&quot;))
+</code></pre>
+<hr>
+<ol start="7">
+<li>从远程 Key&#x2F;Value 存储读取</li>
+</ol>
+<hr>
+<h4 id="读取配置"><a href="#读取配置" class="headerlink" title="读取配置"></a>读取配置</h4><h3 id="应用的命令行框架-Cobra"><a href="#应用的命令行框架-Cobra" class="headerlink" title="应用的命令行框架 Cobra"></a>应用的命令行框架 Cobra</h3><ol>
+<li>命令需要具备 Help 功能，这样才能告诉使用者如何去使用</li>
+<li>命令需要能够解析命令行参数和配置文件</li>
+<li>命令需要能够初始化业务代码，并最终启动业务进程</li>
+</ol>
+<h2 id="应用的三大基本功能"><a href="#应用的三大基本功能" class="headerlink" title="应用的三大基本功能"></a>应用的三大基本功能</h2><ul>
+<li><p>API 服务：通过对外提供 HTTP&#x2F;RPC 接口来完成指定的功能。比如订单服务，通过调用创建订单的 API 接口，来创建商品订单。</p>
+</li>
+<li><p>非 API 服务：通过监听、定时运行等方式，而不是通过 API 调用来完成某些任务。比如数据处理服务，定时从 Redis 中获取数据，处理后存入后端存储中。再比如消息处理服务，监听消息队列（如 NSQ&#x2F;Kafka&#x2F;RabbitMQ），收到消息后进行处理。</p>
+</li>
+</ul>
+<h3 id="启动流程一致"><a href="#启动流程一致" class="headerlink" title="启动流程一致"></a>启动流程一致</h3><img src="/2022/11/22/15-go-viper-cobra-pflag/%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B.webp" class="" title="启动流程">
+
+<ol>
+<li>应用框架构建<br>a. 命令行程序<br>b. 命令行参数解析<br>c. 配置文件解析</li>
+<li>应用初始化</li>
+<li>服务启动<br>a. 创建 API 服务或非 API 服务<br>b. 启动服务</li>
+</ol>
+<blockquote>
+<p>应用框架构建和业务关系不大，可以抽象成统一的框架。<br>应用初始化和服务启动，与业务联系较密切，难以抽象称一个统一的框架</p>
+</blockquote>
+<h2 id="iam-apiServer"><a href="#iam-apiServer" class="headerlink" title="iam-apiServer"></a>iam-apiServer</h2>
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2022-11-22</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/GoLang/'>
+                            GoLang
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E5%90%8E%E7%AB%AF/'>
+                            后端
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

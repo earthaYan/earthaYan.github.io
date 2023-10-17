@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="session vs cookie" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            session vs cookie
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#cookie"><span class="post-toc-text">cookie</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%8E%9F%E7%90%86"><span class="post-toc-text">原理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%89%B9%E7%82%B9"><span class="post-toc-text">特点</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#go%E4%BD%BF%E7%94%A8"><span class="post-toc-text">go使用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%AE%BE%E7%BD%AEcookie"><span class="post-toc-text">设置cookie</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%AF%BB%E5%8F%96cookie"><span class="post-toc-text">读取cookie</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#session"><span class="post-toc-text">session</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%8E%9F%E7%90%86-1"><span class="post-toc-text">原理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link"><span class="post-toc-text"></span></a></li></ol></li></ol>
+        
+        <h2 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>在<font color=red>本地计算机【浏览器端】</font>保存用户操作的历史信息，如登录信息，并在用户再次访问该站点时浏览器通过HTTP协议将本地cookie内容发送给服务器，从而完成验证，或继续上一步操作。</p>
+<img src="/2023/01/13/session/6.1.cookie2.png" class="" title="cookie原理">
+<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><p>有时间限制，分为会话cookie和持久cookie</p>
+<ul>
+<li>会话cookie:<ol>
+<li>不设置过期时间，生命周期为从创建到浏览器关闭为止,一般不保存在硬盘上而是保存在内存里</li>
+<li>cookie是否可以在不同的浏览器进程间共享由不同浏览器决定</li>
+</ol>
+</li>
+<li>持久cookie:<ol>
+<li>设置过期时间,cookie保存到硬盘上，关闭后再次打开浏览器，这些cookie依然有效</li>
+<li>cookie可以在不同的浏览器进程间共享</li>
+</ol>
+</li>
+</ul>
+<h3 id="go使用"><a href="#go使用" class="headerlink" title="go使用"></a>go使用</h3><h4 id="设置cookie"><a href="#设置cookie" class="headerlink" title="设置cookie"></a>设置cookie</h4><p><code>http.setCookie(w ResponseWriter, cookie *Cookie)</code></p>
+<blockquote>
+<p>w表示需要写入的response，cookie是一个struct</p>
+</blockquote>
+<pre><code class="go">// cookie对象
+type Cookie struct &#123;
+    Name       string //常用
+    Value      string //常用，
+    Path       string
+    Domain     string
+    Expires    time.Time//常用
+    RawExpires string
+  // MaxAge=0 means no &#39;Max-Age&#39; attribute specified.
+  // MaxAge&lt;0 means delete cookie now, equivalently &#39;Max-Age: 0&#39;
+  // MaxAge&gt;0 means Max-Age attribute present and given in seconds
+    MaxAge   int
+    Secure   bool
+    HttpOnly bool
+    Raw      string
+    Unparsed []string // Raw text of unparsed attribute-value pairs
+&#125;
+</code></pre>
+<p>示例：</p>
+<pre><code class="go">expiration := time.Now()
+expiration = expiration.AddDate(1, 0, 0)
+cookie := http.Cookie&#123;Name: &quot;username&quot;, Value: &quot;astaxie&quot;, Expires: expiration&#125;
+http.SetCookie(w, &amp;cookie)
+</code></pre>
+<p><a target="_blank" rel="noopener" href="https://jiapan.me/2017/cookies-max-age-vs-expires/">maxAge和expires区别</a></p>
+<h4 id="读取cookie"><a href="#读取cookie" class="headerlink" title="读取cookie"></a>读取cookie</h4><p>通过request获取cookie：<code>cookie, _ := r.Cookie(&quot;username&quot;)</code></p>
+<hr>
+<h2 id="session"><a href="#session" class="headerlink" title="session"></a>session</h2><h3 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h3><p>在<font color=red>服务器</font>上保存用户操作的历史信息。服务器使用session id来标识session，session id由服务器负责产生，相当于一个唯一的随机密钥，避免在握手或传输中暴露用户真实密码。但该方式下，仍然需要将发送请求的客户端与session进行对应，所以可以借助cookie机制来获取客户端的标识（即session id），也可以通过GET方式将id提交给服务器。</p>
+
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><p>session通过cookie，在客户端保存session id</p>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2023-01-13</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/GoLang/'>
+                            GoLang
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E5%90%8E%E7%AB%AF/'>
+                            后端
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="yarn-install" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            yarn-install
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#yarn-install-%E6%8A%A5%E9%94%99%EF%BC%9A"><span class="post-toc-text">yarn install 报错：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#yarn-start-%E6%8A%A5%E9%94%99%EF%BC%9A"><span class="post-toc-text">yarn start 报错：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%85%A8%E5%B1%80%E5%AE%89%E8%A3%85-yarn"><span class="post-toc-text">全局安装 yarn</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#yarn-%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C"><span class="post-toc-text">yarn 常用操作</span></a></li></ol>
+        
+        <h2 id="yarn-install-报错："><a href="#yarn-install-报错：" class="headerlink" title="yarn install 报错："></a>yarn install 报错：</h2><blockquote>
+<p>Error: unable to verify the first certificate</p>
+</blockquote>
+<pre><code>  at TLSSocket.onConnectSecure (node:_tls_wrap:1539:34)
+  at TLSSocket.emit (node:events:513:28)
+  at TLSSocket._finishInit (node:_tls_wrap:953:8)
+  at TLSWrap.ssl.onhandshakedone (node:_tls_wrap:734:12)
+</code></pre>
+<p>解决方法：暂时关闭 ssl 验证 <code>yarn config set strict-ssl false</code></p>
+<h2 id="yarn-start-报错："><a href="#yarn-start-报错：" class="headerlink" title="yarn start 报错："></a>yarn start 报错：</h2><blockquote>
+<p>node:internal&#x2F;errors:478</p>
+</blockquote>
+<pre><code>ErrorCaptureStackTrace(err);
+^
+Error: ENOSPC: System limit for number of file watchers reached, watch &#39;/root/umc-ui&#39;
+</code></pre>
+<p>解决方法：</p>
+<pre><code class="go">echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf &amp;&amp; sudo sysctl -p
+cat /proc/sys/fs/inotify/max_user_watches //查看是否修改成功
+</code></pre>
+<h2 id="全局安装-yarn"><a href="#全局安装-yarn" class="headerlink" title="全局安装 yarn"></a>全局安装 yarn</h2><p>node -v</p>
+<ul>
+<li><blockquote>
+<p>16 执行<code>corepack enable</code></p>
+</blockquote>
+</li>
+<li>&lt;16 执行<code>npm i -g corepack</code></li>
+</ul>
+<h2 id="yarn-常用操作"><a href="#yarn-常用操作" class="headerlink" title="yarn 常用操作"></a>yarn 常用操作</h2><pre><code class="bash"># 初始化项目
+yarn init
+# 安装所有依赖
+yarn 
+yarn install
+# 添加单个依赖
+yarn add [package]
+yarn add [package]@[version]
+yarn add [package]@[tag]
+# 添加依赖到不同种类的依赖
+yarn add [package] --dev  # dev dependencies
+yarn add [package] --peer # peer dependencies
+# 升级单个依赖
+yarn up [package]
+yarn up [package]@[version]
+yarn up [package]@[tag]
+# 移除依赖
+yarn remove [package]
+# 升级yarn 本身
+yarn set version latest
+yarn set version from sources
+</code></pre>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2022-12-21</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/yarn/'>
+                            yarn
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E5%B7%A5%E4%BD%9C/'>
+                            工作
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

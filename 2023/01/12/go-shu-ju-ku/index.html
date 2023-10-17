@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="go-数据库" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            go-数据库
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#mysql"><span class="post-toc-text">mysql</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#sql-Open%E7%AC%AC%E4%BA%8C%E5%8F%82%E6%95%B0%E5%BD%A2%E5%BC%8F"><span class="post-toc-text">sql.Open第二参数形式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="post-toc-text">常用方法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%BF%85%E9%A1%BB%E5%BC%95%E5%85%A5%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%8C%85"><span class="post-toc-text">必须引入的两个包</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#SQLite"><span class="post-toc-text">SQLite</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%BF%85%E9%A1%BB%E5%AF%BC%E5%85%A5%E7%9A%84%E5%8C%85"><span class="post-toc-text">必须导入的包</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%92%8Cmysql%E5%8C%BA%E5%88%AB"><span class="post-toc-text">和mysql区别</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#PostgreSQL"><span class="post-toc-text">PostgreSQL</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%BF%85%E9%A1%BB%E5%AF%BC%E5%85%A5%E7%9A%84%E5%8C%85-1"><span class="post-toc-text">必须导入的包</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%92%8Cmysql%E5%8C%BA%E5%88%AB-1"><span class="post-toc-text">和mysql区别</span></a></li></ol></li></ol>
+        
+        <h2 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h2><pre><code class="go">package main
+
+import (
+    &quot;database/sql&quot;
+    &quot;fmt&quot;
+
+    _ &quot;github.com/go-sql-driver/mysql&quot;
+)
+
+func checkErr(err error) &#123;
+    if err != nil &#123;
+        panic(err)
+    &#125;
+&#125;
+func useMysql() &#123;
+    // 打开一个注册过的数据库驱动,第二个参数为data source name
+    db, err := sql.Open(&quot;mysql&quot;, &quot;root:123456@tcp(116.204.108.126:3306)/test?charset=utf8&quot;)
+    checkErr(err)
+    // 插入数据
+    // 返回准备要执行的sql操作，然后返回准备完毕的执行状态
+    stmt, err := db.Prepare(&quot;INSERT INTO userinfo SET username=?,department=?,created=?&quot;)
+    checkErr(err)
+    // 执行stmt准备好的SQL语句
+    // 传入的参数都是=?对应的数据
+    res, err := stmt.Exec(&quot;amy&quot;, &quot;研发部门&quot;, &quot;2012-12-09&quot;)
+    checkErr(err)
+    id, err := res.LastInsertId()
+    checkErr(err)
+    fmt.Println(id)
+    // 修改数据
+    stmt, err = db.Prepare(&quot;update userinfo set username=? where uid=?&quot;)
+    checkErr(err)
+    res, err = stmt.Exec(&quot;astaxieupdate&quot;, id)
+    checkErr(err)
+    affect, err := res.RowsAffected()
+    checkErr(err)
+    fmt.Println(affect)
+    // 查询数据
+    // 直接执行Sql返回Rows结果
+    rows, err := db.Query(&quot;SELECT * FROM userinfo&quot;)
+    checkErr(err)
+    for rows.Next() &#123;
+        var uid int
+        var username string
+        var department string
+        var created string
+        err = rows.Scan(&amp;uid, &amp;username, &amp;department, &amp;created)
+        checkErr(err)
+        fmt.Println(uid)
+        fmt.Println(username)
+        fmt.Println(department)
+        fmt.Println(created) 
+    &#125;
+    // 删除数据
+    stmt, err = db.Prepare(&quot;delete from userinfo where uid=?&quot;)
+    checkErr(err)
+    res, err = stmt.Exec(id)
+    checkErr(err)
+    affect, err = res.RowsAffected()
+    checkErr(err)
+    fmt.Println(affect)
+    db.Close() //关闭数据库连接
+&#125;
+</code></pre>
+<h3 id="sql-Open第二参数形式"><a href="#sql-Open第二参数形式" class="headerlink" title="sql.Open第二参数形式"></a>sql.Open第二参数形式</h3><pre><code class="bash">user@unix(/path/to/socket)/dbname?charset=utf8
+user:password@tcp(localhost:5555)/dbname?charset=utf8
+user:password@/dbname
+user:password@tcp([de:ad:be:ef::ca:fe]:80)/dbname
+</code></pre>
+<h3 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h3><ul>
+<li>sql.Open()：打开一个注册过的数据库驱动</li>
+<li>db.Prepare()：返回准备要执行的sql操作，然后返回准备完毕的执行状态</li>
+<li>db.Query()：用来直接执行Sql返回Rows结果</li>
+<li>stmt.Exec()：用来执行stmt准备好的SQL语句</li>
+</ul>
+<blockquote>
+<p>传入的参数都是&#x3D;?对应的数据，可以一定程度上防止SQL注入</p>
+</blockquote>
+<h4 id="必须引入的两个包"><a href="#必须引入的两个包" class="headerlink" title="必须引入的两个包"></a>必须引入的两个包</h4><ol>
+<li><pre><code>&quot;database/sql&quot;
+</code></pre>
+</li>
+<li>_ “github.com&#x2F;go-sql-driver&#x2F;mysql” &#x2F;&#x2F;驱动</li>
+</ol>
+<h2 id="SQLite"><a href="#SQLite" class="headerlink" title="SQLite"></a>SQLite</h2><h3 id="必须导入的包"><a href="#必须导入的包" class="headerlink" title="必须导入的包"></a>必须导入的包</h3><ul>
+<li>“database&#x2F;sql”</li>
+<li>_ “github.com&#x2F;mattn&#x2F;go-sqlite3” &#x2F;&#x2F;驱动</li>
+</ul>
+<h3 id="和mysql区别"><a href="#和mysql区别" class="headerlink" title="和mysql区别"></a>和mysql区别</h3><p>导入驱动：<code>db, err := sql.Open(&quot;sqlite3&quot;, &quot;./foo.db&quot;)</code></p>
+<h2 id="PostgreSQL"><a href="#PostgreSQL" class="headerlink" title="PostgreSQL"></a>PostgreSQL</h2><h3 id="必须导入的包-1"><a href="#必须导入的包-1" class="headerlink" title="必须导入的包"></a>必须导入的包</h3><ul>
+<li>“database&#x2F;sql”</li>
+<li>_ “github.com&#x2F;lib&#x2F;pq” &#x2F;&#x2F;驱动</li>
+</ul>
+<h3 id="和mysql区别-1"><a href="#和mysql区别-1" class="headerlink" title="和mysql区别"></a>和mysql区别</h3><ol>
+<li>PostgreSQL是通过$1,$2这种方式来指定要传递的参数，而不是MySQL中的?</li>
+<li>sql.Open中的dsn信息的格式也与MySQL的驱动中的dsn格式不一样</li>
+</ol>
+<pre><code class="go">func usePostgreSQL() &#123;
+    connStr := &quot;postgres://postgres:123456@116.204.108.126:3306/test?sslmode=disable&quot;
+    db, err := sql.Open(&quot;postgres&quot;, connStr)
+    checkErr(err)
+    // 插入数据
+    stmt, err := db.Prepare(&quot;INSERT INTO userinfo(username,department,created) VALUES($1,$2,$3) RETURNING uid&quot;)
+    checkErr(err)
+    res, err := stmt.Exec(&quot;astaxie&quot;, &quot;研发部门&quot;, &quot;2012-12-09&quot;)
+    checkErr(err)
+    var lastInsertId int
+    err = db.QueryRow(&quot;INSERT INTO userinfo(username,department,created) VALUES($1,$2,$3) returning uid;&quot;, &quot;astaxie&quot;, &quot;研发部门&quot;, &quot;2012-12-09&quot;).Scan(&amp;lastInsertId)
+    checkErr(err)
+    fmt.Println(&quot;最后插入id =&quot;, lastInsertId, res)
+    // 修改数据
+    stmt, err = db.Prepare(&quot;update userinfo set username=$1 where uid=$2&quot;)
+    checkErr(err)
+    res, err = stmt.Exec(&quot;astaxieupdate&quot;, lastInsertId)
+    checkErr(err)
+    affect, err := res.RowsAffected()
+    checkErr(err)
+    fmt.Println(affect)
+
+    // 查看数据
+    rows, err := db.Query(&quot;SELECT * FROM userinfo&quot;)
+    checkErr(err)
+    for rows.Next() &#123;
+        var uid int
+        var username string
+        var department string
+        var created string
+        err = rows.Scan(&amp;uid, &amp;username, &amp;department, &amp;created)
+        checkErr(err)
+        fmt.Println(uid)
+        fmt.Println(username)
+        fmt.Println(department)
+        fmt.Println(created)
+    &#125;
+    // 删除数据
+    stmt, err = db.Prepare(&quot;delete from userinfo where uid=$1&quot;)
+    checkErr(err)
+    res, err = stmt.Exec(lastInsertId)
+    checkErr(err)
+    affect, err = res.RowsAffected()
+    checkErr(err)
+    fmt.Println(affect)
+    db.Close()
+&#125;
+</code></pre>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2023-01-12</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/GoLang/'>
+                            GoLang
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E5%90%8E%E7%AB%AF/'>
+                            后端
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

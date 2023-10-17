@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="如何生成swagger-api文档" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            如何生成swagger-api文档
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%9C%A8makefile%E4%B8%AD%E6%8F%90%E4%BE%9B%E7%94%9F%E6%88%90%E5%91%BD%E4%BB%A4"><span class="post-toc-text">在makefile中提供生成命令</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#apiserver-go"><span class="post-toc-text">apiserver.go</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#controller-x2F-accounts-go"><span class="post-toc-text">controller&#x2F;accounts.go</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E8%AE%BF%E9%97%AE"><span class="post-toc-text">浏览器中访问</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%8A%A5%E9%94%99"><span class="post-toc-text">报错</span></a>
+        
+        <p>使用依赖库：<a target="_blank" rel="noopener" href="https://github.com/swaggo/swag">https://github.com/swaggo/swag</a></p>
+<h3 id="在makefile中提供生成命令"><a href="#在makefile中提供生成命令" class="headerlink" title="在makefile中提供生成命令"></a>在makefile中提供生成命令</h3><pre><code>##	genSwaggerDoc: generate swagger docs by swaggo/swag
+.PHONY: genSwaggerDoc
+genSwaggerDoc:
+    swag init -g ./cmd/notepad-apiserver/apiserver.go
+</code></pre>
+<h3 id="apiserver-go"><a href="#apiserver-go" class="headerlink" title="apiserver.go"></a>apiserver.go</h3><pre><code class="go">package main
+
+import (
+    _ &quot;github.com/earthaYan/notePad/docs&quot;
+    &quot;github.com/gin-gonic/gin&quot;
+    swaggerFiles &quot;github.com/swaggo/files&quot;
+    ginSwagger &quot;github.com/swaggo/gin-swagger&quot;
+)
+
+// @title	notepad api
+// @version	1.0
+// @description	This is a sample server celler server.
+// @host	116.204.108.126:8080
+// @BasePath	/v1
+// @securityDefinitions.basic  BasicAuth
+func main() &#123;
+    r := gin.Default()
+    c := controller.NewController()
+    v1 := r.Group(&quot;v1&quot;)
+    &#123;
+        accounts := v1.Group(&quot;/accounts&quot;)
+        &#123;
+            accounts.GET(&quot;:id&quot;, c.ShowAccount)
+            accounts.GET(&quot;&quot;, c.ListAccounts)
+            accounts.POST(&quot;&quot;, c.AddAccount)
+            accounts.DELETE(&quot;:id&quot;, c.DeleteAccount)
+            accounts.PATCH(&quot;:id&quot;, c.UpdateAccount)
+            accounts.POST(&quot;:id/images&quot;, c.UploadAccountImage)
+        &#125;
+        r.GET(&quot;/swagger/*any&quot;, ginSwagger.WrapHandler(swaggerFiles.Handler))
+        r.Run(&quot;:8080&quot;)
+    &#125;
+    log.Println(&quot;start http server&quot;)
+    log.Fatal(http.ListenAndServe(&quot;:50052&quot;, nil))
+&#125;
+</code></pre>
+<h3 id="controller-x2F-accounts-go"><a href="#controller-x2F-accounts-go" class="headerlink" title="controller&#x2F;accounts.go"></a>controller&#x2F;accounts.go</h3><pre><code class="go">package controller
+
+import (
+    &quot;fmt&quot;
+    &quot;net/http&quot;
+    &quot;strconv&quot;
+
+    &quot;github.com/gin-gonic/gin&quot;
+    &quot;github.com/swaggo/swag/example/celler/httputil&quot;
+    &quot;github.com/swaggo/swag/example/celler/model&quot;
+)
+
+// ShowAccount godoc
+//
+//	@Summary		Show an account
+//	@Description	get string by ID
+//	@Tags			accounts
+//	@Accept			json
+//	@Produce		json
+//	@Param			id	path		int	true	&quot;Account ID&quot;
+//	@Success		200	&#123;object&#125;	model.Account
+//	@Failure		400	&#123;object&#125;	httputil.HTTPError
+//	@Failure		404	&#123;object&#125;	httputil.HTTPError
+//	@Failure		500	&#123;object&#125;	httputil.HTTPError
+//	@Router			/accounts/&#123;id&#125; [get]
+func (c *Controller) ShowAccount(ctx *gin.Context) &#123;
+    id := ctx.Param(&quot;id&quot;)
+    aid, err := strconv.Atoi(id)
+    if err != nil &#123;
+        httputil.NewError(ctx, http.StatusBadRequest, err)
+        return
+    &#125;
+    account, err := model.AccountOne(aid)
+    if err != nil &#123;
+        httputil.NewError(ctx, http.StatusNotFound, err)
+        return
+    &#125;
+    ctx.JSON(http.StatusOK, account)
+&#125;
+
+// ListAccounts godoc
+//
+//	@Summary		List accounts
+//	@Description	get accounts
+//	@Tags			accounts
+//	@Accept			json
+//	@Produce		json
+//	@Param			q	query		string	false	&quot;name search by q&quot;	Format(email)
+//	@Success		200	&#123;array&#125;		model.Account
+//	@Failure		400	&#123;object&#125;	httputil.HTTPError
+//	@Failure		404	&#123;object&#125;	httputil.HTTPError
+//	@Failure		500	&#123;object&#125;	httputil.HTTPError
+//	@Router			/accounts [get]
+func (c *Controller) ListAccounts(ctx *gin.Context) &#123;
+    q := ctx.Request.URL.Query().Get(&quot;q&quot;)
+    accounts, err := model.AccountsAll(q)
+    if err != nil &#123;
+        httputil.NewError(ctx, http.StatusNotFound, err)
+        return
+    &#125;
+    ctx.JSON(http.StatusOK, accounts)
+&#125;
+
+// AddAccount godoc
+//
+//	@Summary		Add an account
+//	@Description	add by json account
+//	@Tags			accounts
+//	@Accept			json
+//	@Produce		json
+//	@Param			account	body		model.AddAccount	true	&quot;Add account&quot;
+//	@Success		200		&#123;object&#125;	model.Account
+//	@Failure		400		&#123;object&#125;	httputil.HTTPError
+//	@Failure		404		&#123;object&#125;	httputil.HTTPError
+//	@Failure		500		&#123;object&#125;	httputil.HTTPError
+//	@Router			/accounts [post]
+func (c *Controller) AddAccount(ctx *gin.Context) &#123;
+    var addAccount model.AddAccount
+    if err := ctx.ShouldBindJSON(&amp;addAccount); err != nil &#123;
+        httputil.NewError(ctx, http.StatusBadRequest, err)
+        return
+    &#125;
+    if err := addAccount.Validation(); err != nil &#123;
+        httputil.NewError(ctx, http.StatusBadRequest, err)
+        return
+    &#125;
+    account := model.Account&#123;
+        Name: addAccount.Name,
+    &#125;
+    lastID, err := account.Insert()
+    if err != nil &#123;
+        httputil.NewError(ctx, http.StatusBadRequest, err)
+        return
+    &#125;
+    account.ID = lastID
+    ctx.JSON(http.StatusOK, account)
+&#125;
+
+// UpdateAccount godoc
+//
+//	@Summary		Update an account
+//	@Description	Update by json account
+//	@Tags			accounts
+//	@Accept			json
+//	@Produce		json
+//	@Param			id		path		int					true	&quot;Account ID&quot;
+//	@Param			account	body		model.UpdateAccount	true	&quot;Update account&quot;
+//	@Success		200		&#123;object&#125;	model.Account
+//	@Failure		400		&#123;object&#125;	httputil.HTTPError
+//	@Failure		404		&#123;object&#125;	httputil.HTTPError
+//	@Failure		500		&#123;object&#125;	httputil.HTTPError
+//	@Router			/accounts/&#123;id&#125; [patch]
+func (c *Controller) UpdateAccount(ctx *gin.Context) &#123;
+    id := ctx.Param(&quot;id&quot;)
+    aid, err := strconv.Atoi(id)
+    if err != nil &#123;
+        httputil.NewError(ctx, http.StatusBadRequest, err)
+        return
+    &#125;
+    var updateAccount model.UpdateAccount
+    if err := ctx.ShouldBindJSON(&amp;updateAccount); err != nil &#123;
+        httputil.NewError(ctx, http.StatusBadRequest, err)
+        return
+    &#125;
+    account := model.Account&#123;
+        ID:   aid,
+        Name: updateAccount.Name,
+    &#125;
+    err = account.Update()
+    if err != nil &#123;
+        httputil.NewError(ctx, http.StatusNotFound, err)
+        return
+    &#125;
+    ctx.JSON(http.StatusOK, account)
+&#125;
+
+// DeleteAccount godoc
+//
+//	@Summary		Delete an account
+//	@Description	Delete by account ID
+//	@Tags			accounts
+//	@Accept			json
+//	@Produce		json
+//	@Param			id	path		int	true	&quot;Account ID&quot;	Format(int64)
+//	@Success		204	&#123;object&#125;	model.Account
+//	@Failure		400	&#123;object&#125;	httputil.HTTPError
+//	@Failure		404	&#123;object&#125;	httputil.HTTPError
+//	@Failure		500	&#123;object&#125;	httputil.HTTPError
+//	@Router			/accounts/&#123;id&#125; [delete]
+func (c *Controller) DeleteAccount(ctx *gin.Context) &#123;
+    id := ctx.Param(&quot;id&quot;)
+    aid, err := strconv.Atoi(id)
+    if err != nil &#123;
+        httputil.NewError(ctx, http.StatusBadRequest, err)
+        return
+    &#125;
+    err = model.Delete(aid)
+    if err != nil &#123;
+        httputil.NewError(ctx, http.StatusNotFound, err)
+        return
+    &#125;
+    ctx.JSON(http.StatusNoContent, gin.H&#123;&#125;)
+&#125;
+
+// UploadAccountImage godoc
+//
+//	@Summary		Upload account image
+//	@Description	Upload file
+//	@Tags			accounts
+//	@Accept			multipart/form-data
+//	@Produce		json
+//	@Param			id		path		int		true	&quot;Account ID&quot;
+//	@Param			file	formData	file	true	&quot;account image&quot;
+//	@Success		200		&#123;object&#125;	controller.Message
+//	@Failure		400		&#123;object&#125;	httputil.HTTPError
+//	@Failure		404		&#123;object&#125;	httputil.HTTPError
+//	@Failure		500		&#123;object&#125;	httputil.HTTPError
+//	@Router			/accounts/&#123;id&#125;/images [post]
+func (c *Controller) UploadAccountImage(ctx *gin.Context) &#123;
+    id, err := strconv.Atoi(ctx.Param(&quot;id&quot;))
+    if err != nil &#123;
+        httputil.NewError(ctx, http.StatusBadRequest, err)
+        return
+    &#125;
+    file, err := ctx.FormFile(&quot;file&quot;)
+    if err != nil &#123;
+        httputil.NewError(ctx, http.StatusBadRequest, err)
+        return
+    &#125;
+    ctx.JSON(http.StatusOK, Message&#123;Message: fmt.Sprintf(&quot;upload complete userID=%d filename=%s&quot;, id, file.Filename)&#125;)
+&#125;
+</code></pre>
+<h3 id="浏览器中访问"><a href="#浏览器中访问" class="headerlink" title="浏览器中访问"></a>浏览器中访问</h3><p><a target="_blank" rel="noopener" href="http://116.204.108.126:8080/swagger/index.html">http://116.204.108.126:8080/swagger/index.html</a></p>
+<h2 id="报错"><a href="#报错" class="headerlink" title="报错"></a>报错</h2><blockquote>
+<p>golang swagger internal server error doc.json<br>解决方法：<br>在main.go 中导入docs.go </p>
+</blockquote>
+<pre><code class="go">import (
+  _ &quot;github.com/earthaYan/notePad/docs&quot;
+)
+</code></pre>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2023-02-02</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/GoLang/'>
+                            GoLang
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E5%90%8E%E7%AB%AF/'>
+                            后端
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

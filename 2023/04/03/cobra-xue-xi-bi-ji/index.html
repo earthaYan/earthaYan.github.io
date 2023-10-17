@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="cobra学习笔记" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            cobra学习笔记
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%AE%89%E8%A3%85%E5%92%8C%E5%AF%BC%E5%85%A5"><span class="post-toc-text">安装和导入</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5"><span class="post-toc-text">基础概念</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Command"><span class="post-toc-text">Command</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Arg"><span class="post-toc-text">Arg</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Flags"><span class="post-toc-text">Flags</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%81%B5%E5%BE%AA%E7%9A%84%E6%A8%A1%E5%BC%8F%EF%BC%9A"><span class="post-toc-text">遵循的模式：</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%B8%BE%E4%BE%8B"><span class="post-toc-text">举例</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#flag%E5%92%8Carg%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="post-toc-text">flag和arg的区别</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Command-1"><span class="post-toc-text">Command</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Hidden"><span class="post-toc-text">Hidden</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#TraverseChildren"><span class="post-toc-text">TraverseChildren</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#CompletionOptions"><span class="post-toc-text">CompletionOptions</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#FParseErrWhitelist"><span class="post-toc-text">FParseErrWhitelist</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Run%E7%9B%B8%E5%85%B3%E5%87%BD%E6%95%B0"><span class="post-toc-text">Run相关函数</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#PersistentPostRun"><span class="post-toc-text">PersistentPostRun</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#PostRun"><span class="post-toc-text">PostRun</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Run"><span class="post-toc-text">Run</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#PreRun"><span class="post-toc-text">PreRun</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#PersistentPreRun"><span class="post-toc-text">PersistentPreRun</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#PersistentPreRunE"><span class="post-toc-text">PersistentPreRunE</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Annotations"><span class="post-toc-text">Annotations</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Version"><span class="post-toc-text">Version</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Deprecated"><span class="post-toc-text">Deprecated</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#BashCompletionFunction"><span class="post-toc-text">BashCompletionFunction</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ArgAliases"><span class="post-toc-text">ArgAliases</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Args"><span class="post-toc-text">Args</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ValidArgsFunction"><span class="post-toc-text">ValidArgsFunction</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ValidArgs"><span class="post-toc-text">ValidArgs</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Example"><span class="post-toc-text">Example</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#GroupID"><span class="post-toc-text">GroupID</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%BD%9C%E7%94%A8"><span class="post-toc-text">作用</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Use"><span class="post-toc-text">Use</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%BD%9C%E7%94%A8-1"><span class="post-toc-text">作用</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%AF%AD%E6%B3%95"><span class="post-toc-text">语法</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Aliases"><span class="post-toc-text">Aliases</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%BD%9C%E7%94%A8-2"><span class="post-toc-text">作用</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#SuggestFor"><span class="post-toc-text">SuggestFor</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Short"><span class="post-toc-text">Short</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%98%BE%E7%A4%BA%E6%9D%A1%E4%BB%B6"><span class="post-toc-text">显示条件</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Long"><span class="post-toc-text">Long</span></a></li></ol></li></ol>
+        
+        <p>cobra本质：Go的CLI（命令行界面）框架<br>cobra作用：</p>
+<ul>
+<li>包含创建现代化CLI应用的库</li>
+<li>包含一个用于快速生成基于Cobra的应用和命令文件的工具</li>
+</ul>
+<h2 id="安装和导入"><a href="#安装和导入" class="headerlink" title="安装和导入"></a>安装和导入</h2><pre><code class="bash">go get -u github.com/spf13/cobra@latest
+import &quot;github.com/spf13/cobra&quot;
+</code></pre>
+<h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><h3 id="Command"><a href="#Command" class="headerlink" title="Command"></a>Command</h3><ul>
+<li>命令，表示一个行为或者动作，比如<code>serve</code>,<code>add</code>,<code>version</code></li>
+<li>一个命令可以有多个子命令</li>
+</ul>
+<h3 id="Arg"><a href="#Arg" class="headerlink" title="Arg"></a>Arg</h3><ul>
+<li>参数，代表某个对象或事物</li>
+<li>通常位于命令之后，比如<code>serve web</code> 中的 <code>web</code></li>
+</ul>
+<h3 id="Flags"><a href="#Flags" class="headerlink" title="Flags"></a>Flags</h3><ul>
+<li>标记，用于修饰或者配置命令的行为，以<code>--</code>或者<code>-</code>开头</li>
+<li>比如 <code>--port</code>或者<code>-p</code></li>
+</ul>
+<h2 id="遵循的模式："><a href="#遵循的模式：" class="headerlink" title="遵循的模式："></a>遵循的模式：</h2><ol>
+<li><code>APPNAME VERB NOUN --ADJECTIVE</code><br>git(APPNAME) add(VERB) file(NOUN)</li>
+<li><code>APPNAME COMMAND ARG --FLAG</code><br>git(APPNAME) commit(COMMAND) docs&#x2F;README.md(ARG) -m(FLAG)</li>
+</ol>
+<h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><p><code>hugo serve -p 8080 --baseURL https://example.com </code></p>
+<ul>
+<li>command: serve,表示启动hugo的服务器</li>
+<li>flag：<code>-p</code>,<code>--baseUrl</code>,用于设置端口和baseUrl</li>
+<li>arg：无</li>
+</ul>
+<p><code>git add . </code></p>
+<ul>
+<li>command: add,表示git添加文件</li>
+<li>flag：无</li>
+<li>arg：<code>.</code>，代表当前目录<br><code>git commit -m &quot;Update README&quot;</code></li>
+<li>command: commit,表示git提交文件</li>
+<li>flag：<code>-m</code>,设置提交信息</li>
+<li>arg：无</li>
+</ul>
+<h3 id="flag和arg的区别"><a href="#flag和arg的区别" class="headerlink" title="flag和arg的区别"></a>flag和arg的区别</h3><ol>
+<li>arg代表 必选参数，flag代表可选参数</li>
+<li>arg如果缺少则command会报错，flag缺少不会报错，而是会使用默认值</li>
+</ol>
+<h2 id="Command-1"><a href="#Command-1" class="headerlink" title="Command"></a>Command</h2><p>类型定义</p>
+<pre><code class="go">type Command struct&#123;
+    Use string
+    Aliases []string
+    SuggestFor []string
+    Short string
+    GroupID string
+    Example  string
+    ValidArgs []string
+    ValidArgsFunction func(cmd *Command, args []string, toComplete string) ([]string, ShellCompDirective)
+    Args PositionalArgs
+    ArgAliases []string
+    BashCompletionFunction string
+    Deprecated string
+    Annotations map[string]string
+    Version string
+    PersistentPreRun func(cmd *Command, args []string)
+    PersistentPreRunE func(cmd *Command, args []string) error
+    PreRun func(cmd *Command, args []string)
+    PreRunE func(cmd *Command, args []string) error
+    Run func(cmd *Command, args []string)
+    RunE func(cmd *Command, args []string) error
+    PostRun func(cmd *Command, args []string)
+    PostRunE func(cmd *Command, args []string) error
+    PersistentPostRun func(cmd *Command, args []string)
+    PersistentPostRunE func(cmd *Command, args []string) error
+    FParseErrWhitelist FParseErrWhitelist
+    CompletionOptions CompletionOptions
+    TraverseChildren bool
+    Hidden bool
+    SilenceErrors bool
+    SilenceUsage bool
+    DisableFlagParsing bool
+    DisableAutoGenTag bool
+    DisableFlagsInUseLine bool
+    DisableSuggestions bool
+    SuggestionsMinimumDistance int
+&#125;
+</code></pre>
+<h3 id="Hidden"><a href="#Hidden" class="headerlink" title="Hidden"></a>Hidden</h3><p>定义该命令不应该出现在可获得命令列表中的</p>
+<h3 id="TraverseChildren"><a href="#TraverseChildren" class="headerlink" title="TraverseChildren"></a>TraverseChildren</h3><p>定义当用户输入该命令的路径时,是否遍历其子命令。</p>
+<h3 id="CompletionOptions"><a href="#CompletionOptions" class="headerlink" title="CompletionOptions"></a>CompletionOptions</h3><p>定义自动补全选项</p>
+<pre><code class="go">var cmd = &amp;cobra.Command&#123;
+  CompletionOptions: cobra.CompletionOptions&#123;
+    Flags: []string&#123;&quot;flag1&quot;, &quot;flag2&quot;&#125;,
+    Commands: []string&#123;&quot;subcmd1&quot;, &quot;subcmd2&quot;&#125;,
+    GlobalFlags: true,
+  &#125;,
+&#125;
+</code></pre>
+<h3 id="FParseErrWhitelist"><a href="#FParseErrWhitelist" class="headerlink" title="FParseErrWhitelist"></a>FParseErrWhitelist</h3><p>定义该命令在标志解析阶段忽略的错误。<br>原本：当我们在命令行中输入与命令标志不匹配的内容时,Cobra 会返回一个 flag parse error</p>
+<pre><code class="bash">Error: unknown flag: --gh
+Usage:
+  add [action] [options] [target] [flags]
+
+Flags:
+  -h, --help   help for add
+</code></pre>
+<h3 id="Run相关函数"><a href="#Run相关函数" class="headerlink" title="Run相关函数"></a>Run相关函数</h3><blockquote>
+<p>执行顺序：<br>PersistentPreRun()<br>PreRun()<br>Run()<br>PostRun()<br>PersistentPostRun()<br><strong>Run和RunE的区别是后者会返回error</strong></p>
+</blockquote>
+<h4 id="PersistentPostRun"><a href="#PersistentPostRun" class="headerlink" title="PersistentPostRun"></a>PersistentPostRun</h4><p>会在每次运行Run命令后被调用，会被子命令继承</p>
+<h4 id="PostRun"><a href="#PostRun" class="headerlink" title="PostRun"></a>PostRun</h4><p>在Run之后调用，主要用于收尾工作</p>
+<ul>
+<li>清理临时文件</li>
+<li>断开数据库连接</li>
+<li>停止日志记录</li>
+</ul>
+<h4 id="Run"><a href="#Run" class="headerlink" title="Run"></a>Run</h4><p>通常是实际功能函数，命令的核心功能</p>
+<ul>
+<li>访问命令的标志、参数等</li>
+<li>执行命令的主要业务逻辑</li>
+<li>调用外部服务</li>
+<li>修改系统状态</li>
+<li>返回结果给用户</li>
+<li>如果没有定义Run,本质上就是一个空命令</li>
+</ul>
+<h4 id="PreRun"><a href="#PreRun" class="headerlink" title="PreRun"></a>PreRun</h4><p>会在每次运行该命令前被调用，不会被子命令继承</p>
+<h4 id="PersistentPreRun"><a href="#PersistentPreRun" class="headerlink" title="PersistentPreRun"></a>PersistentPreRun</h4><p>会在每次运行该命令前被调用，会被子命令继承</p>
+<ol>
+<li>验证全局标志或环境变量</li>
+<li>启动日志记录</li>
+<li>连接数据库等</li>
+</ol>
+<h4 id="PersistentPreRunE"><a href="#PersistentPreRunE" class="headerlink" title="PersistentPreRunE"></a>PersistentPreRunE</h4><h3 id="Annotations"><a href="#Annotations" class="headerlink" title="Annotations"></a>Annotations</h3><p>用于为该命令添加注解，可以用<code>cmd.Annotations</code>访问，主要用于在应用逻辑中传递和共享上下文信息,对最终用户不可见。</p>
+<h3 id="Version"><a href="#Version" class="headerlink" title="Version"></a>Version</h3><p>为命令定义版本，如果命令中定义了该字段且命令还没有定义 <code>version</code>标志，则cobra会自动给命令添加 –version和-v 标志，前提是这两者都没有定义。<br>执行<code>cmd --version</code>会输出Version中定义的值</p>
+<h3 id="Deprecated"><a href="#Deprecated" class="headerlink" title="Deprecated"></a>Deprecated</h3><p>如果该命令已经被废弃，当使用的时候应该打印这个字符串</p>
+<h3 id="BashCompletionFunction"><a href="#BashCompletionFunction" class="headerlink" title="BashCompletionFunction"></a>BashCompletionFunction</h3><p>值是我们的 Bash 自动补全函数的函数名,例如:</p>
+<pre><code class="go">go
+var cmd = &amp;cobra.Command&#123;
+  BashCompletionFunction: &quot;autocompleteDo&quot;,
+&#125;
+// 同名函数实现
+func autocompleteDo(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) &#123;
+  // ...
+&#125;
+</code></pre>
+<h3 id="ArgAliases"><a href="#ArgAliases" class="headerlink" title="ArgAliases"></a>ArgAliases</h3><p>ValidArgs别名列表，不会提示给用户，但是手动输入也会接收</p>
+<h3 id="Args"><a href="#Args" class="headerlink" title="Args"></a>Args</h3><p>作用：指定它接收的位置参数模式,在内部可以：</p>
+<ol>
+<li>定义当前命令接收的位置参数</li>
+<li>校验用户输入的参数是否正确</li>
+<li>返回一个 nil 的 error 表示校验成功,或返回非 nil 的 error 表示校验失败<br>取值类型：<code>PositionalArgs</code></li>
+</ol>
+<pre><code class="go">type PositionalArgs func(*Command, []string) error
+</code></pre>
+<h3 id="ValidArgsFunction"><a href="#ValidArgsFunction" class="headerlink" title="ValidArgsFunction"></a>ValidArgsFunction</h3><p>动态的ValidArgs，一个命令中不能同时存在<code>ValidArgsFunction</code>和<code>ValidArgs</code>选项</p>
+<ul>
+<li>第三个参数<code>toCoplete</code>用于实现命令补全<ul>
+<li>cobra.ShellCompDirectiveDefault:继续使用默认的补全方案</li>
+<li>cobra.ShellCompDirectiveError：阻止补全并返回错误</li>
+<li>cobra.ShellCompDirectiveNoFileComp：仅提供文件名补全而非命令补全</li>
+</ul>
+</li>
+</ul>
+<pre><code class="go">ValidArgsFunction: func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) &#123;
+    // 检查 toComplete 是否以 &quot;enabl&quot; 开头,如果是则返回可能的补全选项 [&quot;enable&quot;, &quot;enables&quot;, &quot;enabling&quot;]
+  if toComplete == &quot;enabl&quot; &#123;
+    return []string&#123;&quot;enable&quot;, &quot;enables&quot;, &quot;enabling&quot;&#125;, cobra.ShellCompDirectiveNoFileComp 
+  &#125;
+  
+  if args[0] != &quot;enable&quot; &#123;
+    // 阻止补全并返回错误
+    return nil, cobra.ShellCompDirectiveError
+  &#125;
+  
+  return nil, cobra.ShellCompDirectiveDefault
+&#125; 
+</code></pre>
+<h3 id="ValidArgs"><a href="#ValidArgs" class="headerlink" title="ValidArgs"></a>ValidArgs</h3><p>作用：定义命令接收的所有合法的非flag参数，cobra会根据这个验证用户在shell命令中输入的参数是否有效，并在help输出中生成参数列表信息<br>疑问：为什么定义了ValidArgs，运行.&#x2F;demo add不会报错？<br>原因：cobra的解析流程导致的</p>
+<ol>
+<li>解析命令链,识别出各个命令和参数</li>
+<li>对每个命令及其参数,检查是否符合 ValidArgs 中的要求</li>
+<li>如果不符合,则视为普通参数传入,并继续后续检查</li>
+<li>检查是否定义了该参数的子命令</li>
+<li>如果没有子命令,则将该参数传入 Run 方法</li>
+<li>在 Run 方法中,需要我们自行判断该参数是否有效,如果无效需要手动报错</li>
+</ol>
+<h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><p>作用：示范如何使用命令<br>区别：Use定义规范，Example展示用例</p>
+<h3 id="GroupID"><a href="#GroupID" class="headerlink" title="GroupID"></a>GroupID</h3><h4 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h4><p>用于将命令分组，具有相同 GroupID 的命令会被放入同一个命令组中。</p>
+<ol>
+<li>实际使用中不会影响命令的实际行为</li>
+<li>优化help输出和自动补全功能</li>
+</ol>
+<h3 id="Use"><a href="#Use" class="headerlink" title="Use"></a>Use</h3><h4 id="作用-1"><a href="#作用-1" class="headerlink" title="作用"></a>作用</h4><ol>
+<li>定义命令的使用说明,使用户快速理解每个命令及其子命令的用法</li>
+<li>在使用<code>--help</code>时显示,提供命令的帮助信息</li>
+<li>提供一种检验命令设计的手段</li>
+</ol>
+<h4 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h4><p><code>Use:   &quot;add [-F file | -D dir]... [-f format] profile&quot;</code><br>命令行使用:<code>./cobraDemo add xxx</code></p>
+<ol>
+<li><code>[]</code>表示这个是可选参数,其他的参数是必须参数</li>
+<li><code>...</code>表示可以为前面的参数指定多个值,比如<code>Use: &quot;app STR... NUM...&quot;</code>,使用<code>app hello world 2 3</code> 。一个键(key)可以有多个值(value)</li>
+<li><code>|</code>表示互斥,在一个命令里不能同时使用两边的参数</li>
+<li><code>&#123;&#125;</code>表示分隔一组互斥参数,比如<code>add &#123;arg1|arg2|arg3&#125; &#123;arg4|arg5|arg6&#125;</code></li>
+</ol>
+<blockquote>
+<ul>
+<li>如果go build生成的二进制文件名demo和 rootCmd 的 Use 字段第一个单词相同,那么 .&#x2F;demo 会直接被 Cobra 识别为 rootCmd 命令,而不是普通参数。</li>
+<li>如果不同，则.&#x2F;demo相当于普通参数传入，需要在Run方法中自行解析</li>
+</ul>
+</blockquote>
+<h3 id="Aliases"><a href="#Aliases" class="headerlink" title="Aliases"></a>Aliases</h3><h4 id="作用-2"><a href="#作用-2" class="headerlink" title="作用"></a>作用</h4><ol>
+<li>表示命令或参数的别名</li>
+<li><code> Aliases: []string&#123;&quot;param1&quot;, &quot;p1&quot;,&quot;param2&quot;,&quot;p2&quot;&#125;</code>-param1的别名是p1,param2的别名是p2</li>
+</ol>
+<h3 id="SuggestFor"><a href="#SuggestFor" class="headerlink" title="SuggestFor"></a>SuggestFor</h3><p>作用：用于为用户输入的错误参数提供建议<br>案例：</p>
+<pre><code class="go">var rootCmd = &amp;cobra.Command&#123;
+    Use:        &quot;app start|stop&quot;,  
+    Args:       cobra.ExactArgs(1), 
+    ValidArgs:  []string&#123;&quot;start&quot;, &quot;stop&quot;&#125;,
+    SuggestFor: []string&#123;&quot;run&quot;&#125;, // 对 &quot;run&quot; 提供建议
+&#125;
+</code></pre>
+<p>此时用户输入<code>app run</code>，错误提示会变为：</p>
+<ul>
+<li>不设置SuggstFor<blockquote>
+<p>Error: invalid argument “run” for “app”<br>Usage: app start|stop</p>
+</blockquote>
+</li>
+<li>设置SuggstFor</li>
+</ul>
+<pre><code class="go">SuggestFor: []string&#123;&quot;run&quot;&#125;, // 对 &quot;run&quot; 提供建议
+</code></pre>
+<blockquote>
+<p>Error: invalid argument “run” for “app”<br>Did you mean “start” or “stop”?<br>Usage: app start|stop</p>
+</blockquote>
+<h3 id="Short"><a href="#Short" class="headerlink" title="Short"></a>Short</h3><p>定义命令或字段的简短描述，在<code>help</code>里展示的简短描述</p>
+<h4 id="显示条件"><a href="#显示条件" class="headerlink" title="显示条件"></a>显示条件</h4><ol>
+<li>实际定义了该字段</li>
+<li>没有定义Long字段<br>如果同时定义了，则只会展示Long字段</li>
+</ol>
+<h3 id="Long"><a href="#Long" class="headerlink" title="Long"></a>Long</h3><p>作用：定义命令或字段的 详细描述</p>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2023-04-03</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/GoLang/'>
+                            GoLang
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E5%90%8E%E7%AB%AF/'>
+                            后端
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

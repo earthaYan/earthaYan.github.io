@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="pflag笔记" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            pflag笔记
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%AE%89%E8%A3%85"><span class="post-toc-text">安装</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%9C%A8%E5%8C%85%E4%B8%AD%E5%BC%95%E5%85%A5%E5%B9%B6%E5%AE%9A%E4%B9%89-flag"><span class="post-toc-text">在包中引入并定义 flag</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%A7%A3%E6%9E%90"><span class="post-toc-text">解析</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#flagSet"><span class="post-toc-text">flagSet</span></a></li></ol></li></ol>
+        
+        <p>前提：pflag 是完全兼容 flag 的</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>安装：<code>go get github.com/spf13/pflag</code><br>测试：<code>go test github.com/spf13/pflag</code></p>
+<h2 id="在包中引入并定义-flag"><a href="#在包中引入并定义-flag" class="headerlink" title="在包中引入并定义 flag"></a>在包中引入并定义 flag</h2><p><code>import flag &quot;github.com/spf13/pflag&quot;</code></p>
+<ul>
+<li>使用 lag.String(),Bool(),Int()等声明 flag<br><code>var ip *int = flag.Int(&quot;flagName&quot;, 1234, &quot;help message for flagName&quot;)</code></li>
+<li>使用 Var()函数将 flag 绑定到一个变量</li>
+</ul>
+<pre><code class="go">var ipFlag int
+flag.IntVar(&amp;ipFlag,&quot;flagName&quot;,1234,&quot;help message from flagName&quot;)
+</code></pre>
+<ul>
+<li>创建满足 Value 接口的自定义 flag</li>
+</ul>
+<pre><code class="go">type Duration time.Duration
+func (d *Duration) Set(s string) error &#123;
+  // 解析s为 Duration 并保存
+&#125;
+func (d *Duration) Type() string &#123;
+  return &quot;duration&quot;
+&#125;
+func (d *Duration) String() string &#123;
+  return time.Duration(*d).String()
+&#125;
+
+var duration Duration
+pflag.Var(&amp;duration, &quot;duration&quot;, &quot;Some duration&quot;)
+</code></pre>
+<p>当你在命令行参数中传入<code>--duration=1m30s</code>后:</p>
+<ol>
+<li>pflag 找到 Duration 类型并调用 Set(“1m30s”)</li>
+<li>Set()方法使用指针接收器解析该值并保存在 Duration 的内部字段中</li>
+<li>duration 现在保存传递的值(90 秒)</li>
+<li>通过 duration.String()或直接使用 duration 的值访问解析后的值</li>
+</ol>
+<h2 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h2><p>前提：所有的 flag 都定义好了<br>方法：<code>flag.Parse()</code></p>
+<pre><code class="go">    var ip *int = flag.Int(&quot;ip&quot;, 123, &quot;help message from ip&quot;)
+    var ipFlag int
+    flag.IntVar(&amp;ipFlag, &quot;ipFlag&quot;, 1234, &quot;help message from ipFlag&quot;)
+    flag.Parse()
+    fmt.Println(*ip,ipFlag)
+</code></pre>
+<p>执行<code>go run . --ipFlag=12 --ip=345</code>,运行结果为 345,12</p>
+<h3 id="flagSet"><a href="#flagSet" class="headerlink" title="flagSet"></a>flagSet</h3>
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2023-05-19</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/GoLang/'>
+                            GoLang
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E5%90%8E%E7%AB%AF/'>
+                            后端
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

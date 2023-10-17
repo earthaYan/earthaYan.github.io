@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="【译】The Evolution of the Modern Web Application Development" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            【译】The Evolution of the Modern Web Application Development
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%8E%B0%E4%BB%A3web%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91%E7%9A%84%E8%BF%9B%E5%8C%96"><span class="post-toc-text">现代web应用开发的进化</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E9%82%A3%E6%97%B6%E5%80%99%E5%BC%80%E5%8F%91%E4%BA%BA%E5%91%98%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%92%8C%E7%8E%B0%E5%9C%A8%E5%A4%A7%E4%B8%8D%E7%9B%B8%E5%90%8C"><span class="post-toc-text">那时候开发人员的工作和现在大不相同</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Netlify-Vercel-AWS-%E8%BF%99%E6%98%AF%E4%BB%80%E4%B9%88"><span class="post-toc-text">Netlify? Vercel? AWS? 这是什么?</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF%E6%A0%88%E6%AF%94%E7%8E%B0%E5%9C%A8%E6%9B%B4%E7%AE%80%E5%8D%95"><span class="post-toc-text">前端技术栈比现在更简单</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%8E%B0%E5%9C%A8%E5%AE%83%E5%AE%B9%E6%98%93%E5%A4%9A%E4%BA%86"><span class="post-toc-text">现在它容易多了</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF%E6%A0%88%E5%8F%98%E5%BE%97%E6%9B%B4%E6%9C%89%E9%9A%BE%E5%BA%A6%E4%BA%86%EF%BC%8C%E4%BD%86%E6%98%AF%E8%BF%99%E6%98%AF%E4%B8%80%E4%BB%B6%E5%A5%BD%E4%BA%8B"><span class="post-toc-text">前端技术栈变得更有难度了，但是这是一件好事</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#web-%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E7%94%9F%E6%80%81%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%9C%AA%E6%9D%A5"><span class="post-toc-text">web 开发工具生态系统的未来</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8F%AF%E7%BB%84%E5%90%88-%E5%83%8F%E4%B9%90%E9%AB%98%E4%B8%80%E6%A0%B7%E6%9B%B4%E5%BF%AB%E5%9C%B0%E6%9E%84%E5%BB%BA%E5%BA%94%E7%94%A8"><span class="post-toc-text">可组合: 像乐高一样更快地构建应用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%BA%86%E8%A7%A3%E6%9B%B4%E5%A4%9A"><span class="post-toc-text">了解更多</span></a></li></ol>
+        
+        <blockquote>
+<p> 本文原文链接：<a target="_blank" rel="noopener" href="https://blog.bitsrc.io/the-evolution-of-the-modern-web-application-development-18aa95b7c1a">https://blog.bitsrc.io/the-evolution-of-the-modern-web-application-development-18aa95b7c1a</a></p>
+</blockquote>
+<h2 id="现代web应用开发的进化"><a href="#现代web应用开发的进化" class="headerlink" title="现代web应用开发的进化"></a>现代web应用开发的进化</h2><h3 id="那时候开发人员的工作和现在大不相同"><a href="#那时候开发人员的工作和现在大不相同" class="headerlink" title="那时候开发人员的工作和现在大不相同"></a>那时候开发人员的工作和现在大不相同</h3><p><img src="https://cdn-images-1.medium.com/max/8208/1*47wUIbkat0g69vKjxm-rOg.jpeg" alt="人类进化"></p>
+<p>你可能会非常好奇: 什么样的开发者会写出像这样的文章?</p>
+<p>那么我可以回答这个问题: <em>一个老程序员</em>.</p>
+<p><img src="https://cdn-images-1.medium.com/max/2416/1*cH7VoyCKrOykiUr5wDr0KA.png" alt="推特给了我写这篇文章的灵感(这让我觉得自己老的要命)"></p>
+<p>不开玩笑了,我不年轻了,且到目前为止已经在 IT 行业工作了20年. 好处就是当我年纪大到可以写这篇文章的时候，我还很年轻，我仍然记得我们过去的工作有哪些不同。所以，我接受了我在同一时间可以既年轻又年迈。</p>
+<p>也就是说, “以前” 我们常常使用不同的工具、模式、heck甚至标准工作，那时候兼容 IE 还不是一个笑话, 事实上, 兼容所有主流浏览器也不容易。</p>
+<p>让我们沿着记忆的小路慢慢前行,慢慢回忆过去的情形,这样我们可以更好的理解现在使用的工具。</p>
+<h2 id="Netlify-Vercel-AWS-这是什么"><a href="#Netlify-Vercel-AWS-这是什么" class="headerlink" title="Netlify? Vercel? AWS? 这是什么?"></a>Netlify? Vercel? AWS? 这是什么?</h2><p>当我20年前入行的时候，把平台甚至软件作为一个 Service 这件事还不存在。</p>
+<p>那时候开发软件有多不同呢? 事实上,  “API Everything” 思想那时候还没有真正实现。 启动并运行一个 Service 需要大量精力和金钱，所以除非有必要的理由，否则没有人会去做。</p>
+<p>除此之外, 我们过去使用的工具也不一样, Node.js 还没出现, 所以想使用像 Next.js 这样的框架也是不可能的。我一开始使用 PHP 4, 它和现在的 Node.js(或其他工具) 不一样，不能创建你自己的 web 服务器。相反, 我们必须安装 <a target="_blank" rel="noopener" href="https://httpd.apache.org/">Apache Web Server</a>,或者如果你是一个冒险者,并且想拥有一个基于 Windows 的 web 服务器, Internet Information Service(IIS) 也可以, 它曾经是(或许现在也是？) Microsoft 提供的一个选择(这在过去并不理想)。</p>
+<p>关于这种工作方式很有趣的一点是：你的应用是一系列的脚本，它们会在每次服务器接收到一个请求的时候被执行。 这意味着你的服务器上没有运行中的 app。 每一个新的请求最终都会变成一个新的进程，运行在服务器内部。这意味着服务器必须足够强大，能够处理很多请求，因为每个请求都是一个并行进程，会占用一块内存和 CPU 时间。</p>
+<p>当然, 数据库连接 (和其他的服务) 也必须在脚本的生命周期内被建立和关闭(比如在请求期间)。</p>
+<p>如果你想要扩容, “自动扩容”是不可能的。我还记得特定节假日必须评估运行电商网站需要的服务器数量是多么痛苦。 当然, 总是有不足之处，以至于开发者们周末期间不得不进行紧急修复处理(比如重新启动挂掉的数据库,或者清理大到充满整个硬盘的日志文件)。</p>
+<h3 id="前端技术栈比现在更简单"><a href="#前端技术栈比现在更简单" class="headerlink" title="前端技术栈比现在更简单"></a>前端技术栈比现在更简单</h3><p>因为下面的一些原因，那时候的前端场景非常不同：</p>
+<ol>
+<li><p>我认为最重要的一点是那时候的 HTML, CSS 和 JavaScript 还没有现在这么标准化。 尤其是后者, 每个浏览器都遵循自己的指导方针实现了各自的版本, 并没有考虑到其他的浏览器. 它更像一场比赛而不是合作。所以 Chrome 有的功能在   Firefox 或者 IE 中可能并不可用，反之亦然。 这意味着构建任何人都能使用的 Web 应用，就必须增加许多代码处理这些差异。</p>
+</li>
+<li><p>那时候也没有 UI 框架, 只有各种库. 对我来说, 这个区别非常重要, 因为现在像 React 和 Vue 这样的框架提供了一个体系架构，定义了一系列你可以遵循的工具和模式。如果你基于他们去构建，就像 Next, Nuxt 和 其他一些应用做的那样，那么他们就为你提供了一条可遵循的路径。过去我们有 jQuery,<a target="_blank" rel="noopener" href="https://underscorejs.org/">underscore</a>(之后几乎被<a target="_blank" rel="noopener" href="https://lodash.com/">lodash</a>取代)，以及 <a target="_blank" rel="noopener" href="https://mootools.net/">Mootools</a>。这些都是很好的库，但是没有真正强制推行一种工作方式，这导致人们认为前端开发不需要使用任何先进的开发方法和技术。我记得我曾经认为 JavaScript 就是增加表单验证,不然就是为静态网站添加一些愚蠢的动画。</p>
+</li>
+</ol>
+<p>你必须记住, “过去那时候”, 我们甚至不能异步加载数据。直到术语 AJAX 流行起来，才发现了这种能力 (并且开始学习异步行为的概念)。这些在现在看来很普通的事情对于当时来说是工作模式的转变。</p>
+<h3 id="现在它容易多了"><a href="#现在它容易多了" class="headerlink" title="现在它容易多了"></a>现在它容易多了</h3><p>现在开发一个应用简单多了,非常方便,不会让我担心。</p>
+<p>你可以把你的 Github 账号和一个 Netlify (或者类似的平台) 账号连接起来，在世界的<em>某个地方</em>自动部署应用。Heck 你可以利用类似 Supabase, 或者 AWS DynamoDB 的服务，在这里你都不用担心维护数据库或者认证服务。</p>
+<p>甚至一些服务会集中控制你的日志文件, 像 <a target="_blank" rel="noopener" href="https://www.loggly.com/">Loggly</a> 和 <a target="_blank" rel="noopener" href="https://www.splunk.com/">Splunk</a>, 所以如果你的日志轮换配置不是最优的话，也不需要担心硬盘空间被全部占用。</p>
+<p>那时候独立工作是很困难的，但是现在你可以真正地接近独立工作(如果你愿意为此付出报酬的话)。</p>
+<h3 id="前端技术栈变得更有难度了，但是这是一件好事"><a href="#前端技术栈变得更有难度了，但是这是一件好事" class="headerlink" title="前端技术栈变得更有难度了，但是这是一件好事"></a>前端技术栈变得更有难度了，但是这是一件好事</h3><p>前端生态系统现在很大，React、Vue、Svelte 甚至是 Angular,他们启发了许多框架的诞生，这些框架让前端更上一层楼。</p>
+<p>我这么说吧,过去当我开始工作的时候,web 开发的座右铭常常是 “瘦客户端,胖服务端”或者是“让你的客户端变傻”又或者是这些思想的变体。本质上来说,你的客户端代码只是简单的表示层，不应该在上面做任何“困难”的事情，因为浏览器还没有做好准备。相反，我们将“复杂的”逻辑维护在后端，只使用 JavaScript 显示漂亮的颜色和一些警告框。</p>
+<p>从那时起，我们已经走过了一条漫长的路。当然,这些不是没有代价的。过去我们的“bundler”是一系列的脚本标签，添加在 HTML 顶部，并且这就是所有了。</p>
+<p>现在驱动一个现代 app 的 JS 数量已经增长了如此之多，用于优化它的工具生态系统也随之增长。</p>
+<p>现在你需要：</p>
+<ol>
+<li><p>如果你使用的不是纯 JavaScript 的话，就需要一个转译器。</p>
+</li>
+<li><p>打包工具把所有的代码放在一起，移除不必要的部分,以一种对用户来说低“开销”的方式传输和发布。</p>
+</li>
+<li><p>lint程序，确保10万行JS代码中的每一行都遵循团队中相同的标准。</p>
+</li>
+<li><p>一个拥有热更新和文件监听功能的 webserver,优化开发体验。否则修改单独一行代码也会花费大量时间去更新。</p>
+</li>
+<li><p>一个包管理器, 因为作为开发者，我们已经完成了重复造轮子的工作。</p>
+</li>
+<li><p>一个版本控制系统 (通常是 Git + Github 但是也有其他一些选择) 确保团队成员可以很容易就同一个项目合作。</p>
+</li>
+<li><p>一个测试运行器,因为现在你的前端业务逻辑已经如此复杂（顺便说一下也很伟大），以至于需要一个方法确保所有的事情都和预期一样运行。</p>
+</li>
+</ol>
+<p>我打赌你可能会想到更多。这对刚起步的人来说可能会有一点不知所措。</p>
+<p>我知道这是我在多年不编程后重新上马的原因。<br>I know it was for me when getting back on the horse after years of not coding.</p>
+<p>值得庆幸的是，行业仍然在进化。虽然它们仍然是新的，并试图进入，但人们正在开发专门用于再次简化技术栈的工具，同时保留当今复杂解决方案的功能和能力。</p>
+<h3 id="web-开发工具生态系统的未来"><a href="#web-开发工具生态系统的未来" class="headerlink" title="web 开发工具生态系统的未来"></a>web 开发工具生态系统的未来</h3><p>旅程还未结束，这是好事情。</p>
+<p>如果你仔细思考这件事情，我们在代码中也是这么做的：</p>
+<ol>
+<li><p>我们针对一个问题写了简单的解决方法。</p>
+</li>
+<li><p>我们意识到这个解决方法并没有覆盖所有潜在的边际案例，所以需要在此基础上添加更多代码，直到它能够正常工作。</p>
+</li>
+<li><p>我们意识到它是一个可恶的 Frankenstein 类型的代码，不可维护并且难以理解，所以我们开始重构和简化。</p>
+</li>
+</ol>
+<p>我们的工具链正在经历同样的过程。我们现在开始看到步骤 #3。我们看到像来自<a target="_blank" rel="noopener" href="https://bit.dev/">bit.dev</a>的<a target="_blank" rel="noopener" href="https://bit.dev/">Bit</a> 这样的工具正在尝试集中化管理开发周期中的所有任务。</p>
+<p>事实上, 使用 Bit, 你可以管理代码的版本并且测试代码, 并且作为个人包发布。你甚至可以用它管理一个 Monorepo 而不需要担心其他工具。</p>
+<p>当然，这也不是说工具会为你做完所有的事情，事实上，他只是管理了整个你通常会需要担心的工具生态系统。如果你问我，我会觉得这是个聪明的做法。</p>
+<p>另外, 类似打包工具这样的工具开始见证一个不再需要他们的趋势。听我说, 我在主持的 <a target="_blank" rel="noopener" href="https://podcast.20minjs.com/">20MinJS podcast</a> 节目中采访了 <a target="_blank" rel="noopener" href="https://twitter.com/MicheleRivaCode">Michele Riva</a>(他是来自 Nearform 的高级软件架构师),在那一集中,Michele 提及了 <a target="_blank" rel="noopener" href="https://vitejs.dev/">Vite</a> 这样的新一代打包工具是如何利用浏览器的新能力：<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">ECMA Script import 语句</a>,异步加载文件,因此提升了 JavaScript 的加载速度(而不是必须加载一个或多个大的被打包的文件)。</p>
+<p>所以如果你问我的话，未来看上去是非常光明的。仍然有许多工作要做，但是担忧必须为应用手动设置平台的日子已经一去不返了。工具生态系统正在进化至一个点：我们可以快速制作原型和部署想法,然后将它们发展成成熟的应用程序，而无需改变太多，只需要改变我们使用的服务或我们支付的层。如果我们想要扩容，因为它们最终获得了成功，只要我们准备好为它付费，我们也可以获得。</p>
+<p>我认为 web 开发行业的当前状态的魅力在于我们拥有选择的权利。</p>
+<p>我们仍然可以使用“old school 方式”手动去做每一件事情，管理我们自己的服务器,规划应用所需的流量和工作量，并增加对应的基础设施。</p>
+<p>或者如果愿意信任已经试用并且经过测试的外部平台和服务，我们可以支付他们报酬为我们工作。我们从本质上用服务替代了原本必须成熟的 IT 团队，这对一些公司来说是一个很好的引导策略。是的，最终你会需要 IT 团队和你一起工作，这是不可否认的，但是没有 IT 团队，您可以比以前走得更远。</p>
+<p>除此之外,工具本身也会成长和适应社区的反馈。<strong>Developer Experience</strong> 是一个会在日常工具设计中频繁抛出的术语，并且我们可以从使用这些工具的简单程度中看出这一点。我认为这是非常聪明的一步，它将进一步推动开发速度和能力。</p>
+<p>你认为呢? 从你的角度来看，未来是光明的吗?</p>
+<h2 id="可组合-像乐高一样更快地构建应用"><a href="#可组合-像乐高一样更快地构建应用" class="headerlink" title="可组合: 像乐高一样更快地构建应用"></a>可组合: 像乐高一样更快地构建应用</h2><p><img src="https://cdn-images-1.medium.com/max/2400/1*x2l8LRH1nbC1FQZUdt50RQ.jpeg"></p>
+<p><a target="_blank" rel="noopener" href="https://bit.cloud/">Bit</a> 是一个以模块化和协作方式构建 app 的开源工具。通过可组合的方式更快,更一致并且更容易扩容。</p>
+<p>→ <a target="_blank" rel="noopener" href="https://bit.dev/">了解更多</a></p>
+<p>构建应用,页面,用户体验和 UI 作为独立的组件。使用它们更快地组成新的应用和体验。将任意框架和工具引进你的工作流程中。共享、复用和协作以一起构建应用。</p>
+<p>帮助你的团队了解:</p>
+<p><strong>→ <a target="_blank" rel="noopener" href="https://blog.bitsrc.io/how-we-build-micro-front-ends-d3eeeac0acfc">Micro-Frontends</a></strong></p>
+<p><strong>→ <a target="_blank" rel="noopener" href="https://blog.bitsrc.io/how-we-build-our-design-system-15713a1f1833">Design Systems</a></strong></p>
+<p><strong>→ <a target="_blank" rel="noopener" href="https://bit.cloud/blog/how-to-reuse-react-components-across-your-projects-l4pz83f4">Code-Sharing and reuse</a></strong></p>
+<p><strong>→ <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=5wxyDLXRho4&t=2041s">Monorepos</a></strong></p>
+<h2 id="了解更多"><a href="#了解更多" class="headerlink" title="了解更多"></a>了解更多</h2><p><a target="_blank" rel="noopener" href="https://blog.bitsrc.io/how-we-build-micro-front-ends-d3eeeac0acfc"><strong>How We Build Micro Frontends</strong></a><br><a target="_blank" rel="noopener" href="https://blog.bitsrc.io/how-we-build-our-design-system-15713a1f1833"><strong>How we Build a Component Design System</strong></a><br><a target="_blank" rel="noopener" href="https://bit.cloud/blog/how-to-reuse-react-components-across-your-projects-l3bhezsg"><strong>How to reuse React components across your projects</strong></a><br><a target="_blank" rel="noopener" href="https://blog.bitsrc.io/5-ways-to-build-a-react-monorepo-a294b6c5b0ac"><strong>5 Ways to Build a React Monorepo</strong></a></p>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2022-09-19</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/%E5%89%8D%E7%AB%AF/'>
+                            前端
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E7%BF%BB%E8%AF%91/'>
+                            翻译
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

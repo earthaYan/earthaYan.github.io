@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="linux-error" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            linux-error
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%8A%A5%E9%94%99%E4%BF%A1%E6%81%AF"><span class="post-toc-text">报错信息</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="post-toc-text">解决方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%A3%81%E7%9B%98%E8%BF%87%E6%BB%A1%E6%80%8E%E4%B9%88%E5%A4%84%E7%90%86"><span class="post-toc-text">磁盘过满怎么处理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Linux-%E4%BF%AE%E6%94%B9%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E5%A4%B1%E8%B4%A5"><span class="post-toc-text">Linux 修改环境变量失败</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%8A%8A-centos7-%E7%B3%BB%E7%BB%9F%E6%89%93%E5%8C%85%E6%88%90-docker-%E9%95%9C%E5%83%8F"><span class="post-toc-text">把 centos7 系统打包成 docker 镜像</span></a></li></ol>
+        
+        <h2 id="报错信息"><a href="#报错信息" class="headerlink" title="报错信息"></a>报错信息</h2><blockquote>
+<p>Failed to download metadata for repo ‘AppStream’ [CentOS8]</p>
+</blockquote>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><ol>
+<li>进入目录 <code>cd /etc/yum.repos.d/</code></li>
+<li>执行以下命令：</li>
+</ol>
+<ul>
+<li><code>sed -i &#39;s/mirrorlist/#mirrorlist/g&#39; /etc/yum.repos.d/CentOS-*</code></li>
+<li><code>sed -i &#39;s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g&#39; /etc/yum.repos.d/CentOS-*</code></li>
+</ul>
+<ol start="3">
+<li>更新 <code>yum update -y</code></li>
+</ol>
+<h2 id="磁盘过满怎么处理"><a href="#磁盘过满怎么处理" class="headerlink" title="磁盘过满怎么处理"></a>磁盘过满怎么处理</h2><ol>
+<li><code>docker volume prune -f</code></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/a854517900/article/details/80824966">https://blog.csdn.net/a854517900/article/details/80824966</a></li>
+</ol>
+<h2 id="Linux-修改环境变量失败"><a href="#Linux-修改环境变量失败" class="headerlink" title="Linux 修改环境变量失败"></a>Linux 修改环境变量失败</h2><ol>
+<li>&#x2F;etc&#x2F;profile</li>
+<li>&#x2F;root&#x2F;.bash_profile（推荐）</li>
+<li><strong>_ 修改完之后重启机器，环境变量的修改才会真正生效_</strong></li>
+</ol>
+<h2 id="把-centos7-系统打包成-docker-镜像"><a href="#把-centos7-系统打包成-docker-镜像" class="headerlink" title="把 centos7 系统打包成 docker 镜像"></a>把 centos7 系统打包成 docker 镜像</h2><ol>
+<li><p>安装 docker</p>
+</li>
+<li><p>切换到系统根目录，对当前文件进行压缩<br><code>tar -cvpf /tmp/system.tar --directory=/ --exclude=proc --exclude=sys --exclude=dev --exclude=run --exclude=boot . </code></p>
+<blockquote>
+<p>&#x2F;proc、&#x2F;sys、&#x2F;run、&#x2F;dev 这几个目录都是系统启动时自动生成的，虽然也属于文件系统一部分，但是他们每次开机都会有变化，所以打包的时候就应该忽略它们</p>
+</blockquote>
+</li>
+<li><p>导入 docker<br><code>docker import /tmp/system.tar linux:10.1</code></p>
+</li>
+<li><p>登录并新建仓库 emailforcodeyy&#x2F;centos7_iam</p>
+</li>
+<li><p>将生成的镜像推送到 docker hub</p>
+<pre><code class="bash">docker login
+docker push emailforcodeyy/centos7_iam:v1.0.0
+</code></pre>
+</li>
+</ol>
+<blockquote>
+<p>参考链接:<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1920079">https://cloud.tencent.com/developer/article/1920079</a></p>
+</blockquote>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2022-09-23</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/CentOS/'>
+                            CentOS
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E8%99%9A%E6%8B%9F%E6%9C%BA/'>
+                            虚拟机
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

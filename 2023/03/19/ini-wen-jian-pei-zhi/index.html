@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="ini文件配置" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            ini文件配置
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BB%8E%E6%95%B0%E6%8D%AE%E6%BA%90%E5%8A%A0%E8%BD%BD%E9%85%8D%E7%BD%AE"><span class="post-toc-text">从数据源加载配置</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%B7%B3%E8%BF%87%E6%97%A0%E6%B3%95%E8%AF%86%E5%88%AB%E7%9A%84%E6%95%B0%E6%8D%AE%E8%A1%8C"><span class="post-toc-text">跳过无法识别的数据行</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%BF%9D%E5%AD%98%E9%85%8D%E7%BD%AE"><span class="post-toc-text">保存配置</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%93%8D%E4%BD%9C%E5%88%86%E5%8C%BASection"><span class="post-toc-text">操作分区Section</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%88%B6%E5%AD%90%E5%88%86%E5%8C%BA"><span class="post-toc-text">父子分区</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E9%9D%9E%E9%94%AE%E5%80%BC%E5%AF%B9%E5%88%86%E5%8C%BA"><span class="post-toc-text">非键值对分区</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%93%8D%E4%BD%9C%E9%94%AEKey"><span class="post-toc-text">操作键Key</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%BF%BD%E7%95%A5%E5%88%86%E5%8C%BA%E6%88%96%E9%94%AE%E5%90%8D%E5%A4%A7%E5%B0%8F%E5%86%99"><span class="post-toc-text">忽略分区或键名大小写</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%90%8C%E4%B8%80%E4%B8%AA%E9%94%AE%E5%90%8D%E5%8C%85%E5%90%AB%E5%A4%9A%E4%B8%AA%E5%80%BC"><span class="post-toc-text">同一个键名包含多个值</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%87%AA%E5%A2%9E%E9%94%AE%E5%90%8D"><span class="post-toc-text">自增键名</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%8E%B7%E5%8F%96%E7%88%B6%E5%88%86%E5%8C%BA%E4%B8%8B%E7%9A%84%E6%89%80%E6%9C%89%E9%94%AE%E5%90%8D"><span class="post-toc-text">获取父分区下的所有键名</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%93%8D%E4%BD%9C%E9%94%AE%E5%80%BCValue"><span class="post-toc-text">操作键值Value</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Value%E5%B8%83%E5%B0%94%E5%80%BC%E7%9A%84%E8%A7%84%E5%88%99%EF%BC%9A"><span class="post-toc-text">Value布尔值的规则：</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Must%E5%BC%80%E5%A4%B4%E7%9A%84%E6%96%B9%E6%B3%95"><span class="post-toc-text">Must开头的方法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%A4%9A%E8%A1%8C%E4%B9%A6%E5%86%99"><span class="post-toc-text">多行书写</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%87%AA%E5%8A%A8%E5%A4%84%E7%90%86%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6"><span class="post-toc-text">自动处理特殊字符</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%BE%85%E5%8A%A9%E6%96%B9%E6%B3%95"><span class="post-toc-text">辅助方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%B3%A8%E9%87%8AComment"><span class="post-toc-text">注释Comment</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%B3%A8%E9%87%8A%E5%88%86%E7%B1%BB"><span class="post-toc-text">注释分类</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93%E5%92%8C%E5%88%86%E5%8C%BA%E5%8F%8C%E5%90%91%E6%98%A0%E5%B0%84"><span class="post-toc-text">结构体和分区双向映射</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%94%AE%E5%90%8D%E5%92%8C%E9%94%AE%E5%80%BC%E6%98%A0%E5%B0%84%E5%99%A8"><span class="post-toc-text">自定义键名和键值映射器</span></a></li></ol>
+        
+        <p>github地址：<a target="_blank" rel="noopener" href="https://github.com/go-ini/ini">https://github.com/go-ini/ini</a><br>文档地址：<a target="_blank" rel="noopener" href="https://ini.unknwon.io/">https://ini.unknwon.io/</a></p>
+<p>包的功能：在Go语言中读写INI文件的功能<br>Go最低版本：1.6<br>安装：<code>go get gopkg.in/ini.v1</code><br>更新：<code>go get -u gopkg.in/ini.v1</code></p>
+<p>my.ini</p>
+<pre><code class="bash"># my.ini
+#  可选值：production, development
+app_mode = development
+
+# grafana存储临时文件，session和sqlite3数据库
+[paths]
+data=/home/git/grafana
+
+[server]
+# 协议
+protocol=http
+# http端口
+http_port=9999
+# 如果主机header不符合域名的话，重定向到正确的域名
+# 防止 DNS 重新绑定攻击
+enforce_domain=true
+</code></pre>
+<p>main.go</p>
+<pre><code class="go">func main() &#123;
+    cfg, err := ini.Load(&quot;my.ini&quot;)
+    if err != nil &#123;
+        fmt.Printf(&quot;Fail to read file: %v&quot;, err)
+        os.Exit(1)
+    &#125;
+    // 简单的读取操作
+    fmt.Println(&quot;App Mode:&quot;, cfg.Section(&quot;&quot;).Key(&quot;app_mode&quot;).String())
+    fmt.Println(&quot;Data Path:&quot;, cfg.Section(&quot;paths&quot;).Key(&quot;data&quot;).String())
+    // 做一些候选值限制的操作
+    // 如果读取的值不在候选列表内，则会回退使用提供的默认值
+    fmt.Println(&quot;Server Protocol:&quot;, cfg.Section(&quot;server&quot;).Key(&quot;protocol&quot;).In(&quot;http&quot;, []string&#123;&quot;http&quot;, &quot;https&quot;&#125;))
+    fmt.Println(&quot;Email Protocol:&quot;, cfg.Section(&quot;server&quot;).Key(&quot;protocol&quot;).In(&quot;smtp&quot;, []string&#123;&quot;imap&quot;, &quot;smtp&quot;&#125;))
+    // 自动类型转换
+    fmt.Printf(&quot;Port Number:(%[1]T) %[1]d\n&quot;, cfg.Section(&quot;server&quot;).Key(&quot;http_port&quot;).MustInt((9999)))
+    fmt.Printf(&quot;Enforce Domain: (%[1]T) %[1]v\n&quot;, cfg.Section(&quot;server&quot;).Key(&quot;enforce_domain&quot;).MustBool(false))
+    // 修改某个值后保存到新文件
+    cfg.Section(&quot;&quot;).Key(&quot;app_mode&quot;).SetValue(&quot;production&quot;)
+    cfg.SaveTo(&quot;mysql.ini.local&quot;)
+&#125;
+// 输出：
+// App Mode: development
+// Data Path: /home/git/grafana
+// Server Protocol: http
+// Email Protocol: smtp
+// Port Number:(int) 9999
+// Enforce Domain: (bool) true
+</code></pre>
+<h3 id="从数据源加载配置"><a href="#从数据源加载配置" class="headerlink" title="从数据源加载配置"></a>从数据源加载配置</h3><p>数据源类型：</p>
+<ul>
+<li>[]byte类型的原始数据</li>
+<li>string 类型的文件路径</li>
+<li>io.ReadCloser</li>
+</ul>
+<p>特点：</p>
+<ul>
+<li>可以加载多个数据源  <code>ini.Load(&quot;my.ini&quot;)</code></li>
+<li>可以从一个空白的文件开始 <code>cfg:=ini.Empty()</code></li>
+<li>后期可以按需加载 <code>err := cfg.Append(&quot;other file&quot;, []byte(&quot;other raw data&quot;))</code></li>
+<li>不确定是否有文件不存在，可以使用LooseLoad <code>cfg, err := ini.LooseLoad(&quot;filename&quot;, &quot;filename_404&quot;)</code>,后期通过<code>Reload()</code>可以正常加载</li>
+<li>加载多个数据源，如果出现同名键，则后面的配置会覆盖前面的配置</li>
+<li>数据覆盖只有在使用 ShadowLoad 加载数据源不会被触发</li>
+</ul>
+<h4 id="跳过无法识别的数据行"><a href="#跳过无法识别的数据行" class="headerlink" title="跳过无法识别的数据行"></a>跳过无法识别的数据行</h4><p>如果配置文件包含非键值对的数据行，解析器默认报错并终止解析<br>忽略错误：</p>
+<pre><code class="go">cfg, err := ini.LoadSources(ini.LoadOptions&#123;
+    SkipUnrecognizableLines: true,
+&#125;, &quot;other.ini&quot;)
+</code></pre>
+<h4 id="保存配置"><a href="#保存配置" class="headerlink" title="保存配置"></a>保存配置</h4><ol>
+<li>输出配置到某个文件</li>
+</ol>
+<pre><code class="go">err = cfg.SaveTo(&quot;my.ini&quot;)
+err = cfg.SaveToIndent(&quot;my.ini&quot;, &quot;\t&quot;)
+</code></pre>
+<ol start="2">
+<li>写入到任何实现 io.Writer 接口的对象中</li>
+</ol>
+<pre><code class="go">cfg.WriteTo(writer)
+cfg.WriteToIndent(writer, &quot;\t&quot;)
+</code></pre>
+<h3 id="操作分区Section"><a href="#操作分区Section" class="headerlink" title="操作分区Section"></a>操作分区Section</h3><ul>
+<li>获取默认分区1:<code>sec, err := cfg.GetSection(&quot;&quot;)</code></li>
+<li>获取默认分区2:<code>sec, err := cfg.GetSection(ini.DEFAULT_SECTION)</code></li>
+<li>获取指定分区1：<code>sec, err := cfg.GetSection(&quot;section name&quot;)</code></li>
+<li>获取指定分区2：<code>sec := cfg.Section(&quot;section name&quot;)</code>，如果不存在则自动创建并返回一个对应的分区</li>
+<li>创建分区：<code>err := cfg.NewSection(&quot;new section&quot;)</code></li>
+<li>获取所有分区对象或名称：</li>
+</ul>
+<pre><code class="go">secs := cfg.Sections()
+names := cfg.SectionStrings()
+</code></pre>
+<h4 id="父子分区"><a href="#父子分区" class="headerlink" title="父子分区"></a>父子分区</h4><p>概念：在分区名称中使用 . 来表示两个或多个分区之间的父子关系<br>关系：如果某个键在子分区中不存在，则会去它的父分区中再次寻找，直到没有父分区为止</p>
+<pre><code class="bash">NAME = ini
+VERSION = v1
+IMPORT_PATH = gopkg.in/%(NAME)s.%(VERSION)s
+
+[package]
+CLONE_URL = https://%(IMPORT_PATH)s
+
+[package.sub]
+
+
+# https://gopkg.in/ini.v1
+cfg.Section(&quot;package.sub&quot;).Key(&quot;CLONE_URL&quot;).String()   
+</code></pre>
+<h4 id="非键值对分区"><a href="#非键值对分区" class="headerlink" title="非键值对分区"></a>非键值对分区</h4><p>使用选项<code>LoadOptions.UnparsableSections</code>配置解析</p>
+<pre><code class="go">cfg, err := ini.LoadSources(ini.LoadOptions&#123;
+    UnparseableSections: []string&#123;&quot;COMMENTS&quot;&#125;,
+&#125;, `[COMMENTS]&lt;1&gt;&lt;L.Slide#2&gt; This slide has the fuel listed in the wrong units &lt;e.1&gt;`)
+
+body := cfg.Section(&quot;COMMENTS&quot;).Body()
+
+/* --- start ---
+&lt;1&gt;&lt;L.Slide#2&gt; This slide has the fuel listed in the wrong units &lt;e.1&gt;
+------  end  --- */
+</code></pre>
+<h3 id="操作键Key"><a href="#操作键Key" class="headerlink" title="操作键Key"></a>操作键Key</h3><ul>
+<li>获取某个分区下的键1：<code>key, err := cfg.Section(&quot;&quot;).GetKey(&quot;key name&quot;)</code></li>
+<li>获取某个分区下的键2：<code>key := cfg.Section(&quot;&quot;).Key(&quot;key name&quot;)</code></li>
+<li>判断某个键是否存在：<code>yes := cfg.Section(&quot;&quot;).HasKey(&quot;key name&quot;)</code></li>
+<li>创建新的Key：<code>err := cfg.Section(&quot;&quot;).NewKey(&quot;name&quot;, &quot;value&quot;)</code></li>
+<li>获取分区下的所有键或键名：</li>
+</ul>
+<pre><code class="go">keys := cfg.Section(&quot;&quot;).Keys()
+names := cfg.Section(&quot;&quot;).KeyStrings()
+</code></pre>
+<h4 id="忽略分区或键名大小写"><a href="#忽略分区或键名大小写" class="headerlink" title="忽略分区或键名大小写"></a>忽略分区或键名大小写</h4><p><code>cfg, err := ini.InsensitiveLoad(&quot;filename&quot;)</code></p>
+<h4 id="同一个键名包含多个值"><a href="#同一个键名包含多个值" class="headerlink" title="同一个键名包含多个值"></a>同一个键名包含多个值</h4><p>普通情况下：只有最后一次出现的值会被保存到url中<br>需要保留所有值：</p>
+<pre><code class="go">cfg, err := ini.ShadowLoad(&quot;.gitconfig&quot;)
+
+f.Section(`remote &quot;origin&quot;`).Key(&quot;url&quot;).String() 
+# Result: https://github.com/Antergone/test2.git
+
+f.Section(`remote &quot;origin&quot;`).Key(&quot;url&quot;).ValueWithShadows()
+//  Result:  []string&#123;
+//             &quot;https://github.com/Antergone/test1.git&quot;,
+//               &quot;https://github.com/Antergone/test2.git&quot;,
+//           &#125;
+</code></pre>
+<h4 id="自增键名"><a href="#自增键名" class="headerlink" title="自增键名"></a>自增键名</h4><p>如果数据源中的键名为 -，则认为该键使用了自增键名的特殊语法。计数器从 1 开始，并且分区之间是相互独立的<br><code>cfg.Section(&quot;features&quot;).KeyStrings()    // []&#123;&quot;#1&quot;, &quot;#2&quot;, &quot;#3&quot;&#125;</code></p>
+<h4 id="获取父分区下的所有键名"><a href="#获取父分区下的所有键名" class="headerlink" title="获取父分区下的所有键名"></a>获取父分区下的所有键名</h4><p><code>cfg.Section(&quot;package.sub&quot;).ParentKeys() // [&quot;CLONE_URL&quot;]</code></p>
+<h3 id="操作键值Value"><a href="#操作键值Value" class="headerlink" title="操作键值Value"></a>操作键值Value</h3><ul>
+<li>获取key的值:<code>al := cfg.Section(&quot;&quot;).Key(&quot;key name&quot;).String()</code></li>
+<li>获取原值：<code>val := cfg.Section(&quot;&quot;).Key(&quot;key name&quot;).Value()</code></li>
+<li>判断某个原值是否存在：<code>yes := cfg.Section(&quot;&quot;).HasValue(&quot;test value&quot;)</code></li>
+</ul>
+<h4 id="Value布尔值的规则："><a href="#Value布尔值的规则：" class="headerlink" title="Value布尔值的规则："></a>Value布尔值的规则：</h4><p>结果为true：为：1, t, T, TRUE, true, True, YES, yes, Yes, y, ON, on, On<br>结果为false 为：0, f, F, FALSE, false, False, NO, no, No, n, OFF, off, Off</p>
+<h4 id="Must开头的方法"><a href="#Must开头的方法" class="headerlink" title="Must开头的方法"></a>Must开头的方法</h4><p>由 Must 开头的方法名允许接收一个相同类型的参数来作为默认值，<br>当键不存在或者转换失败时，则会直接返回该默认值。但是，MustXXXX方法必须传递一个默认值。</p>
+<pre><code class="go">v = cfg.Section(&quot;&quot;).Key(&quot;INT&quot;).MustInt(10)
+</code></pre>
+<h4 id="多行书写"><a href="#多行书写" class="headerlink" title="多行书写"></a>多行书写</h4><p>可以使用\分隔<br><code>cfg.Section(&quot;advance&quot;).Key(&quot;two_lines&quot;).String() </code>获取到的是一个不换行的字符串</p>
+<h4 id="自动处理特殊字符"><a href="#自动处理特殊字符" class="headerlink" title="自动处理特殊字符"></a>自动处理特殊字符</h4><p>具体概念：值使用双引号括起来，内部的双引号被转义<br>案例：create_repo&#x3D;”created repository &lt;a href&#x3D;&quot;%s&quot;&gt;%s</a>“</p>
+<pre><code class="go">cfg, err := ini.LoadSources(ini.LoadOptions&#123;UnescapeValueDoubleQuotes: true&#125;, &quot;en-US.ini&quot;)
+cfg.Section(&quot;&lt;name of your section&gt;&quot;).Key(&quot;create_repo&quot;).String()
+// 结果：created repository &lt;a href=&quot;%s&quot;&gt;%s&lt;/a&gt;
+</code></pre>
+<h4 id="辅助方法"><a href="#辅助方法" class="headerlink" title="辅助方法"></a>辅助方法</h4><ul>
+<li>设置默认值,不在给定的值内就设置为默认值<br><code>v = cfg.Section(&quot;&quot;).Key(&quot;STRING&quot;).In(&quot;default&quot;, []string&#123;&quot;str&quot;, &quot;arr&quot;, &quot;types&quot;&#125;)</code></li>
+<li>判断获取的值是否在指定范围内,第一个参数为默认值，第二个参数和第三个参数为范围<br><code>vals = cfg.Section(&quot;&quot;).Key(&quot;FLOAT64&quot;).RangeFloat64(0.0, 1.1, 2.2)</code></li>
+<li>自动分割键值到切片<ul>
+<li>存在无效输入的的时候，使用零值代替</li>
+</ul>
+</li>
+</ul>
+<pre><code class="go">// Input: 1.1, 2.2, 3.3, 4.4 -&gt; [1.1 2.2 3.3 4.4]
+// Input: how, 2.2, are, you -&gt; [0.0 2.2 0.0 0.0]
+vals = cfg.Section(&quot;&quot;).Key(&quot;STRINGS&quot;).Strings(&quot;,&quot;)
+vals = cfg.Section(&quot;&quot;).Key(&quot;FLOAT64S&quot;).Float64s(&quot;,&quot;)
+</code></pre>
+<pre><code>-  去除无效输入
+</code></pre>
+<pre><code class="go">// Input: 1.1, 2.2, 3.3, 4.4 -&gt; [1.1 2.2 3.3 4.4]
+// Input: how, 2.2, are, you -&gt; [2.2]
+vals = cfg.Section(&quot;&quot;).Key(&quot;FLOAT64S&quot;).ValidFloat64s(&quot;,&quot;)
+</code></pre>
+<pre><code>- 存在无效输入时，直接返回错误
+</code></pre>
+<pre><code class="go">// Input: 1.1, 2.2, 3.3, 4.4 -&gt; [1.1 2.2 3.3 4.4]
+// Input: how, 2.2, are, you -&gt; error
+vals = cfg.Section(&quot;&quot;).Key(&quot;FLOAT64S&quot;).StrictFloat64s(&quot;,&quot;)
+</code></pre>
+<ul>
+<li>递归读取键值<br>语法：<code> %(&lt;name&gt;)s</code>， 其中name只能是相同分区或默认分区下的键名，如果指定的键不存在，则会用空字符串替代</li>
+</ul>
+<pre><code class="go">NAME = ini
+
+[author]
+NAME = Unknwon
+GITHUB = https://github.com/%(NAME)s
+
+[package]
+FULL_NAME = github.com/go-ini/%(NAME)s
+// cfg.Section(&quot;author&quot;).Key(&quot;GITHUB&quot;).String()：https://github.com/Unknwon
+// cfg.Section(&quot;package&quot;).Key(&quot;FULL_NAME&quot;).String()：github.com/go-ini/ini
+</code></pre>
+<h3 id="注释Comment"><a href="#注释Comment" class="headerlink" title="注释Comment"></a>注释Comment</h3><h4 id="注释分类"><a href="#注释分类" class="headerlink" title="注释分类"></a>注释分类</h4><ol>
+<li>所有以 # 或 ; 开头的行</li>
+<li>所有在 # 或 ; 之后的内容</li>
+<li>分区标签后的文字 (即 [分区名] 之后的内容)</li>
+</ol>
+<h3 id="结构体和分区双向映射"><a href="#结构体和分区双向映射" class="headerlink" title="结构体和分区双向映射"></a>结构体和分区双向映射</h3><p>暂时忽略</p>
+<h3 id="自定义键名和键值映射器"><a href="#自定义键名和键值映射器" class="headerlink" title="自定义键名和键值映射器"></a>自定义键名和键值映射器</h3><p>暂时忽略</p>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2023-03-19</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/GoLang/'>
+                            GoLang
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E5%90%8E%E7%AB%AF/'>
+                            后端
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

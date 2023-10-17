@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="翻译-CSS vs. CSS-in-JS：How and why to use each" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            翻译-CSS vs. CSS-in-JS：How and why to use each
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Render-blocking-%E5%92%8C-CSS"><span class="post-toc-text">Render-blocking 和 CSS</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%88%98%E8%83%9C-CSS-render-block"><span class="post-toc-text">战胜 CSS render-block</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#CSS-in-JS-%E6%8F%90%E4%BE%9B%E4%BA%86%E4%BB%80%E4%B9%88"><span class="post-toc-text">CSS-in-JS 提供了什么</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E9%80%9A%E8%BF%87-styled-components-%E4%BD%BF%E7%94%A8-CSS-in-JS-%E7%9A%84%E4%BE%8B%E5%AD%90"><span class="post-toc-text">通过 styled-components 使用 CSS-in-JS 的例子</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#CSS-in-JS-%E7%9A%84%E5%A5%BD%E5%A4%84"><span class="post-toc-text">CSS-in-JS 的好处</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%B2%A1%E6%9C%89%E4%BD%9C%E7%94%A8%E5%9F%9F%E5%92%8C%E7%89%B9%E5%BC%82%E6%80%A7%E9%97%AE%E9%A2%98"><span class="post-toc-text">没有作用域和特异性问题</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%8A%A8%E6%80%81%E6%A0%B7%E5%BC%8F"><span class="post-toc-text">动态样式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%9B%B4%E5%B0%91%E7%9A%84-CSS-%E7%89%B9%E5%BC%82%E6%80%A7"><span class="post-toc-text">更少的 CSS 特异性</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AE%B9%E6%98%93%E7%9A%84%E4%B8%BB%E9%A2%98"><span class="post-toc-text">容易的主题</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%97%A0%E7%97%9B%E7%BB%B4%E6%8A%A4"><span class="post-toc-text">无痛维护</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#CSS-in-JS-%E7%9A%84%E5%9D%8F%E5%A4%84"><span class="post-toc-text">CSS-in-JS 的坏处</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93"><span class="post-toc-text">延迟渲染</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%BC%93%E5%AD%98%E9%97%AE%E9%A2%98"><span class="post-toc-text">缓存问题</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#CSS-%E9%A2%84%E5%A4%84%E7%90%86%E5%99%A8%E6%94%AF%E6%8C%81%E5%BA%A6"><span class="post-toc-text">CSS 预处理器支持度</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%87%8C%E4%B9%B1%E7%9A%84-DOM"><span class="post-toc-text">凌乱的 DOM</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%BA%93%E4%BE%9D%E8%B5%96"><span class="post-toc-text">库依赖</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AD%A6%E4%B9%A0%E6%9B%B2%E7%BA%BF"><span class="post-toc-text">学习曲线</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%B2%A1%E6%9C%89%E5%A4%A7%E8%A7%84%E6%A8%A1%E7%9A%84%E6%94%AF%E6%8C%81"><span class="post-toc-text">没有大规模的支持</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%BB%80%E4%B9%88%E6%83%85%E5%86%B5%E4%B8%8B%E6%8E%A8%E8%8D%90%E4%BD%BF%E7%94%A8-CSS-in-JS"><span class="post-toc-text">什么情况下推荐使用 CSS-in-JS</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#CSS-Module-%E6%A6%82%E8%A7%88"><span class="post-toc-text">CSS Module 概览</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#CSS-Module-%E7%9A%84%E5%A5%BD%E5%A4%84"><span class="post-toc-text">CSS Module 的好处</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%B2%A1%E6%9C%89%E4%BD%9C%E7%94%A8%E5%9F%9F%E5%92%8C%E7%89%B9%E5%BC%82%E6%80%A7%E9%97%AE%E9%A2%98-1"><span class="post-toc-text">没有作用域和特异性问题</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%9C%89%E7%BB%84%E7%BB%87%E7%9A%84%E4%BB%A3%E7%A0%81"><span class="post-toc-text">有组织的代码</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%BC%93%E5%AD%98%E7%9A%84%E5%8F%AF%E8%83%BD"><span class="post-toc-text">缓存的可能</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#CSS-%E9%A2%84%E5%A4%84%E7%90%86"><span class="post-toc-text">CSS 预处理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E9%9B%B6%E5%AD%A6%E4%B9%A0%E6%9B%B2%E7%BA%BF"><span class="post-toc-text">零学习曲线</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%BC%BA%E5%A4%A7%E7%9A%84%E6%94%AF%E6%8C%81"><span class="post-toc-text">强大的支持</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#CSS-Module-%E7%9A%84%E5%9D%8F%E5%A4%84"><span class="post-toc-text">CSS Module 的坏处</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E9%9D%9E%E6%A0%87%E5%87%86%E7%9A%84-global-%E5%B1%9E%E6%80%A7"><span class="post-toc-text">非标准的 :global 属性</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%B2%A1%E6%9C%89%E5%8A%A8%E6%80%81%E6%A0%B7%E5%BC%8F"><span class="post-toc-text">没有动态样式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%A4%96%E9%83%A8%E7%9A%84-CSS-%E6%96%87%E4%BB%B6"><span class="post-toc-text">外部的 CSS 文件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#TypeScript-%E9%99%90%E5%88%B6"><span class="post-toc-text">TypeScript 限制</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%8E%A8%E8%8D%90%E4%BD%BF%E7%94%A8-CSS-Module-%E7%9A%84%E5%9C%BA%E6%99%AF"><span class="post-toc-text">推荐使用 CSS Module 的场景</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%8E%B0%E4%BB%A3-CSS-%E7%89%B9%E6%80%A7"><span class="post-toc-text">现代 CSS 特性</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#CSS-%E4%BD%9C%E7%94%A8%E5%9F%9F%E7%9A%84%E6%BD%9C%E5%9C%A8%E5%8F%AF%E8%83%BD%E6%80%A7"><span class="post-toc-text">CSS 作用域的潜在可能性</span></a></li></ol></li></ol>
+        
+        <p>原文地址：<a target="_blank" rel="noopener" href="https://blog.logrocket.com/css-vs-css-in-js/">https://blog.logrocket.com/css-vs-css-in-js/</a><br><a target="_blank" rel="noopener" href="https://blog.logrocket.com/how-style-react-router-links-styled-components/">https://blog.logrocket.com/how-style-react-router-links-styled-components/</a><br>当使用 javascript 框架写代码的时候，开发者经常会面临一个困境：是否需要使用 CSS-in-JS。如果你使用 React 进行开发，可能你之前就使用过 CSS-in-JS。</p>
+<p>CSS vs CSS-in-JS 是当下的热门话题。这主要是因为 CSS-in-JS 正在因为性能问题而备受关注。但是在<a target="_blank" rel="noopener" href="https://web.dev/state-of-css-2022/">这个方向上(pipline 翻译不确定)</a>也有一些新的 CSS 特性,他们应该会在不久的未来解决一部分问题。</p>
+<p>这篇文章的目的是结合现代 CSS 的当前状态以及将来可能如何变化帮助你在接下来的项目中就 CSS 和 CSS-in-JS 中做出选择。</p>
+<p>这篇文章展示的代码片段和 demo 都是使用 React 和 CSS 编写的。所以在进行下一步之前需要确保你对这两种 web 技术都非常熟悉。</p>
+<p>注意任意的 JavaScript 前端框架或者库都可以是实现 CSS-in-JS 的理念。本文使用目前为止最流行的前端库——React 来讨论 CSS-in-JS 的应用以及它显著的利弊。</p>
+<h2 id="Render-blocking-和-CSS"><a href="#Render-blocking-和-CSS" class="headerlink" title="Render-blocking 和 CSS"></a>Render-blocking 和 CSS</h2><p>在进一步讨论什么是最好的,什么不是最好的之前,我们先讨论因为 CSS 导致的一些渲染问题。</p>
+<p>传统 web 技术中,浏览器首先会加载 HTML,然后加载来自所有外部资源的 CSS。那之后,浏览器使用所有的内外部 CSS 信息创建 CSSOM。此时浏览器已准备好通过 CSS 级联规则向已经渲染的 HTML 提供样式。</p>
+<p>这个进程会导致 CSS <a target="_blank" rel="noopener" href="https://blog.logrocket.com/9-tricks-eliminate-render-blocking-resources/">阻止页面渲染</a>，并延迟所请求页面的首绘。首绘指的是浏览器在屏幕上打印所请求页面的第一个像素时的事件。</p>
+<p>首绘中超过半秒的延迟就会造成用户不满意的风险，并且可以对 app 的评分造成负面影响。越快把 CSS 传递到客户端，就可以越好地优化页面的首绘时间。</p>
+<h3 id="战胜-CSS-render-block"><a href="#战胜-CSS-render-block" class="headerlink" title="战胜 CSS render-block"></a>战胜 CSS render-block</h3><p>基于 HTTP&#x2F;2 的应用程序,可以并行加载多个 HTML, CSS 和 JS 文件。HTTP&#x2F;1.1 不具备这种功能。大部分现代浏览器和网站都已经支持 HTTP&#x2F;2,这最大程度地减少了由等待其他文件加载引起的渲染阻塞。</p>
+<img src="/2023/03/07/fan-yi-css-vs-css-in-js/img1-Graphic-showing-difference-file-loading-HTTP1-HTTP2.avif" class="">
+
+<p>但是渲染阻塞除了文件加载速度还有其他原因。</p>
+<p>我们假设 app 的一个页面有许多 CSS。这个页面可能包含了很多存在但是没有被使用的选择器，因为我们在每个页面都导入了一个主 CSS 文件。</p>
+<p>上面这个场景基本描述了我们是如何习惯直接使用我们创建的 <a target="_blank" rel="noopener" href="https://blog.logrocket.com/comparing-tailwind-css-bootstrap-time-ditch-ui-kits/">CSS UI 框架或者 UI 工具箱</a>来快速促进我们的设计系统。并非所有从框架或者工具箱引用的样式都会在每个页面内被使用。结果就是我们最终为这个页面生成的 CSS 样式里出现了更多的垃圾。</p>
+<p>CSS 越多,浏览器构建 CSSOM 的时间越长，这会导致完全没有必要的渲染阻塞。</p>
+<p>为了遏制这种局面,把 CSS 分割成小代码块非常有用。换句话说,把全局样式和必要的 CSS 保存在一个全局文件中，然后将其他内容组件化。这种策略更有意义且解决了不必要的非必要 CSS 阻塞：</p>
+<img src="/2023/03/07/fan-yi-css-vs-css-in-js/img2-Project-structure-componentized-CSS.avif" class="">
+
+<p>上面这张图展示了在 React 中为各个组件创建和管理局部 CSS 文件的传统方式。因为每个 CSS 文件是直接附加在各自的组件上,所以它只在相关组件被导入的时候被导入，在组件被移除的的时候消失。</p>
+<p>目前，这个方法还有不足之处。假设 app 包含 100 个组件，同一个项目中的其他开发者可能在这些 CSS 文件中已经不小心使用了一样的类名。</p>
+<p>在这里,每个组件的每个 CSS 文件的范围都是全局的，所以这些不小心重复的样式会不断相互覆盖并被全局应用。像这样的场景会引起严重的布局和设计不一致。</p>
+<p>据说 CSS-in-JS 可以解决这个作用域问题。接下来的文章在高层次上回顾了 CSS-in-JS，并讨论了它是否一劳永逸地有效地解决了作用域问题。</p>
+<h2 id="CSS-in-JS-提供了什么"><a href="#CSS-in-JS-提供了什么" class="headerlink" title="CSS-in-JS 提供了什么"></a>CSS-in-JS 提供了什么</h2><p>CSS-in-JS 简单来说就是外部功能层，它可以让你通过 JavaScript 为组件编写 CSS 属性。</p>
+<p>这一切起源于 2015 年一个叫做 <a target="_blank" rel="noopener" href="https://cssinjs.org/?v=v10.10.0">JSS</a> 的库，当然这个库现在仍然处于活跃的维护状态。你必须使用 JavaScript 语法给选择器提供 CSS 属性，一旦页面加载后就会自动把这些属性应用到他们各自的选择器。</p>
+<p>当 JavaScript 使用类似 React 的库接管渲染和管理前端的时候，一个叫做 <a target="_blank" rel="noopener" href="https://blog.logrocket.com/how-style-react-router-links-styled-components/">styled-components</a> 的 CSS-in-JS 解决方案出现了。另外一个快速流行的解决方案是使用 Emotion 库做同样的事。</p>
+<p>我们打算用 styled-components 库演示 CSS-in-JS 的示例用例，因为他是在 React 生态中使用 CSS-in-JS 方案中最流行的。</p>
+<h3 id="通过-styled-components-使用-CSS-in-JS-的例子"><a href="#通过-styled-components-使用-CSS-in-JS-的例子" class="headerlink" title="通过 styled-components 使用 CSS-in-JS 的例子"></a>通过 styled-components 使用 CSS-in-JS 的例子</h3><p>在 React app 中使用下面的 Yarn 命令安装 styled-components 库。如果你使用的是不同的包管理器,可以查看 styled-components 安装文档找到合适的安装命令：</p>
+<pre><code class="bash">yarn add styled-components
+</code></pre>
+<p>安装完 styled-components 库之后,导入 styled 函数，按如下代码使用：</p>
+<pre><code class="jsx">import styled from &quot;styled-components&quot;;
+
+const StyledButton = styled.a`
+  padding: 0.75em 1em;
+  background-color: $&#123;(&#123; primary &#125;) =&gt; (primary ? &quot;#07c&quot; : &quot;#333&quot;)&#125;;
+  color: white;
+
+  &amp;:hover &#123;
+    background-color: #111;
+  &#125;
+`;
+
+export default StyledButton;
+</code></pre>
+<p>如果你没有 React 环境，<a target="_blank" rel="noopener" href="https://codepen.io/_rahul/pen/oNywWXR">这里</a>有一个运行上述代码的链接：</p>
+<p>上面的代码演示了如何在 React 中给一个 button-link 组件添加样式。添加完样式的组件现在可以不用担心样式问题在任意地方被导入并被直接用来构建一个功能组件：</p>
+<pre><code class="bash">import StyledButton from &#39;./components/styles/Button.styled&#39;;
+
+function App() &#123;
+  return (
+    &lt;div className=&quot;App&quot;&gt;
+      ...
+      &lt;StyledButton href=&quot;...&quot;&gt;Default Call-to-action&lt;/StyledButton&gt;
+      &lt;StyledButton primary href=&quot;...&quot;&gt;Primary Call-to-action&lt;/StyledButton&gt;
+    &lt;/div&gt;
+  );
+&#125;
+export default App;
+</code></pre>
+<p>注意：应用到 styled 组件上的样式是局部范围的,这消除了需要留心 CSS 类命名和全局范围的繁琐需求。除此之外，我们可以基于提供给组件的 props 或者 app 功能所需的任何其他逻辑动态添加或移除 CSS。</p>
+<h2 id="CSS-in-JS-的好处"><a href="#CSS-in-JS-的好处" class="headerlink" title="CSS-in-JS 的好处"></a>CSS-in-JS 的好处</h2><p>比起 CSS 类,JavaScript 开发者可能更喜欢使用 CSS-in-JS 来写样式。CSS-in-JS 解决的最大问题是全局作用域。如果你是 JavaScript 开发者的话，它其他的一些优势也非常有意义。</p>
+<p>现在让我们开始探索这些优势中的一部分。</p>
+<h3 id="没有作用域和特异性问题"><a href="#没有作用域和特异性问题" class="headerlink" title="没有作用域和特异性问题"></a>没有作用域和特异性问题</h3><p>由于样式只能在局部范围内使用，所以他们不容易和其他组件的样式冲突。你甚至不需要担心使用严格的命名来避免样式冲突。</p>
+<p>专门为一个组件写的样式不需要预先考虑子选择器，所以特异性问题很少。</p>
+<h3 id="动态样式"><a href="#动态样式" class="headerlink" title="动态样式"></a>动态样式</h3><p>条件 CSS 是 CSS-in-JS 的另外一个高光点。如同上面演示的按钮示例一样，比起为每个变动写一个单独的样式，检查 props 值并且添加合适的样式是更酷的一种方法。</p>
+<h3 id="更少的-CSS-特异性"><a href="#更少的-CSS-特异性" class="headerlink" title="更少的 CSS 特异性"></a>更少的 CSS 特异性</h3><p>CSS-in-JS 帮助你把 CSS 声明的特异性保持在最低水平，因为你唯一使用它的样式的途径就是元素本身。这同样适用于创建组件变体，你可以检查 prop 对象值并且在需要的时候添加动态样式。</p>
+<h3 id="容易的主题"><a href="#容易的主题" class="headerlink" title="容易的主题"></a>容易的主题</h3><p>使用自定义 CSS 属性为 app 设置主题非常有意义。在最后，你必须转到 JavaScript 侧，基于用户输入写一些逻辑代码来切换和记住主题。</p>
+<p>CSS-in-JS 让你可以完全使用 JavaScript 编写主题逻辑。借助 styled-components 的 ThemeProvider wrapper，你可以快速为组件的主题进行颜色编码。下面借<a target="_blank" rel="noopener" href="https://codepen.io/_rahul/pen/qBKXevo">这个案例</a>来查看使用 styled-components 定制主题：</p>
+<h3 id="无痛维护"><a href="#无痛维护" class="headerlink" title="无痛维护"></a>无痛维护</h3><p>考虑到 CSS-in-JS 提供的特性和优势，JavaScript 可能会发现 CSS-in-JS 比管理上百个 CSS 文件更方便。</p>
+<p>但是有一个遗留事实是：只有对 JavaScript 和 CSS 都有很深的理解,才能高效管理和维护由 CSS-in-JS 驱动的大型项。</p>
+<h2 id="CSS-in-JS-的坏处"><a href="#CSS-in-JS-的坏处" class="headerlink" title="CSS-in-JS 的坏处"></a>CSS-in-JS 的坏处</h2><p>CSS-in-JS 确实非常完美的解决了作用域问题。但是就像我们一开始讨论的那样，我们会面临更大的挑战——比如渲染阻塞——这会直接影响用户体验。除此之外，CSS-in-JS 的概念还需要处理一些其他的问题。</p>
+<h3 id="延迟渲染"><a href="#延迟渲染" class="headerlink" title="延迟渲染"></a>延迟渲染</h3><p>CSS-in-JS 会执行 JavaScript 来从 JavaScript 组件中解析 CSS,然后把这些转换出来的样式注入 DOM。组件越多，浏览器首绘的时间就越长。</p>
+<h3 id="缓存问题"><a href="#缓存问题" class="headerlink" title="缓存问题"></a>缓存问题</h3><p>CSS 缓存经常被用来改善连续页面加载时间。当使用 CSS-in-JS 的时候由于没有 CSS 文件,缓存变成了一个大问题。而且。动态生成 CSS 类名让这个问题变得更复杂。</p>
+<h3 id="CSS-预处理器支持度"><a href="#CSS-预处理器支持度" class="headerlink" title="CSS 预处理器支持度"></a>CSS 预处理器支持度</h3><p>借助组件化的 CSS 方法,很容易添加像<a target="_blank" rel="noopener" href="https://blog.logrocket.com/how-to-write-reusable-css-with-sass/">SASS</a>, Less, PostCSS 和其他的预处理的支持。而在 CSS-in-JS 中，这是不可能的。</p>
+<h3 id="凌乱的-DOM"><a href="#凌乱的-DOM" class="headerlink" title="凌乱的 DOM"></a>凌乱的 DOM</h3><p>CSS-in-JS 的基础是将所有的样式定义从 JavaScript 解析为基础 CSS，然后使用样式块将样式注入 DOM 中。</p>
+<p>对于每个使用 CSS-in-JS 进行样式编写的组件来说,可能首先就会有 100 个样式块需要解析然后注入。简单来说就是会有更多的间接成本。</p>
+<h3 id="库依赖"><a href="#库依赖" class="headerlink" title="库依赖"></a>库依赖</h3><p>如同我们所知道的那样，我们可以使用外部库添加 CSS-in-JS 功能。许多 JavaScript 将在实际的 CSS 解析之前被包含并运行，因为从 JavaScript 到 CSS 样式的解析取决于像 styled-components 这样的库。</p>
+<h3 id="学习曲线"><a href="#学习曲线" class="headerlink" title="学习曲线"></a>学习曲线</h3><p>CSS-in-JS 缺失很多 CSS 和 SCSS 与生俱来的特性。对于已经习惯了 CSS 和 SCSS 的开发者来说适应 CSS-in-JS 将会非常有挑战性</p>
+<h3 id="没有大规模的支持"><a href="#没有大规模的支持" class="headerlink" title="没有大规模的支持"></a>没有大规模的支持</h3><p>目前大部分 UI 库和组件库都不支持 CSS-in-JS 方式，因为它仍然有许多问题需要解决</p>
+<p>上面讨论的问题可能会累积在一起，导致产品性能低、难以维护，并存在若干 UI 和 用户体验不一致的问题。</p>
+<h2 id="什么情况下推荐使用-CSS-in-JS"><a href="#什么情况下推荐使用-CSS-in-JS" class="headerlink" title="什么情况下推荐使用 CSS-in-JS"></a>什么情况下推荐使用 CSS-in-JS</h2><p>当你处理一个较小的应用并且性能优先级要求不高的话， CSS-in-JS 是一个理想的解决方案。在处理具有庞大设计系统的性能要求高的应用时，它可能并不理想。</p>
+<p>随着 app 逐渐变大，考虑到这个概念的所有缺点，使用 CSS-in-JS 会很容易变得复杂，把一个设计系统转化为 CSS-in-JS 有许多工作要做，从我的角度来看，没有 JavaScript 开发者会想要处理这种情况。</p>
+<h2 id="CSS-Module-概览"><a href="#CSS-Module-概览" class="headerlink" title="CSS Module 概览"></a>CSS Module 概览</h2><p><a target="_blank" rel="noopener" href="https://blog.logrocket.com/a-deep-dive-into-css-modules/">CSS Module</a>是一个 CSS 文件，里面所有的属性在已经渲染的 CSS 中默认都被限制在局部范围内。JavaScript 进一步处理 CSS Module 文件并且封装他们的样式声明来解决作用域问题。</p>
+<p>为了使用 CSS Module，你需要把 CSS 文件扩展名修改为<code>.module.css</code>,然后将他们导入 JavaScript 文件中。下面的代码片段提供了一个如何使用 CSS Module 的例子：</p>
+<pre><code class="jsx">import styles from &quot;./Button.module.css&quot;;
+
+export default function Button(props) &#123;
+  return (
+    &lt;a href=&#123;props.href ? props.href : &quot;#&quot;&#125; className=&#123;styles.btn&#125;&gt;
+      &#123;props.name&#125;
+    &lt;/a&gt;
+  );
+&#125;
+</code></pre>
+<p>看这个在 React 中实现 CSS Module 的<a target="_blank" rel="noopener" href="https://stackblitz.com/edit/react-hbivvp?file=src/components/AnotherButton/AnotherButton.jsx">示例</a>。这个例子展示了如何使用 CSS Module 修复作用域问题。</p>
+<p>在这个例子里,请注意如何智能地处理和优化 Button.module.css 和 AnotherButton.module.css 的相同类名来防止命名冲突。</p>
+<h2 id="CSS-Module-的好处"><a href="#CSS-Module-的好处" class="headerlink" title="CSS Module 的好处"></a>CSS Module 的好处</h2><p>CSS Module 提供的最大的好处就是摆脱对 CSS in-JS 的依赖解决范围和特异性问题。如果我们可以通过保持尽可能传统 CSS 来解决作用域和特异性问题，那么 CSS-in-JS 的工作量会比必要的工作量大。</p>
+<h3 id="没有作用域和特异性问题-1"><a href="#没有作用域和特异性问题-1" class="headerlink" title="没有作用域和特异性问题"></a>没有作用域和特异性问题</h3><p>就像上面演示的示例一样，CSS Module 成功解决了我们遇到的传统旧式的 CSS 作用域问题。。由于规则是松散地编写在 CSS 模块文档中的，因此很少观察到任何特异性问题。</p>
+<h3 id="有组织的代码"><a href="#有组织的代码" class="headerlink" title="有组织的代码"></a>有组织的代码</h3><p>保留各自单独的 CSS 文件似乎是一个限制。但是这个方法确实促进了更好的组织组件。举例来说，这就是我如何通过把他们分到各自的文件夹下来组织组件：</p>
+<pre><code class="bash">- Project
+  - src
+    - components
+      - Button
+          - Button.jsx
+          - Button.modules.css
+      - Carousel
+          - Carousel.jsx
+          - Carousel.modules.css
+</code></pre>
+<h3 id="缓存的可能"><a href="#缓存的可能" class="headerlink" title="缓存的可能"></a>缓存的可能</h3><p>最终构建生成的极简化的 CSS 文件可以被浏览器缓存，从而改善连续页面加载时间。</p>
+<h3 id="CSS-预处理"><a href="#CSS-预处理" class="headerlink" title="CSS 预处理"></a>CSS 预处理</h3><p>添加对 CSS 预处理器（如 PostCSS，SASS，Less 等）的支持很容易。但是必须依赖额外的包来做这个事情。</p>
+<h3 id="零学习曲线"><a href="#零学习曲线" class="headerlink" title="零学习曲线"></a>零学习曲线</h3><p>If you know how CSS works, you can use CSS Module without learning anything new besides the few points that we discussed above in the intro segment.<br>如果你知道 CSS 是怎么工作的就能使用 CSS Module，除了上面介绍部分讨论的几点外你几乎不用学习任何新的东西。</p>
+<h3 id="强大的支持"><a href="#强大的支持" class="headerlink" title="强大的支持"></a>强大的支持</h3><p>你不需要添加任何额外的包就能使用 CSS Module。所有的主流框架和库都提供了内置的支持。</p>
+<h2 id="CSS-Module-的坏处"><a href="#CSS-Module-的坏处" class="headerlink" title="CSS Module 的坏处"></a>CSS Module 的坏处</h2><p>尽管 CSS Modue 提供了许多好处，但是他还不是一个完美的解决方案。以下是一些需要牢记的注意事项。</p>
+<h3 id="非标准的-global-属性"><a href="#非标准的-global-属性" class="headerlink" title="非标准的 :global 属性"></a>非标准的 <code>:global</code> 属性</h3><p>当在全局作用域内定位选择器的时候，你必须使用<code>:global</code>规则。这不是 CSS 规范的一部分，但是被 JavaScript 用它来标记全局样式。</p>
+<h3 id="没有动态样式"><a href="#没有动态样式" class="headerlink" title="没有动态样式"></a>没有动态样式</h3><p>借助 CSS Module，所有的声明都会进入单独的 CSS 文件。因此不可能像 CSS-in-JS 一样实现动态样式，因为我们不能在 CSS 文件中实现任何 JavaScript。</p>
+<h3 id="外部的-CSS-文件"><a href="#外部的-CSS-文件" class="headerlink" title="外部的 CSS 文件"></a>外部的 CSS 文件</h3><p>你不能省略组件中带有 CSS 模块的 CSS 文件的用法。使用 CSS 模块的唯一可能方法是维护和导入外部 CSS 文档。</p>
+<h3 id="TypeScript-限制"><a href="#TypeScript-限制" class="headerlink" title="TypeScript 限制"></a>TypeScript 限制</h3><p>为了在 TypeScript 下使用 CSS Module,你必须在<code>index.d.ts</code>中添加 module 定义或者使用<a target="_blank" rel="noopener" href="https://blog.logrocket.com/how-to-configure-css-modules-webpack/">webpack loader</a>：</p>
+<pre><code class="typescript">/** index.d.ts **/
+declare module &quot;*.module.css&quot;; // TS module for CSS Module files
+declare module &quot;*.module.scss&quot;; // TS module for CSS Module files in SCSS format
+</code></pre>
+<h2 id="推荐使用-CSS-Module-的场景"><a href="#推荐使用-CSS-Module-的场景" class="headerlink" title="推荐使用 CSS Module 的场景"></a>推荐使用 CSS Module 的场景</h2><p>如果你应用 UI 规模大并且对性能要求严苛，CSS Module 是一个非常好的选择。由于 CSS Module 提供的每个东西最终都是基于传统的,非实验性的用法，所以这个方法让监控和修复性能变得更容易。<br>CSS Module 文件非常容易适应你选择的任意 CSS 框架的代码，因为你需要处理的只有 CSS。就像前面说的，基础的 CSS 对于这个任务来说已经足够了。</p>
+<h2 id="现代-CSS-特性"><a href="#现代-CSS-特性" class="headerlink" title="现代 CSS 特性"></a>现代 CSS 特性</h2><p>在介绍里，我提到了一些现代化的 CSS 特性在未来不需要依赖 CSS Module，CSS-in-JS 或者其他的一些 JavaScript 解决方案的情况下是如何协助解决作用域问题的。</p>
+<p>新的并且正在计划中的特性——例如作用域指令和@scope 伪元素——旨在使用传统的 CSS 解决老问题。反之，这也会减少开发者转向类似 CSS-in-JS 作为这些缺陷的变通方法的需求</p>
+<p>让我们看一下目前的 scoped CSS 草案是如何解决 CSS-in-JS 甚至 CSS Module 的问题。对于其他的 CSS 属性的完整列表，查看<a target="_blank" rel="noopener" href="https://web.dev/state-of-css-2022/">the State of CSS 2022</a></p>
+<h3 id="CSS-作用域的潜在可能性"><a href="#CSS-作用域的潜在可能性" class="headerlink" title="CSS 作用域的潜在可能性"></a>CSS 作用域的潜在可能性</h3><p>在从 CSS 规范中奇怪的引入和移除<style scope>之后，当前的 Scope CSS 草案看上去已经足够优秀到去通过编写 CSS 规则来定义元素的作用域前提。<br>Its current status involves using a directive and a pseudo-class to control the provision of scoping for a given element. Here is a rough picture of how it will lock an element’s scope within a boundary and maintain it regardless of the cascade’s rules of scoping:<br>目前的状态涉及了使用指令和伪类来控制一个给定的元素的作用域。这里是一个如何将元素的作用域锁定在边界内并维护它的粗略图片，而不管级联的作用域规则如何：</p>
+<pre><code class="html">&lt;div class=&quot;card&quot;&gt;
+  &lt;img src=&quot;...&quot; /&gt;
+  &lt;div class=&quot;content&quot;&gt;
+    &lt;p&gt;...&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;!-- .content --&gt;
+&lt;/div&gt;
+&lt;!-- .card --&gt;
+
+&lt;style&gt;
+  @scope (.card) &#123;
+    :scope &#123;
+      display: grid;
+      ...;
+    &#125;
+    img &#123;
+      object-fit: cover;
+      ...;
+    &#125;
+    .content &#123;
+      ...;
+    &#125;
+  &#125;
+&lt;/style&gt;
+</code></pre>
+<p>这个新特性也许会消除对于 CSS Module 或者 CSS-in-JS 解决作用域问题的需求。我们拭目以待，等它在我们的浏览器中可以使用的那一天。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以上，我们首先提到了对于web应用来说，CSS 渲染阻塞是一个主要的性能问题。然后讨论了修复这些问题的部分解决方案，这促使我们探索 CSS-in-JS、CSS Module以及新作用域 CSS 功能的官方进度草案的当前状态。</p>
+<p>开发者喜欢JavaScript，爱CSS-in-JS是因为它用JavaScript覆盖了几乎所有的样式角度。另一方面，这些喜欢CSS的——并且想让当前的技术能支持开发者和终端用户同样也许会更喜欢CSS Module。</p>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2023-03-07</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/CSS/'>
+                            CSS
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E7%BF%BB%E8%AF%91/'>
+                            翻译
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

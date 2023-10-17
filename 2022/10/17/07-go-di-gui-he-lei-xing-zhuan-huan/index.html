@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="07-go-递归和类型转换" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            07-go-递归和类型转换
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%80%92%E5%BD%92"><span class="post-toc-text">递归</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="post-toc-text">类型转换</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%8E%A5%E5%8F%A3"><span class="post-toc-text">接口</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%85%B7%E4%BD%93%E6%A1%88%E4%BE%8B"><span class="post-toc-text">具体案例</span></a></li></ol></li></ol>
+        
+        <h2 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h2><p>递归的概念：在运行的过程中调用自己<br>递归的用法：在使用递归时，开发者需要设置退出条件，否则递归将陷入无限循环中</p>
+<pre><code class="go">func recursion() &#123;
+   recursion() /* 函数调用自身 */
+&#125;
+
+func main() &#123;
+   recursion()
+&#125;
+</code></pre>
+<h2 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h2><p>格式：类型名称(表达式)<br>注意：不支持隐式转换类型</p>
+<h2 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h2><p>定义：把所有的具有共性的方法定义在一起，任何其他类型只要实现了这些方法就是实现了这个接口</p>
+<pre><code class="go">/* 定义接口 */
+type 接口名称 interface &#123;
+   方法名1 [返回类型]
+   ...
+   方法名n [返回类型]
+&#125;
+
+/* 定义结构体 */
+type 结构体名称 struct &#123;
+   /* variables */
+&#125;
+
+/* 实现接口方法 */
+func (struct_name_variable 结构体名称)  方法名1 () [返回类型] &#123;
+   /* 方法实现 */
+&#125;
+...
+func (struct_name_variable 结构体名称) 方法名n() [返回类型] &#123;
+   /* 方法实现*/
+&#125;
+</code></pre>
+<h3 id="具体案例"><a href="#具体案例" class="headerlink" title="具体案例"></a>具体案例</h3><pre><code class="go">type Phone interface &#123;
+    call()
+&#125;
+type NokiaPhone struct &#123;
+&#125;
+type IPhone struct &#123;
+&#125;
+
+func (nokiaPhone NokiaPhone) call() &#123;
+    fmt.Println(&quot;I am Nokia, I can call you!&quot;)
+&#125;
+func (iPhone IPhone) call() &#123;
+    fmt.Println(&quot;I am iPhone, I can call you!&quot;)
+&#125;
+
+func TestInterface() &#123;
+    var phone Phone
+    phone = new(NokiaPhone)
+    phone.call()
+    phone = new(IPhone)
+    phone.call()
+&#125;
+/**
+I am Nokia, I can call you!
+I am iPhone, I can call you!
+ */
+</code></pre>
+<pre><code class="go">type MobilePhone interface &#123;
+    call()
+    call2()
+&#125;
+type ApplePhone struct &#123;
+    id            int
+    name          string
+    category_id   int
+    category_name string
+&#125;
+
+func (test ApplePhone) call() &#123;
+    fmt.Println(&quot;这是第一个类的第一个接口回调函数 结构体数据：&quot;, ApplePhone&#123;id: 1, name: &quot;浅笑&quot;&#125;)
+&#125;
+func (test ApplePhone) call2() &#123;
+    fmt.Println(&quot;这是一个类的第二个接口回调函数call2&quot;, ApplePhone&#123;id: 1, name: &quot;浅笑&quot;, category_id: 4, category_name: &quot;分类名称&quot;&#125;)
+&#125;
+
+type Android struct &#123;
+    member_id       int
+    member_balance  float32
+    member_sex      bool
+    member_nickname string
+&#125;
+
+func (test Android) call() &#123;
+    fmt.Println(&quot;这是第二个类的第一个接口回调函数call&quot;, Android&#123;member_id: 22, member_balance: 15.23, member_sex: false, member_nickname: &quot;浅笑18&quot;&#125;)
+&#125;
+
+func (test Android) call2() &#123;
+    fmt.Println(&quot;这是第二个类的第二个接口回调函数call2&quot;, Android&#123;member_id: 44, member_balance: 100, member_sex: true, member_nickname: &quot;陈超&quot;&#125;)
+&#125;
+func TestInterfaceDemo() &#123;
+    var phoneD MobilePhone
+    phoneD = new(ApplePhone)
+    phoneD.call()
+    phoneD.call2()
+
+    phoneD = new(Android)
+    phoneD.call()
+    phoneD.call2()
+&#125;
+</code></pre>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2022-10-17</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/GoLang/'>
+                            GoLang
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E5%90%8E%E7%AB%AF/'>
+                            后端
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

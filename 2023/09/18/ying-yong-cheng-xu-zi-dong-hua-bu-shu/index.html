@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="应用程序自动化部署" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            应用程序自动化部署
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E5%88%9B%E5%BB%BA%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%9B%B8%E5%85%B3%E6%96%87%E4%BB%B6"><span class="post-toc-text">第一步：创建工作流相关文件</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%B8%A9%E5%9D%91%EF%BC%9A"><span class="post-toc-text">踩坑：</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E5%88%9B%E5%BB%BA%E9%95%9C%E5%83%8F%E6%9E%84%E5%BB%BA%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6-build-image-yml"><span class="post-toc-text">第二步：创建镜像构建配置文件 build-image.yml</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%B8%80%E4%BA%9B%E9%85%8D%E7%BD%AE%E9%A1%B9"><span class="post-toc-text">一些配置项</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#build-vue-app-image-%E6%80%BB%E5%85%B1%E6%9C%89-3-%E4%B8%AA%E6%AD%A5%E9%AA%A4%EF%BC%9A"><span class="post-toc-text">build_vue_app_image,总共有 3 个步骤：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%AD%A4%E5%A4%84%E6%9C%89%E4%B8%A4%E4%B8%AA%E5%9C%B0%E6%96%B9%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E3%80%90%E5%AE%B9%E6%98%93%E8%B8%A9%E5%9D%91%E3%80%91%EF%BC%9A"><span class="post-toc-text">此处有两个地方需要注意【容易踩坑】：</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5%EF%BC%9A%E5%88%9B%E5%BB%BA-deploy-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6-deploy-yml"><span class="post-toc-text">第三步：创建 deploy 配置文件 deploy.yml</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%B8%80%E4%BA%9B%E9%85%8D%E7%BD%AE%E9%A1%B9-1"><span class="post-toc-text">一些配置项</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#push-to-private-machine%E6%80%BB%E5%85%B1%E6%9C%89%E4%B8%AA%E6%AD%A5%E9%AA%A4"><span class="post-toc-text">push-to-private-machine总共有个步骤</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%B8%80%E4%BA%9B%E5%91%BD%E4%BB%A4"><span class="post-toc-text">一些命令</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AE%B9%E6%98%93%E8%B8%A9%E5%9D%91%E7%9A%84%E7%82%B9"><span class="post-toc-text">容易踩坑的点</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%8A%E5%AE%89%E8%A3%85%E4%BA%86-git%EF%BC%8C%E4%BD%86%E6%98%AF%E6%89%A7%E8%A1%8C%E5%88%B0git-pull-xx%E5%8D%B4%E6%8A%A5%E9%94%99"><span class="post-toc-text">虚拟机上安装了 git，但是执行到git pull xx却报错:</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%B5%81%E7%A8%8B%E6%89%A7%E8%A1%8C%E5%AE%8C%E4%B9%8B%E5%90%8E%E5%B9%B6%E6%B2%A1%E6%9C%89%E6%89%A7%E8%A1%8C%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2"><span class="post-toc-text">第一个流程执行完之后并没有执行自动化部署</span></a></li></ol></li></ol></li></ol></li></ol>
+        
+        <p>在现代软件开发中使用 Dokcer 进行前后端程序的部署已经成为一种常见的做法。但是每次 push 代码后都需要手动更新镜像并重新创建容器，这不仅麻烦且浪费时间。为了解决这个问题，我们可以利用 github actions 实现自动化部署流程。</p>
+<h1 id="第一步：创建工作流相关文件"><a href="#第一步：创建工作流相关文件" class="headerlink" title="第一步：创建工作流相关文件"></a>第一步：创建工作流相关文件</h1><p>在项目的根目录下新建 <code>.github/workflows/xxx.yaml</code>文件<br>我们的预期有两个：</p>
+<ol>
+<li>根据最新的代码构建最新的前后端镜像</li>
+<li>将容器部署到虚拟机上<br>所以新建两个文件<code>build-image.yaml</code>和<code>deploy.yml</code></li>
+</ol>
+<h3 id="踩坑："><a href="#踩坑：" class="headerlink" title="踩坑："></a>踩坑：</h3><p>文件夹名称必须是<code>.github/workflows</code>，且必须放在项目根目录下,否则 github 不会将其识别为 github actions 的配置文件。</p>
+<h2 id="第二步：创建镜像构建配置文件-build-image-yml"><a href="#第二步：创建镜像构建配置文件-build-image-yml" class="headerlink" title="第二步：创建镜像构建配置文件 build-image.yml"></a>第二步：创建镜像构建配置文件 build-image.yml</h2><h3 id="一些配置项"><a href="#一些配置项" class="headerlink" title="一些配置项"></a>一些配置项</h3><ul>
+<li>on:指定触发工作流程的事件,大部分情况下设置为 push，当然还有其他可选值：pull_request,issue_comment 等</li>
+<li>jobs:定义一个或多个 job</li>
+<li>runs-on:指定 job 运行的操作系统环境</li>
+<li>steps:定义完成当前 job 所需要的步骤<ul>
+<li>name: 步骤名称</li>
+<li>uses：指定预定义的动作或自定义的操作所在的仓库和版本，一般形式为<code>仓库所有者/仓库地址@版本</code></li>
+<li>run:指定具体的命令或脚本来执行</li>
+<li>env：定义环境变量</li>
+</ul>
+</li>
+</ul>
+<h3 id="build-vue-app-image-总共有-3-个步骤："><a href="#build-vue-app-image-总共有-3-个步骤：" class="headerlink" title="build_vue_app_image,总共有 3 个步骤："></a>build_vue_app_image,总共有 3 个步骤：</h3><ol>
+<li>通过<code>actions/checkout@v3</code>拉取代码仓库</li>
+<li>构建前端镜像</li>
+<li>构建后端镜像</li>
+</ol>
+<p>此处有两个环境变量<code>DOCKER_USERNAME</code>,<code>DOCKER_PASSWORD</code>,这两个变量都是通过配置 github 该项目仓库的<code>secrets</code>获取到的，设置路径为：<a target="_blank" rel="noopener" href="https://github.com/earthaYan/resume_generator_front/settings/secrets/actions">项目-settings-Security-Actions secrets and variables-Repository secrets</a></p>
+<h3 id="此处有两个地方需要注意【容易踩坑】："><a href="#此处有两个地方需要注意【容易踩坑】：" class="headerlink" title="此处有两个地方需要注意【容易踩坑】："></a>此处有两个地方需要注意【容易踩坑】：</h3><ol>
+<li>这里两个环境变量应该设置的是两个<code>secret</code>，而不是Name 为你的 Docker Hub 账号，Value 为 Docker Hub 的 access token<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DOCKER_USERNAME</td>
+<td>Docker Hub 账号名</td>
+</tr>
+<tr>
+<td>DOCKER_PASSWORD</td>
+<td>Docker Hub Access Token</td>
+</tr>
+</tbody></table>
+</li>
+<li>第一次执行的时候报错：<code>invalid workflow file,you have error in your yaml syntax on line11</code>，报错部分代码如下：</li>
+</ol>
+<pre><code class="yaml">env:  DOCKER_USERNAME: $&#123;&#123; secrets.DOCKER_USERNAME &#125;&#125;
+      DOCKER_PASSWORD: $&#123;&#123; secrets.DOCKER_PASSWORD &#125;&#125;
+</code></pre>
+<p>错误的原因是 yaml 文件中使用缩进表示层级关系，相同层级的元素必须左对齐，而这里 env下面的环境变量是 env 的下一级，但是却和它放在了同一行，所以报错了，修改为：</p>
+<pre><code class="yml">name: Build vue_app image
+env:
+    DOCKER_USERNAME: $&#123;&#123; secrets.DOCKER_USERNAME &#125;&#125;
+    DOCKER_PASSWORD: $&#123;&#123; secrets.DOCKER_PASSWORD &#125;&#125;
+</code></pre>
+<p>完整代码如下：</p>
+<pre><code class="yml">name: build-image
+run-name: $&#123;&#123; github.actor &#125;&#125; is building latest image
+on: [push]
+jobs:
+  build_vue_app_image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Build vue_app image
+        env:
+          DOCKER_USERNAME: $&#123;&#123; secrets.DOCKER_USERNAME &#125;&#125;
+          DOCKER_PASSWORD: $&#123;&#123; secrets.DOCKER_PASSWORD &#125;&#125;
+        run: |
+          docker build -t yanyue1215/vue_app .
+          docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+          docker push yanyue1215/vue_app
+      - name: build_resume_service
+        env:
+          DOCKER_USERNAME: $&#123;&#123; secrets.DOCKER_USERNAME &#125;&#125;
+          DOCKER_PASSWORD: $&#123;&#123; secrets.DOCKER_PASSWORD &#125;&#125;
+        run: |
+          cd Backend/    # 后端代码所在目录
+          docker build -t yanyue1215/resume_service .
+          docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+          docker push yanyue1215/resume_service
+</code></pre>
+<h2 id="第三步：创建-deploy-配置文件-deploy-yml"><a href="#第三步：创建-deploy-配置文件-deploy-yml" class="headerlink" title="第三步：创建 deploy 配置文件 deploy.yml"></a>第三步：创建 deploy 配置文件 deploy.yml</h2><p>如此之后，每当 push 代码到对应分支后，github 就会自动构建最新镜像并推送到 Docker Hub。但是这个时候你还是需要自己去虚拟机上拉取最新镜像并重建容器，依旧很麻烦，如果这个过程也能能自动化就最好了。<br>一开始考虑是否和 umc-ui 项目一样使用MakeFile,但是最后还是希望能把更新和部署都集成到 github 的工作流程中。但是由于 github action 本身并不支持直接将应用程序部署到私人的虚拟机上，需要和其他工具相结合。最终采用的方法是：</p>
+<blockquote>
+<p>在 yml 文件中编写一个部署脚本，通过 ssh 连接到虚拟机并执行对应的部署命令</p>
+</blockquote>
+<h3 id="一些配置项-1"><a href="#一些配置项-1" class="headerlink" title="一些配置项"></a>一些配置项</h3><ul>
+<li>workflows: 依赖的workflow</li>
+<li>types:指定只有在依赖工作流程完成后才触发该工作流程</li>
+</ul>
+<h3 id="push-to-private-machine总共有个步骤"><a href="#push-to-private-machine总共有个步骤" class="headerlink" title="push-to-private-machine总共有个步骤"></a>push-to-private-machine总共有个步骤</h3><ol>
+<li>通过<code>actions/checkout@v3</code>拉取代码仓库</li>
+<li>将虚拟机密钥添加到 GitHub Runner 的 “known_hosts” 文件中</li>
+<li>移除旧容器</li>
+<li>拉取最新镜像</li>
+<li>创建新容器</li>
+</ol>
+<h3 id="一些命令"><a href="#一些命令" class="headerlink" title="一些命令"></a>一些命令</h3><ul>
+<li><code>docker ps -a | grep yanyue1215/vue_app | awk &#39;&#123;print $1&#125;&#39; | xargs -r docker rm -f</code><ul>
+<li>docker ps -a：列出所有的Dokcer容器</li>
+<li>grep yanyue1215&#x2F;vue_app：在容器列表中过滤出名称为 “yanyue1215&#x2F;vue_app” 的容器</li>
+<li>awk ‘{print $1}’:从过滤结果中提取第一列（即容器 ID）</li>
+<li>xargs -r docker rm -f：将容器 ID 作为参数传递给 docker rm -f 命令，以强制删除容器</li>
+</ul>
+</li>
+<li>ssh-keyscan 116.204.108.126 &gt;&gt; ~&#x2F;.ssh&#x2F;known_hosts<ul>
+<li>使用 <code>ssh-keyscan</code> 命令扫描主机 116.204.108.126 的公钥，并将结果追加到 <code>~/.ssh/known_hosts</code> 文件中。<code>&gt;&gt; </code>操作符表示将输出重定向并追加到文件末尾</li>
+</ul>
+</li>
+</ul>
+<p>完整代码如下：</p>
+<pre><code class="yml">name: push-to-private-machine
+run-name: $&#123;&#123; github.actor &#125;&#125; is deploying
+on:
+  workflow_run:
+    workflows: [&quot;build-image&quot;] #依赖的工作流程文件的名称
+    types:
+      - completed
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Add known hosts
+        run: | # 将虚拟机密钥添加到 GitHub Runner 的 &quot;known_hosts&quot; 文件中
+          mkdir -p ~/.ssh
+          ssh-keyscan 116.204.108.126 &gt;&gt; ~/.ssh/known_hosts
+      - name: remove old container
+        run: |
+          sshpass -p $&#123;&#123; secrets.SSH_PASSWORD &#125;&#125; ssh root@116.204.108.126 &quot;docker ps -a | grep yanyue1215/vue_app | awk &#39;&#123;print $1&#125;&#39; | xargs -r docker rm -f&quot;
+          sshpass -p $&#123;&#123; secrets.SSH_PASSWORD &#125;&#125; ssh root@116.204.108.126 &quot;docker ps -a | grep yanyue1215/resume_service | awk &#39;&#123;print $1&#125;&#39; | xargs -r docker rm -f&quot;
+          sshpass -p $&#123;&#123; secrets.SSH_PASSWORD &#125;&#125; ssh root@116.204.108.126 &quot;docker system prune -a&quot;
+      - name: pull latest front_image
+        run: sshpass -p $&#123;&#123; secrets.SSH_PASSWORD &#125;&#125; ssh root@116.204.108.126 &quot;docker pull yanyue1215/vue_app:latest&quot;
+      - name: pull latest backend_image
+        run: sshpass -p $&#123;&#123; secrets.SSH_PASSWORD &#125;&#125; ssh root@116.204.108.126 &quot;docker pull yanyue1215/resume_service:latest&quot;
+      - name: Deploy to Virtual Machine
+        run: sshpass -p $&#123;&#123; secrets.SSH_PASSWORD &#125;&#125; ssh root@116.204.108.126 &quot;cd /root/resume_generator_front &amp;&amp; /usr/local/git/bin/git pull origin master &amp;&amp; docker-compose up -d&quot;
+</code></pre>
+<h3 id="容易踩坑的点"><a href="#容易踩坑的点" class="headerlink" title="容易踩坑的点"></a>容易踩坑的点</h3><h4 id="虚拟机上安装了-git，但是执行到git-pull-xx却报错"><a href="#虚拟机上安装了-git，但是执行到git-pull-xx却报错" class="headerlink" title="虚拟机上安装了 git，但是执行到git pull xx却报错:"></a>虚拟机上安装了 git，但是执行到<code>git pull xx</code>却报错:</h4><blockquote>
+<p>git: command not found<br>error:Process completed with exit code 127</p>
+</blockquote>
+<p>猜测原因是 Github Actions 的工作流程中无法找到 git 命令。解决方案是在虚拟机上执行<code>which git</code>命令获取到 git 的实际位置，然后将其替换到命令中。</p>
+<pre><code class="bash"># 原来的命令：
+git pull origin master
+# 修改后的命令：
+/usr/local/git/bin/git pull origin master
+</code></pre>
+<h4 id="第一个流程执行完之后并没有执行自动化部署"><a href="#第一个流程执行完之后并没有执行自动化部署" class="headerlink" title="第一个流程执行完之后并没有执行自动化部署"></a>第一个流程执行完之后并没有执行自动化部署</h4><p>原因：需要两个工作流程文件的名称正确且匹配<br>解决方案：是将所有 yml 文件和他们里面的<code>name</code>值保持一致</p>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2023-09-18</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/Docker/'>
+                            Docker
+                        </a>
+                    
+                        <a href='/tags/SSH/'>
+                            SSH
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/Docker/'>
+                            Docker
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

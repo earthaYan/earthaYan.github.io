@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="go.mod文件" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            go.mod文件
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#go-mod%E5%B8%B8%E8%A7%81%E7%94%A8%E6%B3%95%E4%BB%A5%E5%8F%8A%E6%B3%A8%E9%87%8A"><span class="post-toc-text">go.mod常见用法以及注释</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E7%9A%84replace"><span class="post-toc-text">第三方库的replace</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%9C%BA%E6%99%AF"><span class="post-toc-text">场景</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%951-%E5%BC%95%E7%94%A8%E6%96%B0%E5%BA%93"><span class="post-toc-text">解决方法1-引用新库</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%952-go-mod-replace"><span class="post-toc-text">解决方法2 - go mod replace</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86"><span class="post-toc-text">补充知识</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96module"><span class="post-toc-text">初始化module</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#go-mod-tidy%E4%BD%9C%E7%94%A8"><span class="post-toc-text">go mod tidy作用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%89%A7%E8%A1%8C%E9%A1%B9%E7%9B%AE"><span class="post-toc-text">执行项目</span></a></li></ol></li></ol>
+        
+        <h2 id="go-mod常见用法以及注释"><a href="#go-mod常见用法以及注释" class="headerlink" title="go.mod常见用法以及注释"></a>go.mod常见用法以及注释</h2><pre><code class="go">// module path，一般采用仓库或者仓库+module_name定义
+module github.com/actiontech/dtle
+
+// go directive,非必须,指定代码所需要的go的最低版本，一般为go 1.xx
+go 1.16
+
+// require段中列出了项目所需要的各个依赖库以及它们的版本
+require (
+    // 正规版本号
+    github.com/Shopify/sarama v1.26.4
+    // 伪版本号： go module 为它生成的一个类似符合语义化版本 2.0.0 版本，实际这个库并没有发布这个版本
+    // commit 的 base versio-本次提交时间-第三方库本次提交时最新的commitId
+    github.com/actiontech/golang-live-coverage-report v0.0.0-20210902074032-43aa91afdc2c
+    //indirect: 间接的使用了这个库，但是又没有被列到某个 go.mod 中
+    // 1. 当前项目依赖 A，但是 A 的go.mod 遗漏了 B，那么就会在当前项目的 go.mod 中补充 B，加 indirect 注释；
+    // 2.	当前项目依赖 A，但是 A 没有 go.mod，同样就会在当前项目的 go.mod 中补充 B，加 indirect 注释；
+    // 3.	当前项目依赖 A，A 又依赖 B。当对 A 降级的时候，降级的 A 不再依赖 B，这个时候 B 就标记 indirect 注释。我们可以执行go mod tidy来清理不依赖的 module。
+    github.com/go-playground/universal-translator v0.17.0 // indirect
+    // 没有采用go.mod管理或者module path 中依然没有添加 v2、v3 这样的后缀,不符合 Go 的 module 管理规范
+    github.com/go-playground/validator v9.31.0+incompatible
+)
+
+// 1. 替换库
+// 2.	某个依赖库有问题，自己 fork 到本地做修改，通过替换成本地文件夹进行调试
+replace github.com/go-mysql-org/go-mysql =&gt; github.com/ffffwh/go-mysql v0.0.0-20211206100736-edbdc58f729a
+
+//replace github.com/Sirupsen/logrus =&gt; github.com/sirupsen/logrus v1.4.2
+
+replace github.com/araddon/qlbridge =&gt; github.com/ffffwh/qlbridge v0.0.0-20220113095321-0b48c80b13e9
+
+replace github.com/pingcap/dm =&gt; github.com/actiontech/dm v0.0.0-20211206092524-9e640f6da0ac
+
+replace github.com/pingcap/tidb =&gt; github.com/actiontech/tidb v0.0.0-20220928030323-1f192702a2c7
+
+replace github.com/pingcap/tidb/parser =&gt; github.com/actiontech/tidb/parser v0.0.0-20220928030323-1f192702a2c7
+
+// 后面的commitId为当时提交代码的时候依赖包的commitId
+replace github.com/hashicorp/go-discover =&gt; github.com/hashicorp/go-discover v0.0.0-20211203145537-8b3ddf4349a8
+// 将grpc版本固定为1.29.1
+replace google.golang.org/grpc =&gt; google.golang.org/grpc v1.29.1
+
+// exclude :Go 在版本选择的时候，如go get -u 或者go get github.com/xxx/xxx@latest 就会主动跳过这些版本
+// retract :go 1.16 中新增加的内容
+</code></pre>
+<h2 id="第三方库的replace"><a href="#第三方库的replace" class="headerlink" title="第三方库的replace"></a>第三方库的replace</h2><h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><p>第三方库中缺少自己项目中需要的某个方法，自己fork一份并加入自定义的新方法，在项目中调用这个自定义方法</p>
+<h3 id="解决方法1-引用新库"><a href="#解决方法1-引用新库" class="headerlink" title="解决方法1-引用新库"></a>解决方法1-引用新库</h3><ol>
+<li>将fork的库的go.mod中module name 修改为一个新的 name</li>
+<li>增加所需要的方法</li>
+<li>增加新的 git tag</li>
+<li>当前项目中，引用修改后的这个 repo，替换地址以及tag版本号</li>
+</ol>
+<h3 id="解决方法2-go-mod-replace"><a href="#解决方法2-go-mod-replace" class="headerlink" title="解决方法2 - go mod replace"></a>解决方法2 - go mod replace</h3><ol>
+<li>fork第三方库</li>
+<li>增加需要的方法</li>
+<li>在当前项目中，执行 go mod edit -replace 命令:<code>go mod edit -replace=old[@v]=new[@v]</code></li>
+</ol>
+<pre><code class="go">go mod edit -replace=golang.org/x/image@v0.0.0-20180708004352-c73c2afc3b81=github.com/golang/image@v0.0.0-20180708004352-c73c2afc3b81
+</code></pre>
+<ol start="4">
+<li>可以向第三方库提交PR，合并上去后可以删除replace语句</li>
+</ol>
+<h2 id="补充知识"><a href="#补充知识" class="headerlink" title="补充知识"></a>补充知识</h2><h3 id="初始化module"><a href="#初始化module" class="headerlink" title="初始化module"></a>初始化module</h3><p><code>go mod init project_name</code></p>
+<h3 id="go-mod-tidy作用"><a href="#go-mod-tidy作用" class="headerlink" title="go mod tidy作用"></a>go mod tidy作用</h3><ol>
+<li>解析项目文件，并找到所使用的包</li>
+<li>生成 go.sum 文件，其中保存了所使用包的版本</li>
+</ol>
+<h3 id="执行项目"><a href="#执行项目" class="headerlink" title="执行项目"></a>执行项目</h3><p><code>go run main.go</code></p>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2023-01-30</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/GoLang/'>
+                            GoLang
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E5%90%8E%E7%AB%AF/'>
+                            后端
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

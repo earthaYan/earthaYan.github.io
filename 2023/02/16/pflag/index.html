@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="PFlag" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            PFlag
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#FlagSet"><span class="post-toc-text">FlagSet</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%8E%B7%E5%8F%96%E5%B9%B6%E4%BD%BF%E7%94%A8FlagSet"><span class="post-toc-text">获取并使用FlagSet</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Pflag%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="post-toc-text">Pflag使用方法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%94%AF%E6%8C%81%E5%A4%9A%E7%A7%8D%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E5%AE%9A%E4%B9%89%E6%96%B9%E5%BC%8F"><span class="post-toc-text">支持多种命令行参数定义方式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BD%BF%E7%94%A8Get%E8%8E%B7%E5%8F%96%E5%8F%82%E6%95%B0%E7%9A%84%E5%80%BC"><span class="post-toc-text">使用Get获取参数的值</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%8E%B7%E5%8F%96%E9%9D%9E%E9%80%89%E9%A1%B9%E5%8F%82%E6%95%B0"><span class="post-toc-text">获取非选项参数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%8C%87%E5%AE%9A%E4%BA%86%E9%80%89%E9%A1%B9%E4%BD%86%E6%98%AF%E6%B2%A1%E6%9C%89%E6%8C%87%E5%AE%9A%E9%80%89%E9%A1%B9%E5%80%BC%E6%97%B6%E7%9A%84%E9%BB%98%E8%AE%A4%E5%80%BC"><span class="post-toc-text">指定了选项但是没有指定选项值时的默认值</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%BC%83%E7%94%A8%E6%A0%87%E5%BF%97%E6%88%96%E6%A0%87%E5%BF%97%E7%9A%84%E7%AE%80%E5%86%99"><span class="post-toc-text">弃用标志或标志的简写</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%BC%83%E7%94%A8%E7%AE%80%E5%86%99%E5%BD%A2%E5%BC%8F%EF%BC%8C%E4%BF%9D%E7%95%99%E6%A0%87%E5%BF%97"><span class="post-toc-text">弃用简写形式，保留标志</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E9%9A%90%E8%97%8F%E6%A0%87%E5%BF%97"><span class="post-toc-text">隐藏标志</span></a></li></ol></li></ol>
+        
+        <p>作用：<br>对命令行参数进行处理。一个命令行参数在Pflag包中会解析为一个<code>Flag</code>结构体类型的变量</p>
+<pre><code class="go">
+type Flag struct &#123;
+    Name                string // flag长选项的名称
+    Shorthand           string // flag短选项的名称，一个缩写的字符
+    Usage               string // flag的使用文本
+    Value               Value  // flag的值
+    DefValue            string // flag的默认值
+    Changed             bool // 记录flag的值是否有被设置过
+    NoOptDefVal         string // 当flag出现在命令行，但是没有指定选项值时的默认值
+    Deprecated          string // 记录该flag是否被放弃
+    Hidden              bool // 如果值为true，则从help/usage输出信息中隐藏该flag
+    ShorthandDeprecated string // 如果flag的短选项被废弃，当使用flag的短选项时打印该信息
+    Annotations         map[string][]string // 给flag设置注解
+&#125;
+
+type Value interface &#123;
+    String() string // 将flag类型的值转换为string类型的值，并返回string的内容
+    Set(string) error // 将string类型的值转换为flag类型的值，转换失败报错
+    Type() string // 返回flag的类型，例如：string、int、ip等
+&#125;
+</code></pre>
+<p>总结：<br>通过将 Flag 的值抽象成一个 interface 接口，我们就可以自定义 Flag 的类型了。只要实现了 Value 接口的结构体，就是一个新类型。</p>
+<h2 id="FlagSet"><a href="#FlagSet" class="headerlink" title="FlagSet"></a>FlagSet</h2><p>本质：预先定义好的一些Flag的集合,日常用FlagSet的方法操作Pflag</p>
+<h3 id="获取并使用FlagSet"><a href="#获取并使用FlagSet" class="headerlink" title="获取并使用FlagSet"></a>获取并使用FlagSet</h3><ol>
+<li>调用 <code>NewFlagSet</code>创建一个FlagSet</li>
+</ol>
+<pre><code class="go">var version bool
+flagSet := pflag.NewFlagSet(&quot;test&quot;, pflag.ContinueOnError)
+flagSet.BoolVar(&amp;version, &quot;version&quot;, true, &quot;Print version information and quit.&quot;)
+</code></pre>
+<ol start="2">
+<li>使用全局FlagSet：<code>CommandLine</code><br>主要用于不需要定义子命令的命令行工具</li>
+</ol>
+<pre><code class="go">import (
+    &quot;github.com/spf13/pflag&quot;
+)
+pflag.BoolVarP(&amp;version, &quot;version&quot;, &quot;v&quot;, true, &quot;Print version information and quit.&quot;)
+
+// pflag.BoolVarP 函数定义
+func BoolVarP(p *bool, name, shorthand string, value bool, usage string) &#123;
+    flag := CommandLine.VarPF(newBoolValue(value, p), name, shorthand, usage)
+    flag.NoOptDefVal = &quot;true&quot;
+&#125;
+
+// CommandLine is the default set of command-line flags, parsed from os.Args.
+var CommandLine = NewFlagSet(os.Args[0], ExitOnError)
+</code></pre>
+<h2 id="Pflag使用方法"><a href="#Pflag使用方法" class="headerlink" title="Pflag使用方法"></a>Pflag使用方法</h2><h3 id="支持多种命令行参数定义方式"><a href="#支持多种命令行参数定义方式" class="headerlink" title="支持多种命令行参数定义方式"></a>支持多种命令行参数定义方式</h3><blockquote>
+<p>函数名带Var -&gt; true:将标志的值绑定到变量，false:将标志的值存储在指针中<br>函数名带P -&gt; true:支持短选项，false:不支持短选项</p>
+</blockquote>
+<ol>
+<li>支持长选项、默认值和使用文本，并将标志的值存储在指针中</li>
+</ol>
+<pre><code class="go">var name = pflag.String(&quot;name&quot;, &quot;colin&quot;, &quot;Input Your Name&quot;)
+</code></pre>
+<ol start="2">
+<li>支持长选项、短选项、默认值和使用文本，并将标志的值存储在指针中。</li>
+</ol>
+<pre><code class="go">var name = pflag.StringP(&quot;name&quot;, &quot;n&quot;, &quot;colin&quot;, &quot;Input Your Name&quot;)
+</code></pre>
+<ol start="3">
+<li>支持长选项、默认值和使用文本，并将标志的值绑定到变量</li>
+</ol>
+<pre><code class="go">var name string
+pflag.StringVar(&amp;name, &quot;name&quot;, &quot;colin&quot;, &quot;Input Your Name&quot;)
+</code></pre>
+<ol start="4">
+<li>支持长选项、短选项、默认值和使用文本，并将标志的值绑定到变量。</li>
+</ol>
+<pre><code class="go">var name string
+pflag.StringVarP(&amp;name,&quot;n&quot;,&quot;colin&quot;,&quot;Input Your Name&quot;)
+</code></pre>
+<h3 id="使用Get获取参数的值"><a href="#使用Get获取参数的值" class="headerlink" title="使用Get获取参数的值"></a>使用Get<Type>获取参数的值</h3><p>Type 代表 Pflag 所支持的类型<br>案例：有一个 pflag.FlagSet，带有一个名为 flagname 的 int 类型的标志，可以使用GetInt()来获取 int 值。需要注意 flagname 必须存在且必须是 int</p>
+<pre><code class="go">i, err := flagset.GetInt(&quot;flagname&quot;)
+</code></pre>
+<h3 id="获取非选项参数"><a href="#获取非选项参数" class="headerlink" title="获取非选项参数"></a>获取非选项参数</h3><pre><code class="go">package main
+import (
+    &quot;fmt&quot;
+    &quot;github.com/spf13/pflag&quot;
+)
+var flagvar = pflag.Int(&quot;flagname&quot;, 1234, &quot;help message for flagname&quot;)
+func main() &#123;
+    // 解析定义的标志
+    pflag.Parse()
+    // 返回非选项参数的个数
+    fmt.Printf(&quot;argument number is: %v\n&quot;, pflag.NArg()) //2
+    // 返回所有的非选项参数
+    fmt.Printf(&quot;argument list is: %v\n&quot;, pflag.Args()) //[arg1,arg2]
+    // 返回第i个非选项参数
+    fmt.Printf(&quot;the first argument is: %v\n&quot;, pflag.Arg(0))//arg1
+&#125;
+go run example1.go arg1 arg2
+</code></pre>
+<h3 id="指定了选项但是没有指定选项值时的默认值"><a href="#指定了选项但是没有指定选项值时的默认值" class="headerlink" title="指定了选项但是没有指定选项值时的默认值"></a>指定了选项但是没有指定选项值时的默认值</h3><pre><code class="go">var ip = pflag.IntP(&quot;flagname&quot;, &quot;f&quot;, 1234, &quot;help message&quot;)
+pflag.Lookup(&quot;flagname&quot;).NoOptDefVal = &quot;4321&quot;
+
+
+--flagname=1357 -&gt; ip=1357
+--flagname -&gt; ip=4321
+[nothing] -&gt; ip=1234
+</code></pre>
+<h3 id="弃用标志或标志的简写"><a href="#弃用标志或标志的简写" class="headerlink" title="弃用标志或标志的简写"></a>弃用标志或标志的简写</h3><p>弃用标志在帮助文本中会被隐藏，并在使用不推荐的标志或简写时打印正确的用法提示</p>
+<pre><code class="go">//  deprecate a flag by specifying its name and a usage message
+pflag.CommandLine.MarkDeprecated(&quot;logmode&quot;, &quot;please use --log-mode instead&quot;)
+</code></pre>
+<h3 id="弃用简写形式，保留标志"><a href="#弃用简写形式，保留标志" class="headerlink" title="弃用简写形式，保留标志"></a>弃用简写形式，保留标志</h3><p>隐藏了帮助文本中的简写 </p>
+<pre><code class="go">pflag.IntVarP(&amp;port, &quot;port&quot;, &quot;P&quot;, 3306, &quot;MySQL service host port.&quot;)
+// deprecate a flag shorthand by specifying its flag name and a usage message
+pflag.CommandLine.MarkShorthandDeprecated(&quot;port&quot;, &quot;please use --port only&quot;)
+</code></pre>
+<h3 id="隐藏标志"><a href="#隐藏标志" class="headerlink" title="隐藏标志"></a>隐藏标志</h3><p>仍将正常运行，但不会显示在 usage&#x2F;help 文本中</p>
+<pre><code class="go">// hide a flag by specifying its name
+pflag.CommandLine.MarkHidden(&quot;secretFlag&quot;)
+</code></pre>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2023-02-16</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/GoLang/'>
+                            GoLang
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E5%90%8E%E7%AB%AF/'>
+                            后端
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

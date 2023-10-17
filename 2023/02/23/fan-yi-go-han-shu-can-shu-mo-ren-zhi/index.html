@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="翻译-go函数参数默认值" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            翻译-go函数参数默认值
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#GloLang-%E5%B0%8F%E6%8A%80%E5%B7%A7%EF%BC%9A%E5%A6%82%E4%BD%95%E7%BB%99-Function-%E5%8F%82%E6%95%B0%E6%B7%BB%E5%8A%A0%E9%BB%98%E8%AE%A4%E5%80%BC"><span class="post-toc-text">GloLang 小技巧：如何给 Function 参数添加默认值?</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%AE%80%E5%8D%95%E7%9A%84-wrapper"><span class="post-toc-text">简单的 wrapper</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%9A%90%E8%97%8F%E5%8F%82%E6%95%B0"><span class="post-toc-text">隐藏参数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Functional-options-pattern-%E5%8A%9F%E8%83%BD%E9%80%89%E9%A1%B9%E6%A8%A1%E5%BC%8F"><span class="post-toc-text">Functional options pattern 功能选项模式</span></a></li></ol>
+        
+        <p>原文地址：<a target="_blank" rel="noopener" href="https://medium.com/@func25/golang-secret-how-to-add-default-values-to-function-parameters-60bd1e9625dc">https://medium.com/@func25/golang-secret-how-to-add-default-values-to-function-parameters-60bd1e9625dc</a></p>
+<h2 id="GloLang-小技巧：如何给-Function-参数添加默认值"><a href="#GloLang-小技巧：如何给-Function-参数添加默认值" class="headerlink" title="GloLang 小技巧：如何给 Function 参数添加默认值?"></a>GloLang 小技巧：如何给 Function 参数添加默认值?</h2><p><img src="https://cdn-images-1.medium.com/max/4044/1*7PBtpnlYoSLWJMSOliQweQ.png"></p>
+<p>你曾经因为 Go 没有默认参数值而感到苦恼吗?事实上你不是唯一一个!这种烦人的限制会让你的代码写起来单调乏味，读起来也更困难。</p>
+<p>一直以来,你不得不写额外的代码来检测某个参数是否有被提供，如果没有的话要使用一个默认值赋给这个参数。</p>
+<p>别担心!现在已经有方法来避开这些限制并且能添加默认值到 Go Function 里面。当然肯定不会像内置的方法那样方便,但是至少你不需要一直背负着限制。</p>
+<p>Golang 小技巧系列:</p>
+<ul>
+<li><p>GloLang 小技巧：如何给 Function 参数添加默认值? (当前篇)</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://medium.com/@func25/golang-technique-custom-struct-tag-technique-in-go-8667bf7da457">GloLang 小技巧: 自定义结构标签比如 <code>json:”name”</code></a></p>
+</li>
+</ul>
+<h2 id="简单的-wrapper"><a href="#简单的-wrapper" class="headerlink" title="简单的 wrapper"></a>简单的 wrapper</h2><p>完成这件事的方法之一就是定义一个 wrapper 函数,在这个函数里将默认值作为参数调用原始函数。<br>如果客户端没有指明 name,默认的 name 就是”Aiden””。下面是一个使用 wrapper 的案例：</p>
+<pre><code class="go">    func greet(name string) string &#123;
+     return &quot;Hello, &quot; + name
+    &#125;
+
+    func greetWithDefaultAiden(name string) string &#123;
+     if name == &quot;&quot; &#123;
+      name = &quot;Aiden&quot;
+     &#125;
+     return greet(name)
+    &#125;
+
+    // you can have more than 1 default set
+    func greetWithDefaultJohn(name string) string &#123;
+     if name == &quot;&quot; &#123;
+      name = &quot;John&quot;
+     &#125;
+     return greet(name)
+    &#125;
+</code></pre>
+<p>通过这种方式，可以在不修改 greet 函数内部的代码的情况下，为 greet 函数设置默认参数值。</p>
+<blockquote>
+<p>“但是这对于一个简单的函数来说是不是太臃肿了?”</p>
+</blockquote>
+<p>这是一个不利之处，因为它需要你写一些额外的代码，这会让代码的可读性变差。</p>
+<h2 id="隐藏参数"><a href="#隐藏参数" class="headerlink" title="隐藏参数"></a>隐藏参数</h2><p>我们可以把函数的惨呼放在一个未导出的 struct 中，允许客户端按照需要初始化这些参数：</p>
+<pre><code class="go">  type greetingArguments struct &#123;
+    Name string
+    Age  int
+  &#125;
+
+  func GreetingArguments() greetingArguments &#123;
+    return greetingArguments&#123;
+    Name: &quot;Aiden&quot;,
+    Age:  30,
+    &#125;
+  &#125;
+</code></pre>
+<p>现在定义 Greet 函数:</p>
+<pre><code class="go">    func Greet(options greetingArguments) string &#123;
+      return &quot;Hello, my name is &quot; + options.Name + &quot; and I am &quot; + strconv.Itoa(options.Age) + &quot; years old.&quot;
+    &#125;
+</code></pre>
+<p>每次客户端想要使用 Greet 函数的时候,他们就必须使用 GreetingArguments()函数来创建一个 greetingArguments 类型的 struct。</p>
+<p>这个方法只有在在从包外而不是包内调用函数时有效。</p>
+<p>另外一个选择就是使用 functional options pattern，它可以让你向函数传递数量可变的选项作为参数。这个方法更灵活，代码可读性也更好，但是也会让你的代码更加复杂。</p>
+<h2 id="Functional-options-pattern-功能选项模式"><a href="#Functional-options-pattern-功能选项模式" class="headerlink" title="Functional options pattern 功能选项模式"></a>Functional options pattern 功能选项模式</h2><p>这个模式已经被很多库采用了。在本章节中，我会一步一步带你体验如何使用它：</p>
+<ol>
+<li>创建一个 struct,保存有两个字段的参数：Name 和 age。</li>
+</ol>
+<pre><code class="go">type GreetingOptions struct &#123;
+  Name string
+  Age int
+&#125;
+</code></pre>
+<ol start="2">
+<li>现在顶一个 Greet 函数，将新的 struct 作为一个参数:</li>
+</ol>
+<pre><code class="go">func Greet(options GreetingOptions) string &#123;
+  return &quot;Hello, my name is &quot; + options.Name + &quot; and I am &quot; + strconv.Itoa(options.Age) + &quot; years old.&quot;
+&#125;
+</code></pre>
+<ol start="3">
+<li>为 struct 中的字段定义功能选项是很有趣的内容:</li>
+</ol>
+<pre><code class="go">type GreetingOption func(*GreetingOptions)
+func WithName(name string) GreetingOption &#123;
+  return func(o *GreetingOptions) &#123;
+    o.Name = name
+  &#125;
+&#125;
+func WithAge(age int) GreetingOption &#123;
+  return func(o *GreetingOptions) &#123;
+    o.Age = age
+  &#125;
+&#125;
+</code></pre>
+<ol start="4">
+<li>使用新类型<strong>GreetingOption</strong> 创建 wrapper:</li>
+</ol>
+<pre><code class="go">func GreetWithDefaultOptions(options ...GreetingOption) string &#123;
+  opts := GreetingOptions&#123;
+    Name: &quot;Aiden&quot;,
+    Age: 30,
+  &#125;
+  for _, o := range options &#123;
+    o(&amp;opts)
+  &#125;
+  return Greet(opts)
+&#125;
+</code></pre>
+<p>GreetWithDefaultOptions 函数为 GreetingOptions struct 的 Name(&#x3D; “Aiden”)和 Age (&#x3D; 30) 字段设置了默认值，然后将作为参数传递的选项应用到该 struct。</p>
+<p>最后，使用修改后的 struct 作为参数调用 Greet 函数</p>
+<p>为了使用这段代码，你可以调用使用你需要的选项调用 GreetWithDefaultOptions 函数：</p>
+<pre><code class="go">  greeting := GreetWithDefaultOptions(WithName(&quot;Alice&quot;), WithAge(20))
+  // &quot;Hello, my name is Alice and I am 20 years old.&quot;
+</code></pre>
+<p>许多库都使用了 功能选项模式，这其中包括 mongodb, aws-sdk-go, gorm, cli 和许多其他的库</p>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2023-02-23</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/GoLang/'>
+                            GoLang
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E7%BF%BB%E8%AF%91/'>
+                            翻译
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

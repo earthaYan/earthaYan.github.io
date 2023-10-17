@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="http 状态码" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            http 状态码
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#HTTP-%E7%8A%B6%E6%80%81%E7%A0%81"><span class="post-toc-text">HTTP 状态码</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#HTTP1-0-%E5%92%8C-HTTP1-1-%E5%92%8C-HTTP2-0-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="post-toc-text">HTTP1.0 和 HTTP1.1 和 HTTP2.0 的区别</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#HTTP1-0-%E5%92%8C-HTTP1-1"><span class="post-toc-text">HTTP1.0 和 HTTP1.1</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#http2-0-%E4%B8%8E-http1-X-%E5%8C%BA%E5%88%AB"><span class="post-toc-text">http2.0 与 http1.X 区别</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#HTTP-%E4%B8%8E-HTTPS-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="post-toc-text">HTTP 与 HTTPS 的区别</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#HTTPS-%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="post-toc-text">HTTPS 协议的工作原理</span></a></li></ol>
+        
+        <h1 id="HTTP-状态码"><a href="#HTTP-状态码" class="headerlink" title="HTTP 状态码"></a>HTTP 状态码</h1><ul>
+<li>1XX 信息性状态码<ul>
+<li>100 继续</li>
+<li>101 切换协议</li>
+</ul>
+</li>
+<li>2XX 成功状态码<ul>
+<li>200 OK 成功处理了请求</li>
+<li>204 No Content 请求处理成功，但没有资源可返回</li>
+<li>206 Partial Content 请求资源的某一部分</li>
+</ul>
+</li>
+<li>3XX 重定向状态码<ul>
+<li>301 永久性重定向，表示请求的资源已被分配了新的 URI，比如启用了新域名、服务器切换到了新机房、网站目录层次重构，这些都算是“永久性”的改变。响应的 Location 首部中应该包含 资源现在所处的 URL</li>
+<li>302 临时性重定向，资源的 URL 已临时定位到其他位置，客户端应该使用 Location 首部给出的 URL 来临时定位资源。将来的请求仍应使用老的 URL</li>
+<li>303 告诉客户端应该用另一个 URL 获取资源</li>
+<li>304 表示客户端发送附带条件的请求时，服务器端允许请求访问资源，但未满足条件的情况</li>
+</ul>
+</li>
+<li>4XX 客户端错误状态码<ul>
+<li>400 表示请求报文中存在语法错误</li>
+<li>401 未授权，客户端没有带认证信息或者带了错误的认证信息, 这时客户端可以修改认证信息进行重试</li>
+<li>403 服务器拒绝了请求，客户端带了正确的认证信息, 但服务器认为这个认证信息对应的用户是没有对应资源的访问权限的, 因此, 在向管理员获取相关权限之前, 是没有重试的必要的</li>
+<li>404 服务器无法找到所请求的 URL</li>
+</ul>
+</li>
+<li>5XX 服务器错误状态码<ul>
+<li>500 内部服务器错误</li>
+<li>502 错误网关</li>
+<li>503 服务器暂时处于超负载或正在进行停机维护，现在无法处理请求。</li>
+<li>504 响应超时</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="HTTP1-0-和-HTTP1-1-和-HTTP2-0-的区别"><a href="#HTTP1-0-和-HTTP1-1-和-HTTP2-0-的区别" class="headerlink" title="HTTP1.0 和 HTTP1.1 和 HTTP2.0 的区别"></a>HTTP1.0 和 HTTP1.1 和 HTTP2.0 的区别</h1><p>超文本传输协议（HTTP）用于浏览器与服务器之间的通信</p>
+<h2 id="HTTP1-0-和-HTTP1-1"><a href="#HTTP1-0-和-HTTP1-1" class="headerlink" title="HTTP1.0 和 HTTP1.1"></a>HTTP1.0 和 HTTP1.1</h2><ul>
+<li>缓存处理：<ul>
+<li>1.0 的 header 中主要是通过 If-Modified-Since（比较资源的最后的更新时间是否一致），expires(资源的过期时间，取决于客户端本地时间)</li>
+<li>1.1 引入了其他的 If-Match(比较 ETag 是否一致), If-None-Match(比较 ETag 是否不一致), If-Unmodified-Since(比较资源最后的更新时间是否不一致), Entity tag(资源的匹配信息)</li>
+</ul>
+</li>
+<li>带宽优化<ul>
+<li>1.0 存在一些浪费带宽的现象，例如客户端只需要某个对象的一部分，但是服务器将整个对象返回。</li>
+<li>1.1 则在请求头引入了 range 头域，它允许只请求资源的某个部分，即返回码是 206（Partial Content）</li>
+</ul>
+</li>
+<li>Host 头处理<ul>
+<li>1.0 中认为每个服务器都有一个唯一的 Ip，因此请求的 url 中并没有传递主机名（hostname）</li>
+<li>随着虚拟化技术的发展，一台物理机上可以有多个虚拟机，共享同一个 ip，1.1 中的请求消息和响应消息都支持 Host，请求消息中如果没有 Host 头域会报告一个错误（400 Bad Request）</li>
+</ul>
+</li>
+<li>长连接<ul>
+<li>http 是基于 TCP&#x2F;IP 协议的，创建一个 TCP 连接是需要经过三次握手的,有一定的开销，如果每次通讯都要重新建立连接的话，对性能有影响。因此最好能维持一个长连接，可以用个长连接来发多个请求。</li>
+<li>1.0 中每次需要使用 keep-alive 参数来告知服务器端要建立一个长连接</li>
+<li>1.1 默认支持长连接，一定程度上弥补了 HTTP1.0 每次请求都要创建连接的缺点</li>
+</ul>
+</li>
+<li>新增状态码<ul>
+<li>1.1 中新增了 24 个错误状态响应码，如 409（Conflict）表示请求的资源与资源的当前状态发生冲突；410（Gone）表示服务器上的某个资源被永久性的删除</li>
+</ul>
+</li>
+<li>新增请求方式<ul>
+<li>PUT，DELETE，OPTIONS 等</li>
+</ul>
+</li>
+</ul>
+<h2 id="http2-0-与-http1-X-区别"><a href="#http2-0-与-http1-X-区别" class="headerlink" title="http2.0 与 http1.X 区别"></a>http2.0 与 http1.X 区别</h2><ol>
+<li>header 压缩: header 头部带有大量的信息，而且每次使用报头压缩，降低开销，对于相同的 header 数据，不再通过每次请求和响应发送，差量更新 HTTP 头部，既避免了重复 header 的传输，又减小了需要传输的大小</li>
+<li>多路复用:在一个连接里，客户端和浏览器都可以同时发送多个请求或回应，而且不用按照顺序<br>二进制分帧:消息由一个或多个帧组成。多个帧之间可以乱序发送</li>
+<li>服务端推送:HTTP2 引入服务器推送，允许服务端推送资源给客户端,服务器会顺便把一些客户端需要的资源一起推送到客户端</li>
+</ol>
+<hr>
+<h1 id="HTTP-与-HTTPS-的区别"><a href="#HTTP-与-HTTPS-的区别" class="headerlink" title="HTTP 与 HTTPS 的区别"></a>HTTP 与 HTTPS 的区别</h1><ol>
+<li>HTTP 传输的数据都是未加密的，也就是明文的，HTTPS 协议是由 HTTP 和 SSL 协议构建的可进行加密传输和身份认证的网络协议，比 HTTP 协议的安全性更高。</li>
+<li>HTTPS 协议需要 CA 证书；</li>
+<li>使用不同的链接方式，端口也不同，一般而言，HTTP 协议的端口为 80，HTTPS 的端口为 443；</li>
+</ol>
+<hr>
+<h1 id="HTTPS-协议的工作原理"><a href="#HTTPS-协议的工作原理" class="headerlink" title="HTTPS 协议的工作原理"></a>HTTPS 协议的工作原理</h1><ol>
+<li>客户使用 HTTPS URL 访问服务器，则要求 web 服务器建立 SSL 链接，客户端向服务器发送的报文包括客户端所支持的 ssl 版本，支持的加密算法以及密钥的长度。</li>
+<li>web 服务器接收到客户端的请求之后，也在报文中包含 SSL 版本以及加密组件，服务器的加密组件内容时从接收到的客户端加密组件内筛选出来的。</li>
+<li>同时，web 服务器会将网站的 CA 证书（证书中包含了公钥），返回给客户端。</li>
+<li>客户端通过 CA 证书来验证服务端的身份，公钥是否有效，比如颁发机构，过期时间，并随机生成对称加密的密钥 X 用公钥加密发给服务端。</li>
+<li>服务器拿到客户端发过来的加密内容用自己的私钥解密获取到密钥 X。</li>
+<li>双方都拿到了密钥 X，SSL 通道建立完成，通过密钥 X 加密信息来进行通信。 总结：HTTPS 协议使用了非对称加密 + 对称加密的方式，即利用了非对称加密安全性高的特点，又利用了对称加密速度快，效率高的好处</li>
+</ol>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2022-08-17</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/http/'>
+                            http
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E6%B5%8F%E8%A7%88%E5%99%A8/'>
+                            浏览器
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

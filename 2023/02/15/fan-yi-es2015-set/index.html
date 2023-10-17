@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="翻译-ES2015-Set" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            翻译-ES2015-Set
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ES2015%E4%B8%AD%E7%9A%84Set%E6%98%AF%E4%BB%80%E4%B9%88%E4%BB%A5%E5%8F%8A%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8%E5%AE%83%EF%BC%9F"><span class="post-toc-text">ES2015中的Set是什么以及什么时候可以使用它？</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-ES2015-Set"><span class="post-toc-text">什么是 ES2015 Set?</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%90%91-Set-%E4%B8%AD%E6%B7%BB%E5%8A%A0%E6%95%B0%E6%8D%AE"><span class="post-toc-text">向 Set 中添加数据</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92"><span class="post-toc-text">作为参数传递</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E9%80%9A%E8%BF%87add%E6%96%B9%E6%B3%95%E6%B7%BB%E5%8A%A0%E6%95%B0%E6%8D%AE"><span class="post-toc-text">通过add方法添加数据</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%BD%BF%E7%94%A8has-%E6%A3%80%E6%9F%A5Set%E4%B8%AD%E5%80%BC"><span class="post-toc-text">使用has()检查Set中值</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%BB%8ESet%E4%B8%AD%E7%A7%BB%E9%99%A4%E6%95%B0%E6%8D%AE"><span class="post-toc-text">从Set中移除数据</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BD%BF%E7%94%A8delete%E6%96%B9%E6%B3%95%E7%A7%BB%E9%99%A4%E6%95%B0%E6%8D%AE"><span class="post-toc-text">使用delete方法移除数据</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%94%A8clear%E6%96%B9%E6%B3%95%E7%A7%BB%E9%99%A4%E6%89%80%E6%9C%89%E5%85%83%E7%B4%A0"><span class="post-toc-text">用clear方法移除所有元素</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%BD%BF%E7%94%A8size%E5%B1%9E%E6%80%A7%E6%A3%80%E6%9F%A5%E5%85%83%E7%B4%A0%E6%95%B0%E9%87%8F"><span class="post-toc-text">使用size属性检查元素数量</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%BF%87%E6%BB%A4%E9%87%8D%E5%A4%8D%E7%9A%84%E5%8E%9F%E5%A7%8B%E5%80%BC"><span class="post-toc-text">过滤重复的原始值</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%BF%87%E6%BB%A4%E9%9D%9E%E5%8E%9F%E5%A7%8B%E7%B1%BB%E5%9E%8B%E5%80%BC"><span class="post-toc-text">过滤非原始类型值</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%BE%AA%E7%8E%AF%E4%B8%80%E4%B8%AA-Set"><span class="post-toc-text">循环一个 Set</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#forEach-%E6%96%B9%E6%B3%95%E5%BE%AA%E7%8E%AF"><span class="post-toc-text">forEach 方法循环</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BD%BF%E7%94%A8-for-of"><span class="post-toc-text">使用 for-of</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Set%E5%92%8CMap%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="post-toc-text">Set和Map的区别</span></a></li></ol></li></ol>
+        
+        <p>原文地址：<a target="_blank" rel="noopener" href="https://itnext.io/what-is-the-javascript-set-in-es2015-and-when-should-you-use-it-d7e3b8048891">https://itnext.io/what-is-the-javascript-set-in-es2015-and-when-should-you-use-it-d7e3b8048891</a></p>
+<h1 id="ES2015中的Set是什么以及什么时候可以使用它？"><a href="#ES2015中的Set是什么以及什么时候可以使用它？" class="headerlink" title="ES2015中的Set是什么以及什么时候可以使用它？"></a>ES2015中的Set是什么以及什么时候可以使用它？</h1><strong>
+ES2015规范引入了许多新特性，这些新特性会不断在所有新版本的浏览器中被采用，Set集合就是这些新特性之一。
+</strong>
+
+
+<p>我的第一想法就是，好吧我可以使用一个普通的数组！但是这篇文章里我会展示可以用Set集合做什么。</p>
+<h2 id="什么是-ES2015-Set"><a href="#什么是-ES2015-Set" class="headerlink" title="什么是 ES2015 Set?"></a>什么是 ES2015 Set?</h2><p><code>Set</code>是什么？你可以用它来做什么？Mozilla文档关于这一点说得很清晰：</p>
+<blockquote>
+<p> <code>Set</code> 集合可以存储任意类型的唯一值，无论是原始类型还是引用类型。</p>
+</blockquote>
+<p>这个特殊对象可以像普通对象一样存储所有种类的值，但是他们必须是唯一的，重复的值会被过滤出去。</p>
+<p>感谢Addy Osmani的推特,让我发现了 <code>Set()</code>!</p>
+<blockquote>
+<p>小提示: JavaScript的 <code>Array.from()</code> 接受第二个参数，是一个<code>map</code>函数 。用于调用你创建的数组的每个元素。 </p>
+<img src="/2023/02/15/fan-yi-es2015-set/array_from.jpg" class="">
+</blockquote>
+<p>从JavaScript中过滤出重复值一直都很麻烦，你需要自己循环整个数组计算出来，现在<code>Set</code> 让这件事变得容易了 😁。</p>
+<h2 id="向-Set-中添加数据"><a href="#向-Set-中添加数据" class="headerlink" title="向 Set 中添加数据"></a>向 Set 中添加数据</h2><p>目前有几种方法来向<code>Set</code>集合中添加数据。</p>
+<h3 id="作为参数传递"><a href="#作为参数传递" class="headerlink" title="作为参数传递"></a>作为参数传递</h3><p>这是一个将数据作为参数添加到 <code>Set</code> 集合的例子：</p>
+<pre><code class="javascript">const numbersSet = new Set([1,2,3,4,5]);
+const stringSet = new Set([&#39;Jan&#39;, &#39;Rick&#39;, &#39;Raymon&#39;, &#39;Tim&#39;]);
+const objectSet = new Set([&#123;a: 1, b: 2&#125;]);
+const arraySet = new Set([[&#39;javascript&#39;, &#39;coffeescript&#39;], [&#39;css&#39;, &#39;sass&#39;]]);
+</code></pre>
+<h3 id="通过add方法添加数据"><a href="#通过add方法添加数据" class="headerlink" title="通过add方法添加数据"></a>通过add方法添加数据</h3><p>另外一种传递数据到<code>Set</code>集合的方法是使用 <code>add()</code> </p>
+<pre><code class="javascript">const newSetObject = new Set();
+newSetObject.add(&#39;Raymon&#39;);
+newSetObject.add(&#123;a: 1, b: 2&#125;);
+newSetObject.add(1).add(2).add(3).add(4).add(5)
+// Result: Raymon, &#123;a: 1, b: 2&#125;, 1, 2, 3, 4, 5
+</code></pre>
+<h2 id="使用has-检查Set中值"><a href="#使用has-检查Set中值" class="headerlink" title="使用has()检查Set中值"></a>使用has()检查Set中值</h2><p><code>Set</code>集合有一个非常方便的方法用来检查对象内部是否有某个值</p>
+<pre><code class="javascript">const numbersSet = new Set([1,2,3,4,5]);
+const stringSet = new Set([&#39;Jan&#39;, &#39;Rick&#39;, &#39;Raymon&#39;, &#39;Tim&#39;]);
+const objectSet = new Set([&#123;a: 1, b: 2&#125;]);
+const arraySet = new Set([[&#39;javascript&#39;, &#39;coffeescript&#39;], [&#39;css&#39;, &#39;sass&#39;]]);
+    
+numberSet.has(4); // true
+numberSet.has(6); // false
+stringSet.has(&#39;Raymon&#39;); // true
+objectSet.has(&#123;a: 1, b: 2&#125;); // false
+arraySet.has(&#39;css&#39;); // false
+</code></pre>
+<p><code>has()</code> 方法在原始值上非常奏效，但是在像对象和数组这样的非原始值上不起作用。</p>
+<p>关于非原始值不能和原始值一样起作用是有原因的。因为 <code>has()</code>方法不止比较值，他同时还会用&#x3D;&#x3D;&#x3D;操作符比较引用。</p>
+<p>如果你在变量中有对数组或者对象的引用，那么结果就会和预期一样：</p>
+<pre><code class="javascript">const exampleObject = &#123;a: 1, b: 2&#125;;
+const exampleArray1 = [&#39;javascript&#39;, &#39;coffeescript&#39;]
+const exampleArray2 = [&#39;css&#39;, &#39;sass&#39;];
+const objectSet = new Set([exampleObject]);
+const arraySet = new Set([exampleArray1, exampleArray2]);
+    
+objectSet.has(&#123;a: 1, b: 2&#125;); // false
+objectSet.has(exampleObject); // true
+arraySet.has(&#39;css&#39;); // false
+arraySet.has(exampleArray1); // true
+arraySet.has(exampleArray2); // true
+</code></pre>
+<p>所以记住：当你在<code>Set</code>集合中使用<code>has()</code>方法的时候,引用非原始值很重要。</p>
+<h2 id="从Set中移除数据"><a href="#从Set中移除数据" class="headerlink" title="从Set中移除数据"></a>从Set中移除数据</h2><p>向 Set 集合中添加数据很简单，删除数据也很容易。</p>
+<h3 id="使用delete方法移除数据"><a href="#使用delete方法移除数据" class="headerlink" title="使用delete方法移除数据"></a>使用delete方法移除数据</h3><p>如果想要移除<code>Set</code>集合中的单个元素，只需要简单地使用移除方法</p>
+<pre><code class="javascript">const numbersSetObject = new Set([1,2,3,4,5,6,7,8,9]);
+numbersSetObject.has(2); // true
+numbersSetObject.delete(2);
+numbersSetObject.has(2); // false
+console.log(numbersSetObject); // 1,3,4,5,6,7,8,9
+</code></pre>
+<h3 id="用clear方法移除所有元素"><a href="#用clear方法移除所有元素" class="headerlink" title="用clear方法移除所有元素"></a>用clear方法移除所有元素</h3><p>但是如果你想要从Set集合中移除所有数据，只能使用clear方法</p>
+<pre><code class="javascript">const numbersSetObject = new Set([1,2,3,4,5,6,7,8,9]);
+numbersSetObject.has(2); // true
+numbersSetObject.clear();
+console.log([...numbersSetObject]); // []
+</code></pre>
+<h2 id="使用size属性检查元素数量"><a href="#使用size属性检查元素数量" class="headerlink" title="使用size属性检查元素数量"></a>使用size属性检查元素数量</h2><p>类似在数组中，使用length属性检查元素数量，Set集合也可以用size属性实现同样的目的<br>如果我们检查上一个例子中检查Set集合，他的size是7。</p>
+<pre><code class="javascript">newSetObject.size // 7
+</code></pre>
+<h2 id="过滤重复的原始值"><a href="#过滤重复的原始值" class="headerlink" title="过滤重复的原始值"></a>过滤重复的原始值</h2><p>如果尝试把重复的原始值放入Set,最后保留下来的只有唯一的一个。</p>
+<pre><code class="javascript">const uniqueArray = new Set([1,2,2,2,3,4,5,5,6,7,9,9,8]);
+console.log(&#39;uniqueArray: &#39;, uniqueArray)
+// unique: 1, 2, 3, 4, 5, 6, 7, 9, 8
+</code></pre>
+<h2 id="过滤非原始类型值"><a href="#过滤非原始类型值" class="headerlink" title="过滤非原始类型值"></a>过滤非原始类型值</h2><p>在过滤重复的非原始值的时候情况有点不同.文档十分清晰,Set本身并没有比较对象，而是比较引用。</p>
+<p>将它看作是使用&#x3D;&#x3D;操作符比较值，但是使用&#x3D;&#x3D;&#x3D;操作符会比较引用和值。</p>
+<p>如果我们尝试向Set放入具有不同引用的两个相同的对象，是没有问题的。</p>
+<pre><code class="javascript">const objectSet = new Set([&#123;a: 1, b: 2&#125;, &#123;a: 1, b: 2&#125;]);
+console.log(&#39;objectSet: &#39;, objectSet);
+// objectSet: &#123;a: 1, b: 2&#125;, &#123;a: 1, b: 2&#125;;
+</code></pre>
+<p>但是如果我们放入相同引用的两个相同的对象会发生什么呢？</p>
+<pre><code class="javascript">const demoObject = &#123;a: 1, b: 2&#125;;
+const objectSet = new Set([demoObject, demoObject]);
+console.log(&#39;objectSet: &#39;, objectSet);
+// objectSet: &#123;a: 1, b: 2&#125;;
+</code></pre>
+<p>希望你已经猜到结果了：objectSet只包含了一个demoObject，去除了另外一个重复的😁</p>
+<h2 id="循环一个-Set"><a href="#循环一个-Set" class="headerlink" title="循环一个 Set"></a>循环一个 Set</h2><p>Set的好处之一就是你可以循环一个Set集合</p>
+<p>这个文档解释了更多关于Set方法的细节：</p>
+<blockquote>
+<p>Set 是值的集合. 你可以按照插入顺序遍历其中的元素。</p>
+</blockquote>
+<p>To loop over a Set collection we can use the for-of loop and the forEach method which is attached to the Set.</p>
+<p>我们可以通过for-of和附加到Set集合的forEach 方法来循环一个Set集合。</p>
+<h3 id="forEach-方法循环"><a href="#forEach-方法循环" class="headerlink" title="forEach 方法循环"></a>forEach 方法循环</h3><p>通过<code>Set.forEach()</code>,你可以循环Set集合中的所有元素。</p>
+<pre><code class="javascript">const objectSet = new Set([&#123;a: 1, b: 2&#125;, &#123;a: 1, b: 2&#125;]);
+objectSet.forEach(object =&gt; &#123;
+    console.log(&#39;Object: &#39;, object);
+&#125;)
+    
+// result:  
+// Object:  &#123;a: 1, b: 2&#125;
+// Object:  &#123;a: 1, b: 2&#125;
+</code></pre>
+<h3 id="使用-for-of"><a href="#使用-for-of" class="headerlink" title="使用 for-of"></a>使用 for-of</h3><p>通过for-of循环，我们有一些方法可以遍历Set集合内部的所有元素。</p>
+<ul>
+<li>entries()</li>
+<li>keys()</li>
+<li>values()</li>
+</ul>
+<pre><code class="javascript">const objectSet = new Set([&#123;a: 1, b: 2&#125;, &#123;a: 1, b: 2&#125;]);
+for (let [key, value] of objectSet.entries())  &#123;
+   console.log(key);
+&#125;
+    
+// &#123;a: 1, b: 2&#125;
+// &#123;a: 1, b: 2&#125;
+</code></pre>
+<p>唯一奇怪的事情是： entries, keys 和 values方法在Set上会返回完全相同的结果。也许是因为 Set 和 Map Api有许多共同之处。</p>
+<h2 id="Set和Map的区别"><a href="#Set和Map的区别" class="headerlink" title="Set和Map的区别"></a>Set和Map的区别</h2><p>map和set最大的区别是：Set看上去非常像一个数组，而map看上去更像一个对象。</p>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2023-02-15</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/JavaScript/'>
+                            JavaScript
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E7%BF%BB%E8%AF%91/'>
+                            翻译
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

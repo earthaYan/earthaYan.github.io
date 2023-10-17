@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="05-go-函数与作用域" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            05-go-函数与作用域
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%87%BD%E6%95%B0"><span class="post-toc-text">函数</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0"><span class="post-toc-text">函数参数</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%BC%A0%E5%8F%82%E6%96%B9%E5%BC%8F"><span class="post-toc-text">传参方式</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E9%97%AD%E5%8C%85"><span class="post-toc-text">闭包</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%96%B9%E6%B3%95"><span class="post-toc-text">方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8F%98%E9%87%8F%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="post-toc-text">变量作用域</span></a></li></ol>
+        
+        <h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><h3 id="函数参数"><a href="#函数参数" class="headerlink" title="函数参数"></a>函数参数</h3><ul>
+<li>形参：定义函数时，用于接收外部传入的数据，叫做形式参数，简称形参</li>
+<li>实参：调用函数时，传给形参的实际的数据，叫做实际参数，简称实参。</li>
+</ul>
+<h4 id="传参方式"><a href="#传参方式" class="headerlink" title="传参方式"></a>传参方式</h4><ul>
+<li>值传递（默认）：<ul>
+<li>定义：指在调用函数时将实际参数复制一份传递到函数中</li>
+<li>影响：在函数中如果对参数进行修改，将不会影响到实际参数</li>
+</ul>
+<pre><code class="go">func SwapByValPass(x,y int) int&#123;
+    var temp int
+    temp=x
+    x=y
+    y=temp
+    return temp   //交换前100，200,交换后不变
+&#125;
+</code></pre>
+</li>
+<li>引用传递<ul>
+<li>定义：指在调用函数时将实际参数的地址传递到函数中</li>
+<li>影响：在函数中对参数所进行的修改，将影响到实际参数</li>
+<li>实际测试：参数值变化，但是参数地址不变</li>
+</ul>
+<pre><code class="go">func SwapByReferPass(x *int,y *int)&#123;
+    var temp int
+    temp = *x
+    *x=*y
+    *y=temp//交换前100，200,交换后200，100
+&#125;
+</code></pre>
+</li>
+</ul>
+<h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><p>匿名函数，可作为闭包。优越性在于可以直接使用函数内的变量，不必申明</p>
+<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><p>一个方法就是一个包含了接受者的函数，接受者可以是命名类型或者结构体类型的一个值或者是一个指针。所有给定类型的方法属于该类型的方法集</p>
+<pre><code class="go">// 普通函数
+func function_name( [parameter list] ) [return_types] &#123;
+   函数体
+&#125;
+// 方法
+func (variable_name variable_data_type) function_name() [return_type]&#123;
+   /* 函数体*/
+&#125;
+
+/* 定义结构体 */
+type Circle struct &#123;
+  radius float64
+&#125;
+
+func main() &#123;
+  var c1 Circle
+  c1.radius = 10.00
+  fmt.Println(&quot;圆的面积 = &quot;, c1.getArea())
+&#125;
+
+//该 method 属于 Circle 类型对象中的方法
+func (c Circle) getArea() float64 &#123;
+  //c.radius 即为 Circle 类型对象中的属性
+  return 3.14 * c.radius * c.radius
+&#125;
+</code></pre>
+<h2 id="变量作用域"><a href="#变量作用域" class="headerlink" title="变量作用域"></a>变量作用域</h2><ul>
+<li>局部变量：函数内定义的变量，作用域只在函数体内</li>
+<li>全局变量：函数外定义的变量，可以在整个包甚至外部包（被导出后）使用</li>
+<li>全局变量与局部变量名称可以相同，但是函数内的局部变量会被优先考虑</li>
+<li>形式参数：函数定义中的变量称为形式参数</li>
+</ul>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2022-10-10</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/GoLang/'>
+                            GoLang
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E5%90%8E%E7%AB%AF/'>
+                            后端
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

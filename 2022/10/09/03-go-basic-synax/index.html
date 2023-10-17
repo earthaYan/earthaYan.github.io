@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="03-go 基础语法" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            03-go 基础语法
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="post-toc-text">基础知识</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="post-toc-text">数据类型</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%8F%98%E9%87%8F"><span class="post-toc-text">变量</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%8F%98%E9%87%8F%E7%BB%84%E6%88%90"><span class="post-toc-text">变量组成</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%8F%98%E9%87%8F%E5%A3%B0%E6%98%8E"><span class="post-toc-text">变量声明</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%8F%98%E9%87%8F%E5%A3%B0%E6%98%8E"><span class="post-toc-text">类型和变量声明</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%A4%9A%E5%8F%98%E9%87%8F%E5%A3%B0%E6%98%8E"><span class="post-toc-text">多变量声明</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%80%BC%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B"><span class="post-toc-text">值类型和引用类型</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%80%BC%E7%B1%BB%E5%9E%8B"><span class="post-toc-text">值类型</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B"><span class="post-toc-text">引用类型</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%B8%B8%E9%87%8F"><span class="post-toc-text">常量</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%89%B9%E6%AE%8A%E5%B8%B8%E9%87%8F-iota"><span class="post-toc-text">特殊常量 iota</span></a></li></ol>
+        
+        <p>关键字，标识符(变量，类型)，常量，字符串，符号-&gt;标记-&gt;GO 程序</p>
+<h3 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h3><ol>
+<li>标识符：<code>A-Z,a-z,0-9,下划线\_</code>，第一个字符不能是数字</li>
+<li>字符串拼接：使用<code>+</code>实现</li>
+<li>保留字或者关键字不能作为标识符名</li>
+<li>变量的声明必须使用空格隔开 <code>var age int</code></li>
+<li>Go 程序是通过 package 来组织的，只有 package 名称为 main 的源码文件可以包含 main 函数，一个可执行程序有且仅有一个 main 包，其他包中即使有 main 函数也不会执行</li>
+</ol>
+<h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><ul>
+<li>布尔型：<ul>
+<li>true</li>
+<li>false</li>
+</ul>
+</li>
+<li>数字:<ul>
+<li>int&#x2F;float32&#x2F;float64</li>
+<li>支持复数</li>
+<li>位的运算采用补码</li>
+<li>无需定义 int 及 float32、float64，系统会自动识别</li>
+</ul>
+</li>
+<li>字符串</li>
+<li>派生类型<ul>
+<li>指针类型 Pointer</li>
+<li>数组类型</li>
+<li>结构化类型 struct</li>
+<li>Channel 类型 chan</li>
+<li>函数类型 func</li>
+<li>切片类型</li>
+<li>接口类型 interface</li>
+<li>Map 类型</li>
+</ul>
+</li>
+</ul>
+<h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><h3 id="变量组成"><a href="#变量组成" class="headerlink" title="变量组成"></a>变量组成</h3><p><code>A-Z,a-z,0-9,下划线\_</code>，第一个字符不能是数字</p>
+<h3 id="变量声明"><a href="#变量声明" class="headerlink" title="变量声明"></a>变量声明</h3><ol>
+<li>可一次声明多个变量 <code>var identifier1, identifier2 type</code></li>
+<li>不同类型的变量不可以一次声明多个 <code>var i int,f float64</code>会语法报错</li>
+</ol>
+<h4 id="类型和变量声明"><a href="#类型和变量声明" class="headerlink" title="类型和变量声明"></a>类型和变量声明</h4><ol>
+<li>指定变量类型，如果没有初始化，则变量默认为零值（即该类型的系统默认值）</li>
+<li>系统根据值自行判定变量类型</li>
+<li>如果变量已经使用 var 声明过了，再使用 :&#x3D; 声明变量，就产生编译错误，</li>
+</ol>
+<pre><code class="go">intVal := 1
+//上下两者意义一致
+var intVal int
+intVal =1
+</code></pre>
+<h4 id="多变量声明"><a href="#多变量声明" class="headerlink" title="多变量声明"></a>多变量声明</h4><pre><code class="go">//类型相同多个变量, 非全局变量
+var vname1, vname2, vname3 type
+vname1, vname2, vname3 = v1, v2, v3
+var vname1, vname2, vname3 = v1, v2, v3 // 和 python 很像,不需要显示声明类型，自动推断
+vname1, vname2, vname3 := v1, v2, v3 //  := 左侧的变量不应该是已经被声明过的，否则会导致编译错误
+// 这种因式分解关键字的写法一般用于声明全局变量
+var (
+    vname1 v_type1
+    vname2 v_type2
+)
+</code></pre>
+<h3 id="值类型和引用类型"><a href="#值类型和引用类型" class="headerlink" title="值类型和引用类型"></a>值类型和引用类型</h3>
+
+<h4 id="值类型"><a href="#值类型" class="headerlink" title="值类型"></a>值类型</h4><ul>
+<li>定义：使用这些类型的变量直接指向存在内存中的值</li>
+<li>范围：基本类型都属于值类型</li>
+<li>拷贝：当使用等号 &#x3D; 将一个变量的值赋值给另一个变量时，如：j &#x3D; i，实际上是在内存中将 i 的值进行了拷贝</li>
+<li>存储：存储在堆中，通过 &amp;i 来获取变量 i 的内存地址 <code> fmt.Printf(&quot;地址：%d&quot;,&amp;i)</code></li>
+</ul>
+<h4 id="引用类型"><a href="#引用类型" class="headerlink" title="引用类型"></a>引用类型</h4><ul>
+<li>存储：一个引用类型的变量 r1 存储的是 r1 的值所在的内存地址（数字），或内存地址中第一个字所在的位置。内存地址称之为指针</li>
+<li>拷贝：当使用赋值语句 r2 &#x3D; r1 时，只有引用（地址）被复制，修改变量 r1 和 r2 会互相影响</li>
+</ul>
+<h3 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h3><ul>
+<li>类型：布尔型、数字型和字符串型</li>
+<li>在定义常量组的时候，如果不提供初始值，则初始值自动设置为上一行的<font color=red><strong>表达式</strong></font></li>
+<li>定义：</li>
+</ul>
+<pre><code class="go">const b string = &quot;abc&quot; //显式类型定义
+const b = &quot;abc&quot; //隐式类型定义
+</code></pre>
+<ul>
+<li>常量表达式中，函数必须是 <code>len(), cap(), unsafe.Sizeof()</code>这些内置函数</li>
+</ul>
+<h3 id="特殊常量-iota"><a href="#特殊常量-iota" class="headerlink" title="特殊常量 iota"></a>特殊常量 iota</h3><p>特殊之处：</p>
+<ul>
+<li>可以被编译器修改的常量</li>
+<li>iota 在 const 关键字下次出现时将被重置为 0，const 中每新增一行常量声明将使 iota 计数一次</li>
+</ul>
+<pre><code class="go">func GetIOTA()&#123;
+    const (
+        a = iota   //0
+        b          //1
+        c          //2
+        d = &quot;ha&quot;   //独立值，iota += 1
+        e          //&quot;ha&quot;   iota += 1
+        f = 100    //iota +=1
+        g          //100  iota +=1
+        h = iota   //7,恢复计数
+        i          //8
+    )
+    fmt.Printf(&quot;ITOA:%v %v %v %q %q %v %v %v %v\n&quot;,a,b,c,d,e,f,g,h,i)//0 1 2 ha ha 100 100 7 8
+&#125;
+</code></pre>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2022-10-09</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/GoLang/'>
+                            GoLang
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E5%90%8E%E7%AB%AF/'>
+                            后端
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

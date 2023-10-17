@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="认证机制" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            认证机制
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Basic"><span class="post-toc-text">Basic</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%8E%9F%E7%90%86%EF%BC%9A"><span class="post-toc-text">原理：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%BC%BA%E7%82%B9%EF%BC%9A"><span class="post-toc-text">缺点：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95%EF%BC%9A"><span class="post-toc-text">使用方法：</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#OAuth2-0%E2%80%94%E2%80%94%E5%BC%80%E6%94%BE%E6%8E%88%E6%9D%83"><span class="post-toc-text">OAuth2.0——开放授权</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="post-toc-text">概念:</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AF%86%E7%A0%81%E5%BC%8F"><span class="post-toc-text">密码式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E9%9A%90%E8%97%8F%E5%BC%8F"><span class="post-toc-text">隐藏式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%87%AD%E5%80%9F%E5%BC%8F"><span class="post-toc-text">凭借式</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Bearer%E2%80%94%E2%80%94%E4%BB%A4%E7%89%8C%E8%AE%A4%E8%AF%81"><span class="post-toc-text">Bearer——令牌认证</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%A0%B8%E5%BF%83%EF%BC%9Abearer-token"><span class="post-toc-text">核心：bearer token</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%BF%85%E8%A6%81%E6%9D%A1%E4%BB%B6%EF%BC%9A"><span class="post-toc-text">必要条件：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#token-%E7%BC%96%E7%A0%81%E6%96%B9%E5%BC%8F%EF%BC%9A"><span class="post-toc-text">token 编码方式：</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%9F%BA%E4%BA%8E-JWT-%E7%9A%84-Token-%E8%AE%A4%E8%AF%81%E6%9C%BA%E5%88%B6"><span class="post-toc-text">基于 JWT 的 Token 认证机制</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%9C%BA%E6%99%AF%EF%BC%9A"><span class="post-toc-text">场景：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%96%B9%E6%B3%95%EF%BC%9A"><span class="post-toc-text">方法：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BC%98%E7%82%B9%EF%BC%9A"><span class="post-toc-text">优点：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%AD%A5%E9%AA%A4%EF%BC%9A"><span class="post-toc-text">步骤：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%A0%BC%E5%BC%8F"><span class="post-toc-text">格式</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#JWT%E7%BB%84%E6%88%90"><span class="post-toc-text">JWT组成</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Header"><span class="post-toc-text">Header</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#payload"><span class="post-toc-text">payload</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#signature-%E7%AD%BE%E5%90%8D"><span class="post-toc-text">signature 签名</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#iam%E7%9A%84%E8%AE%BF%E9%97%AE%E8%AE%A4%E8%AF%81"><span class="post-toc-text">iam的访问认证</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%8C%BA%E5%88%AB%E6%8E%A7%E5%88%B6%E6%B5%81%E5%92%8C%E6%95%B0%E6%8D%AE%E6%B5%81"><span class="post-toc-text">区别控制流和数据流</span></a></li></ol></li></ol>
+        
+        <h2 id="Basic"><a href="#Basic" class="headerlink" title="Basic"></a>Basic</h2><p>基础认证</p>
+<h3 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h3><p>前端将 <code>用户名:密码</code> 进行base64编码后，放到 HTTP Authorization Header 中。<br>后端接受到Http请求后，解析出Authorization Header 中的 base64 字符串，获取用户名和密码，并将用户名和密码根数据库记录中的值进行比较<br>如果匹配则认证通过</p>
+<h3 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h3><p>不安全，密码和反编译</p>
+<h3 id="使用方法："><a href="#使用方法：" class="headerlink" title="使用方法："></a>使用方法：</h3><p>将它和 SSL 配合使用，来确保整个认证过程是安全的。比如支持前端通过用户名和密码登录，使用Basic认证，但是前后端使用HTTPS通信，保证安全性</p>
+<p>注意：不要在请求参数中使用明文密码，也不要在任何存储中保存明文密码。</p>
+<pre><code class="go">
+basic=`echo -n &#39;admin:Admin@2021&#39;|base64`
+curl -XPOST -H&quot;Authorization: Basic $&#123;basic&#125;&quot; http://127.0.0.1:8080/login
+</code></pre>
+<h2 id="OAuth2-0——开放授权"><a href="#OAuth2-0——开放授权" class="headerlink" title="OAuth2.0——开放授权"></a>OAuth2.0——开放授权</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念:"></a>概念:</h3><p>允许用户让第三方应用访问该用户再某一web服务器上存储的私密资源，而无需给第三方应用提供用户名和密码。</p>
+<h3 id="密码式"><a href="#密码式" class="headerlink" title="密码式"></a>密码式</h3><p>概念：用户把用户名&#x2F;密码直接提供给第三方应用用来换取令牌<br>前提：无法使用其他授权方式且用户高度信任第三方应用<br>过程：</p>
+<ol>
+<li>网站 A 向用户发出获取用户名和密码的请求</li>
+<li>用户同意后，网站 A 凭借用户名和密码向网站 B 换取令牌</li>
+<li>网站 B 验证用户身份后，给出网站 A 令牌，网站 A 凭借令牌可以访问网站 B 对应权限的资源。</li>
+</ol>
+<h3 id="隐藏式"><a href="#隐藏式" class="headerlink" title="隐藏式"></a>隐藏式</h3><p>适用于前端应用<br>过程：</p>
+<ol>
+<li>A 网站提供一个跳转到 B 网站的链接，用户点击后跳转至 B 网站，并向用户请求授权；</li>
+<li>用户登录 B 网站，同意授权后，跳转回 A 网站指定的重定向 redirect_url 地址，并携带 B 网站返回的令牌，用户在 B 网站的数据给 A 网站使用。</li>
+</ol>
+<h3 id="凭借式"><a href="#凭借式" class="headerlink" title="凭借式"></a>凭借式</h3><p>适用于命令行应用<br>过程：</p>
+<ol>
+<li>应用 A 在命令行向应用 B 请求授权，此时应用 A 需要携带应用 B 提前颁发的 secretID 和 secretKey，其中 secretKey 出于安全性考虑，需在后端发送；</li>
+<li>应用 B 接收到 secretID 和 secretKey，并进行身份验证，验证通过后返回给应用 A 令牌。</li>
+</ol>
+<h2 id="Bearer——令牌认证"><a href="#Bearer——令牌认证" class="headerlink" title="Bearer——令牌认证"></a>Bearer——令牌认证</h2><h3 id="核心：bearer-token"><a href="#核心：bearer-token" class="headerlink" title="核心：bearer token"></a>核心：bearer token</h3><p>bearer token算是一个加密字符串,由服务端根据密钥生成。需要和HTTPS一起使用保证安全性</p>
+<h3 id="必要条件："><a href="#必要条件：" class="headerlink" title="必要条件："></a>必要条件：</h3><p>客户端在请求服务端时，必须在请求头中包含Authorization: Bearer 。<br>服务端收到请求后，解析出 ，并校验 的合法性，如果校验通过，则认证通过</p>
+<h3 id="token-编码方式："><a href="#token-编码方式：" class="headerlink" title="token 编码方式："></a>token 编码方式：</h3><p>JSON WEB TOKEN(JWT)：Bearer Token 的一个具体实现</p>
+<h2 id="基于-JWT-的-Token-认证机制"><a href="#基于-JWT-的-Token-认证机制" class="headerlink" title="基于 JWT 的 Token 认证机制"></a>基于 JWT 的 Token 认证机制</h2><h3 id="场景："><a href="#场景：" class="headerlink" title="场景："></a>场景：</h3><p>为了区分用户和保证安全，必须对 API 请求进行鉴权，但是不能要求每一个请求都进行登录操作</p>
+<h3 id="方法："><a href="#方法：" class="headerlink" title="方法："></a>方法：</h3><p>在第一次登录之后产生一个有一定有效期的 token，并将它存储在浏览器的 Cookie 或 LocalStorage 之中。之后的请求都携带这个 token ，请求到达服务器端后，服务器端用这个 token 对请求进行认证。在第一次登录之后，服务器会将这个 token 用文件、数据库或缓存服务器等方法存下来，用于之后请求中的比对。</p>
+<h3 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h3><ol>
+<li>无需在服务端存储用户数据，可以减轻服务端压力</li>
+<li>采用 JSON 数据格式，比较易读</li>
+<li>使用 JWT Token 可以跨语言</li>
+<li>属于轻量级</li>
+</ol>
+<h3 id="步骤："><a href="#步骤：" class="headerlink" title="步骤："></a>步骤：</h3><ol>
+<li>客户端【前端】使用用户名和密码请求登录</li>
+<li>服务端【后端】收到请求后，去验证用户名和密码。</li>
+<li>如果用户名和密码跟数据库记录不一致，则验证失败；如果一致则验证通过，服务端会签发一个 Token 返回给客户端</li>
+<li>客户端收到请求后会将 Token 缓存起来，比如放在浏览器 Cookie 中或者 LocalStorage 中，之后每次请求都会携带该 Token</li>
+<li>服务端收到请求后，会验证请求中的 Token，验证通过则进行业务逻辑处理，处理完后返回处理后的结果。</li>
+</ol>
+<h3 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h3><p>Header.Payload.Signature</p>
+<pre><code class="go">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJpYW0uYXBpLm1hcm1vdGVkdS5jb20iLCJleHAiOjE2NDI4NTY2MzcsImlkZW50aXR5IjoiYWRtaW4iLCJpc3MiOiJpYW0tYXBpc2VydmVyIiwib3JpZ19pYXQiOjE2MzUwODA2MzcsInN1YiI6ImFkbWluIn0.
+Shw27RKENE_2MVBq7-c8OmgYdF92UmdwS8xE-Fts2FM
+</code></pre>
+<img src="/2022/12/10/ren-zheng-ji-zhi/jwt.webp" class="" title="jwt">
+<h2 id="JWT组成"><a href="#JWT组成" class="headerlink" title="JWT组成"></a>JWT组成</h2><h3 id="Header"><a href="#Header" class="headerlink" title="Header"></a>Header</h3><p>包含信息：Token类型+Token所使用的加密算法</p>
+<pre><code class="json">&#123;
+  &quot;typ&quot;: &quot;JWT&quot;,//Token类型
+  &quot;alg&quot;: &quot;HS256&quot;//加密算法
+&#125;//base64编码后为eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+</code></pre>
+<h3 id="payload"><a href="#payload" class="headerlink" title="payload"></a>payload</h3><p>包含信息：JWT 标准中注册的声明+公共的声明+私有的声明</p>
+<pre><code class="json">&#123; &quot;aud&quot;: &quot;iam.authz.marmotedu.com&quot;, &quot;exp&quot;: 1604158987,//开发环境7天，生产环境2小时
+ &quot;iat&quot;: 1604151787, &quot;iss&quot;: &quot;iamctl&quot;, &quot;nbf&quot;: 1604151787&#125;
+</code></pre>
+<img src="/2022/12/10/ren-zheng-ji-zhi/payload.webp" class="" title="payload">
+
+<h3 id="signature-签名"><a href="#signature-签名" class="headerlink" title="signature 签名"></a>signature 签名</h3><p>生成方式：</p>
+<ol>
+<li>将 Header 和 Payload 分别 base64 编码后，用 . 连接</li>
+<li>使用 Header 中声明的加密方式，利用 secretKey(密钥，保存在服务器中，通过配置文件来保存) 对连接后的字符串进行加密，加密后的字符串即为最终的 Signature。<img src="/2022/12/10/ren-zheng-ji-zhi/config.webp" class="" title="密钥配置文件">
+步骤：</li>
+<li>签名后服务端会返回生成的 Token，客户端下次请求会携带该 Token。</li>
+<li>服务端收到 Token 后会解析出 header.payload，</li>
+<li>服务端用相同的加密算法和密钥对 header.payload 再进行一次加密，得到 Signature。</li>
+<li>对比加密后的 Signature 和收到的 Signature 是否相同，如果相同则验证通过，不相同则返回 HTTP 401 Unauthorized 的错误</li>
+</ol>
+<hr>
+<h2 id="iam的访问认证"><a href="#iam的访问认证" class="headerlink" title="iam的访问认证"></a>iam的访问认证</h2><ul>
+<li>IAM 项目的 iam-apiserver 服务，提供了 IAM 系统的管理流功能接口，它的客户端可以是前端（这里也叫控制台），也可以是 App 端。</li>
+<li>为了方便用户在 Linux 系统下调用，IAM 项目还提供了 iamctl 命令行工具。</li>
+<li>为了支持在第三方代码中调用 iam-apiserver 提供的 API 接口，还支持了 API 调用。</li>
+<li>为了提高用户在代码中调用 API 接口的效率，IAM 项目提供了 Go SDK</li>
+</ul>
+<p>控制台&#x2F;app端：需要使用<code>用户名：密码</code>登陆系统—&gt;Basic认证<br>iamctl&#x2F;API调用&#x2F;GO SDK：不需要登录—&gt; Bearer认证</p>
+<blockquote>
+<p>Basic 认证需要用户名和密码，Bearer 认证则需要密钥，所以 iam-apiserver 需要将用户名&#x2F;密码&#x2F;密钥等信息保存在后端的 MySQL 中，持久存储起来。</p>
+</blockquote>
+<img src="/2022/12/10/ren-zheng-ji-zhi/design.webp" class="">
+
+<h3 id="区别控制流和数据流"><a href="#区别控制流和数据流" class="headerlink" title="区别控制流和数据流"></a>区别控制流和数据流</h3><p>将密钥的 CURD 操作也放在了 iam-apiserver 中，但是 iam-authz-server 需要用到这些密钥信息。 iam-authz-server 需要用到这些密钥信息：<br>解决方法：</p>
+<ol>
+<li>iam-authz-server 通过 gRPC API 请求 iam-apiserver，获取所有的密钥信息</li>
+<li>当 iam-apiserver 有密钥更新时，会 Pub 一条消息到 Redis Channel 中。因为 iam-authz-server 订阅了同一个 Redis Channel，iam-authz-searver 监听到 channel 有新消息时，会获取、解析消息，并更新它缓存的密钥信息。确保 iam-authz-server 内存中缓存的密钥和 iam-apiserver 中的密钥保持一致</li>
+</ol>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2022-12-10</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/GoLang/'>
+                            GoLang
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E5%90%8E%E7%AB%AF/'>
+                            后端
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

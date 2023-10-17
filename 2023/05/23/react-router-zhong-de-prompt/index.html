@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="React_Router中的Prompt" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            React_Router中的Prompt
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%A6%82%E8%A7%88"><span class="post-toc-text">概览</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3"><span class="post-toc-text">参数详解</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#when"><span class="post-toc-text">when</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#boolean"><span class="post-toc-text">boolean</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#message"><span class="post-toc-text">message</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#string"><span class="post-toc-text">string</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#function"><span class="post-toc-text">function</span></a></li></ol></li></ol></li></ol>
+        
+        <p>web 中的<code>Prompt</code>组件是从核心的<code>Prompt</code>中二次导出的。</p>
+<h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><ul>
+<li>作用：在从一个页面导航离开之前给用户提示。</li>
+<li>场景：应用处在一个应该阻止用户离开当前页面的状态</li>
+<li>实际场景：表单填了一半，用户想要离开</li>
+<li>使用：</li>
+</ul>
+<pre><code class="jsx">&lt;Prompt when=&#123;formIsHalfFilledOut&#125; message=&quot;Are you sure you want to leave?&quot; /&gt;
+</code></pre>
+<h2 id="参数详解"><a href="#参数详解" class="headerlink" title="参数详解"></a>参数详解</h2><h3 id="when"><a href="#when" class="headerlink" title="when"></a>when</h3><h4 id="boolean"><a href="#boolean" class="headerlink" title="boolean"></a>boolean</h4><p>可以直接传写死的布尔值，而不是有条件地在守卫后面渲染<code>Prompt</code></p>
+<ol>
+<li>true:阻止导航</li>
+<li>false：允许导航</li>
+</ol>
+<h3 id="message"><a href="#message" class="headerlink" title="message"></a>message</h3><h4 id="string"><a href="#string" class="headerlink" title="string"></a>string</h4><p>当用户试图离开当前页时，会给用户这个字符串信息</p>
+<img src="/2023/05/23/react-router-zhong-de-prompt/prompt.jpeg" class="">
+<h4 id="function"><a href="#function" class="headerlink" title="function"></a>function</h4><pre><code class="jsx">export function Users() &#123;
+  return (
+    &lt;React.Fragment&gt;
+      &lt;Prompt
+        message=&#123;(nextLocation, action) =&gt; &#123;
+          if (action === &#39;POP&#39;) &#123;
+            console.log(&#39;Backing up...&#39;);
+          &#125;
+
+          return nextLocation.pathname.startsWith(&#39;/app&#39;)
+            ? false
+            : `Are you sure you want to go to $&#123;location.pathname&#125;?`;
+        &#125;&#125;
+      /&gt;
+      &lt;h2&gt;Users&lt;/h2&gt;
+    &lt;/React.Fragment&gt;
+  );
+&#125;
+</code></pre>
+<p>会在进入用户试图导航进入的下一个 <code>location</code>和 <code>action</code>之前被调用。<br>返回值：</p>
+<ol>
+<li>string：向用户展示一个提示,用户点击确定后跳转，点击取消停留在原地</li>
+<li>true：允许这个过度，直接跳转到nextLocation</li>
+<li>false:不允许过度，且点击link无反应</li>
+</ol>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2023-05-23</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/React/'>
+                            React
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E5%89%8D%E7%AB%AF/'>
+                            前端
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

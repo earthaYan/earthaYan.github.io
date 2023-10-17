@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="event-loop" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            event-loop
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%9C%AF%E8%AF%AD%E8%A7%A3%E9%87%8A"><span class="post-toc-text">术语解释</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%8D%95%E7%BA%BF%E7%A8%8B%EF%BC%9A"><span class="post-toc-text">单线程：</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%B0%83%E7%94%A8%E6%A0%88%EF%BC%9A"><span class="post-toc-text">调用栈：</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E9%98%BB%E5%A1%9E"><span class="post-toc-text">阻塞:</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#V8-%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83"><span class="post-toc-text">V8 运行环境</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#V8-%E5%BC%95%E6%93%8E%E3%80%90V8-chrome-%E4%B8%AD%E7%9A%84%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83%E3%80%91"><span class="post-toc-text">V8 引擎【V8 chrome 中的运行环境】</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#V8-%E5%A4%96%E9%83%A8%E3%80%90%E6%B5%8F%E8%A7%88%E5%99%A8%E6%8F%90%E4%BE%9B%E3%80%91"><span class="post-toc-text">V8 外部【浏览器提供】</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%98%BB%E5%A1%9E%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="post-toc-text">阻塞的解决方法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%8F%90%E4%BE%9B%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0"><span class="post-toc-text">提供回调函数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Promise"><span class="post-toc-text">Promise</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#asyn%E2%80%A6await"><span class="post-toc-text">asyn…await</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#async-%E5%87%BD%E6%95%B0%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="post-toc-text">async 函数返回值</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#thenable"><span class="post-toc-text">thenable</span></a></li></ol>
+        
+        <p>画图工具：<a target="_blank" rel="noopener" href="https://www.liuchengtu.com/charts/">https://www.liuchengtu.com/charts/</a></p>
+<h3 id="术语解释"><a href="#术语解释" class="headerlink" title="术语解释"></a>术语解释</h3><h4 id="单线程："><a href="#单线程：" class="headerlink" title="单线程："></a>单线程：</h4><p>单线程&#x3D;&#x3D;有且仅有一个调用栈&#x3D;&#x3D;一次做一件事情&#x3D;&#x3D;程序每次只可以运行一段代码</p>
+<h4 id="调用栈："><a href="#调用栈：" class="headerlink" title="调用栈："></a>调用栈：</h4><p>记录当前程序所在位置的数据结构。如果当前进入了某个函数，这个函数就会被放入栈中，如果当前离开了某个函数，这个函数就会被弹出栈外</p>
+<pre><code class="javascript">function multiply(a, b) &#123;
+  return a * b;
+&#125;
+function square(n) &#123;
+  return multiply(n, n);
+&#125;
+function printSquare(n) &#123;
+  var squared = square(n);
+  console.log(squared);
+&#125;
+printSquare(4);
+</code></pre>
+<ol>
+<li>main():指代文件自身，放入栈中</li>
+<li>从上到下查看声明的函数，最后是<code>printSquare</code>，最终是其被调用</li>
+<li>将<code>printSquare</code>推入栈中，<code>printSquare</code>调用了<code>square</code></li>
+<li>将<code>square</code>推入栈中，<code>square</code>调用了<code>multiply</code></li>
+<li>将<code>multiply</code>推入栈中</li>
+<li>得到<code>multiply</code>返回值，将<code>multiply</code>推出栈</li>
+<li>依次执行并将函数推出栈</li>
+</ol>
+<img src="/2023/07/11/event-loop/stack.png" class="" title="栈过程示意图">
+<p>如果我们在 <code>multiply</code>中使用 throw 抛出错误，则控制台会出现：</p>
+<pre><code class="javascript">preview-9c596f222c88a.js:2 Error: 报错信息
+    at multiply (script.js:2:11)
+    at square (script.js:5:12)
+    at printSquare (script.js:8:19)
+    at script.js:11:1
+</code></pre>
+<p>典型场景：内存溢出</p>
+<img src="/2023/07/11/event-loop/overflow.jpg" class="" title="栈溢出">
+<p>报错信息：</p>
+<pre><code class="javascript">RangeError: Maximum call stack size exceeded
+    at foo (script.js:12:5)
+    at foo (script.js:12:12)
+    at foo (script.js:12:12)
+    at foo (script.js:12:12)
+    at foo (script.js:12:12)
+    at foo (script.js:12:12)
+    at foo (script.js:12:12)
+    at foo (script.js:12:12)
+    at foo (script.js:12:12)
+</code></pre>
+<h4 id="阻塞"><a href="#阻塞" class="headerlink" title="阻塞:"></a>阻塞:</h4><p>定义：没有严格定义，仅仅指的是代码运行的很慢，即在栈里表现很慢的东西都叫阻塞</p>
+<pre><code class="javascript">var foo = fetch(&quot;//foo.com&quot;);
+var boo = fetch(&quot;//boo.com&quot;);
+var coo = fetch(&quot;//coo.com&quot;);
+console.log(foo);
+console.log(boo);
+console.log(coo);
+</code></pre>
+<img src="/2023/07/11/event-loop/fetch.png" class="" title="网络请求导致的阻塞">
+<p>如上所示：当上面所有的代码都跑一遍，栈才会被清空。而 JS 是单线程语言，所以我们如果请求一个资源，就只能等着请求完成。<br>导致的问题：代码需要在浏览器上运行，请求期间不能做其他任何操作，导致页面卡住运行不流畅</p>
+<h3 id="V8-运行环境"><a href="#V8-运行环境" class="headerlink" title="V8 运行环境"></a>V8 运行环境</h3><img src="/2023/07/11/event-loop/js.png" class="" title="运行环境示意图">
+
+<h4 id="V8-引擎【V8-chrome-中的运行环境】"><a href="#V8-引擎【V8-chrome-中的运行环境】" class="headerlink" title="V8 引擎【V8 chrome 中的运行环境】"></a>V8 引擎【V8 chrome 中的运行环境】</h4><ul>
+<li>堆 heap:记录内存分配</li>
+<li>栈 stack: 存储执行上下文</li>
+</ul>
+<h4 id="V8-外部【浏览器提供】"><a href="#V8-外部【浏览器提供】" class="headerlink" title="V8 外部【浏览器提供】"></a>V8 外部【浏览器提供】</h4><ul>
+<li>webAPI<ul>
+<li>DOM</li>
+<li>Ajax</li>
+<li>SetTimeout</li>
+</ul>
+</li>
+<li>Callback queue</li>
+<li>event loop</li>
+</ul>
+<h2 id="阻塞的解决方法"><a href="#阻塞的解决方法" class="headerlink" title="阻塞的解决方法"></a>阻塞的解决方法</h2><h3 id="提供回调函数"><a href="#提供回调函数" class="headerlink" title="提供回调函数"></a>提供回调函数</h3><p>前提：浏览器和 node 中几乎没有阻塞的函数,都是非同步（异步）的</p>
+<pre><code class="javascript">console.log(&quot;hi&quot;);
+setTimeout(() =&gt; &#123;
+  console.log(&quot;there&quot;);
+&#125;, 5000);
+console.log(&quot;end&quot;);
+</code></pre>
+<img src="/2023/07/11/event-loop/timout.png" class="" title="setTimeout的栈">
+<p>为什么呢？原因是一次做一件事情指的是 js Runtime 只能同时做一件事，但浏览器不止有 RuntTime，还提供了其他的东西。所以我们可以同时做多件事,ajax 请求等其他 webAPI 同理</p>
+<img src="/2023/07/11/event-loop/loop.png" class="">
+<p>注意：任务队列中的回调函数必须等 stack 中清空了才能入栈执行。</p>
+<h3 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h3><p>宏任务：setTimeout&#x2F;setInterval,回调函数将在下一个事件循环中执行<br>微任务：Promise,回调函数将会在下一个事件循环之前执行,作为本次事件循环的 task queue 的附加</p>
+<h3 id="asyn…await"><a href="#asyn…await" class="headerlink" title="asyn…await"></a>asyn…await</h3><p>简化使用和编写链式 promise 的过程，返回值为 promise<br>多个请求写法：</p>
+<pre><code class="javascript">async function getAdd() &#123;
+  let [street, city, state] = await Promise.all([getStreet, getCity, getState]);
+&#125;
+</code></pre>
+<h2 id="async-函数返回值"><a href="#async-函数返回值" class="headerlink" title="async 函数返回值"></a>async 函数返回值</h2><p>根据返回值的类型，V8 引擎对返回值的处理方式也不一样<br>结论：async 函数在抛出返回值时，会根据<strong>返回值类型</strong>开启<strong>不同数目的微任务</strong></p>
+<h3 id="thenable"><a href="#thenable" class="headerlink" title="thenable"></a>thenable</h3><p>是一个对象或者函数<br>判断标准：某个对象或者函数是否具有 then(…)方法来判断</p>
+<pre><code class="javascript">if (
+  p !== null &amp;&amp;
+  (typeof p === &quot;object&quot; || typeof p === &quot;function&quot;) &amp;&amp;
+  typeof p.then === &quot;function&quot;
+) &#123;
+  //thenable
+&#125; else &#123;
+  //非thenable
+&#125;
+</code></pre>
+<ul>
+<li>非 thenable，非 promise：不等待</li>
+</ul>
+<pre><code class="js">async function testA() &#123;
+  return 1;
+&#125;
+testA().then(() =&gt; console.log(1));
+Promise.resolve()
+  .then(() =&gt; console.log(2))
+  .then(() =&gt; console.log(3));
+// (不等待)最终结果👉: 1 2 3
+</code></pre>
+<ul>
+<li>thenable：等待 1 个 then 的时间</li>
+</ul>
+<pre><code class="javascript">async function testB () &#123;
+     return &#123;
+         then (cb) &#123;
+             cb();
+         &#125;
+     &#125;;
+ &#125;
+ testB().then(() =&gt; console.log(1));
+ Promise.resolve()
+     .then(() =&gt; console.log(2))
+     .then(() =&gt; console.log(3));
+// (等待一个then)最终结果👉: 2 1 3
+</code></pre>
+<ul>
+<li>promise:等待 2 个 then 的时间</li>
+</ul>
+<pre><code class="javascript">async function testC () &#123;
+    return new Promise((resolve, reject) =&gt; &#123;
+        resolve()
+    &#125;)
+&#125;
+testC().then(() =&gt; console.log(1));
+Promise.resolve()
+    .then(() =&gt; console.log(2))
+    .then(() =&gt; console.log(3));
+// (等待两个then)最终结果👉: 2 3 1
+</code></pre>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2023-07-11</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/JavaScript/'>
+                            JavaScript
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E5%89%8D%E7%AB%AF/'>
+                            前端
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

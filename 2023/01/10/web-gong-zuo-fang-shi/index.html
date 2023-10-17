@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="web工作方式" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            web工作方式
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#%E8%A1%A8%E7%8E%B0%EF%BC%9A"><span class="post-toc-text">表现：</span></a></li></ol></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%83%8C%E5%90%8E%E6%B5%81%E7%A8%8B"><span class="post-toc-text">背后流程</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Web%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="post-toc-text">Web服务器的工作原理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#url%E5%92%8CDNS%E8%A7%A3%E6%9E%90"><span class="post-toc-text">url和DNS解析</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#URL"><span class="post-toc-text">URL</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#DNS-%E5%9F%9F%E5%90%8D%E7%B3%BB%E7%BB%9F"><span class="post-toc-text">DNS-域名系统</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#DNS%E8%A7%A3%E6%9E%90%E8%BF%87%E7%A8%8B"><span class="post-toc-text">DNS解析过程</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#http%E5%8D%8F%E8%AE%AE"><span class="post-toc-text">http协议</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%AF%B7%E6%B1%82%E5%8C%85%E2%80%94%E2%80%94%E6%B5%8F%E8%A7%88%E5%99%A8%E4%BF%A1%E6%81%AF"><span class="post-toc-text">客户端请求包——浏览器信息</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%B8%8E%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BA%A4%E4%BA%92%E7%9A%84%E8%AF%B7%E6%B1%82%E6%96%B9%E6%B3%95"><span class="post-toc-text">与服务器交互的请求方法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#get%E4%B8%8Epost%E5%8C%BA%E5%88%AB"><span class="post-toc-text">get与post区别</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E5%93%8D%E5%BA%94%E5%8C%85"><span class="post-toc-text">服务器端响应包</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%8A%B6%E6%80%81%E7%A0%81"><span class="post-toc-text">状态码</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#HTTP%E5%8D%8F%E8%AE%AE%E6%98%AF%E6%97%A0%E7%8A%B6%E6%80%81%E7%9A%84%E5%92%8CConnection-keep-alive%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="post-toc-text">HTTP协议是无状态的和Connection: keep-alive的区别</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BC%98%E5%8C%96"><span class="post-toc-text">优化</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%BD%91%E9%A1%B5%E4%BC%98%E5%8C%96%EF%BC%9A"><span class="post-toc-text">网页优化：</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Go%E4%B8%8Eweb"><span class="post-toc-text">Go与web</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="post-toc-text">服务器端的基本概念</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#http%E5%8C%85%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="post-toc-text">http包执行流程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%85%B3%E9%94%AE%E7%82%B9"><span class="post-toc-text">关键点</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Go%E7%9A%84http%E5%8C%85"><span class="post-toc-text">Go的http包</span></a>
+        
+        <h5 id="表现："><a href="#表现：" class="headerlink" title="表现："></a>表现：</h5><p>浏览网页的时候,会打开浏览器，输入网址后按下回车键，然后就会显示出你想要浏览的内容</p>
+<h2 id="背后流程"><a href="#背后流程" class="headerlink" title="背后流程"></a>背后流程</h2><p>普通上网过程：</p>
+<ol>
+<li>输入URL时,浏览器(客户端)请求DNS服务器，获取到应对应的IP</li>
+<li>通过ip地址找到ip对应的服务器，要求建立TCP连接</li>
+<li>浏览器发送完HTTP Request（请求）包</li>
+<li>服务器接收到请求包之后开始处理请求包</li>
+<li>服务器调用自身服务，返回HTTP Response（响应）包</li>
+<li>客户端收到来自服务器的响应后开始渲染这个Response包里的主体（body）</li>
+<li>收到全部的内容随后断开与该服务器之间的TCP连接</li>
+</ol>
+<h2 id="Web服务器的工作原理"><a href="#Web服务器的工作原理" class="headerlink" title="Web服务器的工作原理"></a>Web服务器的工作原理</h2><ol>
+<li>客户机通过TCP&#x2F;IP协议建立到服务器的TCP连接</li>
+<li>客户端向服务器发送HTTP协议请求包，请求服务器里的资源文档</li>
+<li>服务器向客户机发送HTTP协议应答包，如果请求的资源包含有动态语言的内容，那么服务器会调用动态语言的解释引擎负责处理“动态内容”，并将处理得到的数据返回给客户端</li>
+<li>客户机与服务器断开。由客户端解释HTML文档，在客户端屏幕上渲染图形结果</li>
+</ol>
+<blockquote>
+<p>注意：客户机与服务器之间的通信是非持久连接的，也就是当服务器发送了应答后就与客户机断开连接，等待下一次请求</p>
+</blockquote>
+<h2 id="url和DNS解析"><a href="#url和DNS解析" class="headerlink" title="url和DNS解析"></a>url和DNS解析</h2><h3 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h3><pre><code>scheme://host[:port#]/path/.../[?query-string][#anchor]
+scheme         指定底层使用的协议(例如：http, https, ftp)
+host           HTTP服务器的IP地址或者域名
+port#          HTTP服务器的默认端口是80，这种情况下端口号可以省略。如果使用了别的端口，必须指明，例如 http://www.cnblogs.com:8080/
+path           访问资源的路径
+query-string   发送给http服务器的数据
+anchor         锚
+</code></pre>
+<h3 id="DNS-域名系统"><a href="#DNS-域名系统" class="headerlink" title="DNS-域名系统"></a>DNS-域名系统</h3><p>用于TCP&#x2F;IP网络，将主机名或域名转换为实际IP地址</p>
+<img src="/2023/01/10/web-gong-zuo-fang-shi/3.1.dns_hierachy.png" class="" title="dns">
+<h4 id="DNS解析过程"><a href="#DNS解析过程" class="headerlink" title="DNS解析过程"></a>DNS解析过程</h4><ol>
+<li>在浏览器中输入<a target="_blank" rel="noopener" href="http://www.qq.com域名,操作系统会先检查自己本地的hosts文件是否有这个网址映射关系,如果有,就先调用这个ip地址映射,完成域名解析/">www.qq.com域名，操作系统会先检查自己本地的hosts文件是否有这个网址映射关系，如果有，就先调用这个IP地址映射，完成域名解析</a></li>
+<li>如果hosts里没有这个域名的映射，则查找本地DNS解析器缓存，是否有这个网址映射关系，如果有，直接返回，完成域名解析。</li>
+<li>如果前两步都没有相应的网址映射关系，首先会找TCP&#x2F;IP参数中设置的首选DNS服务器【本地DNS服务器】，此服务器收到查询时，如果要查询的域名，包含在本地配置区域资源中，则返回解析结果给客户机，完成域名解析</li>
+<li>如果要查询的域名，不由本地DNS服务器区域解析，但该服务器已缓存了此网址映射关系，则调用这个IP地址映射，完成域名解析</li>
+<li>如果本地DNS服务器本地区域文件与缓存解析都失效，则根据本地DNS服务器的设置（是否设置转发器）进行查询，<ul>
+<li>如果未用转发模式，本地DNS就把请求发至 “根DNS服务器”，“根DNS服务器”收到请求后会判断这个域名(.com)是谁来授权管理，并会返回一个负责该顶级域名服务器的一个IP。本地DNS服务器收到IP信息后，将会联系负责.com域的这台服务器。这台负责.com域的服务器收到请求后，如果自己无法解析，它就会找一个管理.com域的下一级DNS服务器地址(qq.com)给本地DNS服务器。当本地DNS服务器收到这个地址后，就会找qq.com域服务器，重复上面的动作，进行查询，直至找到<a target="_blank" rel="noopener" href="http://www.qq.com主机./">www.qq.com主机。</a></li>
+<li>如果用的是转发模式，此DNS服务器就会把请求转发至上一级DNS服务器，由上一级服务器进行解析，上一级服务器如果不能解析，或找根DNS或把转请求转至上上级，以此循环。不管本地DNS服务器用的是转发，还是根提示，最后都是把结果返回给本地DNS服务器，由此DNS服务器再返回给客户机</li>
+</ul>
+</li>
+</ol>
+  <img src="/2023/01/10/web-gong-zuo-fang-shi/3.1.dns_inquery.png" class="" title="inquery">
+
+<h2 id="http协议"><a href="#http协议" class="headerlink" title="http协议"></a>http协议</h2><p>功能：让Web服务器与浏览器(客户端)通过Internet发送与接收数据<br>基于：TCP协议，一般使用TCP 80端口<br>无状态：同一个客户端的这次请求和上次请求没有对应关系，对HTTP服务器来说，它并不知道这两个请求是否来自同一个客户端<br>解决问题：引入了Cookie机制来维护连接的可持续状态来解决识别两个请求是否来自同一个客户端问题</p>
+<h3 id="客户端请求包——浏览器信息"><a href="#客户端请求包——浏览器信息" class="headerlink" title="客户端请求包——浏览器信息"></a>客户端请求包——浏览器信息</h3><pre><code>GET /domains/example/ HTTP/1.1		//请求行: 请求方法 请求URI HTTP协议/协议版本
+Host：www.iana.org				//服务端的主机名
+User-Agent：Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4//浏览器信息
+Accept：text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8	//客户端能接收的MIME
+Accept-Encoding：gzip,deflate,sdch		//是否支持流压缩
+Accept-Charset：UTF-8,*;q=0.5		//客户端字符编码集
+//空行,用于分割请求头和消息体
+//消息体Body,请求资源参数,例如POST传递的参数
+</code></pre>
+<h4 id="与服务器交互的请求方法"><a href="#与服务器交互的请求方法" class="headerlink" title="与服务器交互的请求方法"></a>与服务器交互的请求方法</h4><p>GET,POST,PUT,DELETE-&gt;查，增，改，删</p>
+<h4 id="get与post区别"><a href="#get与post区别" class="headerlink" title="get与post区别"></a>get与post区别</h4><img src="/2023/01/10/web-gong-zuo-fang-shi/3.1.http.png" class="" title="get请求"> <img src="/2023/01/10/web-gong-zuo-fang-shi/3.1.httpPOST.png" class="" title="post请求">
+
+<ol>
+<li>GET请求消息体为空，POST请求带有消息体</li>
+<li>GET提交的数据会放在URL之后，以?分割URL和传输数据，参数之间以&amp;相连；POST方法是把提交的数据放在HTTP包的body中</li>
+<li>GET提交的数据大小有限制（因为浏览器对URL的长度有限制），而POST方法提交的数据没有限制</li>
+<li>GET方式提交数据，会带来安全问题，比如一个登录页面，通过GET方式提交数据时，用户名和密码将出现在URL上，如果页面可以被缓存或者其他人可以访问这台机器，就可以从历史记录获得该用户的账号和密码</li>
+</ol>
+<blockquote>
+<p>浏览器对url长度限制:<br>IE浏览器:2048字节<br>360极速浏览器:2118字节<br>Firefox(Browser):65536字节<br>Safari(Browser):80000字节<br>Opera(Browser):190000字节<br>Google(chrome):8182字节</p>
+</blockquote>
+<h3 id="服务器端响应包"><a href="#服务器端响应包" class="headerlink" title="服务器端响应包"></a>服务器端响应包</h3><pre><code>HTTP/1.1 200 OK		//状态行=HTTP协议版本号+状态码+状态消息
+Server: nginx/1.0.8	//服务器使用的WEB软件名及版本
+Date:Date: Tue, 30 Oct 2012 04:14:25 GMT		//发送时间
+Content-Type: text/html				//服务器发送信息的类型
+Transfer-Encoding: chunked			//表示发送HTTP包是分段发的
+Connection: keep-alive				//保持连接状态
+Content-Length: 90					//主体内容长度
+//空行 用来分割消息头和主体
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;... //消息体
+</code></pre>
+<h4 id="状态码"><a href="#状态码" class="headerlink" title="状态码"></a>状态码</h4><ul>
+<li>1XX 提示信息 - 表示请求已被成功接收，继续处理</li>
+<li>2XX 成功 - 表示请求已被成功接收，理解，接受</li>
+<li>3XX 重定向 - 要完成请求必须进行更进一步的处理，302表示跳转</li>
+<li>4XX 客户端错误 - 请求有语法错误或请求无法实现</li>
+<li>5XX 服务器端错误 - 服务器未能实现合法的请求</li>
+</ul>
+<h3 id="HTTP协议是无状态的和Connection-keep-alive的区别"><a href="#HTTP协议是无状态的和Connection-keep-alive的区别" class="headerlink" title="HTTP协议是无状态的和Connection: keep-alive的区别"></a>HTTP协议是无状态的和Connection: keep-alive的区别</h3><p>从HTTP&#x2F;1.1起，默认都开启了Keep-Alive保持连接特性</p>
+<ol>
+<li>无状态是指协议对于事务处理没有记忆能力，服务器不知道客户端是什么状态。</li>
+<li>无状态不代表HTTP不能保持TCP连接，更不能代表HTTP使用的是UDP协议（面对无连接）</li>
+<li>当一个网页打开完成后，客户端和服务器之间用于传输HTTP数据的TCP连接不会关闭，如果客户端再次访问这个服务器上的网页，会继续使用这一条已经建立的TCP连接</li>
+<li>Keep-Alive不会永久保持连接，它有一个保持时间，可以在不同服务器软件（如Apache）中设置这个时间</li>
+</ol>
+<h3 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h3><ol>
+<li>第一次请求url，服务器端返回的是html页面，然后浏览器开始渲染HTML</li>
+<li>当解析到HTML DOM里面的图片连接，css脚本和js脚本的链接，浏览器就会自动发起一个请求静态资源的HTTP请求，获取相对应的静态资源，然后浏览器就会渲染出来，最终将所有资源整合、渲染，完整展现在我们面前的屏幕上。</li>
+</ol>
+<h4 id="网页优化："><a href="#网页优化：" class="headerlink" title="网页优化："></a>网页优化：</h4><p>减少HTTP请求次数，就是把尽量多的css和js资源合并在一起，目的是尽量减少网页请求静态资源的次数，提高网页加载速度，同时减缓服务器的压力。</p>
+<h2 id="Go与web"><a href="#Go与web" class="headerlink" title="Go与web"></a>Go与web</h2><p>一个简单的web服务器</p>
+<pre><code class="go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;net/http&quot;
+    &quot;strings&quot;
+    &quot;log&quot;
+)
+
+func sayhelloName(w http.ResponseWriter, r *http.Request) &#123;
+    r.ParseForm()  //解析参数，默认是不会解析的
+    fmt.Println(r.Form)  //这些信息是输出到服务器端的打印信息
+    fmt.Println(&quot;path&quot;, r.URL.Path)
+    fmt.Println(&quot;scheme&quot;, r.URL.Scheme)
+    fmt.Println(r.Form[&quot;url_long&quot;])
+    for k, v := range r.Form &#123;
+        fmt.Println(&quot;key:&quot;, k)
+        fmt.Println(&quot;val:&quot;, strings.Join(v, &quot;&quot;))
+    &#125;
+    fmt.Fprintf(w, &quot;Hello astaxie!&quot;) //这个写入到w的是输出到客户端的
+&#125;
+
+func main() &#123;
+    http.HandleFunc(&quot;/&quot;, sayhelloName) //设置访问的路由,注册了请求/的路由规则
+    err := http.ListenAndServe(&quot;:9090&quot;, nil) //设置监听的端口,第二个参数默认为空则获取handler = DefaultServeMux
+  // 上述 DefaultServeMux变量本质是一个路由器，用来匹配url跳转到其相应的handle函数
+    if err != nil &#123;
+        log.Fatal(&quot;ListenAndServe: &quot;, err)
+    &#125;
+&#125;
+</code></pre>
+<h3 id="服务器端的基本概念"><a href="#服务器端的基本概念" class="headerlink" title="服务器端的基本概念"></a>服务器端的基本概念</h3><ul>
+<li>Request:用户请求的信息，用来解析用户的请求信息，包括post、get、cookie、url等信息</li>
+<li>Response:服务器需要返回给客户端的信息</li>
+<li>Conn:用户的每次请求链接</li>
+<li>Handler:处理请求和生成返回信息的处理逻辑</li>
+</ul>
+<h3 id="http包执行流程"><a href="#http包执行流程" class="headerlink" title="http包执行流程"></a>http包执行流程</h3><img src="/2023/01/10/web-gong-zuo-fang-shi/3.3.http.png" class="" title="http包执行流程">
+<ol>
+<li>创建Listen Socket，监听指定端口,等待客户端请求到来</li>
+<li>Listen Socket接受客户端的请求, 得到Client Socket, 接下来通过Client Socket与客户端通信</li>
+<li>处理客户端的请求<ul>
+<li>首先从Client Socket读取HTTP请求的协议头,</li>
+<li>如果是POST方法, 还可能要读取客户端提交的数据</li>
+<li>然后交给相应的handler处理请求</li>
+<li>handler处理完毕准备好客户端需要的数据, 通过Client Socket写给客户端。</li>
+</ul>
+</li>
+</ol>
+<h4 id="关键点"><a href="#关键点" class="headerlink" title="关键点"></a>关键点</h4><ul>
+<li>如何监听端口:使用<code>net/http</code>包的<code>ListenAndServe</code>方法</li>
+<li>如何接收客户端请求</li>
+<li>如何分配handler</li>
+</ul>
+<pre><code class="go">// ListenAndServe方法实现
+func ListenAndServe(addr string, handler Handler) error &#123;
+    server := &amp;Server&#123;Addr: addr, Handler: handler&#125; //初始化一个Server对象
+    return server.ListenAndServe()//调用Server对象的方法ListenAndServe
+&#125;
+func ListenAndServe(addr string, handler Handler) error &#123;
+    server := &amp;Server&#123;Addr: addr, Handler: handler&#125; //初始化Server对象
+    return server.ListenAndServe()                  //调用Server对象的方法ListenAndServe
+&#125;
+func (srv *Server) ListenAndServe() error &#123;
+    addr := srv.Addr
+    ln, err := net.Listen(&quot;tcp&quot;, addr) //底层用TCP协议搭建了一个服务
+    if err != nil &#123;
+        return err
+    &#125;
+    return srv.Serve(ln) //调用srv.Serve监控我们设置的端口
+&#125;
+
+func (srv *Server) Serve(l net.Listener) error &#123;
+    ctx := context.WithValue(baseCtx, ServerContextKey, srv)
+    for &#123;
+        rw, err := l.Accept() //通过Listener接收请求
+        c := srv.newConn(rw)  //创建一个Conn
+        go c.serve(connCtx)   //单独开了一个goroutine，把这个请求的数据当做参数扔给这个conn去服务
+        //高并发体现:用户的每一次请求都是在一个新的goroutine去服务，相互不影响。
+    // 客户端的每次请求都会创建一个Conn，这个Conn里面保存了该次请求的信息，
+    // 然后再传递到对应的handler，该handler中便可以读取到相应的header信息，这样保证了每个请求的独立性。
+    &#125;
+&#125;
+func (c *conn) serve(ctx context.Context) &#123;
+    for &#123;
+        w, err := c.readRequest(ctx)                //解析request
+        serverHandler&#123;c.server&#125;.ServeHTTP(w, w.req) //获取相应的handler去处理请求
+    &#125;
+&#125;
+func (sh serverHandler) ServeHTTP(rw ResponseWriter, req *Request) &#123;
+    handler := sh.srv.Handler
+    if handler == nil &#123;
+        handler = DefaultServeMux
+    &#125;
+    handler.ServeHTTP(rw, req)
+&#125;
+</code></pre>
+<img src="/2023/01/10/web-gong-zuo-fang-shi/3.3.illustrator.png" class="" title="一个http连接处理流程">
+
+
+<h2 id="Go的http包"><a href="#Go的http包" class="headerlink" title="Go的http包"></a>Go的http包</h2>
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2023-01-10</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/GoLang/'>
+                            GoLang
+                        </a>
+                    
+                        <a href='/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/'>
+                            浏览器
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E5%90%8E%E7%AB%AF/'>
+                            后端
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

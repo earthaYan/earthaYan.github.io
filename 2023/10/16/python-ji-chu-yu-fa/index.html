@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="python基础语法" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            python基础语法
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#c2-%E8%A7%A3%E9%87%8A%E5%99%A8"><span class="post-toc-text">c2. 解释器</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%B0%83%E7%94%A8%E8%A7%A3%E9%87%8A%E5%99%A8"><span class="post-toc-text">调用解释器</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%90%AF%E5%8A%A8%E8%A7%A3%E9%87%8A%E5%99%A8%E6%96%B9%E5%BC%8F%EF%BC%9A"><span class="post-toc-text">启动解释器方式：</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E9%80%80%E5%87%BA%E8%A7%A3%E9%87%8A%E5%99%A8%E6%96%B9%E6%B3%95%EF%BC%9A"><span class="post-toc-text">退出解释器方法：</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%BA%A4%E4%BA%92%E6%A8%A1%E5%BC%8F"><span class="post-toc-text">交互模式</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%A7%A3%E9%87%8A%E5%99%A8%E5%92%8C%E7%8E%AF%E5%A2%83"><span class="post-toc-text">解释器和环境</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#c3-Python-%E9%9D%9E%E6%AD%A3%E5%BC%8F%E4%BB%8B%E7%BB%8D"><span class="post-toc-text">c3. Python 非正式介绍</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%AE%A1%E7%AE%97%E5%99%A8"><span class="post-toc-text">计算器</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%AE%97%E6%9C%AF%E8%BF%90%E7%AE%97%E7%AC%A6%EF%BC%9A"><span class="post-toc-text">算术运算符：+,-,*,&#x2F;</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%96%87%E6%9C%AC%E7%B1%BB%E5%9E%8B-str"><span class="post-toc-text">文本类型 str</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%88%97%E8%A1%A8%E7%B1%BB%E5%9E%8B-list"><span class="post-toc-text">列表类型 list</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#python-%E7%BC%96%E7%A8%8B%E7%AC%AC%E4%B8%80%E6%AD%A5"><span class="post-toc-text">python 编程第一步</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#c4-%E6%8E%A7%E5%88%B6%E6%B5%81"><span class="post-toc-text">c4. 控制流</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5"><span class="post-toc-text">条件语句</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#for-%E5%BE%AA%E7%8E%AF"><span class="post-toc-text">for 循环</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%BF%AE%E6%94%B9%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1%E4%B8%AD%E7%9A%84%E5%86%85%E5%AE%B9"><span class="post-toc-text">修改迭代对象中的内容</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#range-%E5%87%BD%E6%95%B0"><span class="post-toc-text">range()函数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#break-x2F-continue-%E8%AF%AD%E5%8F%A5%E5%92%8C%E5%BE%AA%E7%8E%AF%E4%B8%8A%E7%9A%84-else-%E5%AD%90%E5%8F%A5"><span class="post-toc-text">break&#x2F;continue 语句和循环上的 else 子句</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#pass-%E8%AF%AD%E5%8F%A5"><span class="post-toc-text">pass 语句</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#match-%E8%AF%AD%E5%8F%A5"><span class="post-toc-text">match 语句</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0"><span class="post-toc-text">定义函数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0-2"><span class="post-toc-text">定义函数 2</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E9%BB%98%E8%AE%A4%E5%8F%82%E6%95%B0%E5%80%BC"><span class="post-toc-text">默认参数值</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%85%B3%E9%94%AE%E5%AD%97%E5%8F%82%E6%95%B0"><span class="post-toc-text">关键字参数</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%89%B9%E6%AE%8A%E5%8F%82%E6%95%B0"><span class="post-toc-text">特殊参数</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%BB%BB%E6%84%8F%E5%AE%9E%E5%8F%82%E5%88%97%E8%A1%A8"><span class="post-toc-text">任意实参列表</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%A7%A3%E5%8C%85%E5%AE%9E%E5%8F%82%E5%88%97%E8%A1%A8"><span class="post-toc-text">解包实参列表</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#lambda-%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="post-toc-text">lambda 表达式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%96%87%E6%A1%A3%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="post-toc-text">文档字符串</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%87%BD%E6%95%B0%E6%B3%A8%E8%A7%A3"><span class="post-toc-text">函数注解</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BB%A3%E7%A0%81%E9%A3%8E%E6%A0%BC"><span class="post-toc-text">代码风格</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#c5-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="post-toc-text">c5. 数据结构</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#c6-%E6%A8%A1%E5%9D%97"><span class="post-toc-text">c6. 模块</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#c7-%E8%BE%93%E5%85%A5%E5%92%8C%E8%BE%93%E5%87%BA"><span class="post-toc-text">c7. 输入和输出</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#c8-%E9%94%99%E8%AF%AF%E5%92%8C%E5%BC%82%E5%B8%B8"><span class="post-toc-text">c8. 错误和异常</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#c9-%E7%B1%BB"><span class="post-toc-text">c9. 类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#c10-%E6%A0%87%E5%87%86%E5%BA%93-part1"><span class="post-toc-text">c10. 标准库-part1</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#c11-%E6%A0%87%E5%87%86%E5%BA%93-part2"><span class="post-toc-text">c11. 标准库-part2</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#c12-%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E5%92%8C%E5%8C%85"><span class="post-toc-text">c12. 虚拟环境和包</span></a></li></ol>
+        
+        <h2 id="c2-解释器"><a href="#c2-解释器" class="headerlink" title="c2. 解释器"></a>c2. 解释器</h2><p>前提：安装 python 并将安装路径添加到环境变量中</p>
+<h3 id="调用解释器"><a href="#调用解释器" class="headerlink" title="调用解释器"></a>调用解释器</h3><h4 id="启动解释器方式："><a href="#启动解释器方式：" class="headerlink" title="启动解释器方式："></a>启动解释器方式：</h4><ol>
+<li><code>py xx.py</code> 或者 <code>python xx.py</code></li>
+<li><code>python -c command [arg] ...</code>,命令最好用引号包裹</li>
+<li><code>python -m module [arg] ...</code>,在命令行下直接运行 Python 模块</li>
+</ol>
+<blockquote>
+<p>区别：方法 2 是执行 command 中的语句,类似于 shell -c,方法 3 会将模块作为主程序运行，模块通过名称区分</p>
+</blockquote>
+<pre><code class="py"># my_module.py
+def greet(name):
+    print(f&quot;Hello, &#123;name&#125;!&quot;)
+
+# 外部调用
+python -m my_module
+</code></pre>
+<h4 id="退出解释器方法："><a href="#退出解释器方法：" class="headerlink" title="退出解释器方法："></a>退出解释器方法：</h4><ol>
+<li><code>CTRL+Z</code>+<code>Enter</code></li>
+<li><code>exit()</code></li>
+</ol>
+<h4 id="交互模式"><a href="#交互模式" class="headerlink" title="交互模式"></a>交互模式</h4><ol>
+<li>主提示符<code>&gt;&gt;&gt;</code>:提示输入下一条指令</li>
+<li>次要提示符<code>...</code>:提示输入连续行</li>
+</ol>
+<blockquote>
+<p>输入多行架构的语句时，要用连续行</p>
+</blockquote>
+<h3 id="解释器和环境"><a href="#解释器和环境" class="headerlink" title="解释器和环境"></a>解释器和环境</h3><p>默认编码：UTF-8<br>指定编码方式：通过注释实现：<code># -*- coding: encoding -*-</code></p>
+<blockquote>
+<p>指定编码需要和 vscode 底部的编码方式保持一致，否则会报错 SyntaxError: encoding problem: GB2312 或者乱码</p>
+</blockquote>
+<pre><code class="py">#!/usr/bin/env python3
+# -*- coding: gb2312 -*-
+</code></pre>
+<h2 id="c3-Python-非正式介绍"><a href="#c3-Python-非正式介绍" class="headerlink" title="c3. Python 非正式介绍"></a>c3. Python 非正式介绍</h2><h3 id="计算器"><a href="#计算器" class="headerlink" title="计算器"></a>计算器</h3><p>注释：python 注释以<code>#</code>开头，直到该行结束</p>
+<h4 id="算术运算符："><a href="#算术运算符：" class="headerlink" title="算术运算符：+,-,*,/"></a>算术运算符：<code>+</code>,<code>-</code>,<code>*</code>,<code>/</code></h4><p>特殊算术运算符：</p>
+<ul>
+<li><code>//</code>：取整 5&#x2F;&#x2F;2&#x3D;2</li>
+<li><code>%</code>：取余 5%2&#x3D;1</li>
+<li><code>**</code>：乘方 5**2&#x3D;25</li>
+<li><code>=</code>：赋值 a&#x3D;3</li>
+</ul>
+<blockquote>
+<ol>
+<li>普通除法的返回值一直是浮点数。</li>
+<li>交互模式下，前一次输出的表达式会赋值给变量<code>_</code>,并且避免给这个变量显式赋值</li>
+</ol>
+</blockquote>
+<h4 id="文本类型-str"><a href="#文本类型-str" class="headerlink" title="文本类型 str"></a>文本类型 str</h4><p>单行字符串：使用单引号或者双引号包裹<br>多行字符串：使用三重引号包裹<code>&quot;&quot;&quot;...&quot;&quot;&quot;</code>或者<code>&#39;&#39;&#39;...&#39;&#39;&#39;</code><br>转义：<code>\</code>+字符<br>不转义：<code>print(r&#39;a\b&#39;)</code><br>合并重复: +和*<br>字符串长度：<code>len(str1)</code></p>
+<blockquote>
+<p>自动合并：相邻的两个或多个 字符串<strong>字面值</strong> （引号标注的字符）会自动合并。</p>
+</blockquote>
+<blockquote>
+<p>支持下标(正负数)访问和切片<code>word[0:3]</code>:包含 0-2 的字符的子串<br>word[0:],word[-2:]包含了<code>stop</code>下标,字符串中单个字符不可修改</p>
+</blockquote>
+<pre><code class="py"># 3 times &#39;un&#39;, followed by &#39;ium&#39;
+3 * &#39;un&#39; + &#39;ium&#39;
+# 输出结果：&#39;unununium&#39;
+s=&#39;Py&#39; &#39;thon&#39;
+# 输出结果：Python
+</code></pre>
+<h4 id="列表类型-list"><a href="#列表类型-list" class="headerlink" title="列表类型 list"></a>列表类型 list</h4><p>使用<code>[]</code>进行包裹，支持不同类型数据组合,可以嵌套<br>单个元素可以通过下标或者切片修改<br>获取列表长度：<code>len(list1)</code><br>列表末尾添加新元素：<code>cubes.append(216) </code><br>合并列表:<code>squares + [36, 49, 64, 81, 100]</code></p>
+<h3 id="python-编程第一步"><a href="#python-编程第一步" class="headerlink" title="python 编程第一步"></a>python 编程第一步</h3><p>缩进是 python 组织语句结构的方式<br>print()可以传多个参数，通过<code>,</code>分隔，比如 <code>print(&#39;a&#39;,&#39;b&#39;)</code>打印出来的结果是：<code>a b</code></p>
+<h2 id="c4-控制流"><a href="#c4-控制流" class="headerlink" title="c4. 控制流"></a>c4. 控制流</h2><h3 id="条件语句"><a href="#条件语句" class="headerlink" title="条件语句"></a>条件语句</h3><pre><code class="py">x=input(&#39;请输入：&#39;)
+x=int(x)
+if x &lt; 0:
+    x = 0
+    print(&#39;Negative changed to zero&#39;)
+elif x == 0:
+    print(&#39;Zero&#39;)
+else:
+    print(&#39;More&#39;)
+</code></pre>
+<h3 id="for-循环"><a href="#for-循环" class="headerlink" title="for 循环"></a>for 循环</h3><p>形式：<code>for item in 列表/字符串</code><br>注意点：</p>
+<ul>
+<li>python 本身不支持通过下标进行迭代，即<code>for (int i = 0; i &lt; 10; i++)</code>这样的形式，而是按顺序遍历可迭代对象（如列表、字符串等）中的元素。</li>
+</ul>
+<pre><code class="py">words = [&#39;cat&#39;, &#39;window&#39;, &#39;defenestrate&#39;]
+for w in words:
+    print(w, len(w))
+</code></pre>
+<ul>
+<li>如果需要下标进行迭代的话，可使用<code>enumerate</code>将列表或字符串作为参数</li>
+</ul>
+<pre><code class="py">words = [&#39;cat&#39;, &#39;window&#39;, &#39;defenestrate&#39;]
+for index,value in enumerate(words):
+    print(&#39;index&#39;,index,&#39;value&#39;,value)
+</code></pre>
+<h4 id="修改迭代对象中的内容"><a href="#修改迭代对象中的内容" class="headerlink" title="修改迭代对象中的内容"></a>修改迭代对象中的内容</h4><p>推荐方法：迭代多项集的副本或者创建新的多项集<br>不推荐：通过下标修改<br>原因：如果在循环体中修改了该集合的内容（增删改），可能会导致迭代过程出现意外的行为。因为修改集合后，原始集合的长度和结构发生了变化，而迭代器无法正确地处理这种变化。</p>
+<pre><code class="py"># 正确做法
+users = &#123;&#39;Hans&#39;: &#39;active&#39;, &#39;Éléonore&#39;: &#39;inactive&#39;, &#39;景太郎&#39;: &#39;active&#39;&#125;
+
+# Strategy:  迭代副本
+for user, status in users.copy().items():
+    if status == &#39;inactive&#39;:
+        del users[user]
+
+# Strategy:  创建一个新的集合
+active_users = &#123;&#125;
+for user, status in users.items():
+    if status == &#39;active&#39;:
+        active_users[user] = status
+
+print(users,active_users)
+</code></pre>
+<h3 id="range-函数"><a href="#range-函数" class="headerlink" title="range()函数"></a>range()函数</h3><h3 id="break-x2F-continue-语句和循环上的-else-子句"><a href="#break-x2F-continue-语句和循环上的-else-子句" class="headerlink" title="break&#x2F;continue 语句和循环上的 else 子句"></a>break&#x2F;continue 语句和循环上的 else 子句</h3><h3 id="pass-语句"><a href="#pass-语句" class="headerlink" title="pass 语句"></a>pass 语句</h3><h3 id="match-语句"><a href="#match-语句" class="headerlink" title="match 语句"></a>match 语句</h3><h3 id="定义函数"><a href="#定义函数" class="headerlink" title="定义函数"></a>定义函数</h3><h3 id="定义函数-2"><a href="#定义函数-2" class="headerlink" title="定义函数 2"></a>定义函数 2</h3><h4 id="默认参数值"><a href="#默认参数值" class="headerlink" title="默认参数值"></a>默认参数值</h4><h4 id="关键字参数"><a href="#关键字参数" class="headerlink" title="关键字参数"></a>关键字参数</h4><h4 id="特殊参数"><a href="#特殊参数" class="headerlink" title="特殊参数"></a>特殊参数</h4><h4 id="任意实参列表"><a href="#任意实参列表" class="headerlink" title="任意实参列表"></a>任意实参列表</h4><h4 id="解包实参列表"><a href="#解包实参列表" class="headerlink" title="解包实参列表"></a>解包实参列表</h4><h4 id="lambda-表达式"><a href="#lambda-表达式" class="headerlink" title="lambda 表达式"></a>lambda 表达式</h4><h4 id="文档字符串"><a href="#文档字符串" class="headerlink" title="文档字符串"></a>文档字符串</h4><h4 id="函数注解"><a href="#函数注解" class="headerlink" title="函数注解"></a>函数注解</h4><h3 id="代码风格"><a href="#代码风格" class="headerlink" title="代码风格"></a>代码风格</h3><h2 id="c5-数据结构"><a href="#c5-数据结构" class="headerlink" title="c5. 数据结构"></a>c5. 数据结构</h2><h2 id="c6-模块"><a href="#c6-模块" class="headerlink" title="c6. 模块"></a>c6. 模块</h2><h2 id="c7-输入和输出"><a href="#c7-输入和输出" class="headerlink" title="c7. 输入和输出"></a>c7. 输入和输出</h2><h2 id="c8-错误和异常"><a href="#c8-错误和异常" class="headerlink" title="c8. 错误和异常"></a>c8. 错误和异常</h2><h2 id="c9-类"><a href="#c9-类" class="headerlink" title="c9. 类"></a>c9. 类</h2><h2 id="c10-标准库-part1"><a href="#c10-标准库-part1" class="headerlink" title="c10. 标准库-part1"></a>c10. 标准库-part1</h2><h2 id="c11-标准库-part2"><a href="#c11-标准库-part2" class="headerlink" title="c11. 标准库-part2"></a>c11. 标准库-part2</h2><h2 id="c12-虚拟环境和包"><a href="#c12-虚拟环境和包" class="headerlink" title="c12. 虚拟环境和包"></a>c12. 虚拟环境和包</h2>
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2023-10-16</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/Python/'>
+                            Python
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/Python/'>
+                            Python
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

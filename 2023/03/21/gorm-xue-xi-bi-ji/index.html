@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="gorm学习笔记" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            gorm学习笔记
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%AE%89%E8%A3%85"><span class="post-toc-text">安装</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%B8%B8%E8%A7%81%E7%94%A8%E6%B3%95"><span class="post-toc-text">常见用法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%BA%A6%E5%AE%9A"><span class="post-toc-text">约定</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#gorm-Model"><span class="post-toc-text">gorm.Model</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%8E%A7%E5%88%B6%E5%AD%97%E6%AE%B5%E7%BA%A7%E7%9A%84%E8%AF%BB%E5%86%99%E6%9D%83%E9%99%90"><span class="post-toc-text">控制字段级的读写权限</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%B5%8C%E5%85%A5%E7%BB%93%E6%9E%84%E4%BD%93"><span class="post-toc-text">嵌入结构体</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%8C%BF%E5%90%8D%E5%AD%97%E6%AE%B5"><span class="post-toc-text">匿名字段</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%AD%A3%E5%B8%B8%E7%BB%93%E6%9E%84%E4%BD%93%E5%AD%97%E6%AE%B5"><span class="post-toc-text">正常结构体字段</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%AD%97%E6%AE%B5%E6%A0%87%E7%AD%BE-tag"><span class="post-toc-text">字段标签 tag</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%BF%9E%E6%8E%A5%E5%88%B0%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="post-toc-text">连接到数据库</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BB%A5-mysql-%E4%B8%BA%E4%BE%8B"><span class="post-toc-text">以 mysql 为例</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%AE%80%E5%8D%95%E5%9E%8B"><span class="post-toc-text">简单型</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E9%AB%98%E7%BA%A7%E9%85%8D%E7%BD%AE%E5%9E%8B"><span class="post-toc-text">高级配置型</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E9%80%9A%E8%BF%87%E4%B8%80%E4%B8%AA%E7%8E%B0%E6%9C%89%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%9D%A5%E5%88%9D%E5%A7%8B%E5%8C%96-gorm-DB"><span class="post-toc-text">通过一个现有的数据库连接来初始化 *gorm.DB</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%A2%9E%E5%8A%A0"><span class="post-toc-text">增加</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E9%80%9A%E8%BF%87%E6%95%B0%E6%8D%AE%E7%9A%84%E6%8C%87%E9%92%88%E5%88%9B%E5%BB%BA"><span class="post-toc-text">通过数据的指针创建</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%94%A8%E6%8C%87%E5%AE%9A%E7%9A%84%E5%AD%97%E6%AE%B5%E5%88%9B%E5%BB%BA%E8%AE%B0%E5%BD%95"><span class="post-toc-text">用指定的字段创建记录</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%89%B9%E9%87%8F%E6%B7%BB%E5%8A%A0"><span class="post-toc-text">批量添加</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%88%9B%E5%BB%BA%E9%92%A9%E5%AD%90"><span class="post-toc-text">创建钩子</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%A0%B9%E6%8D%AE-Map-%E5%88%9B%E5%BB%BA"><span class="post-toc-text">根据 Map 创建</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BD%BF%E7%94%A8-SQL-%E8%A1%A8%E8%BE%BE%E5%BC%8F%E3%80%81Context-Valuer-%E5%88%9B%E5%BB%BA%E8%AE%B0%E5%BD%95"><span class="post-toc-text">使用 SQL 表达式、Context Valuer 创建记录</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%9F%A5%E8%AF%A2"><span class="post-toc-text">查询</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%8E%B7%E5%8F%96%E5%8D%95%E6%9D%A1%E8%AE%B0%E5%BD%95%EF%BC%9A"><span class="post-toc-text">获取单条记录：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%8C%89%E7%85%A7%E4%B8%BB%E9%94%AE%E8%8E%B7%E5%8F%96"><span class="post-toc-text">按照主键获取</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%A3%80%E7%B4%A2%E5%85%A8%E9%83%A8%E5%AF%B9%E8%B1%A1"><span class="post-toc-text">检索全部对象</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%9D%A1%E4%BB%B6"><span class="post-toc-text">条件</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#string-%E6%9D%A1%E4%BB%B6"><span class="post-toc-text">string 条件</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#struct-amp-Map-%E6%9D%A1%E4%BB%B6"><span class="post-toc-text">struct&amp;Map 条件</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%8C%87%E5%AE%9A%E7%BB%93%E6%9E%84%E4%BD%93%E6%9F%A5%E8%AF%A2%E5%AD%97%E6%AE%B5"><span class="post-toc-text">指定结构体查询字段</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%86%85%E8%81%94%E6%9D%A1%E4%BB%B6"><span class="post-toc-text">内联条件</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Not-%E6%9D%A1%E4%BB%B6-%E5%92%8C-Or-%E6%9D%A1%E4%BB%B6"><span class="post-toc-text">Not 条件 和 Or 条件</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E9%80%89%E6%8B%A9%E7%89%B9%E5%AE%9A%E5%AD%97%E6%AE%B5-Select-%E6%96%B9%E6%B3%95"><span class="post-toc-text">选择特定字段 Select 方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%8E%92%E5%BA%8F"><span class="post-toc-text">排序</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Limit-amp-Offset"><span class="post-toc-text">Limit&amp;Offset</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Limit"><span class="post-toc-text">Limit</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Offset"><span class="post-toc-text">Offset</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Group-By-amp-Having"><span class="post-toc-text">Group By &amp;Having</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Group-By%EF%BC%9AGroup"><span class="post-toc-text">Group By：Group()</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Having"><span class="post-toc-text">Having</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Distinct"><span class="post-toc-text">Distinct</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Join"><span class="post-toc-text">Join</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Join-%E9%A2%84%E5%8A%A0%E8%BD%BD"><span class="post-toc-text">Join 预加载</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Scan"><span class="post-toc-text">Scan()</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%AB%98%E7%BA%A7%E6%9F%A5%E8%AF%A2"><span class="post-toc-text">高级查询</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%87%AA%E5%8A%A8%E9%80%89%E6%8B%A9%E5%AD%97%E6%AE%B5"><span class="post-toc-text">自动选择字段</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Locking"><span class="post-toc-text">Locking</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%AF%BB%E9%94%81-%E5%85%B1%E4%BA%AB%E9%94%81-%E8%A1%A8%E9%94%81"><span class="post-toc-text">读锁-共享锁 (表锁)</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%86%99%E9%94%81-%E6%8E%92%E4%BB%96%E9%94%81-%E8%A1%A8%E9%94%81"><span class="post-toc-text">写锁-排他锁 (表锁)</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%A1%8C%E9%94%81"><span class="post-toc-text">行锁</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AD%90%E6%9F%A5%E8%AF%A2"><span class="post-toc-text">子查询</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%A4%9A%E4%B8%AA%E5%88%97%E7%9A%84IN%E6%9F%A5%E8%AF%A2"><span class="post-toc-text">多个列的IN查询</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%BF%AE%E6%94%B9%E6%9B%B4%E6%96%B0"><span class="post-toc-text">修改更新</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BF%9D%E5%AD%98%E6%89%80%E6%9C%89%E5%AD%97%E6%AE%B5"><span class="post-toc-text">保存所有字段</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BF%AE%E6%94%B9%E5%8D%95%E4%B8%AA%E5%88%97"><span class="post-toc-text">修改单个列</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BF%AE%E6%94%B9%E5%A4%9A%E4%B8%AA%E5%88%97"><span class="post-toc-text">修改多个列</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BF%AE%E6%94%B9%E6%8C%87%E5%AE%9A%E5%AD%97%E6%AE%B5"><span class="post-toc-text">修改指定字段</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%9B%B4%E6%96%B0hook"><span class="post-toc-text">更新hook</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%89%B9%E9%87%8F%E6%9B%B4%E6%96%B0"><span class="post-toc-text">批量更新</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%8E%B7%E5%8F%96%E5%8F%97%E6%9B%B4%E6%96%B0%E5%BD%B1%E5%93%8D%E7%9A%84%E8%A1%8C%E6%95%B0"><span class="post-toc-text">获取受更新影响的行数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E9%AB%98%E7%BA%A7%E9%80%89%E9%A1%B9"><span class="post-toc-text">高级选项</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%88%A0%E9%99%A4"><span class="post-toc-text">删除</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%88%A0%E9%99%A4%E5%8D%95%E6%9D%A1%E8%AE%B0%E5%BD%95"><span class="post-toc-text">删除单条记录</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%A0%B9%E6%8D%AE%E4%B8%BB%E9%94%AE%E5%88%A0%E9%99%A4"><span class="post-toc-text">根据主键删除</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Delete-hook"><span class="post-toc-text">Delete hook</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%89%B9%E9%87%8F%E5%88%A0%E9%99%A4"><span class="post-toc-text">批量删除</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%BF%94%E5%9B%9E%E8%A2%AB%E5%88%A0%E9%99%A4%E7%9A%84%E6%95%B0%E6%8D%AE"><span class="post-toc-text">返回被删除的数据</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%BD%AF%E5%88%A0%E9%99%A4"><span class="post-toc-text">软删除</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%B0%B8%E4%B9%85%E5%88%A0%E9%99%A4"><span class="post-toc-text">永久删除</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%85%B3%E8%81%94"><span class="post-toc-text">关联</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#belongs-to"><span class="post-toc-text">belongs to</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#has-one"><span class="post-toc-text">has one</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Has-Many"><span class="post-toc-text">Has Many</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Many-to-Many"><span class="post-toc-text">Many to Many</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AE%9E%E4%BD%93%E5%85%B3%E8%81%94"><span class="post-toc-text">实体关联</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E9%A2%84%E5%8A%A0%E8%BD%BD"><span class="post-toc-text">预加载</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%BD%BF%E7%94%A8-Preload%E9%80%9A%E8%BF%87%E5%A4%9A%E4%B8%AASQL%E4%B8%AD%E6%9D%A5%E7%9B%B4%E6%8E%A5%E5%8A%A0%E8%BD%BD%E5%85%B3%E7%B3%BB"><span class="post-toc-text">使用 Preload通过多个SQL中来直接加载关系</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#joins%E9%A2%84%E5%8A%A0%E8%BD%BD"><span class="post-toc-text">joins预加载</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%A4%84%E7%90%86%E9%94%99%E8%AF%AF"><span class="post-toc-text">处理错误</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%93%BE%E5%BC%8F%E6%96%B9%E6%B3%95"><span class="post-toc-text">链式方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#session"><span class="post-toc-text">session</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%92%A9%E5%AD%90"><span class="post-toc-text">钩子</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%BA%8B%E5%8A%A1"><span class="post-toc-text">事务</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%BF%81%E7%A7%BB"><span class="post-toc-text">迁移</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%97%A5%E5%BF%97Logger"><span class="post-toc-text">日志Logger</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%80%9A%E7%94%A8%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8E%A5%E5%8F%A3"><span class="post-toc-text">通用数据库接口</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%BF%9E%E6%8E%A5%E6%B1%A0"><span class="post-toc-text">连接池</span></a></li></ol></li></ol>
+        
+        <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><pre><code class="bash">go get -u gorm.io/gorm
+# 安装对应数据库驱动，比如mysql,sqlite
+go get -u gorm.io/driver/mysql
+</code></pre>
+<h2 id="常见用法"><a href="#常见用法" class="headerlink" title="常见用法"></a>常见用法</h2><pre><code class="go">package main
+
+import (
+  &quot;gorm.io/gorm&quot;
+  &quot;gorm.io/driver/sqlite&quot;
+)
+
+type Product struct &#123;
+  gorm.Model
+  Code  string
+  Price uint
+&#125;
+
+func main() &#123;
+  // 连接数据库
+  db, err := gorm.Open(sqlite.Open(&quot;test.db&quot;), &amp;gorm.Config&#123;&#125;)
+  if err != nil &#123;
+    panic(&quot;failed to connect database&quot;)
+  &#125;
+
+  // 迁移 schema：保持数据库和程序数据结构始终保持一致
+  db.AutoMigrate(&amp;Product&#123;&#125;)
+
+  // Create ：创建一条数据库记录
+  db.Create(&amp;Product&#123;Code: &quot;D42&quot;, Price: 100&#125;)
+
+  // Read ：查询数据库记录
+  var product Product
+  db.First(&amp;product, 1) // 根据整型主键查找
+  db.First(&amp;product, &quot;code = ?&quot;, &quot;D42&quot;) // 查找 code 字段值为 D42 的记录
+
+  // Update ：修改数据库单条记录，将 product 的 price 更新为 200
+  db.Model(&amp;product).Update(&quot;Price&quot;, 200)
+  // Update - 更新多个字段
+  db.Model(&amp;product).Updates(Product&#123;Price: 200, Code: &quot;F42&quot;&#125;) // 仅更新非零值字段
+  db.Model(&amp;product).Updates(map[string]interface&#123;&#125;&#123;&quot;Price&quot;: 200, &quot;Code&quot;: &quot;F42&quot;&#125;)
+  // Delete：软删除数据库单条记录， 删除 product
+  db.Delete(&amp;product, 1)
+&#125;
+</code></pre>
+<h2 id="约定"><a href="#约定" class="headerlink" title="约定"></a>约定</h2><p>约定优于配置</p>
+<ol>
+<li>GORM 使用 ID 做主键</li>
+<li>GORM 使用结构体名称<code>UserTable</code>的蛇形复数<code>user_tables</code>作为表名，字段名的蛇形<code>created_at</code>作为列名</li>
+<li>GORM 使用 CreatedAt,UpdatedAt 字段追踪创建时间和更新时间</li>
+<li>可修改默认配置,具体见<a target="_blank" rel="noopener" href="https://gorm.io/zh_CN/docs/conventions.html">修改默认配置</a></li>
+</ol>
+<h2 id="gorm-Model"><a href="#gorm-Model" class="headerlink" title="gorm.Model"></a>gorm.Model</h2><p>本质：一个 struct 结构体</p>
+<pre><code class="go">// gorm.Model 的定义
+type Model struct &#123;
+  ID        uint           `gorm:&quot;primaryKey&quot;`
+  CreatedAt time.Time   //在创建、更新、删除时自动填充当前时间
+  UpdatedAt time.Time
+  DeletedAt gorm.DeletedAt `gorm:&quot;index&quot;`
+&#125;
+</code></pre>
+<h2 id="控制字段级的读写权限"><a href="#控制字段级的读写权限" class="headerlink" title="控制字段级的读写权限"></a>控制字段级的读写权限</h2><p>默认可导出字段在进行 CRUD 的时候拥有全部权限。使用自动迁移创建表的时候，不会创建被忽略的字段</p>
+<pre><code class="go">type User struct &#123;
+  Name string `gorm:&quot;&lt;-:create&quot;` // 允许读和创建
+  Name string `gorm:&quot;&lt;-:update&quot;` // 允许读和更新
+  Name string `gorm:&quot;&lt;-&quot;`        // 允许读和写（创建和更新）
+  Name string `gorm:&quot;&lt;-:false&quot;`  // 允许读，禁止写
+  Name string `gorm:&quot;-&gt;&quot;`        // 只读（除非有自定义配置，否则禁止写）
+  Name string `gorm:&quot;-&gt;;&lt;-:create&quot;` // 允许读和写
+  Name string `gorm:&quot;-&gt;:false;&lt;-:create&quot;` // 仅创建（禁止从 db 读）
+  Name string `gorm:&quot;-&quot;`  // 通过 struct 读写会忽略该字段
+  Name string `gorm:&quot;-:all&quot;`        // 通过 struct 读写、迁移会忽略该字段
+  Name string `gorm:&quot;-:migration&quot;`  // 通过 struct 迁移会忽略该字段
+&#125;
+</code></pre>
+<h2 id="嵌入结构体"><a href="#嵌入结构体" class="headerlink" title="嵌入结构体"></a>嵌入结构体</h2><h3 id="匿名字段"><a href="#匿名字段" class="headerlink" title="匿名字段"></a>匿名字段</h3><pre><code class="go">type User struct &#123;
+  gorm.Model
+  Name string
+&#125;
+// 等效于
+type User struct &#123;
+  ID        uint           `gorm:&quot;primaryKey&quot;`
+  CreatedAt time.Time
+  UpdatedAt time.Time
+  DeletedAt gorm.DeletedAt `gorm:&quot;index&quot;`
+  Name string
+&#125;
+</code></pre>
+<h3 id="正常结构体字段"><a href="#正常结构体字段" class="headerlink" title="正常结构体字段"></a>正常结构体字段</h3><ol>
+<li>通过标签 <code>embedded</code> 将其嵌入</li>
+</ol>
+<pre><code class="go">type Author struct &#123;
+    Name  string
+    Email string
+&#125;
+
+type Blog struct &#123;
+  ID      int
+  Author  Author `gorm:&quot;embedded&quot;`
+  UpVotes int32
+&#125;
+// 等效于
+type Blog struct &#123;
+  ID    int64
+  Name  string
+  Email string
+  UpVotes  int32
+&#125;
+</code></pre>
+<ol start="2">
+<li>使用标签 embeddedPrefix 来为 db 中的字段名添加前缀</li>
+</ol>
+<pre><code class="go">type Author struct &#123;
+    Name  string
+    Email string
+&#125;
+type Blog struct &#123;
+  ID      int
+  Author  Author `gorm:&quot;embedded;embeddedPrefix:author_&quot;`
+  UpVotes  int32
+&#125;
+// 等效于
+type Blog struct &#123;
+  ID          int64
+  AuthorName string
+  AuthorEmail string
+  UpVotes  int32
+&#125;
+</code></pre>
+<h2 id="字段标签-tag"><a href="#字段标签-tag" class="headerlink" title="字段标签 tag"></a>字段标签 tag</h2><p>声明 model 时，tag 是可选的,使用<code>camelCase</code>风格</p>
+<table>
+<thead>
+<tr>
+<th>标签名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>column</td>
+<td>指定 db 列名</td>
+</tr>
+<tr>
+<td>type</td>
+<td>列数据类型，推荐使用兼容性好的通用类型，例如：所有数据库都支持 bool、int、uint、float、string、time、bytes 并且可以和其他标签一起使用，例如：not null、size, autoIncrement… 像 varbinary(8) 这样指定数据库数据类型也是支持的。在使用指定数据库数据类型时，它需要是完整的数据库数据类型，如：MEDIUMINT UNSIGNED not NULL AUTO_INCREMENT</td>
+</tr>
+<tr>
+<td>serializer</td>
+<td>指定将数据序列化或反序列化到数据库中的序列化器, 例如: serializer:json&#x2F;gob&#x2F;unixtime</td>
+</tr>
+<tr>
+<td>size</td>
+<td>定义列数据类型的大小或长度，例如 size: 256</td>
+</tr>
+<tr>
+<td>primaryKey</td>
+<td>将列定义为主键</td>
+</tr>
+<tr>
+<td>unique</td>
+<td>将列定义为唯一键</td>
+</tr>
+<tr>
+<td>default</td>
+<td>定义列的默认值</td>
+</tr>
+<tr>
+<td>precision</td>
+<td>指定列的精度</td>
+</tr>
+<tr>
+<td>scale</td>
+<td>指定列大小</td>
+</tr>
+<tr>
+<td>not null</td>
+<td>指定列为 NOT NULL</td>
+</tr>
+<tr>
+<td>autoIncrement</td>
+<td>指定列为自动增长</td>
+</tr>
+<tr>
+<td>autoIncrementIncrement</td>
+<td>自动步长，控制连续记录之间的间隔</td>
+</tr>
+<tr>
+<td>embedded</td>
+<td>嵌套字段</td>
+</tr>
+<tr>
+<td>embeddedPrefix</td>
+<td>嵌入字段的列名前缀</td>
+</tr>
+<tr>
+<td>autoCreateTime</td>
+<td>创建时追踪当前时间，对于 int 字段，它会追踪时间戳秒数，您可以使用 nano&#x2F;milli 来追踪纳秒、毫秒时间戳，例如：autoCreateTime:nano</td>
+</tr>
+<tr>
+<td>autoUpdateTime</td>
+<td>创建&#x2F;更新时追踪当前时间，对于 int 字段，它会追踪时间戳秒数，您可以使用 nano&#x2F;milli 来追踪纳秒、毫秒时间戳，例如：autoUpdateTime:milli</td>
+</tr>
+<tr>
+<td>index</td>
+<td>根据参数创建索引，多个字段使用相同的名称则创建复合索引，查看 索引 获取详情</td>
+</tr>
+<tr>
+<td>uniqueIndex</td>
+<td>与 index 相同，但创建的是唯一索引</td>
+</tr>
+<tr>
+<td>check</td>
+<td>创建检查约束，例如 check:age &gt; 13，查看 约束 获取详情</td>
+</tr>
+<tr>
+<td>&lt;-</td>
+<td>设置字段写入的权限， &lt;-:create 只创建、&lt;-:update 只更新、&lt;-:false 无写入权限、&lt;- 创建和更新权限</td>
+</tr>
+<tr>
+<td>-&gt;</td>
+<td>设置字段读的权限，-&gt;:false 无读权限</td>
+</tr>
+<tr>
+<td>-</td>
+<td>忽略该字段，- 表示无读写，-:migration 表示无迁移权限，-:all 表示无读写迁移权限</td>
+</tr>
+<tr>
+<td>comment</td>
+<td>迁移时为字段添加注释</td>
+</tr>
+</tbody></table>
+<h2 id="连接到数据库"><a href="#连接到数据库" class="headerlink" title="连接到数据库"></a>连接到数据库</h2><p>目前支持数据库类型：MySQL, PostgreSQL, SQLite, SQL Server,clickHouse 和 TiDB</p>
+<h3 id="以-mysql-为例"><a href="#以-mysql-为例" class="headerlink" title="以 mysql 为例"></a>以 mysql 为例</h3><h4 id="简单型"><a href="#简单型" class="headerlink" title="简单型"></a>简单型</h4><pre><code class="go">  dsn := &quot;user:pass@tcp(127.0.0.1:3306)/dbname?charset=utf8mb4&amp;parseTime=True&amp;loc=Local&quot;
+  db, err := gorm.Open(mysql.Open(dsn), &amp;gorm.Config&#123;&#125;)
+</code></pre>
+<h4 id="高级配置型"><a href="#高级配置型" class="headerlink" title="高级配置型"></a>高级配置型</h4><p>DNS 参数配置参考<a target="_blank" rel="noopener" href="https://github.com/go-sql-driver/mysql#parameters">go-sql-driver</a><br>mysql 配置可参考<a target="_blank" rel="noopener" href="https://github.com/go-gorm/mysql">go-gorm&#x2F;mysql</a></p>
+<pre><code class="go">db, err := gorm.Open(mysql.New(mysql.Config&#123;
+  // 此处
+  DSN: &quot;gorm:gorm@tcp(127.0.0.1:3306)/gorm?charset=utf8&amp;parseTime=True&amp;loc=Local&quot;, // DSN data source name
+  DefaultStringSize: 256, // string 类型字段的默认长度
+  DisableDatetimePrecision: true, // 禁用 datetime 精度，MySQL 5.6 之前的数据库不支持
+  DontSupportRenameIndex: true, // 重命名索引时采用删除并新建的方式，MySQL 5.7 之前的数据库和 MariaDB 不支持重命名索引
+  DontSupportRenameColumn: true, // 用 `change` 重命名列，MySQL 8 之前的数据库和 MariaDB 不支持重命名列
+  SkipInitializeWithVersion: false, // 根据当前 MySQL 版本自动配置
+  DriverName:&quot;自定义mysql驱动名称&quot;
+&#125;), &amp;gorm.Config&#123;&#125;)
+</code></pre>
+<h4 id="通过一个现有的数据库连接来初始化-gorm-DB"><a href="#通过一个现有的数据库连接来初始化-gorm-DB" class="headerlink" title="通过一个现有的数据库连接来初始化 *gorm.DB"></a>通过一个现有的数据库连接来初始化 *gorm.DB</h4><pre><code class="go">import (
+  &quot;database/sql&quot;
+  &quot;gorm.io/driver/mysql&quot;
+  &quot;gorm.io/gorm&quot;
+)
+
+sqlDB, err := sql.Open(&quot;mysql&quot;, &quot;mydb_dsn&quot;)
+gormDB, err := gorm.Open(mysql.New(mysql.Config&#123;
+  Conn: sqlDB,
+&#125;), &amp;gorm.Config&#123;&#125;)
+</code></pre>
+<h2 id="增加"><a href="#增加" class="headerlink" title="增加"></a>增加</h2><h3 id="通过数据的指针创建"><a href="#通过数据的指针创建" class="headerlink" title="通过数据的指针创建"></a>通过数据的指针创建</h3><pre><code class="go">user:=User&#123;Name:&quot;yueyueyan&quot;,Age:19,Birthday:time.Now()&#125;
+result:=db.Create(&amp;user)
+</code></pre>
+<p>返回结果<br>user.ID：返回插入数据的主键<br>result.Error ：返回 error<br>result.RowsAffected ： 返回插入记录的条数</p>
+<h3 id="用指定的字段创建记录"><a href="#用指定的字段创建记录" class="headerlink" title="用指定的字段创建记录"></a>用指定的字段创建记录</h3><pre><code class="go">db.Select(&quot;Name&quot;, &quot;Age&quot;, &quot;CreatedAt&quot;).Create(&amp;user)//创建指定字段的记录
+// INSERT INTO `users` (`name`,`age`,`created_at`) VALUES (&quot;j&quot;, 18, &quot;2020-07-04 11:05:21.775&quot;)
+db.Omit(&quot;Name&quot;, &quot;Age&quot;, &quot;CreatedAt&quot;).Create(&amp;user)//创建忽略指定字段的记录
+// INSERT INTO `users` (`birthday`,`updated_at`) VALUES (&quot;2020-01-01 00:00:00.000&quot;, &quot;2020-07-04 11:05:21.775&quot;)
+</code></pre>
+<h3 id="批量添加"><a href="#批量添加" class="headerlink" title="批量添加"></a>批量添加</h3><p>原理:将切片传给 Create 方法<br>注意：使用 CreateBatchSize 选项初始化 GORM 时，所有的创建&amp; 关联 INSERT 都将遵循该选项</p>
+<blockquote>
+<p>比如 gorm.Config 中 CreateBatchSize 设置为 1000，则之后所有数据插入都要遵循这个值<br><code>users = [5000]User&#123;&#123;Name: "jinzhu", Pets: []Pet&#123;pet1, pet2, pet3&#125;&#125;...&#125;</code><br>则 users 需要批量插入 5 次,pets 需要批量插入 15 次</p>
+</blockquote>
+<pre><code class="go">var users = []User&#123;&#123;Name: "j1"&#125;, &#123;Name: "j2"&#125;, &#123;Name: "j3"&#125;&#125;
+db.Create(&amp;users)
+
+for _, user := range users &#123;
+  user.ID // 1,2,3
+&#125;
+</code></pre>
+<h3 id="创建钩子"><a href="#创建钩子" class="headerlink" title="创建钩子"></a>创建钩子</h3><p>支持的钩子函数：BeforeSave, BeforeCreate, AfterSave, AfterCreate<br>跳过钩子函数：<code>DB.Session(&amp;gorm.Session&#123;SkipHooks: true&#125;).Create(&amp;user)</code></p>
+<h4 id="根据-Map-创建"><a href="#根据-Map-创建" class="headerlink" title="根据 Map 创建"></a>根据 Map 创建</h4><ul>
+<li>根据<code>map[string]interface&#123;&#125;</code>创建</li>
+</ul>
+<pre><code class="go">db.Model(&amp;User&#123;&#125;).Create(map[string]interface&#123;&#125;&#123;
+  &quot;Name&quot;: &quot;jinzhu&quot;, &quot;Age&quot;: 18,
+&#125;)
+</code></pre>
+<ul>
+<li>根据<code>[]map[string]interface&#123;&#125;&#123;&#125;</code>创建</li>
+</ul>
+<pre><code class="go">db.Model(&amp;User&#123;&#125;).Create([]map[string]interface&#123;&#125;&#123;
+  &#123;&quot;Name&quot;: &quot;jinzhu_1&quot;, &quot;Age&quot;: 18&#125;,
+  &#123;&quot;Name&quot;: &quot;jinzhu_2&quot;, &quot;Age&quot;: 20&#125;,
+&#125;)
+</code></pre>
+<h3 id="使用-SQL-表达式、Context-Valuer-创建记录"><a href="#使用-SQL-表达式、Context-Valuer-创建记录" class="headerlink" title="使用 SQL 表达式、Context Valuer 创建记录"></a>使用 SQL 表达式、Context Valuer 创建记录</h3><p>暂时忽略</p>
+<h2 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h2><h3 id="获取单条记录："><a href="#获取单条记录：" class="headerlink" title="获取单条记录："></a>获取单条记录：</h3><ul>
+<li>First() 获取第一条记录[主键升序]</li>
+<li>Take() 获取一条记录</li>
+<li>Last（）获取最后一条记录[主键降序]</li>
+<li>检查 ErrRecordNotFound 错误<br><code>errors.Is(result.Error, gorm.ErrRecordNotFound)</code></li>
+<li>避开 ErrRecordNotFound 错误<br><code>db.Limit(1).Find(&amp;user)</code></li>
+<li>Fist 和 Last 方法生效条件<ol>
+<li>指向目标 struct 的指针作为参数传入方法</li>
+<li>使用<code>db.Model()</code>指定 model</li>
+</ol>
+</li>
+<li>如果没有定义主键,则按照第一个字段排序</li>
+</ul>
+<pre><code class="go">var user  User
+var users []User
+// 生效，满足条件1
+// 查询users表中按user struct 主键id排列的第一条记录
+db.First(&amp;user)
+// 生效，满足条件2
+result := map[string]interface&#123;&#125;&#123;&#125;
+db.Model(&amp;User&#123;&#125;).First(&amp;result)
+// 不生效
+result := map[string]interface&#123;&#125;&#123;&#125;
+db.Table(&quot;users&quot;).First(&amp;result)
+// 使用Take生效
+result := map[string]interface&#123;&#125;&#123;&#125;
+db.Table(&quot;users&quot;).Take(&amp;result)
+</code></pre>
+<h3 id="按照主键获取"><a href="#按照主键获取" class="headerlink" title="按照主键获取"></a>按照主键获取</h3><ol>
+<li>主键是数值:使用内联条件</li>
+</ol>
+<pre><code class="go">db.First(&amp;user, 10)
+db.First(&amp;user, &quot;10&quot;)//查询id为10的第一条记录
+db.Find(&amp;users, []int&#123;1,2,3&#125;) //查询id在1,2,3中的记录
+</code></pre>
+<ol start="2">
+<li>主键是字符串:有 sql 注入风险</li>
+</ol>
+<pre><code class="go">// 搜索id为1bxx-xx-xx的用户记录
+db.First(&amp;user, &quot;id = ?&quot;, &quot;1b74413f-f3b8-409f-ac47-e8c062e3472a&quot;)
+</code></pre>
+<h3 id="检索全部对象"><a href="#检索全部对象" class="headerlink" title="检索全部对象"></a>检索全部对象</h3><pre><code class="go">// result.RowsAffected :返回找到的记录条数
+// result.Error: 返回错误
+result := db.Find(&amp;users)
+</code></pre>
+<h3 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h3><h4 id="string-条件"><a href="#string-条件" class="headerlink" title="string 条件"></a>string 条件</h4><pre><code class="go">//查询name等于jinzhu的第一条记录
+db.Where(&quot;name = ?&quot;, &quot;jinzhu&quot;).First(&amp;user)
+// 查询name不等于jinzhu的所有记录
+db.Where(&quot;name &lt;&gt; ?&quot;, &quot;jinzhu&quot;).Find(&amp;users)
+// 查询name为jinzhu或者 jinzhu 2的所有记录
+db.Where(&quot;name IN ?&quot;, []string&#123;&quot;jinzhu&quot;, &quot;jinzhu 2&quot;&#125;).Find(&amp;users)
+// 模糊匹配,查询name包含jin的所有记录
+db.Where(&quot;name LIKE ?&quot;, &quot;%jin%&quot;).Find(&amp;users)
+// 查询name为jinzhu并且age&gt;=22的所有记录
+db.Where(&quot;name = ? AND age &gt;= ?&quot;, &quot;jinzhu&quot;, &quot;22&quot;).Find(&amp;users)
+// 查询更新时间大于上周的所有记录
+db.Where(&quot;updated_at &gt; ?&quot;, week(now())-1).Find(&amp;users)
+// 查询上周和今天之间创建的所有记录
+db.Where(&quot;created_at BETWEEN ? AND ?&quot;, lastWeek, today).Find(&amp;users)
+</code></pre>
+<p>如果设置了对象的主键,则与查询条件构成 AND 关系</p>
+<h4 id="struct-amp-Map-条件"><a href="#struct-amp-Map-条件" class="headerlink" title="struct&amp;Map 条件"></a>struct&amp;Map 条件</h4><pre><code class="go">// struct:查询Name为jinzhu,年龄为20的按主键id升序的第一条记录
+db.Where(&amp;User&#123;Name: &quot;jinzhu&quot;, Age: 20&#125;).First(&amp;user)
+// Map：查询name为jinzhu,年龄为20的所有记录
+db.Where(map[string]interface&#123;&#125;&#123;&quot;name&quot;: &quot;jinzhu&quot;, &quot;age&quot;: 20&#125;).Find(&amp;users)
+// 查询id为20/21/22的所有记录
+db.Where([]int64&#123;20, 21, 22&#125;).Find(&amp;users)
+// 不支持零值,查询name为jinzhu的所有记录
+db.Where(&amp;User&#123;Name: &quot;jinzhu&quot;, Age: 0&#125;).Find(&amp;users)
+// 支持零值
+db.Where(map[string]interface&#123;&#125;&#123;&quot;Name&quot;: &quot;jinzhu&quot;, &quot;Age&quot;: 0&#125;).Find(&amp;users)
+</code></pre>
+<h4 id="指定结构体查询字段"><a href="#指定结构体查询字段" class="headerlink" title="指定结构体查询字段"></a>指定结构体查询字段</h4><pre><code class="go">// 查询名称为jinzhu,Age为0的用户
+db.Where(&amp;User&#123;Name: &quot;jinzhu&quot;&#125;, &quot;name&quot;, &quot;Age&quot;).Find(&amp;users)
+// 查询年龄为0的所有记录
+db.Where(&amp;User&#123;Name: &quot;jinzhu&quot;&#125;, &quot;Age&quot;).Find(&amp;users)
+// SELECT * FROM users WHERE age = 0;
+</code></pre>
+<h4 id="内联条件"><a href="#内联条件" class="headerlink" title="内联条件"></a>内联条件</h4><p>内联指的是将查询条件嵌入到 First 等方法中,达到与 where 相似的效果</p>
+<pre><code class="go">db.First(&amp;user, &quot;id = ?&quot;, &quot;string_primary_key&quot;)
+db.Find(&amp;user, &quot;name = ?&quot;, &quot;jinzhu&quot;)
+db.Find(&amp;users, &quot;name &lt;&gt; ? AND age &gt; ?&quot;, &quot;jinzhu&quot;, 20)
+// struct
+db.Find(&amp;users, User&#123;Age: 20&#125;)
+// map
+db.Find(&amp;users, map[string]interface&#123;&#125;&#123;&quot;age&quot;: 20&#125;)
+</code></pre>
+<h4 id="Not-条件-和-Or-条件"><a href="#Not-条件-和-Or-条件" class="headerlink" title="Not 条件 和 Or 条件"></a>Not 条件 和 Or 条件</h4><pre><code class="go">// Not
+// 查询name不为jinzhu的第一条记录
+db.Not(&quot;name = ?&quot;, &quot;jinzhu&quot;).First(&amp;user)
+// 查询name不为jinzhu或者jinzhu 2的所有记录
+db.Not(map[string]interface&#123;&#125;&#123;&quot;name&quot;: []string&#123;&quot;jinzhu&quot;, &quot;jinzhu 2&quot;&#125;&#125;).Find(&amp;users)
+// 查询name不为jinzhu并且Age不为18的第一条记录
+db.Not(User&#123;Name: &quot;jinzhu&quot;, Age: 18&#125;).First(&amp;user)
+// 查询主键id不在1,2,3的第一条记录
+db.Not([]int64&#123;1,2,3&#125;).First(&amp;user)
+// Or
+// 查询role是admin或者role是super_admin的第一条记录
+db.Where(&quot;role = ?&quot;, &quot;admin&quot;).Or(&quot;role = ?&quot;, &quot;super_admin&quot;).Find(&amp;users)
+// 查询name为jinzhu,或者name为jinzhu2并且Age为18的所有记录
+// struct:
+db.Where(&quot;name = &#39;jinzhu&#39;&quot;).Or(User&#123;Name: &quot;jinzhu 2&quot;, Age: 18&#125;).Find(&amp;users)
+// map:
+db.Where(&quot;name = &#39;jinzhu&#39;&quot;).Or(map[string]interface&#123;&#125;&#123;&quot;name&quot;: &quot;jinzhu 2&quot;, &quot;age&quot;: 18&#125;).Find(&amp;users)
+</code></pre>
+<h4 id="选择特定字段-Select-方法"><a href="#选择特定字段-Select-方法" class="headerlink" title="选择特定字段 Select 方法"></a>选择特定字段 Select 方法</h4><pre><code class="go">// 从users表中查询name,age字段
+db.Select(&quot;name&quot;, &quot;age&quot;).Find(&amp;users)
+db.Select([]string&#123;&quot;name&quot;, &quot;age&quot;&#125;).Find(&amp;users)
+db.Table(&quot;users&quot;).Select(&quot;COALESCE(age,?)&quot;, 42).Rows()
+</code></pre>
+<h3 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h3><p>默认升序</p>
+<pre><code class="go">// age降序,name升序返回所有记录
+db.Order(&quot;age desc, name&quot;).Find(&amp;users)
+db.Order(&quot;age desc&quot;).Order(&quot;name&quot;).Find(&amp;users)
+// SQL语句：不常用~SELECT * FROM users ORDER BY FIELD(id,1,2,3)
+db.Clauses(clause.OrderBy&#123;
+  Expression: clause.Expr&#123;SQL: &quot;FIELD(id,?)&quot;, Vars: []interface&#123;&#125;&#123;[]int&#123;1, 2, 3&#125;&#125;, WithoutParentheses: true&#125;,
+&#125;).Find(&amp;User&#123;&#125;)
+</code></pre>
+<h3 id="Limit-amp-Offset"><a href="#Limit-amp-Offset" class="headerlink" title="Limit&amp;Offset"></a>Limit&amp;Offset</h3><h4 id="Limit"><a href="#Limit" class="headerlink" title="Limit"></a>Limit</h4><p>作用:指定返回记录的最大值<br>Limit(-1):取消 limit 限制</p>
+<pre><code class="go">// 从users表查询3条记录
+db.Limit(3).Find(&amp;users)
+// 从users1表查询10条记录，从users2表中查询所有记录
+db.Limit(10).Find(&amp;users1).Limit(-1).Find(&amp;users2)
+</code></pre>
+<h4 id="Offset"><a href="#Offset" class="headerlink" title="Offset"></a>Offset</h4><p>作用:指定在开始返回记录之前要跳过的记录数量<br>Offset(-1)：取消 Offset 限制</p>
+<pre><code class="go">// 从第四条开始返回记录
+db.Offset(3).Find(&amp;users)
+db.Limit(10).Offset(5).Find(&amp;users)
+db.Offset(10).Find(&amp;users1).Offset(-1).Find(&amp;users2)
+</code></pre>
+<p>offset 具体效果：</p>
+<img src="/2023/03/21/gorm-xue-xi-bi-ji/no_offset.jpg" class="">
+<img src="/2023/03/21/gorm-xue-xi-bi-ji/offset.jpg" class="">
+
+<h3 id="Group-By-amp-Having"><a href="#Group-By-amp-Having" class="headerlink" title="Group By &amp;Having"></a>Group By &amp;Having</h3><h4 id="Group-By：Group"><a href="#Group-By：Group" class="headerlink" title="Group By：Group()"></a>Group By：Group()</h4><p>作用：将具有相同值的行分组到汇总行中，例如“查找每个国家的客户数”。</p>
+<pre><code class="go">type result struct &#123;
+  Date  time.Time
+  Total int
+&#125;
+// SELECT name, sum(age) as total FROM `users` WHERE name LIKE &quot;group%&quot; GROUP BY `name` LIMIT 1
+// as关键字用于重命名列或表
+db.Model(&amp;User&#123;&#125;).Select(&quot;name, sum(age) as total&quot;).Where(&quot;name LIKE ?&quot;, &quot;group%&quot;).Group(&quot;name&quot;).First(&amp;result)
+rows, err := db.Table(&quot;orders&quot;).Select(&quot;date(created_at) as date, sum(amount) as total&quot;).Group(&quot;date(created_at)&quot;).Rows()
+</code></pre>
+<h4 id="Having"><a href="#Having" class="headerlink" title="Having"></a>Having</h4><p>作用：where 的替代品，因为 where 不能和聚合函数一起使用,所以使用 having 子句来设置条件<br>聚合函数：</p>
+<ul>
+<li>AVG - 计算一组值或表达式的平均值。</li>
+<li>COUNT - 计算表中的行数。</li>
+<li>INSTR - 返回字符串中第一次出现的子字符串的位置。</li>
+<li>SUM - 计算一组值或表达式的总和。</li>
+<li>MIN - 在一组值中找到最小值</li>
+<li>MAX - 在一组值中找到最大值</li>
+</ul>
+<pre><code class="go">
+db.Model(&amp;User&#123;&#125;).Select(&quot;name, sum(age) as total&quot;).Group(&quot;name&quot;).Having(&quot;name = ?&quot;, &quot;group&quot;).Find(&amp;result)
+db.Table(&quot;orders&quot;).Select(&quot;date(created_at) as date, sum(amount) as total&quot;).Group(&quot;date(created_at)&quot;).Having(&quot;sum(amount) &gt; ?&quot;, 100).Scan(&amp;results)
+rows, err := db.Table(&quot;orders&quot;).Select(&quot;date(created_at) as date, sum(amount) as total&quot;).Group(&quot;date(created_at)&quot;).Having(&quot;sum(amount) &gt; ?&quot;, 100).Rows()
+</code></pre>
+<h3 id="Distinct"><a href="#Distinct" class="headerlink" title="Distinct"></a>Distinct</h3><p>作用：查询去重,只保留一个<br>只根据查询字段去重:</p>
+<img src="/2023/03/21/gorm-xue-xi-bi-ji/distinct1.jpg" class=""><img src="/2023/03/21/gorm-xue-xi-bi-ji/distinct2.jpg" class=""><img src="/2023/03/21/gorm-xue-xi-bi-ji/distinct3.jpg" class=""><img src="/2023/03/21/gorm-xue-xi-bi-ji/distinct4.jpg" class="">
+
+<pre><code class="go">db.Distinct(&quot;name&quot;, &quot;age&quot;).Order(&quot;name, age desc&quot;).Find(&amp;results)
+</code></pre>
+<h3 id="Join"><a href="#Join" class="headerlink" title="Join"></a>Join</h3><p>外键列：数据库中的公共列<br>作用：指定 joins 条件，基于表之间的公共列的值在一个（自连接）或更多表之间链接数据<br>存在表：t1,t2</p>
+<ul>
+<li>cross join 笛卡尔积 —— 结果集包括 t1 表中行和 t2 表中行的组合-&gt;<code>SELECT t1.id, t2.id FROM t1 CROSS JOIN t2; </code></li>
+<li>inner join —— 必须有一个连接字段条件,结果集包括满足该条件的 t1 和 t2 行的组合-&gt; <code>SELECT t1.id, t2.id FROM t1 INNER JOIN t2 ON t1.pattern = t2.pattern; </code></li>
+<li>left join —— 必须有一个条件,结果集包含左表 t1 的所有数据和满足条件的 t2 的行的组合 <code>SELECT t1.id, t2.id FROM t1 LEFT JOIN t2 ON t1.pattern = t2.pattern;</code>,此处比 inner join 多一个 1,null</li>
+<li>right join —— 同 left join 相反，结果集包含右表 t2 的所有数据</li>
+</ul>
+<pre><code class="go">type result struct &#123;
+  Name  string
+  Email string
+&#125;
+db.Model(&amp;User&#123;&#125;).Select(&quot;users.name, emails.email&quot;).Joins(&quot;left join emails on emails.user_id = users.id&quot;).Scan(&amp;result&#123;&#125;) //users表，左连接
+rows, err := db.Table(&quot;users&quot;).Select(&quot;users.name, emails.email&quot;).Joins(&quot;left join emails on emails.user_id = users.id&quot;).Rows()//users表，右连接
+db.Table(&quot;users&quot;).Select(&quot;users.name, emails.email&quot;).Joins(&quot;left join emails on emails.user_id = users.id&quot;).Scan(&amp;results)
+// 带参数的多重join
+db.Joins(&quot;JOIN emails ON emails.user_id = users.id AND emails.email = ?&quot;, &quot;jinzhu@example.org&quot;).Joins(&quot;JOIN credit_cards ON credit_cards.user_id = users.id&quot;).Where(&quot;credit_cards.number = ?&quot;, &quot;411111111111&quot;).Find(&amp;user)
+</code></pre>
+<h4 id="Join-预加载"><a href="#Join-预加载" class="headerlink" title="Join 预加载"></a>Join 预加载</h4><pre><code class="go">// SELECT users.id,users.name,users.age,Company.id AS Company__id,Company.name AS Company__name FROM users LEFT JOIN companies AS Company ON users.company_id = Company.id;
+db.Joins(&quot;Company&quot;).Find(&amp;users)
+// SELECT users.id,users.name,users.age,Company.id AS Company__id,Company.name AS Company__name FROM users INNER JOIN  companies AS Company  ON users.company_id = Company.id;
+db.InnerJoins(&quot;Company&quot;).Find(&amp;users)
+// 条件连接
+// SELECT users.id,users.name,users.age,Company.id AS Company__id,Company.name AS Company__name FROM users LEFT JOIN companies AS Company  ON users.company_id = Company.id AND Company.alive = true;
+db.Joins(&quot;Company&quot;, db.Where(&amp;Company&#123;Alive: true&#125;)).Find(&amp;users)
+</code></pre>
+<h4 id="Scan"><a href="#Scan" class="headerlink" title="Scan()"></a>Scan()</h4><p>把结果扫描到一个 struct,和 Find()方法类似</p>
+<pre><code class="go">type Result struct &#123;
+  Name string
+  Age  int
+&#125;
+var result Result
+db.Table(&quot;users&quot;).Select(&quot;name&quot;, &quot;age&quot;).Where(&quot;name = ?&quot;, &quot;Antonio&quot;).Scan(&amp;result)
+// Raw SQL
+db.Raw(&quot;SELECT name, age FROM users WHERE name = ?&quot;, &quot;Antonio&quot;).Scan(&amp;result)
+</code></pre>
+<h2 id="高级查询"><a href="#高级查询" class="headerlink" title="高级查询"></a>高级查询</h2><h3 id="自动选择字段"><a href="#自动选择字段" class="headerlink" title="自动选择字段"></a>自动选择字段</h3><p>手动：使用 Select()方法选择特定字段<br>自动：将需要选择的字段放在一个 struct 中</p>
+<pre><code class="go">type User struct &#123;
+  ID     uint
+  Name   string
+  Age    int
+  Gender string
+  // 假设后面还有几百个字段...
+&#125;
+type APIUser struct &#123;
+  ID   uint
+  Name string
+&#125;
+// 查询时会自动选择 `id`, `name` 字段
+db.Model(&amp;User&#123;&#125;).Limit(10).Find(&amp;APIUser&#123;&#125;)
+// SELECT id, name FROM users LIMIT 10
+</code></pre>
+<h3 id="Locking"><a href="#Locking" class="headerlink" title="Locking"></a>Locking</h3><p>Gorm 支持多种类型的锁<br>锁：和表关联的标志，</p>
+<ul>
+<li>针对会话</li>
+<li>防止其他会话在特定时间段内访问同一个表。</li>
+<li>客户端会话只能为自己获取或释放表锁。它无法获取或释放其他会话的表锁</li>
+</ul>
+<h4 id="读锁-共享锁-表锁"><a href="#读锁-共享锁-表锁" class="headerlink" title="读锁-共享锁 (表锁)"></a>读锁-共享锁 (表锁)</h4><p>语法：</p>
+<ul>
+<li>显式上锁：<code>LOCK TABLES table_name READ</code></li>
+<li>隐式上锁：<code>select </code></li>
+<li>解锁：<code>UNLOCK TABLES; </code></li>
+</ul>
+<p>约束：</p>
+<ol>
+<li>当在 A 会话中设置了 READ 锁，则 A 会话中插入数据会报错</li>
+<li>当在 A 会话中设置了 READ 锁，会话 B 依然可以从表中读取数据</li>
+<li>当在 A 会话中设置了 READ 锁，会话 B 如果要插入数据，会进入等待状态，直至 A 会话中的锁被释放</li>
+<li>如果会话终止，则隐式释放所有锁</li>
+</ol>
+<h4 id="写锁-排他锁-表锁"><a href="#写锁-排他锁-表锁" class="headerlink" title="写锁-排他锁 (表锁)"></a>写锁-排他锁 (表锁)</h4><p>语法：</p>
+<ul>
+<li><p>显式上锁：<code>LOCK TABLE table_name WRITE;</code></p>
+</li>
+<li><p>隐式上锁：<code>insert、update、delete</code><br>种类：</p>
+</li>
+<li><p>约束：</p>
+</li>
+</ul>
+<ol>
+<li>当在 A 会话中设置了 WRITE 锁,A 会话仍可以检索或者插入数据</li>
+<li>当在 A 会话中设置了 WRITE 锁,会话 B 的所有命令都会进入等待状态，直至解锁</li>
+</ol>
+<h4 id="行锁"><a href="#行锁" class="headerlink" title="行锁"></a>行锁</h4><p>显式上锁：</p>
+<ul>
+<li><code>select * from tableName lock in share mode;</code>&#x2F;&#x2F;读锁&#x2F;共享锁 5.7</li>
+<li>&#96;&#96;select * from tableName lock for share;&#96;&#x2F;&#x2F;读锁 8.0</li>
+<li><code>select * from tableName for update;</code>&#x2F;&#x2F;写锁&#x2F;排他锁</li>
+</ul>
+<p>解锁：</p>
+<ul>
+<li>提交事务（commit）</li>
+<li>回滚事务（rollback）</li>
+<li>kill 阻塞进程</li>
+</ul>
+<hr>
+<pre><code class="go">// SELECT * FROM users FOR UPDATE
+db.Clauses(clause.Locking&#123;Strength: &quot;UPDATE&quot;&#125;).Find(&amp;users)
+// SELECT * FROM users FOR SHARE OF users
+db.Clauses(clause.Locking&#123;
+  Strength: &quot;SHARE&quot;,
+  Table: clause.Table&#123;Name: clause.CurrentTable&#125;,
+&#125;).Find(&amp;users)
+
+// SELECT * FROM users FOR UPDATE NOWAIT
+db.Clauses(clause.Locking&#123;
+  Strength: &quot;UPDATE&quot;,
+  Options: &quot;NOWAIT&quot;,
+&#125;).Find(&amp;users)
+</code></pre>
+<h3 id="子查询"><a href="#子查询" class="headerlink" title="子查询"></a>子查询</h3><pre><code class="go">// 相当于SELECT * FROM &quot;orders&quot; WHERE amount &gt; (SELECT AVG(amount) FROM &quot;orders&quot;);
+db.Where(&quot;amount &gt; (?)&quot;, db.Table(&quot;orders&quot;).Select(&quot;AVG(amount)&quot;)).Find(&amp;orders)
+// 相当于SELECT AVG(age) as avgage FROM `users` GROUP BY `name` HAVING AVG(age) &gt; (SELECT AVG(age) FROM `users` WHERE name LIKE &quot;name%&quot;)
+
+subQuery := db.Select(&quot;AVG(age)&quot;).Where(&quot;name LIKE ?&quot;, &quot;name%&quot;).Table(&quot;users&quot;)
+db.Select(&quot;AVG(age) as avgage&quot;).Group(&quot;name&quot;).Having(&quot;AVG(age) &gt; (?)&quot;, subQuery).Find(&amp;results)
+// FROM子查询
+// 相当于SELECT * FROM (SELECT `name`,`age` FROM `users`) as u WHERE `age` = 18
+db.Table(&quot;(?) as u&quot;, db.Model(&amp;User&#123;&#125;).Select(&quot;name&quot;, &quot;age&quot;)).Where(&quot;age = ?&quot;, 18).Find(&amp;User&#123;&#125;)
+</code></pre>
+<h3 id="多个列的IN查询"><a href="#多个列的IN查询" class="headerlink" title="多个列的IN查询"></a>多个列的IN查询</h3><pre><code class="go">// SELECT * FROM users WHERE (name, age, role) IN ((&quot;jinzhu&quot;, 18, &quot;admin&quot;), (&quot;jinzhu 2&quot;, 19, &quot;user&quot;));
+db.Where(&quot;(name, age, role) IN ?&quot;, [][]interface&#123;&#125;&#123;&#123;"jinzhu", 18, "admin"&#125;, &#123;"jinzhu2", 19, "user"&#125;&#125;).Find(&amp;users)
+</code></pre>
+<!-- 待补充 -->
+<h2 id="修改更新"><a href="#修改更新" class="headerlink" title="修改更新"></a>修改更新</h2><h3 id="保存所有字段"><a href="#保存所有字段" class="headerlink" title="保存所有字段"></a>保存所有字段</h3><pre><code class="go">// UPDATE users SET name=&#39;jinzhu 2&#39;, age=100, birthday=&#39;2016-01-01&#39;, updated_at = &#39;2013-11-17 21:34:10&#39; WHERE id=111;
+db.First(&amp;user)
+user.Name = &quot;jinzhu 2&quot;
+user.Age = 100
+db.Save(&amp;user)
+</code></pre>
+<h3 id="修改单个列"><a href="#修改单个列" class="headerlink" title="修改单个列"></a>修改单个列</h3><p>需要设置一些条件避免<code>ErrMissingWhereClause</code>错误<br>使用 Model 方法，并且值中有主键值时，主键将会被用于构建条件</p>
+<pre><code class="go">// 条件更新:UPDATE users SET name=&#39;hello&#39;, updated_at=&#39;2013-11-17 21:34:10&#39; WHERE active=true;
+db.Model(&amp;User&#123;&#125;).Where(&quot;active = ?&quot;, true).Update(&quot;name&quot;, &quot;hello&quot;)
+// User 的 ID 是 `111`: UPDATE users SET name=&#39;hello&#39;, updated_at=&#39;2013-11-17 21:34:10&#39; WHERE id=111;
+db.Model(&amp;user).Update(&quot;name&quot;, &quot;hello&quot;)
+// 根据条件和 model 的值进行更新:UPDATE users SET name=&#39;hello&#39;, updated_at=&#39;2013-11-17 21:34:10&#39; WHERE id=111 AND active=true;
+db.Model(&amp;user).Where(&quot;active = ?&quot;, true).Update(&quot;name&quot;, &quot;hello&quot;)
+</code></pre>
+<h3 id="修改多个列"><a href="#修改多个列" class="headerlink" title="修改多个列"></a>修改多个列</h3><p>根据 <code>struct</code> 更新属性，只会更新非零值的字段</p>
+<pre><code class="go">// 根据 `struct` 更新属性
+// UPDATE users SET name=&#39;hello&#39;, age=18, updated_at = &#39;2013-11-17 21:34:10&#39; WHERE id = 111;
+db.Model(&amp;user).Updates(User&#123;Name: &quot;hello&quot;, Age: 18, Active: false&#125;)
+// 根据 `map` 更新属性
+// UPDATE users SET name=&#39;hello&#39;, age=18, active=false, updated_at=&#39;2013-11-17 21:34:10&#39; WHERE id=111;
+db.Model(&amp;user).Updates(map[string]interface&#123;&#125;&#123;&quot;name&quot;: &quot;hello&quot;, &quot;age&quot;: 18, &quot;active&quot;: false&#125;)
+</code></pre>
+<h3 id="修改指定字段"><a href="#修改指定字段" class="headerlink" title="修改指定字段"></a>修改指定字段</h3><p>方法: Select、Omit</p>
+<pre><code class="go">// User&#39;s ID is `111`:
+// struct:UPDATE users SET name=&#39;hello&#39; WHERE id=111;
+db.Model(&amp;user).Select(&quot;name&quot;).Updates(map[string]interface&#123;&#125;&#123;&quot;name&quot;: &quot;hello&quot;, &quot;age&quot;: 18, &quot;active&quot;: false&#125;)
+// 忽略某个字段
+// UPDATE users SET age=18, active=false, updated_at=&#39;2013-11-17 21:34:10&#39; WHERE id=111;
+db.Model(&amp;user).Omit(&quot;name&quot;).Updates(map[string]interface&#123;&#125;&#123;&quot;name&quot;: &quot;hello&quot;, &quot;age&quot;: 18, &quot;active&quot;: false&#125;)
+//选择role以外的所有字段
+db.Model(&amp;user).Select(&quot;*&quot;).Omit(&quot;Role&quot;).Updates(User&#123;Name: &quot;jinzhu&quot;, Role: &quot;admin&quot;, Age: 0&#125;)
+</code></pre>
+<h3 id="更新hook"><a href="#更新hook" class="headerlink" title="更新hook"></a>更新hook</h3><p>暂时忽略</p>
+<h3 id="批量更新"><a href="#批量更新" class="headerlink" title="批量更新"></a>批量更新</h3><p>未通过 Model 指定记录的主键，则 GORM 会执行批量更新<br>更新如果没有任何条件则会报错,可以通过添加条件或原生Sql或者启用<code>AllowGlobalUpdate</code>模式</p>
+<pre><code class="go">// 根据 struct 更新
+// UPDATE users SET name=&#39;hello&#39;, age=18 WHERE role = &#39;admin&#39;;
+db.Model(User&#123;&#125;).Where(&quot;role = ?&quot;, &quot;admin&quot;).Updates(User&#123;Name: &quot;hello&quot;, Age: 18&#125;)
+// 根据 map 更新
+db.Table(&quot;users&quot;).Where(&quot;id IN ?&quot;, []int&#123;10, 11&#125;).Updates(map[string]interface&#123;&#125;&#123;&quot;name&quot;: &quot;hello&quot;, &quot;age&quot;: 18&#125;)
+// UPDATE users SET name=&#39;hello&#39;, age=18 WHERE id IN (10, 11);
+// gorm.ErrMissingWhereClause
+db.Model(&amp;User&#123;&#125;).Updates(&quot;name&quot;, &quot;jinzhu&quot;).Error 
+</code></pre>
+<p>通过原生sql,启用<code>AllowGlobalUpdate</code>模式解决gorm.ErrMissingWhereClause报错</p>
+<pre><code class="go">db.Exec(&quot;UPDATE users SET name = ?&quot;, &quot;jinzhu&quot;)
+// UPDATE users SET name = &quot;jinzhu&quot;
+db.Session(&amp;gorm.Session&#123;AllowGlobalUpdate: true&#125;).Model(&amp;User&#123;&#125;).Update(&quot;name&quot;, &quot;jinzhu&quot;)
+// UPDATE users SET `name` = &quot;jinzhu&quot;
+</code></pre>
+<h3 id="获取受更新影响的行数"><a href="#获取受更新影响的行数" class="headerlink" title="获取受更新影响的行数"></a>获取受更新影响的行数</h3><p><code>RowsAffected</code>属性</p>
+<pre><code class="go">// UPDATE users SET name=&#39;hello&#39;, age=18 WHERE role = &#39;admin&#39;;
+result := db.Model(User&#123;&#125;).Where(&quot;role = ?&quot;, &quot;admin&quot;).Updates(User&#123;Name: &quot;hello&quot;, Age: 18&#125;)
+result.RowsAffected // 更新的记录数
+result.Error        // 更新的错误
+</code></pre>
+<h3 id="高级选项"><a href="#高级选项" class="headerlink" title="高级选项"></a>高级选项</h3><p>暂时忽略</p>
+<h2 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h2><h3 id="删除单条记录"><a href="#删除单条记录" class="headerlink" title="删除单条记录"></a>删除单条记录</h3><p>需要指定主键,否则会触发批量删除</p>
+<pre><code class="go">// Email 的 ID 是 `10`
+// DELETE from emails where id = 10;
+db.Delete(&amp;email)
+// 带额外条件的删除
+// DELETE from emails where id = 10 AND name = &quot;jinzhu&quot;
+db.Where(&quot;name = ?&quot;, &quot;jinzhu&quot;).Delete(&amp;email)
+</code></pre>
+<h3 id="根据主键删除"><a href="#根据主键删除" class="headerlink" title="根据主键删除"></a>根据主键删除</h3><pre><code class="go">// DELETE FROM users WHERE id = 10;
+db.Delete(&amp;User&#123;&#125;, 10)
+db.Delete(&amp;User&#123;&#125;, &quot;10&quot;)
+// DELETE FROM users WHERE id IN (1,2,3);
+db.Delete(&amp;users, []int&#123;1,2,3&#125;)
+</code></pre>
+<h3 id="Delete-hook"><a href="#Delete-hook" class="headerlink" title="Delete hook"></a>Delete hook</h3><p>暂时忽略</p>
+<h3 id="批量删除"><a href="#批量删除" class="headerlink" title="批量删除"></a>批量删除</h3><p>如果指定的值不包括主属性，那么 GORM 会执行批量删除，将删除所有匹配的记录</p>
+<pre><code class="go">// DELETE from emails where email LIKE &quot;%jinzhu%&quot;;
+db.Where(&quot;email LIKE ?&quot;, &quot;%jinzhu%&quot;).Delete(&amp;Email&#123;&#125;)
+// DELETE from emails where email LIKE &quot;%jinzhu%&quot;;
+db.Delete(&amp;Email&#123;&#125;, &quot;email LIKE ?&quot;, &quot;%jinzhu%&quot;)
+</code></pre>
+<h3 id="返回被删除的数据"><a href="#返回被删除的数据" class="headerlink" title="返回被删除的数据"></a>返回被删除的数据</h3><pre><code class="go">// 返回所有列
+var users []User
+// 返回所有列
+var users []User
+// DELETE FROM `users` WHERE role = &quot;admin&quot; RETURNING *
+DB.Clauses(clause.Returning&#123;&#125;).Where(&quot;role = ?&quot;, &quot;admin&quot;).Delete(&amp;users)
+// users =&gt; []User&#123;&#123;ID: 1, Name: "jinzhu", Role: "admin", Salary: 100&#125;, &#123;ID: 2, Name: "jinzhu.2", Role: "admin", Salary: 1000&#125;&#125;
+// 返回指定的列
+// DELETE FROM `users` WHERE role = &quot;admin&quot; RETURNING `name`, `salary`
+// users =&gt; []User&#123;&#123;ID: 0, Name: "jinzhu", Role: "", Salary: 100&#125;, &#123;ID: 0, Name: "jinzhu.2", Role: "", Salary: 1000&#125;&#125;
+DB.Clauses(clause.Returning&#123;Columns: []clause.Column&#123;&#123;Name: "name"&#125;, &#123;Name: "salary"&#125;&#125;&#125;).Where(&quot;role = ?&quot;, &quot;admin&quot;).Delete(&amp;users)
+</code></pre>
+<h3 id="软删除"><a href="#软删除" class="headerlink" title="软删除"></a>软删除</h3><p>概念:</p>
+<ol>
+<li>不会把记录从数据库中真正删除,只是把DeletedAt设置为当前时间</li>
+<li>删除后不能再通过普通的查询方法找到该记录</li>
+</ol>
+<pre><code class="go">// user 的 ID 是 `111`
+// UPDATE users SET deleted_at=&quot;2013-10-29 10:23&quot; WHERE id = 111;
+db.Delete(&amp;user)
+// 批量删除
+// UPDATE users SET deleted_at=&quot;2013-10-29 10:23&quot; WHERE age = 20;
+db.Where(&quot;age = ?&quot;, 20).Delete(&amp;User&#123;&#125;)
+// 查询时会忽略被软删除的记录
+db.Where(&quot;age = 20&quot;).Find(&amp;user)
+// SELECT * FROM users WHERE age = 20 AND deleted_at IS NULL
+</code></pre>
+<h3 id="永久删除"><a href="#永久删除" class="headerlink" title="永久删除"></a>永久删除</h3><p>找到被软删除的记录:<code>db.Unscoped().Where(&quot;age = 20&quot;).Find(&amp;users)</code></p>
+<pre><code class="go">// DELETE FROM orders WHERE id=10;
+db.Unscoped().Delete(&amp;order)
+</code></pre>
+<hr>
+<h2 id="关联"><a href="#关联" class="headerlink" title="关联"></a>关联</h2><h3 id="belongs-to"><a href="#belongs-to" class="headerlink" title="belongs to"></a>belongs to</h3><p>概念:</p>
+<ol>
+<li>包含 user 和 company，并且每个 user 能且只能被分配给一个 company</li>
+<li>User和Company有一个共同的外键CompanyID</li>
+</ol>
+<pre><code class="go">type User struct &#123;
+  gorm.Model
+  Name      string
+  CompanyID int
+  Company   Company `gorm:&quot;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;&quot;`
+&#125;
+type Company struct &#123;
+  ID   int
+  Name string
+&#125;
+</code></pre>
+<h3 id="has-one"><a href="#has-one" class="headerlink" title="has one"></a>has one</h3><p>概念:</p>
+<ol>
+<li>包含 user 和 credit card ，且每个 user 只能有一张 credit card</li>
+</ol>
+<pre><code class="go">// User 有一张 CreditCard，UserID 是外键
+type User struct &#123;
+  gorm.Model
+  CreditCard CreditCard
+&#125;
+type CreditCard struct &#123;
+  gorm.Model
+  Number string
+  UserID uint
+&#125;
+// 检索用户列表并预加载信用卡
+func GetAll(db *gorm.DB) ([]User, error) &#123;
+    var users []User
+    err := db.Model(&amp;User&#123;&#125;).Preload(&quot;CreditCard&quot;).Find(&amp;users).Error
+    return users, err
+&#125;
+</code></pre>
+<h3 id="Has-Many"><a href="#Has-Many" class="headerlink" title="Has Many"></a>Has Many</h3><p>概念:</p>
+<ol>
+<li>包含 user 和 credit card 模型，且每个 user 可以有多张 credit card</li>
+</ol>
+<pre><code class="go">// User 有多张 CreditCard，UserID 是外键
+type User struct &#123;
+  gorm.Model
+  CreditCards []CreditCard
+&#125;
+type CreditCard struct &#123;
+  gorm.Model
+  Number string
+  UserID uint
+&#125;
+// 检索用户列表并预加载信用卡
+func GetAll(db *gorm.DB) ([]User, error) &#123;
+    var users []User
+    err := db.Model(&amp;User&#123;&#125;).Preload(&quot;CreditCards&quot;).Find(&amp;users).Error
+    return users, err
+&#125;
+</code></pre>
+<h3 id="Many-to-Many"><a href="#Many-to-Many" class="headerlink" title="Many to Many"></a>Many to Many</h3><p>概念:</p>
+<ol>
+<li>包含了 user 和 language，且一个 user 可以说多种 language，多个 user 也可以说一种 language</li>
+<li>当使用 GORM 的 AutoMigrate 为 User 创建表时，GORM 会自动创建连接表</li>
+</ol>
+<pre><code class="go">// User 拥有并属于多种 language，`user_languages` 是连接表
+type User struct &#123;
+  gorm.Model
+  Languages []Language `gorm:&quot;many2many:user_languages;&quot;`
+&#125;
+type Language struct &#123;
+  gorm.Model
+  Name string
+&#125;
+// User 拥有并属于多种 language，`user_languages` 是连接表
+type User struct &#123;
+  gorm.Model
+  Languages []*Language `gorm:&quot;many2many:user_languages;&quot;`
+&#125;
+
+type Language struct &#123;
+  gorm.Model
+  Name string
+  Users []*User `gorm:&quot;many2many:user_languages;&quot;`
+&#125;
+// 检索 User 列表并预加载 Language
+func GetAllUsers(db *gorm.DB) ([]User, error) &#123;
+    var users []User
+    err := db.Model(&amp;User&#123;&#125;).Preload(&quot;Languages&quot;).Find(&amp;users).Error
+    return users, err
+&#125;
+// 检索 Language 列表并预加载 User
+func GetAllLanguages(db *gorm.DB) ([]Language, error) &#123;
+    var languages []Language
+    err := db.Model(&amp;Language&#123;&#125;).Preload(&quot;Users&quot;).Find(&amp;languages).Error
+    return languages, err
+&#125;
+</code></pre>
+<h3 id="实体关联"><a href="#实体关联" class="headerlink" title="实体关联"></a>实体关联</h3><p>在创建、更新记录时，GORM 会通过 Upsert 自动保存关联及其引用记录。<br>跳过自动创建更新:使用select 和 omit</p>
+<h3 id="预加载"><a href="#预加载" class="headerlink" title="预加载"></a>预加载</h3><h4 id="使用-Preload通过多个SQL中来直接加载关系"><a href="#使用-Preload通过多个SQL中来直接加载关系" class="headerlink" title="使用 Preload通过多个SQL中来直接加载关系"></a>使用 <code>Preload</code>通过多个SQL中来直接加载关系</h4><pre><code class="go">type User struct &#123;
+  gorm.Model
+  Username string
+  Orders   []Order
+&#125;
+type Order struct &#123;
+  gorm.Model
+  UserID uint
+  Price  float64
+&#125;
+// 查找 user 时预加载相关 Order
+// SELECT * FROM users;
+// SELECT * FROM orders WHERE user_id IN (1,2,3,4);
+db.Preload(&quot;Orders&quot;).Find(&amp;users)
+// SELECT * FROM users;
+// SELECT * FROM orders WHERE user_id IN (1,2,3,4); // has many
+// SELECT * FROM profiles WHERE user_id IN (1,2,3,4); // has one
+// SELECT * FROM roles WHERE id IN (4,5,6); // belongs to
+db.Preload(&quot;Orders&quot;).Preload(&quot;Profile&quot;).Preload(&quot;Role&quot;).Find(&amp;users)
+</code></pre>
+<h4 id="joins预加载"><a href="#joins预加载" class="headerlink" title="joins预加载"></a>joins预加载</h4><pre><code class="go">db.Joins(&quot;Company&quot;).Joins(&quot;Manager&quot;).Joins(&quot;Account&quot;).First(&amp;user, 1)
+db.Joins(&quot;Company&quot;).Joins(&quot;Manager&quot;).Joins(&quot;Account&quot;).First(&amp;user, &quot;users.name = ?&quot;, &quot;jinzhu&quot;)
+db.Joins(&quot;Company&quot;).Joins(&quot;Manager&quot;).Joins(&quot;Account&quot;).Find(&amp;users, &quot;users.id IN ?&quot;, []int&#123;1,2,3,4,5&#125;)
+db.Joins(&quot;Company&quot;, DB.Where(&amp;Company&#123;Alive: true&#125;)).Find(&amp;users)
+</code></pre>
+<hr>
+<h2 id="处理错误"><a href="#处理错误" class="headerlink" title="处理错误"></a>处理错误</h2><p>普通错误:</p>
+<pre><code class="go">if err := db.Where(&quot;name = ?&quot;, &quot;jinzhu&quot;).First(&amp;user).Error; err != nil &#123;
+  // 处理错误...
+&#125;
+</code></pre>
+<p>未找到对应记录错误ErrRecordNotFound</p>
+<pre><code class="go">// 检查错误是否为 RecordNotFound
+err := db.First(&amp;user, 100).Error
+errors.Is(err, gorm.ErrRecordNotFound)
+</code></pre>
+<h2 id="链式方法"><a href="#链式方法" class="headerlink" title="链式方法"></a>链式方法</h2><p>链式&#x2F;终结方法之后返回一个初始化的<code>*gorm.DB</code>实例</p>
+<ul>
+<li>链式方法:Where, Select, Omit, Joins, Scopes, Preload, Raw</li>
+<li>终结方法:Create, First, Find, Take, Save, Update, Delete, Scan, Row, Rows</li>
+<li>新建会话方法: Session、WithContext、Debug</li>
+</ul>
+<h2 id="session"><a href="#session" class="headerlink" title="session"></a>session</h2><h2 id="钩子"><a href="#钩子" class="headerlink" title="钩子"></a>钩子</h2><h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><p>暂时忽略</p>
+<h2 id="迁移"><a href="#迁移" class="headerlink" title="迁移"></a>迁移</h2><p>用于自动迁移 schema，保持您的 schema 是最新的<br>schema:数据库对象集合，它包含了各种对像，比如：表，视图，存储过程，索引等等</p>
+<pre><code class="go">db.AutoMigrate(&amp;User&#123;&#125;)
+db.AutoMigrate(&amp;User&#123;&#125;, &amp;Product&#123;&#125;, &amp;Order&#123;&#125;)
+// 创建表时添加后缀
+db.Set(&quot;gorm:table_options&quot;, &quot;ENGINE=InnoDB&quot;).AutoMigrate(&amp;User&#123;&#125;)
+</code></pre>
+<h2 id="日志Logger"><a href="#日志Logger" class="headerlink" title="日志Logger"></a>日志Logger</h2><p>作用:打印慢 SQL 和错误<br>级别:Silent、Error、Warn、Info</p>
+<pre><code class="go">newLogger := logger.New(
+  log.New(os.Stdout, &quot;\r\n&quot;, log.LstdFlags), // io writer（日志输出的目标，前缀和日志包含的内容）
+  logger.Config&#123;
+    SlowThreshold: time.Second,   // 慢 SQL 阈值
+    LogLevel:      logger.Silent, // 日志级别
+    IgnoreRecordNotFoundError: true,   // 忽略ErrRecordNotFound（记录未找到）错误
+    Colorful:      false,         // 禁用彩色打印
+  &#125;,
+)
+// 全局模式
+db, err := gorm.Open(sqlite.Open(&quot;test.db&quot;), &amp;gorm.Config&#123;
+  Logger: newLogger,
+&#125;)
+
+// 新建会话模式
+tx := db.Session(&amp;Session&#123;Logger: newLogger&#125;)
+tx.First(&amp;user)
+tx.Model(&amp;user).Update(&quot;Age&quot;, 18)
+</code></pre>
+<h2 id="通用数据库接口"><a href="#通用数据库接口" class="headerlink" title="通用数据库接口"></a>通用数据库接口</h2><pre><code class="go">// 获取通用数据库对象 sql.DB，然后使用其提供的功能
+sqlDB, err := db.DB()
+// Ping
+sqlDB.Ping()
+// Close
+sqlDB.Close()
+// 返回数据库统计信息
+sqlDB.Stats()
+</code></pre>
+<h3 id="连接池"><a href="#连接池" class="headerlink" title="连接池"></a>连接池</h3><pre><code class="go">// 获取通用数据库对象 sql.DB ，然后使用其提供的功能
+sqlDB, err := db.DB()
+// SetMaxIdleConns 用于设置连接池中空闲连接的最大数量。
+sqlDB.SetMaxIdleConns(10)
+// SetMaxOpenConns 设置打开数据库连接的最大数量。
+sqlDB.SetMaxOpenConns(100)
+// SetConnMaxLifetime 设置了连接可复用的最大时间。
+sqlDB.SetConnMaxLifetime(time.Hour)
+</code></pre>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2023-03-21</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/GoLang/'>
+                            GoLang
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/%E5%90%8E%E7%AB%AF/'>
+                            后端
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

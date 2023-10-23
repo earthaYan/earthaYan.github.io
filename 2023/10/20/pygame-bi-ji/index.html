@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  viewport-fit=cover" name="viewport" />
+    <meta name="description" content="pygame笔记" />
+    <meta name="hexo-theme-A4" content="v1.7.1" />
+    <link rel="alternate icon" type="image/webp" href="/img/favicon.webp">
+    <title>Diary | just try it</title>
+
+    
+        
+<link rel="stylesheet" href="/css/reset.css">
+
+        
+<link rel="stylesheet" href="/css/markdown.css">
+
+        
+<link rel="stylesheet" href="/css/fonts.css">
+ 
+         <!--注意：首页既不是post也不是page-->
+        
+            
+<link rel="stylesheet" href="/css/waline.css">
+
+        
+    
+    
+<link rel="stylesheet" href="/css/ui.css">
+ 
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+    
+    <body>
+        <div class="paper">
+            
+            
+            
+            
+                <div class="shadow-drop-2-bottom paper-main">
+                    
+<div class="header">
+    <div class="header-container">
+        <img style="
+        width: 56px;
+        height: auto;" alt="^-^" cache-control="max-age=86400" class="header-img" src="/img/favicon.webp" width="10%"></img>
+        <div class="header-content">
+            <a class="logo" href="/">Diary</a> 
+            <span class="description">默奥沙</span> 
+        </div>
+        
+    </div>
+    
+   
+    <ul class="nav">
+        
+            
+                <li><a href="/">首页</a></li>
+            
+        
+            
+                <li><a href="/list/">文章</a></li>
+            
+        
+            
+                <li><a href="/categories/">分类</a></li>
+            
+        
+    </ul>
+</div> 
+        
+                    
+                    
+
+                    
+                    
+                    
+                    <!--说明是文章post页面-->
+                    
+                        <div class="post-main">
+
+    
+        <div class="post-main-title">
+            pygame笔记
+        </div>
+      
+    
+
+    <div class="post-md">
+        
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%A6%82%E4%BD%95%E5%9C%A8%E6%9C%AC%E5%9C%B0%E9%98%85%E8%AF%BB-pygame-%E6%96%87%E6%A1%A3"><span class="post-toc-text">如何在本地阅读 pygame 文档</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#python-%E9%80%82%E5%90%88%E5%93%AA%E4%BA%9B%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91"><span class="post-toc-text">python 适合哪些游戏开发</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%AF%BC%E5%85%A5%E5%92%8C%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="post-toc-text">导入和初始化</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%B6%85%E5%87%BA%E5%9B%BE%E5%BD%A2%E5%8C%96%E7%AA%97%E5%8F%A3%E8%BE%B9%E7%95%8C%E6%88%90%E5%A4%84%E7%90%86"><span class="post-toc-text">超出图形化窗口边界成处理</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E5%BE%97%E6%B8%B8%E6%88%8F%E5%BE%AA%E7%8E%AF%E8%BF%90%E8%A1%8C"><span class="post-toc-text">如何使得游戏循环运行</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#pygame-%E7%A7%BB%E5%8A%A8%E6%B8%B8%E6%88%8F%E5%85%83%E7%B4%A0"><span class="post-toc-text">pygame 移动游戏元素</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#pygame-%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%B7%AF%E5%BE%84"><span class="post-toc-text">pygame 如何处理文件系统路径</span></a></li></ol>
+        
+        <h2 id="如何在本地阅读-pygame-文档"><a href="#如何在本地阅读-pygame-文档" class="headerlink" title="如何在本地阅读 pygame 文档"></a>如何在本地阅读 pygame 文档</h2><p>执行<code>python -m pygame.docs</code></p>
+<h2 id="python-适合哪些游戏开发"><a href="#python-适合哪些游戏开发" class="headerlink" title="python 适合哪些游戏开发"></a>python 适合哪些游戏开发</h2><p>游戏&#x3D;游戏引擎+游戏逻辑<br>过去：引擎（汇编语言）+逻辑（c 语言）<br>现在：引擎（c 语言）+ 逻辑（更高级的脚本语言）<br>pygame:</p>
+<ul>
+<li>适合 2D 游戏开发</li>
+<li>可以跨平台运行</li>
+</ul>
+<h2 id="导入和初始化"><a href="#导入和初始化" class="headerlink" title="导入和初始化"></a>导入和初始化</h2><ul>
+<li><code>import pygame</code>：导入 pygame 包，里面包含所有可用的模块</li>
+<li><code>pygame.init()</code>：初始化导入的所有模块</li>
+<li><code>pygame.display.set_mode((1280, 720))</code>：设置游戏窗口大小并新建游戏的图形窗口<blockquote>
+<p>创建了一个新的 Surface 对象代表实际展示的图形化窗口</p>
+</blockquote>
+</li>
+<li><code>img=pygame.image.load(&quot;intro_ball.gif&quot;)</code>：加载图片</li>
+<li><code>img.get_react()</code>：工具对象类型<code>Rect</code>,代表 1 块矩形区域</li>
+<li><code>ballrect = ballrect.move([2,2])</code>：移动图像 ballrect</li>
+<li><code>screen.fill(black)</code>：清空屏幕<blockquote>
+<p>电脑的动画是一系列的单图实现的，它们依次展示，让人视觉上是移动的。如果不使用 fill()方法，视觉上就会是运动轨迹</p>
+<img src="/2023/10/20/pygame-bi-ji/no_fill.png" class=""></blockquote>
+</li>
+<li><code>screen.blit(sourceImg, Distination,area=None,)</code>：将图片绘制到另一个图像或者屏幕上</li>
+<li><code>pygame.display.flip()</code>：更新屏幕展示</li>
+</ul>
+<h3 id="超出图形化窗口边界成处理"><a href="#超出图形化窗口边界成处理" class="headerlink" title="超出图形化窗口边界成处理"></a>超出图形化窗口边界成处理</h3><pre><code class="py">if ballrect.left &lt; 0 or ballrect.right &gt; width:
+    speed[0] = -speed[0]
+if ballrect.top &lt; 0 or ballrect.bottom &gt; height:
+    speed[1] = -speed[1]
+</code></pre>
+<h2 id="如何使得游戏循环运行"><a href="#如何使得游戏循环运行" class="headerlink" title="如何使得游戏循环运行"></a>如何使得游戏循环运行</h2><p>FPS:游戏画面每秒更新的次数</p>
+<pre><code class="py">import pygame
+# pygame设置
+pygame.init()
+screen = pygame.display.set_mode((1280, 720))
+clock = pygame.time.Clock()
+running = True
+
+while running:
+    # poll for events
+    # pygame.QUIT 事件意味着用户点击X关闭了弹窗
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+    # 使用一种颜色填充屏幕，清除上一帧留下的所有东西
+    screen.fill(&quot;purple&quot;)
+    # 此处渲染游戏
+    # ...
+    # flip() 将成果展示在屏幕上
+    pygame.display.flip()
+    clock.tick(60)  # 限制 FPS 为 60
+pygame.quit()
+</code></pre>
+<h2 id="pygame-移动游戏元素"><a href="#pygame-移动游戏元素" class="headerlink" title="pygame 移动游戏元素"></a>pygame 移动游戏元素</h2><pre><code class="py">import pygame
+
+
+pygame.init()
+screen=pygame.display.set_mode((800,600))
+clock=pygame.time.Clock()
+running=True
+dt=0
+
+player_pos=pygame.Vector2(screen.get_width()/2,screen.get_height()/2)
+while running:
+    for event in pygame.event.get():
+        if event.type==pygame.QUIT:
+            running=False
+    screen.fill(&quot;purple&quot;)
+    # 游戏代码==========================================
+    pygame.draw.circle(screen,&quot;red&quot;,player_pos,40)
+    keys=pygame.key.get_pressed()
+    if keys[pygame.K_w]:
+        player_pos.y-= 300 * dt
+    if keys[pygame.K_s]:
+        player_pos.y+= 300 * dt
+    if keys[pygame.K_a]:
+        player_pos.x-=300*dt
+    if keys[pygame.K_d]:
+        player_pos.x+=300*dt
+           # dt is delta time in seconds since last frame, used for framerate-
+    # independent physics.
+    # 两个连续帧之间的时间差（秒）
+    dt = clock.tick(60)
+    pygame.display.flip()
+pygame.quit()
+</code></pre>
+<h2 id="pygame-如何处理文件系统路径"><a href="#pygame-如何处理文件系统路径" class="headerlink" title="pygame 如何处理文件系统路径"></a>pygame 如何处理文件系统路径</h2><p>TODO</p>
+
+    </div>
+
+    <div class="post-meta">
+        <i>
+        
+            <span>2023-10-20</span>
+            
+                <span>该篇文章被 Moon</span>
+            
+            
+                <span>打上标签:
+                    
+                    
+                        <a href='/tags/Python/'>
+                            Python
+                        </a>
+                    
+                        <a href='/tags/pygame/'>
+                            pygame
+                        </a>
+                    
+                        <a href='/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/'>
+                            游戏开发
+                        </a>
+                    
+                </span>
+             
+             
+                <span>归为分类:
+                    
+                    
+                        <a href='/categories/Python/'>
+                            Python
+                        </a>
+                    
+                </span>
+            
+        
+        </i>
+    </div>
+    
+        
+    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        以上。 
+    </div>
+    
+        
+
+    <div id="waline"></div>
+    <script type="module"  >
+        import { init } from 'https://npm.elemecdn.com/hexo-theme-a4@latest/source/js/waline.mjs'; 
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://comment-hexo-waline.vercel.app/',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+                search: false, // 禁止表情包搜索
+                reaction: false, // 对文章打分
+                pageview: false, // 浏览量统计
+                comment: false, // 评论数统计
+
+                locale: {
+                    placeholder: '正确的邮箱地址，回复将能得到邮件通知。', 
+                    sofa: ''
+                },
+            });
+            
+        }
+        window.addEventListener('DOMContentLoaded', loadWaline);
+    </script>
+
+
+
+    
+    
+    
+    </div>
+
+
+     
+</div>
+
+
+
+                    
+                    
+                    <div class="footer">
+    
+        <span> 
+            ©2021-2023 China 
+
+            
+                
+
+            
+        </span>
+    
+</div>
+<!--这是指一条线往下的内容-->
+<div class="footer-last">
+    
+            <span>🌊看过大海的人不会忘记海的广阔🌊</span>
+            
+    
+</div>
+
+
+    
+<link rel="stylesheet" href="/css/a11y-dark.min.css">
+
+    
+<script src="/js/highlight.min.js"></script>
+
+    
+<script src="/js/highlightjs-line-numbers.js"></script>
+
+
+
+<script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+</script>
+                </div>
+            
+    </body>
+</html>

@@ -110,3 +110,78 @@ pygame.quit()
 ## pygame 如何处理文件系统路径
 
 TODO
+
+## pygame.display.update() VS pygame.display.flip()
+
+相同点：两者都是用于更新屏幕显示的函数
+区别：
+
+- `pygame.display.update()`：根据需要更新指定的区域或整个屏幕。它接受一个可选的参数，该参数是一个矩形列表，表示要更新的区域。如果不提供参数，它将更新整个屏幕。这个函数的优点是可以选择性地更新屏幕的特定区域，从而减少更新帧的计算量，提高性能。
+
+- `pygame.display.flip()`：将当前内存中的所有改变刷新到屏幕上。它没有任何参数，每次调用它都会更新整个屏幕。这个函数的优点是简单易用，适用于大多数情况下。
+
+## blit()
+
+语法：`target_surface.blit(source_surface, position)`
+作用：将图像（Surface 对象）绘制到其他 Surface 上的函数
+示例代码
+
+```py
+img=pygame.image.load('../pic/yellow.png')
+rect=img.get_rect()
+rect.center=(400,300)
+screen.blit(img,rect)
+```
+
+## 移动对象
+
+### move_ip()
+
+语法：`rect.move_ip(dx, dy)`
+
+> dx 和 dy 分别代表 x、y 轴上的偏移量，y 方向上 `up` 为-1，x 方向上 `right` 为 1
+
+作用：移动图像或矩形的位置。是在 Rect 对象上调用的方法，而不是直接在 Surface 上使用的。直接修改原始对象的位置
+示例代码
+
+```py
+pressed=pygame.key.get_pressed()
+if pressed[K_LEFT]:
+    rect.move_ip(-1,0)
+elif pressed[K_RIGHT]:
+    rect.move_ip(1,0)
+elif pressed[K_UP]:
+    rect.move_ip(0,-1)
+elif pressed[K_DOWN]:
+    rect.move_ip(0,1)
+```
+
+### move()
+
+语法：`rect.move(dx, dy)`
+作用：move() 方法返回一个新的矩形对象，而不直接修改原始对象。如果要保留原始矩形对象并获得移动后的副本，可以使用 move()
+
+```py
+pressed=pygame.key.get_pressed()
+if pressed[K_LEFT]:
+    rect=rect.move_ip(-1,0)
+elif pressed[K_RIGHT]:
+    rect=rect.move(1,0)
+elif pressed[K_UP]:
+    rect=rect.move(0,-1)
+elif pressed[K_DOWN]:
+    rect=rect.move_ip(0,1)
+```
+
+## scale()
+
+语法：`scaled_surface = pygame.transform.scale(surface, size)`
+作用：缩放图像或 Surface 的大小。它可以按照指定的比例因子来缩放图像，也可以根据给定的目标尺寸进行缩放。
+参数：size 是一个元组，表示目标尺寸 (width, height)
+示例代码：
+
+```py
+def loadImage(self):
+    self.img=pygame.image.load(BLOCK_RES[self.blockType])
+    self.img=pygame.transform.scale(self.img,(self.width,self.height))
+```

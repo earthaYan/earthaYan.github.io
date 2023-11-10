@@ -104,6 +104,8 @@ export default function Button(props) {
     </button>
   );
 }
+// 或者模板字符串
+<div className={`${selected ? "active" : ""}`}>{selectedText}</div>;
 ```
 
 借助 classnames 库的 object 参数类型使用会更简单

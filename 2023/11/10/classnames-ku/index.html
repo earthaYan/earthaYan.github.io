@@ -153,6 +153,8 @@ export default function Button(props) &#123;
     &lt;/button&gt;
   );
 &#125;
+// 或者模板字符串
+&lt;div className=&#123;`$&#123;selected ? &quot;active&quot; : &quot;&quot;&#125;`&#125;&gt;&#123;selectedText&#125;&lt;/div&gt;;
 </code></pre>
 <p>借助 classnames 库的 object 参数类型使用会更简单</p>
 <pre><code class="js">import React, &#123; useState &#125; from &quot;react&quot;;

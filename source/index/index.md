@@ -35,3 +35,5 @@ date: 2023-10-17 22:09:49
   - [x] 下个方块
 - [x] antd 的 useFetchData hook
 - [ ] python 标准库
+- [ ] python 的错误和异常处理以及输入输出
+- [ ] python 语法：迭代器和生成器

@@ -799,11 +799,273 @@ from ..filters import equalizer
 
 ## c7. 输入和输出
 
-TODO
+### 字符串
+
+#### f-字符串
+
+语法：{expression}并且在字符串前加前缀 f 或 F
+例子：将 pi 舍入到小数点后三位：
+`print(f'The value of pi is approximately {math.pi:.3f}.')`
+特殊修饰符：
+'!a' 应用 ascii()
+'!s' 应用 str()
+'!r' 应用 repr()
+'=' 说明符可被用于将一个表达式扩展为表达式文本、等号再加表达式求值结果的形式
+
+```py
+bugs = 'roaches'
+count = 13
+area = 'living room'
+print(f'Debugging {bugs=} {count=} {area=}')
+```
+
+#### format 方法
+
+语法：str.format()
+`print('We are the {} who say "{}!"'.format('knights', 'Ni'))`
+
+```py
+print('This {food} is {adjective}.'.format(food='spam', adjective='absolutely horrible'))
+```
+
+#### 手动格式化字符串
+
+语法：
+str.rjust():通过在左侧填充空格，对给定宽度字段中的字符串进行右对齐
+str.ljust():
+str.center():
+str.zfill():在数字字符串左边填充零，且能识别正负号
+
+```py
+# 实现同一个平方和立方的表
+for x in range(1, 11):
+    print(repr(x).rjust(2), repr(x*x).rjust(3), end=' ')
+    print(repr(x*x*x).rjust(4))
+
+```
+
+结果：
+
+```sh
+1   1    1
+ 2   4    8
+ 3   9   27
+ 4  16   64
+ 5  25  125
+ 6  36  216
+ 7  49  343
+ 8  64  512
+ 9  81  729
+10 100 1000
+```
+
+### 文本
+
+oepn()方法返回一个 file 对象
+`f = open('workfile', 'w', encoding="utf-8")`
+参数 1：文件名称
+参数 2：模式，r,w,a，默认 r
+借助 with 关键字，可以自动关闭文件，不需要调用 f.close()
+
+```py
+with open('workfile', encoding="utf-8") as f:
+    read_data = f.read()
+```
+
+#### 文件对象的方法
+
+读取：f.read(size),size 为负数或者不传递时，返回整个文件内容
+读取单行数据：f.readLine()
+读取多行数据：循环遍历
+以列表形式读取整个文件的所有行：list(f)或者 f.readLines
+
+```py
+for line in f:
+    print(line, end='')
+```
+
+写入：f.write(string) 把 string 的内容写入文件，并返回写入的字符数
+
+> 写入其他类型的对象前，要先把它们转化为字符串（文本模式）或字节对象（二进制模式）
+
+```py
+value = ('the answer', 42)
+s = str(value)  #将元组转换为字符串
+f.write(s)
+```
+
+使用 json 保存结构化数据
+json.dumps():
+
+```py
+import json
+x = [1, 'simple', 'list']
+json.dumps(x)
+# 结果'[1, "simple", "list"]'
+```
+
+只将对象序列化为 text file:
+
+```py
+json.dump()
+x = json.load(f)
+```
 
 ## c8. 错误和异常
 
-TODO
+### 语法错误
+
+运行前就可以触发
+解析器会复现出现句法错误的代码行，并用小“箭头”指向行里检测到的第一个错误。错误是由箭头 上方 的 token 触发的（至少是在这里检测出的）
+
+### 异常
+
+运行时触发
+不处理的情况下：
+代码：`10 * (1/0)`
+
+```bash
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ZeroDivisionError: division by zero
+```
+
+代码：`'2' + 2`
+
+```bash
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: can only concatenate str (not "int") to str
+```
+
+最后一行说明程序遇到的类型错误
+
+### 异常处理
+
+#### try...except...else
+
+1. 执行 try 子句（try 和 except 之间的语句）
+2. 如果没有触发异常，则跳过 except 子句
+3. 如果在执行 try 子句的时候发生了异常，则跳过剩下的部分。
+4. 如果异常的类型和 except 关键字后指定的异常相匹配，则执行 except 子句
+5. 如果不匹配，则会被传递到外部的 try 语句中，如果一直没找到，则属于未处理异常且执行将终止并输出报错信息
+
+```py
+while True:
+    try:
+        x = int(input("Please enter a number: "))
+        break
+    except ValueError:
+        print("Oops!  That was no valid number.  Try again...")
+```
+
+try 语句可以有多个 except 子句处理不同的异常指定处理程序，但是最终只会执行一个。
+指定多个异常：
+
+```py
+except (RuntimeError, TypeError, NameError):
+```
+
+如果发生的异常类型和 except 子句中的类是同一个类或是其基类，则两种类型兼容
+
+```py
+class B(Exception):
+    pass
+class C(B):
+    pass
+class D(C):
+    pass
+for cls in [B, C, D]:
+    try:
+        raise cls()
+    except D:
+        print("D")
+    except C:
+        print("C")
+    except B:
+        print("B") # B-C-D
+
+# ####################################
+class B(Exception):
+    pass
+class C(B):
+    pass
+class D(C):
+    pass
+for cls in [B, C, D]:
+    try:
+        raise cls()
+    except B:
+        print("B")
+    except D:
+        print("D")
+    except C:
+        print("C")  # B-B-B
+
+```
+
+可选的 else 子句,必须放在 except 子句后面，适用于 try 子句 没有引发异常但又必须要执行的代码
+
+```py
+for arg in sys.argv[1:]:
+    try:
+        f = open(arg, 'r')
+    except OSError:
+        print('cannot open', arg)
+    else:
+        print(arg, 'has', len(f.readlines()), 'lines')
+        f.close()
+```
+
+### 触发异常
+
+raise 语句,后续的 error 必须继承自 Exception 类
+
+```py
+raise NameError('HiThere')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: HiThere
+```
+
+### 异常链
+
+如果一个未处理的异常发生在 except 子句内，将会有被处理的异常附加到上面，并包括在错误信息中
+
+```py
+def func():
+    raise ConnectionError
+try:
+    func()
+except ConnectionError as exc:
+    raise RuntimeError('Failed to open database') from exc
+```
+
+禁用自动异常链:`from None`
+
+```py
+try:
+    open('database.sqlite')
+except OSError:
+    raise RuntimeError from None
+```
+
+### 自定义异常
+
+1. 必须从 Exception 类继承
+2. 异常类可以被定义成能做其他类所能做的任何事，但通常应当保持简单，它往往只提供一些属性，允许相应的异常处理程序提取有关错误的信息
+3. 大多数异常命名都以 “Error” 结尾，类似标准异常的命名
+
+### 定义清理操作
+
+finally 子句,不论是否有异常，finally 都会被执行
+
+```py
+try:
+    raise KeyboardInterrupt
+finally:
+    print('Goodbye, world!')
+```
 
 ## c9. 类
 
@@ -972,12 +1234,171 @@ class MappingSubclass(Mapping):
 
 > 名称改写：任何形式为 `__spam` 的标识符的文本将被替换为`_classname__spam`，其中`_classname`为去除了前缀下划线的当前类名称。支持需要私有变量的场景，避免父类和子类的名称冲突
 
-### 迭代器和生成器
+### 迭代器
 
-### 生成器表达式
+#### for 循环背后原理：
+
+for 语句会在容器对象上调用 `iter()`,该函数返回一个定义了 `__next__()` 方法的迭代器对象，此方法将逐一访问容器中的元素。 当元素用尽时，`__next__()` 将引发 StopIteration 异常来通知终止 for 循环。可以使用 `next()` 内置函数来调用`__next__()` 方法
+
+#### 如何为类添加迭代器
+
+定义 `__iter__()` 方法用于返回一个带有 `__next__()` 方法的对象。 如果类已定义了 `__next__()`，那么 `__iter__()` 可以简单地返回 self:
+
+```py
+class Reverse:
+    """Iterator for looping over a sequence backwards."""
+    def __init__(self, data):
+        self.data = data
+        self.index = len(data)
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.index == 0:
+            raise StopIteration
+        self.index = self.index - 1
+        return self.data[self.index]
+```
+
+### 生成器
+
+用于创建迭代器的工具，语法同标准函数，但是返回数据时会使用`yield`语句，每次在生成器上调用`next()`的时候，会从上次离开的位置恢复执行
+
+```py
+def reverse(data):
+    for index in range(len(data)-1, -1, -1):
+        yield data[index]
+# 调用
+for char in reverse('golf'):
+    print(char) # flog
+```
 
 ## c10. 标准库-part1
 
+### 操作系统
+
+来源：os 模块
+作用：与操作系统交互
+
+- os.getcwd():获取当前工作目录
+- os.chdir('/server/accesslogs')：切换当前工作目录
+- os.system('mkdir today')：执行系统命令
+- dir(os):返回所有模块函数的列表
+- help(os):返回来源模块的 docstring 的帮助页
+
+### 文件通配符
+
+#### 日常文件和目录管理任务：shutil
+
+- shutil.copyfile('data.db', 'archive.db') 复制文件
+- shutil.move('/build/executables', 'installdir') 移动文件
+
+#### 通配符
+
+glob 模块:提供了一个在目录中使用通配符搜索创建文件列表的函数
+`glob.glob('*.py')`
+
+### 命令行参数
+
+语法：`sys.argv`
+`python demo.py one two three `
+结果：['demo.py', 'one', 'two', 'three']
+
+### 错误输出重定向和程序终止
+
+错误输出：`sys.stderr.write('Warning, log file not found starting a new one\n')`
+程序终止：`sys.exit()`
+
+### 字符串模式匹配
+
+来源：re 模块
+`re.findall(r'\bf[a-z]*', 'which foot or hand fell fastest')`
+如果知识需要简单的功能，首选还是 str 模块
+
+### 数学
+
+math 模块：提供对浮点数学的底层 C 库函数的访问:
+random 模块：提供了进行随机选择的工具
+statistics 模块：计算数值数据的基本统计属性（均值，中位数，方差等
+
+### 互联网访问
+
+urllib.request 模块：从 URL 检索数据
+smtplib 模块：用于发送邮件
+
+### 日期和时间
+
+datetime 模块
+
+### 数据压缩
+
+模块：zlib, gzip, bz2, lzma, zipfile 和 tarfile
+
+### 质量控制
+
+doctest 模块
+
+```py
+def average(values):
+    """Computes the arithmetic mean of a list of numbers.
+
+    >>> print(average([20, 30, 70]))
+    40.0
+    """
+    return sum(values) / len(values)
+
+import doctest
+doctest.testmod()   #自动校验内嵌的测试
+```
+
+unittest 模块
+
 ## c11. 标准库-part2
 
-## c12. 虚拟环境和包
+### 格式化输出
+
+reprlib 模块
+pprint 模块
+textwrap 模块
+locale 模块
+
+### 模板
+
+string.Template:允许用户在不更改应用逻辑的情况下定制自己的应用
+占位符由 $ 加上合法的 Python 标识符（只能包含字母、数字和下划线）构成。一旦使用花括号将占位符括起来，就可以在后面直接跟上更多的字母和数字而无需空格分割。$$ 将被转义成单个字符 $:
+
+```py
+t = Template('${village}folk send $$10 to $cause.')
+t.substitute(village='Nottingham', cause='the ditch fund')
+# Nottinghamfolk send $10 to the ditch fund.
+```
+
+### 使用二进制数据记录格式
+
+struct 模块
+
+### 多线程
+
+queue 模块
+threading 模块
+
+### 日志记录
+
+logging 模块
+
+### 弱引用
+
+会自动进行内存管理
+场景：在对象持续被其他对象所使用时跟踪它们
+weakref 模块
+
+### 用于操作列表的工具
+
+array 模块
+collections 模块
+bisect 模块
+heapq 模块
+
+### 十进制浮点运算
+decimal 模块

@@ -917,8 +917,7 @@ class MappingSubclass(Mapping):
 </blockquote>
 <h3 id="迭代器-iterator"><a href="#迭代器-iterator" class="headerlink" title="迭代器 iterator"></a>迭代器 iterator</h3><img src="/2023/10/16/python-ji-chu-yu-fa/iterator.png" class="">
 <p>iterable:可迭代对象<br>iterator:迭代器</p>
-<h3 id="生成器"><a href="#生成器" class="headerlink" title="生成器"></a>生成器</h3><p>用于创建迭代器的工具，语法同标准函数，但是返回数据时会使用<code>yield</code>语句，每次在生成器上调用<code>next()</code>的时候，会从上次离开的位置恢复执行</p>
-<pre><code class="py">def func(n):
+<h3 id="生成器"><a href="#生成器" class="headerlink" title="生成器"></a>生成器</h3><pre><code class="py">def func(n):
     while True:
         if n&gt;10:
             break
@@ -926,7 +925,7 @@ class MappingSubclass(Mapping):
         n+=1
 func(0)
 </code></pre>
-<p>此时 func 函数会执行并直接输出 1-10。如果想要暂停函数并使其可以再恢复，代码修改为</p>
+<p>此时 func 函数会执行并直接输出 0-10。如果想要暂停函数并使其可以再恢复，代码修改为</p>
 <pre><code class="py">def func(n):
     while True:
         yield(n)
@@ -951,7 +950,7 @@ func(0)
 for i in func(0):
     print(i)
 </code></pre>
-<p>结论：yield 执行之后，这个函数会立刻返回一个生成器对象，将提供给 yield 的值返回给调用者，下一次调用这个生成器对象的时候，生成器对象从 yield 之后开始执行，直到遇到下一个 yield</p>
+<p>输出 0-11<br>结论：yield 执行之后，这个函数会立刻返回一个生成器对象，将提供给 yield 的值返回给调用者，下一次调用这个生成器对象的时候，生成器对象从 yield 之后开始执行，直到遇到下一个 yield</p>
 <h4 id="可以做什么"><a href="#可以做什么" class="headerlink" title="可以做什么"></a>可以做什么</h4><p>还没想到</p>
 <h2 id="c10-标准库-part1"><a href="#c10-标准库-part1" class="headerlink" title="c10. 标准库-part1"></a>c10. 标准库-part1</h2><h3 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h3><p>来源：os 模块<br>作用：与操作系统交互</p>
 <ul>

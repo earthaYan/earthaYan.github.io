@@ -580,12 +580,7 @@ for x in range(10):
 # squares->[0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
 ```
 
-语法：new_list = `[expression for item in iterable if condition]`
-
-- expression：应用于每个迭代项的表达式
-- item：从可迭代对象中取出的每个元素
-- iterable：表示可迭代对象
-- condition：可选的 条件表达式，用于筛选满足条件的元素
+语法：new_list = `[表达式 for 变量 in 列表 if 条件]`
 
 ```py
 numbers = [1, 2, 3, 4, 5]
@@ -607,6 +602,20 @@ matrix = [
 a= [[row[i] for row in matrix] for i in range(4)]
 # [[1, 5, 9], [2, 6, 10], [3, 7, 11], [4, 8, 12]]
 ```
+
+#### 字典推导式
+
+作用：从列表中构建字典
+语法：`{key的表达式:值的表达式 for 变量 in 字典 if 条件}`
+
+```py
+mydic={num:num**2 for num in range(1,6) if num%2==0}
+```
+
+#### set 集合推导式
+
+作用：从列表中构建集合
+语法：`{表达式 for 变量 in 集合 if 条件}`
 
 ### del 语句
 
@@ -1234,45 +1243,63 @@ class MappingSubclass(Mapping):
 
 > 名称改写：任何形式为 `__spam` 的标识符的文本将被替换为`_classname__spam`，其中`_classname`为去除了前缀下划线的当前类名称。支持需要私有变量的场景，避免父类和子类的名称冲突
 
-### 迭代器
+### 迭代器 iterator
 
-#### for 循环背后原理：
-
-for 语句会在容器对象上调用 `iter()`,该函数返回一个定义了 `__next__()` 方法的迭代器对象，此方法将逐一访问容器中的元素。 当元素用尽时，`__next__()` 将引发 StopIteration 异常来通知终止 for 循环。可以使用 `next()` 内置函数来调用`__next__()` 方法
-
-#### 如何为类添加迭代器
-
-定义 `__iter__()` 方法用于返回一个带有 `__next__()` 方法的对象。 如果类已定义了 `__next__()`，那么 `__iter__()` 可以简单地返回 self:
-
-```py
-class Reverse:
-    """Iterator for looping over a sequence backwards."""
-    def __init__(self, data):
-        self.data = data
-        self.index = len(data)
-
-    def __iter__(self):
-        return self
-
-    def __next__(self):
-        if self.index == 0:
-            raise StopIteration
-        self.index = self.index - 1
-        return self.data[self.index]
-```
+{% asset_img iterator.png%}
+iterable:可迭代对象
+iterator:迭代器
 
 ### 生成器
 
 用于创建迭代器的工具，语法同标准函数，但是返回数据时会使用`yield`语句，每次在生成器上调用`next()`的时候，会从上次离开的位置恢复执行
 
 ```py
-def reverse(data):
-    for index in range(len(data)-1, -1, -1):
-        yield data[index]
-# 调用
-for char in reverse('golf'):
-    print(char) # flog
+def func(n):
+    while True:
+        if n>10:
+            break
+        print(n)
+        n+=1
+func(0)
 ```
+
+此时 func 函数会执行并直接输出 1-10。如果想要暂停函数并使其可以再恢复，代码修改为
+
+```py
+def func(n):
+    while True:
+        yield(n)
+        if n>10:
+            break
+        print(n)
+        n+=1
+func(0)
+```
+
+此时执行 func 函数并不会打印出预期的内容，而是会显示信息：
+
+> generator object func at 0x7fxxxxx
+
+通过`type(func(0))`可以发现我们创建了一个新的对象即生成器，所以需要把返回值赋值给另一个对象保存起来，将其作为 next 函数的参数
+用法：
+
+```py
+def func():
+    while True:
+        yield(n)
+        if n>10:
+            break
+        n+=1
+
+for i in func(0):
+    print(i)
+```
+
+结论：yield 执行之后，这个函数会立刻返回一个生成器对象，将提供给 yield 的值返回给调用者，下一次调用这个生成器对象的时候，生成器对象从 yield 之后开始执行，直到遇到下一个 yield
+
+#### 可以做什么
+
+还没想到
 
 ## c10. 标准库-part1
 
@@ -1401,4 +1428,5 @@ bisect 模块
 heapq 模块
 
 ### 十进制浮点运算
+
 decimal 模块
